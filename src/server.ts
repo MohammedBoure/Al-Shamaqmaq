@@ -1,4 +1,6 @@
 import http from 'http';
+import path from 'path';
+import fs from 'fs';
 import express, { Express } from 'express';
 import cors from 'cors';
 import { WebSocketServer } from 'ws';
@@ -23,16 +25,28 @@ export function createApplication(): {
   // توجيه واجهات الـ REST API
   app.use('/api', apiRouter);
 
-  // مسار الصفحة الرئيسية للترحيب والفحص السريع
-  app.get('/', (_req, res) => {
-    res.json({
-      message: 'خادم لعبة الألغاز والخداع الاجتماعي يعمل بنجاح 🎮',
-      endpoints: {
-        rest: '/api/topics, /api/rooms, /api/health',
-        websocket: '/ws',
-      },
+  // خدمة ملفات الواجهة الأمامية إن كانت مبنية وموجودة
+  const clientDistPath = path.resolve(__dirname, '../client/dist');
+  if (fs.existsSync(clientDistPath)) {
+    app.use(express.static(clientDistPath));
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api') || req.path === '/ws') {
+        return next();
+      }
+      res.sendFile(path.join(clientDistPath, 'index.html'));
     });
-  });
+  } else {
+    // مسار الصفحة الرئيسية للترحيب والفحص السريع في حال عدم وجود ملفات الواجهة
+    app.get('/', (_req, res) => {
+      res.json({
+        message: 'خادم لعبة الألغاز والخداع الاجتماعي يعمل بنجاح 🎮',
+        endpoints: {
+          rest: '/api/topics, /api/rooms, /api/health',
+          websocket: '/ws',
+        },
+      });
+    });
+  }
 
   // إنشاء خادم HTTP وخادم WebSocket المتزامن
   const httpServer = http.createServer(app);

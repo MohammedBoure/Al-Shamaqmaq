@@ -6,7 +6,10 @@
   "type": "commonjs",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "client:dev": "npm --prefix client run dev",
+    "client:build": "npm --prefix client run build",
     "build": "tsc",
+    "build:all": "npm run build && npm run client:build",
     "start": "node dist/index.js",
     "test": "vitest run"
   },
