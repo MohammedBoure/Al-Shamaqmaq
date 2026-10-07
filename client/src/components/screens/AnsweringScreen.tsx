@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { Send, EyeOff, CheckCircle2, Clock, Flame } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, LogOut, Volume2, VolumeX, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useGame } from '../../context/GameContext';
-import { TimerBar } from '../common/TimerBar';
-import { ConnectionBadge } from '../common/ConnectionBadge';
-import { AudioToggle } from '../common/AudioToggle';
-
 import { ConsolePet } from '../common/ConsolePet';
+import { GameTopHeader } from '../common/GameTopHeader';
 
 export const AnsweringScreen: React.FC = () => {
   const {
@@ -20,174 +17,276 @@ export const AnsweringScreen: React.FC = () => {
     submitAnswer,
     submitBluff,
     player,
-    room,
+    audio,
+    haptic,
+    leaveRoom,
   } = useGame();
 
-  const [initialInput, setInitialInput] = useState<string>('');
-  const [bluffInput, setBluffInput] = useState<string>('');
+  const [inputText, setInputText] = useState<string>('');
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [activeBottomTab, setActiveBottomTab] = useState<'game' | 'chat'>('game');
+  const [liked, setLiked] = useState<boolean | null>(null);
 
-  const handleInitialSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!initialInput.trim()) return;
-    submitAnswer(initialInput.trim());
+    if (!inputText.trim()) return;
+
+    audio.playClick();
+    haptic.triggerHaptic('medium');
+
+    if (requiresBluff && hasSubmittedInitial) {
+      submitBluff(inputText.trim());
+    } else {
+      submitAnswer(inputText.trim());
+    }
+    setInputText('');
   };
 
-  const handleBluffSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!bluffInput.trim()) return;
-    submitBluff(bluffInput.trim());
+  const handleShare = async () => {
+    audio.playClick();
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'لعبة كلك! - سؤال الجولة',
+          text: `السؤال: ${currentPuzzle?.prompt}`,
+        });
+      } catch (_) {}
+    }
   };
+
+  const toggleReaction = (isLike: boolean) => {
+    audio.playClick();
+    haptic.triggerHaptic('light');
+    setLiked((prev) => (prev === isLike ? null : isLike));
+  };
+
+  const isWaitingForOthers = hasSubmittedInitial && (!requiresBluff || hasSubmittedBluff);
+  const isEnteringBluff = hasSubmittedInitial && requiresBluff && !hasSubmittedBluff;
 
   return (
-    <div className="flex flex-col min-h-screen px-4 py-6 max-w-lg mx-auto w-full">
-      {/* الشريط العلوي */}
-      <header className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <span className="px-3 py-1 rounded-xl bg-arcade-purple/30 border border-arcade-purple text-xs font-black text-arcade-cyan">
-            الجولة {currentRound} / {totalRounds}
-          </span>
-          <span className="text-xs font-bold text-gray-400 bg-arcade-card/60 px-2.5 py-1 rounded-xl border border-arcade-border/40 truncate max-w-[150px]">
-            {currentTopicTitle || 'الموضوع'}
-          </span>
+    <div className="flex flex-col min-h-screen bg-[#1b2245] bg-arcade-pattern px-3 pt-3 max-w-md mx-auto w-full select-none justify-between relative pb-1">
+      {/* نافذة القائمة السريعة ☰ */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/70 flex items-start justify-start p-4 pt-16"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          <div
+            className="w-56 bg-[#1e2337] border-3 border-black rounded-2xl p-3 shadow-[0_6px_0_#000] space-y-2 animate-fadeIn"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-xs font-black text-gray-400 px-2 pb-1 border-b border-white/10">
+              خيارات اللعبة
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                audio.toggleMute();
+                setIsMenuOpen(false);
+              }}
+              className="w-full text-right p-2 rounded-xl hover:bg-white/10 text-xs font-bold text-white flex items-center gap-2"
+            >
+              {audio.isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
+              <span>{audio.isMuted ? 'تشغيل المؤثرات' : 'كتم المؤثرات'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                leaveRoom();
+                setIsMenuOpen(false);
+              }}
+              className="w-full text-right p-2 rounded-xl hover:bg-rose-950/40 text-xs font-bold text-rose-400 flex items-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>مغادرة الجلسة</span>
+            </button>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <ConnectionBadge />
-          <AudioToggle />
-        </div>
-      </header>
+      )}
 
-      {/* المؤقت الزمني */}
-      <div className="mb-4">
-        <TimerBar
-          timeRemaining={timeRemaining}
-          totalDuration={room?.roundDuration || 60}
-          label="وقت الإجابة والخداع"
-        />
+      {/* 1. الشريط العلوي المتزامن (1/10 • المؤقت الدائري • 0:50) */}
+      <GameTopHeader
+        currentRound={currentRound}
+        totalRounds={totalRounds}
+        timeRemaining={timeRemaining}
+        centerType="timer"
+        onMenuClick={() => setIsMenuOpen(true)}
+        onShareClick={handleShare}
+      />
+
+      {/* 2. بطاقة السؤال البنفسجية المطابقة للصورة */}
+      <div className="relative mt-2 mb-2">
+        {/* شارة الفئة العلوية المثبتة في أعلى يمين البطاقة */}
+        <div className="absolute -top-3.5 right-4 z-20 flex items-center gap-1">
+          <div className="bg-[#1e2337] px-3 py-1 rounded-lg border-2 border-black shadow-[0_2px_0_#000] text-[11px] font-black text-white">
+            {currentTopicTitle || 'الفلك و الفضاء'}
+          </div>
+          <div className="w-7 h-7 rounded-lg bg-[#8b5cf6] border-2 border-black flex items-center justify-center text-white shadow-[0_2px_0_#000]">
+            <Sparkles className="w-3.5 h-3.5" />
+          </div>
+        </div>
+
+        {/* جسم البطاقة البنفسجية بنمط النقاط الدائرية */}
+        <div className="bg-[#8b5cf6] border-3 border-black rounded-3xl p-5 pt-7 shadow-[0_6px_0_#4c1d95] relative overflow-hidden text-center min-h-[140px] flex flex-col justify-center">
+          {/* نمط النقاط البنفسجية الخلفي المطابق للصورة */}
+          <div
+            className="absolute inset-0 opacity-20 pointer-events-none"
+            style={{
+              backgroundImage: 'radial-gradient(#ffffff 2px, transparent 2px)',
+              backgroundSize: '16px 16px',
+            }}
+          />
+
+          {/* صورة اللغز إن كانت متوفرة */}
+          {currentPuzzle?.image_url && (
+            <div className="mb-3 rounded-2xl overflow-hidden border-2 border-black max-h-36 bg-black/40 flex items-center justify-center">
+              <img
+                src={currentPuzzle.image_url}
+                alt="صورة السؤال"
+                className="max-h-36 w-full object-contain"
+              />
+            </div>
+          )}
+
+          {/* نص السؤال بالخط العربي العريض والمحدد بحد أسود */}
+          <h2 className="text-base sm:text-lg font-black text-white text-stroke-arcade leading-relaxed relative z-10 px-2 drop-shadow-[0_2px_0_#000]">
+            {currentPuzzle?.prompt || 'ما هي قوة الجذب الكونية التي تنشأ بين جميع أجزاء المادة؟'}
+          </h2>
+        </div>
+
+        {/* كبسولة التفاعل والإعجاب [ 👍 | 👎 ] أسفل البطاقة على اليمين */}
+        <div className="flex justify-end mt-2 pr-2">
+          <div className="bg-[#1e2337] border-2 border-black rounded-2xl p-1 flex items-center gap-1 shadow-[0_3px_0_#000]">
+            <button
+              type="button"
+              onClick={() => toggleReaction(true)}
+              className={`p-1.5 rounded-xl transition-all ${
+                liked === true ? 'bg-emerald-500 text-white' : 'text-gray-300 hover:text-white'
+              }`}
+              title="إعجاب بالسؤال"
+            >
+              <ThumbsUp className="w-4 h-4 fill-current" />
+            </button>
+            <div className="w-px h-4 bg-black/60" />
+            <button
+              type="button"
+              onClick={() => toggleReaction(false)}
+              className={`p-1.5 rounded-xl transition-all ${
+                liked === false ? 'bg-rose-500 text-white' : 'text-gray-300 hover:text-white'
+              }`}
+              title="لم يعجبني"
+            >
+              <ThumbsDown className="w-4 h-4 fill-current" />
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* بطاقة السؤال / اللغز */}
-      <div className="bg-gradient-to-b from-arcade-card to-arcade-bg border-2 border-arcade-border/80 rounded-3xl p-5 shadow-xl mb-4 relative overflow-hidden">
-        <div className="flex items-center gap-2 text-xs font-black text-arcade-pink uppercase tracking-wider mb-2">
-          <Flame className="w-4 h-4 text-arcade-pink" />
-          <span>اللغز المطلوب:</span>
+      {/* 3. كائن وشخصية اللاعب في المنتصف مع شارة النقاط في الأعلى والاسم بالأسفل */}
+      <div className="flex flex-col items-center justify-center my-auto py-2">
+        <div className="relative flex flex-col items-center">
+          {/* شارة النقاط فوق رأس الكائن */}
+          <span className="text-[11px] font-black font-mono text-black bg-white px-2 py-0.5 rounded-md border border-black shadow-[0_1px_0_#000] -mb-1 z-10">
+            {player?.score ?? 0}
+          </span>
+          <div className="animate-bounce-subtle">
+            <ConsolePet avatar={player?.avatar} size={70} />
+          </div>
+          <span className="text-xs font-black text-white text-stroke-sm mt-0.5">
+            {player?.nickname || 'mouh'}
+          </span>
         </div>
+      </div>
 
-        {/* صورة السؤال إن وجدت */}
-        {currentPuzzle?.image_url && (
-          <div className="mb-3 rounded-2xl overflow-hidden border border-arcade-border/60 max-h-48 bg-black/40 flex items-center justify-center">
-            <img
-              src={currentPuzzle.image_url}
-              alt="صورة اللغز"
-              className="max-h-48 w-full object-contain"
-            />
+      {/* 4. قسم الإدخال والأزرار السفلي الأزرق المطابق للصورة */}
+      <div className="w-full">
+        {/* تنبيه الإجابة الصحيحة السرية (إذا كتب الإجابة الحقيقية ويطلب منه كتابة خدعة) */}
+        {isEnteringBluff && (
+          <div className="mb-2 p-2.5 rounded-2xl bg-emerald-950/90 border-2 border-emerald-500 text-center animate-bounce-subtle">
+            <div className="flex items-center justify-center gap-1.5 text-emerald-400 text-xs font-black mb-0.5">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>إجابتك صحيحة 100%! 🤫</span>
+            </div>
+            <p className="text-[11px] text-gray-200 font-bold">
+              اكتب الآن <span className="text-arcade-pink font-black">إجابة مزيفة مقنعة</span> لتخدع بها باقي اللاعبين وتكسب نقاطاً!
+            </p>
           </div>
         )}
 
-        <h2 className="text-lg sm:text-xl font-black text-white leading-relaxed">
-          {currentPuzzle?.prompt || 'جارٍ تحميل نص اللغز...'}
-        </h2>
-      </div>
-
-      {/* صورة واسم شخصية اللاعب في المنتصف تماماً مثل واجهة اللعبة الأصلية */}
-      <div className="flex flex-col items-center justify-center my-auto py-2">
-        <div className="relative flex flex-col items-center animate-bounce-subtle">
-          <ConsolePet avatar={player?.avatar} size={70} />
-          <span className="text-xs font-black text-stroke-sm mt-0.5">
-            {player?.nickname || 'أنت'}
-          </span>
-        </div>
-      </div>
-
-      {/* مرحلة تقديم الإجابة الأولية */}
-      {!hasSubmittedInitial && (
-        <form onSubmit={handleInitialSubmit} className="space-y-3 mt-auto pt-2">
-          <label className="block text-xs font-bold text-gray-300">
-            اكتب إجابتك الحرة هنا:
-          </label>
-          <div className="relative">
-            <input
-              type="text"
-              value={initialInput}
-              onChange={(e) => setInitialInput(e.target.value)}
-              placeholder="اكتب إجابتك الحقيقية هنا..."
-              maxLength={80}
-              required
-              autoFocus
-              className="w-full px-4 py-4 bg-arcade-card/90 border-2 border-arcade-border rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:border-arcade-cyan focus:ring-4 focus:ring-arcade-cyan/20 text-base font-bold shadow-inner transition-all"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={!initialInput.trim()}
-            className="w-full py-4 bg-gradient-to-l from-arcade-cyan via-arcade-purple to-arcade-pink text-white font-black text-base rounded-2xl shadow-neon-cyan hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
-          >
-            <Send className="w-5 h-5" />
-            <span>إرسال الإجابة</span>
-          </button>
-        </form>
-      )}
-
-      {/* الحالة الخاصة 1: إذا كانت الإجابة صحيحة ويُطلب منه صياغة خدعة كاذبة ومقنعة */}
-      {hasSubmittedInitial && requiresBluff && !hasSubmittedBluff && (
-        <div className="bg-gradient-to-tr from-purple-950/80 via-arcade-card to-pink-950/80 border-2 border-arcade-purple rounded-3xl p-5 shadow-neon-purple space-y-4 animate-glow mt-auto">
-          <div className="flex items-start gap-3">
-            <div className="p-2.5 rounded-2xl bg-arcade-purple/30 border border-arcade-purple text-2xl animate-bounce-subtle">
-              🤫
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5 text-arcade-green text-sm font-black mb-1">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>إجابتك صحيحة! لكن لا تكشف سرك...</span>
+        {/* الحاوية الزرقاء لإدخال الإجابة */}
+        <div className="bg-[#0070f3] border-3 border-black rounded-t-3xl p-3 pt-3.5 shadow-[0_6px_0_#0047a5]">
+          {isWaitingForOthers ? (
+            <div className="bg-white border-2 border-black rounded-2xl p-4 text-center space-y-1.5 shadow-inner">
+              <div className="text-2xl animate-bounce-subtle">🎭</div>
+              <div className="text-sm font-black text-black">تم تسجيل إجابتك بنجاح!</div>
+              <div className="text-xs font-bold text-gray-500">
+                في انتظار باقي اللاعبين للانتقال لمرحلة التصويت... ⏳
               </div>
-              <p className="text-xs text-gray-300 leading-relaxed font-semibold">
-                اكتب الآن <span className="text-arcade-pink font-black">إجابة كاذبة ومقنعة</span> لتخدع بها باقي اللاعبين وتكسب (+1 نقطة) عن كل شخص يصوّت لخدعتك!
-              </p>
             </div>
-          </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-2.5">
+              {/* حقل الإدخال الأبيض المستطيل بزوايا دائرية */}
+              <div className="relative">
+                <input
+                  type="text"
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                  placeholder={
+                    isEnteringBluff
+                      ? 'اكتب إجابة مزيفة لتضليل باقي اللاعبين'
+                      : 'اكتب إجابة تخدع بها باقي اللاعبين'
+                  }
+                  maxLength={70}
+                  required
+                  autoFocus
+                  className="w-full py-3.5 px-4 bg-white border-3 border-black rounded-2xl text-center text-sm sm:text-base font-black text-black placeholder:text-gray-400 focus:outline-none shadow-inner"
+                />
+              </div>
 
-          <form onSubmit={handleBluffSubmit} className="space-y-3">
-            <input
-              type="text"
-              value={bluffInput}
-              onChange={(e) => setBluffInput(e.target.value)}
-              placeholder="اكتب إجابة مزيفة تبدو حقيقية جداً..."
-              maxLength={80}
-              required
-              autoFocus
-              className="w-full px-4 py-3.5 bg-arcade-bg border-2 border-arcade-pink/60 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:border-arcade-pink focus:ring-4 focus:ring-arcade-pink/20 text-sm font-bold transition-all"
-            />
+              {/* زر أجب الرمادي/الكحلي ثلاثي الأبعاد المطابق تماماً للصورة */}
+              <button
+                type="submit"
+                disabled={!inputText.trim()}
+                className={`w-full py-3.5 rounded-2xl font-black text-lg border-3 border-black transition-all flex items-center justify-center shadow-[0_4px_0_#1a202c] active:translate-y-1 active:shadow-[0_1px_0_#1a202c] ${
+                  inputText.trim()
+                    ? 'bg-[#2d354b] hover:bg-[#38435f] text-white cursor-pointer'
+                    : 'bg-[#2d354b]/70 text-gray-400 cursor-not-allowed opacity-80'
+                }`}
+              >
+                <span>أجب</span>
+              </button>
+            </form>
+          )}
+        </div>
 
+        {/* 5. كبسولة التبديل السفلية بين اللعبة والدردشة */}
+        <div className="flex justify-center bg-[#1b2245] py-2">
+          <div className="flex items-center bg-[#1e2337] border-2 border-black rounded-full p-1 shadow-[0_3px_0_#000]">
             <button
-              type="submit"
-              disabled={!bluffInput.trim()}
-              className="w-full py-4 bg-gradient-to-l from-arcade-pink to-arcade-purple text-white font-black text-sm rounded-2xl shadow-neon-pink hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-2"
+              type="button"
+              onClick={() => setActiveBottomTab('game')}
+              className={`px-6 py-1 rounded-full text-xs font-black transition-all ${
+                activeBottomTab === 'game'
+                  ? 'bg-[#0070f3] text-white border border-black shadow-sm'
+                  : 'text-gray-400 hover:text-white'
+              }`}
             >
-              <EyeOff className="w-4 h-4" />
-              <span>إرسال الخدعة لتضليل الآخرين 🎭</span>
+              لعبة
             </button>
-          </form>
-        </div>
-      )}
-
-      {/* الحالة العادية 2: عند اكتمال الإجابة (سواء أخطأ فاعتُمدت، أو أنهى خدعته) */}
-      {hasSubmittedInitial && (!requiresBluff || hasSubmittedBluff) && (
-        <div className="bg-arcade-card/90 border border-arcade-border rounded-3xl p-6 text-center space-y-3 mt-auto shadow-lg animate-pulse">
-          <div className="text-4xl animate-bounce-subtle">🎭</div>
-          <h3 className="text-base font-black text-white">
-            {requiresBluff
-              ? 'تم تسجيل خدعتك بنجاح!'
-              : 'تم تسجيل إجابتك كإجابة مضللة!'}
-          </h3>
-          <p className="text-xs text-gray-400 font-semibold leading-relaxed">
-            انتظر حتى ينتهي باقي المتسابقين من الإجابة والخداع... سننتقل لمرحلة التصويت قريباً! ⏳
-          </p>
-          <div className="flex items-center justify-center gap-1.5 text-xs text-arcade-cyan font-bold pt-2">
-            <Clock className="w-4 h-4 animate-spin" />
-            <span>في انتظار اكتمال الجميع</span>
+            <button
+              type="button"
+              onClick={() => setActiveBottomTab('chat')}
+              className={`px-6 py-1 rounded-full text-xs font-black transition-all ${
+                activeBottomTab === 'chat'
+                  ? 'bg-[#0070f3] text-white border border-black shadow-sm'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              دردشة
+            </button>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
