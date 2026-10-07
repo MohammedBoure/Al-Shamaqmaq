@@ -61,10 +61,26 @@ interface GameContextType {
   haptic: ReturnType<typeof useHaptic>;
 
   // العمليات والأوامر
-  createRoom: (hostNickname: string, hostAvatar: string, allowedTopicIds?: string[]) => Promise<boolean>;
+  createRoom: (
+    hostNickname: string,
+    hostAvatar: string,
+    allowedTopicIds?: string[],
+    initialSettings?: {
+      totalRounds?: number;
+      answerDuration?: number;
+      maxPlayers?: number;
+      gameMode?: 'individual' | 'teams';
+    }
+  ) => Promise<boolean>;
   joinRoom: (roomCode: string, nickname: string, avatar: string) => void;
-  updateProfile: (nickname?: string, avatar?: string) => void;
-  updateSettings: (settings: { allowedTopicIds?: string[]; totalRounds?: number }) => void;
+  updateProfile: (nickname?: string, avatar?: string, teamId?: string | null) => void;
+  updateSettings: (settings: {
+    allowedTopicIds?: string[];
+    totalRounds?: number;
+    answerDuration?: number;
+    maxPlayers?: number;
+    gameMode?: 'individual' | 'teams';
+  }) => void;
   startGame: () => void;
   selectTopic: (topicId: string) => void;
   submitAnswer: (answer: string) => void;
@@ -340,48 +356,62 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   // دالة إنشاء غرفة جديدة عبر REST API ثم الربط بالـ WebSocket
-  const createRoom = useCallback(async (hostNickname: string, hostAvatar: string, allowedTopicIds?: string[]) => {
-    try {
-      audio.playClick();
-      haptic.triggerHaptic('light');
+  const createRoom = useCallback(
+    async (
+      hostNickname: string,
+      hostAvatar: string,
+      allowedTopicIds?: string[],
+      initialSettings?: {
+        totalRounds?: number;
+        answerDuration?: number;
+        maxPlayers?: number;
+        gameMode?: 'individual' | 'teams';
+      }
+    ) => {
+      try {
+        audio.playClick();
+        haptic.triggerHaptic('light');
 
-      const res = await fetch('/api/rooms', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          hostNickname: hostNickname.trim(),
-          hostAvatar: hostAvatar.trim(),
-          allowedTopicIds,
-        }),
-      });
+        const res = await fetch('/api/rooms', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            hostNickname: hostNickname.trim(),
+            hostAvatar: hostAvatar.trim(),
+            allowedTopicIds,
+            ...(initialSettings || {}),
+          }),
+        });
 
-      const data = await res.json();
-      if (!data.success) {
-        triggerToast(data.error || 'تعذر إنشاء الغرفة', true);
+        const data = await res.json();
+        if (!data.success) {
+          triggerToast(data.error || 'تعذر إنشاء الغرفة', true);
+          return false;
+        }
+
+        setSessionToken(data.sessionToken);
+        setRoomCode(data.roomCode);
+        setPlayer(data.player);
+        setRoom(data.room);
+        setPhase('LOBBY');
+
+        localStorage.setItem('deception_session_token', data.sessionToken);
+        localStorage.setItem('deception_room_code', data.roomCode);
+
+        // ربط المقبس بالـ sessionToken
+        send({
+          type: 'JOIN_ROOM',
+          payload: { roomCode: data.roomCode, sessionToken: data.sessionToken },
+        });
+
+        return true;
+      } catch (err: any) {
+        triggerToast(err.message || 'حدث خطأ في الاتصال بالخادم', true);
         return false;
       }
-
-      setSessionToken(data.sessionToken);
-      setRoomCode(data.roomCode);
-      setPlayer(data.player);
-      setRoom(data.room);
-      setPhase('LOBBY');
-
-      localStorage.setItem('deception_session_token', data.sessionToken);
-      localStorage.setItem('deception_room_code', data.roomCode);
-
-      // ربط المقبس بالـ sessionToken
-      send({
-        type: 'JOIN_ROOM',
-        payload: { roomCode: data.roomCode, sessionToken: data.sessionToken },
-      });
-
-      return true;
-    } catch (err: any) {
-      triggerToast(err.message || 'حدث خطأ في الاتصال بالخادم', true);
-      return false;
-    }
-  }, [audio, haptic, send, triggerToast]);
+    },
+    [audio, haptic, send, triggerToast]
+  );
 
   // دالة الانضمام لغرفة
   const joinRoom = useCallback((code: string, nickname: string, avatar: string) => {
@@ -398,22 +428,34 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [audio, haptic, send]);
 
   // دالة تعديل الملف الشخصي
-  const updateProfile = useCallback((nickname?: string, avatar?: string) => {
-    audio.playClick();
-    send({
-      type: 'UPDATE_PROFILE',
-      payload: { nickname, avatar },
-    });
-  }, [audio, send]);
+  const updateProfile = useCallback(
+    (nickname?: string, avatar?: string, teamId?: string | null) => {
+      audio.playClick();
+      send({
+        type: 'UPDATE_PROFILE',
+        payload: { nickname, avatar, teamId },
+      });
+    },
+    [audio, send]
+  );
 
   // دالة تعديل إعدادات الغرفة
-  const updateSettings = useCallback((settings: { allowedTopicIds?: string[]; totalRounds?: number }) => {
-    audio.playClick();
-    send({
-      type: 'UPDATE_SETTINGS',
-      payload: settings,
-    });
-  }, [audio, send]);
+  const updateSettings = useCallback(
+    (settings: {
+      allowedTopicIds?: string[];
+      totalRounds?: number;
+      answerDuration?: number;
+      maxPlayers?: number;
+      gameMode?: 'individual' | 'teams';
+    }) => {
+      audio.playClick();
+      send({
+        type: 'UPDATE_SETTINGS',
+        payload: settings,
+      });
+    },
+    [audio, send]
+  );
 
   // بدء اللعبة
   const startGame = useCallback(() => {

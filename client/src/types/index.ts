@@ -13,6 +13,7 @@ export interface PlayerProfile {
   isHost: boolean;
   isConnected: boolean;
   score: number;
+  teamId?: string | null;
 }
 
 export interface TopicSummary {
@@ -60,6 +61,16 @@ export interface RoundScoreDetail {
   deceptionPoints: number;
   roundPoints: number;
   totalScore: number;
+  teamId?: string | null;
+}
+
+export interface TeamScoreEntry {
+  teamId: string;
+  teamName: string;
+  teamColor: string;
+  score: number;
+  playerCount: number;
+  rank: number;
 }
 
 export interface RoundResult {
@@ -69,6 +80,7 @@ export interface RoundResult {
   correctAnswer: string;
   options: RoundResultOption[];
   scoreBreakdown: RoundScoreDetail[];
+  teamScores?: TeamScoreEntry[];
 }
 
 export interface LeaderboardEntry {
@@ -77,7 +89,10 @@ export interface LeaderboardEntry {
   avatar: string;
   score: number;
   rank: number;
+  teamId?: string | null;
 }
+
+export type GameMode = 'individual' | 'teams';
 
 export interface RoomPublicState {
   code: string;
@@ -91,4 +106,9 @@ export interface RoomPublicState {
   timeRemaining: number;
   currentTopicTitle: string | null;
   currentPrompt: string | null;
+  roundDuration?: number;
+  maxPlayers?: number;
+  gameMode?: GameMode;
+  teamScores?: TeamScoreEntry[];
 }
+

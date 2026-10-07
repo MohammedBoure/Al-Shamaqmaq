@@ -1,5 +1,6 @@
 import { Room } from '../models/Room';
 import { Player } from '../models/Player';
+import { RoomSettings } from '../types/game';
 import { generateRoomCode, generateSessionToken, generateId } from '../utils/codeGenerator';
 import { config } from '../config';
 
@@ -23,7 +24,8 @@ export class RoomManager {
   public createRoom(
     hostNickname: string,
     hostAvatar: string,
-    allowedTopicIds?: string[]
+    allowedTopicIds?: string[],
+    initialSettings?: Partial<RoomSettings>
   ): { room: Room; host: Player; sessionToken: string } {
     let roomCode = generateRoomCode(4);
     let attempts = 0;
@@ -46,6 +48,9 @@ export class RoomManager {
     });
 
     const room = new Room(roomCode, hostPlayer, allowedTopicIds);
+    if (initialSettings) {
+      room.updateSettings(initialSettings);
+    }
     this.rooms.set(roomCode, room);
     this.sessions.set(sessionToken, { roomCode, playerId: hostId });
 
@@ -90,8 +95,11 @@ export class RoomManager {
       return { success: false, error: 'لا يمكن الانضمام، اللعبة قد بدأت بالفعل' };
     }
 
-    if (room.players.size >= config.MAX_PLAYERS_PER_ROOM) {
-      return { success: false, error: 'الغرفة ممتلئة بالحد الأقصى للاعبين' };
+    if (room.players.size >= room.settings.maxPlayers) {
+      return {
+        success: false,
+        error: `الغرفة ممتلئة بالكامل (${room.settings.maxPlayers} لاعبين كحد أقصى)`,
+      };
     }
 
     const playerId = generateId();

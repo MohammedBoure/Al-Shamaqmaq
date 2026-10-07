@@ -35,7 +35,15 @@ apiRouter.get('/topics', (_req: Request, res: Response) => {
  */
 apiRouter.post('/rooms', (req: Request, res: Response) => {
   try {
-    const { hostNickname, hostAvatar, allowedTopicIds } = req.body || {};
+    const {
+      hostNickname,
+      hostAvatar,
+      allowedTopicIds,
+      totalRounds,
+      answerDuration,
+      maxPlayers,
+      gameMode,
+    } = req.body || {};
 
     if (!hostNickname || typeof hostNickname !== 'string') {
       res.status(400).json({ success: false, error: 'اسم المضيف (hostNickname) مطلوب' });
@@ -50,10 +58,18 @@ apiRouter.post('/rooms', (req: Request, res: Response) => {
       return;
     }
 
+    const initialSettings = {
+      ...(totalRounds ? { totalRounds: Number(totalRounds) } : {}),
+      ...(answerDuration ? { answerDuration: Number(answerDuration) } : {}),
+      ...(maxPlayers ? { maxPlayers: Number(maxPlayers) } : {}),
+      ...(gameMode ? { gameMode } : {}),
+    };
+
     const { room, host, sessionToken } = roomManager.createRoom(
       hostNickname,
       hostAvatar || '👑',
-      allowedTopicIds
+      allowedTopicIds,
+      initialSettings
     );
 
     res.status(201).json({

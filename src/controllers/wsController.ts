@@ -277,7 +277,12 @@ export class WebSocketController {
       return;
     }
 
-    const updated = room.updatePlayerProfile(player.id, payload?.nickname, payload?.avatar);
+    const updated = room.updatePlayerProfile(
+      player.id,
+      payload?.nickname,
+      payload?.avatar,
+      payload?.teamId
+    );
     if (updated) {
       room.broadcast({
         type: 'PLAYER_UPDATED',

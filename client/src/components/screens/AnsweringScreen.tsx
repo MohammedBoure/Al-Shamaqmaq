@@ -20,6 +20,7 @@ export const AnsweringScreen: React.FC = () => {
     submitAnswer,
     submitBluff,
     player,
+    room,
   } = useGame();
 
   const [initialInput, setInitialInput] = useState<string>('');
@@ -57,7 +58,11 @@ export const AnsweringScreen: React.FC = () => {
 
       {/* المؤقت الزمني */}
       <div className="mb-4">
-        <TimerBar timeRemaining={timeRemaining} totalDuration={60} label="وقت الإجابة والخداع" />
+        <TimerBar
+          timeRemaining={timeRemaining}
+          totalDuration={room?.roundDuration || 60}
+          label="وقت الإجابة والخداع"
+        />
       </div>
 
       {/* بطاقة السؤال / اللغز */}

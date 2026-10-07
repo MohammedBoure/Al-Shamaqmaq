@@ -24,6 +24,7 @@ export interface JoinRoomPayload {
 export interface UpdateProfilePayload {
   nickname?: string;
   avatar?: string;
+  teamId?: string | null;
 }
 
 export interface UpdateSettingsPayload {
@@ -34,6 +35,8 @@ export interface UpdateSettingsPayload {
   bluffDuration?: number;
   voteDuration?: number;
   revealDuration?: number;
+  maxPlayers?: number;
+  gameMode?: 'individual' | 'teams';
 }
 
 export interface SelectTopicPayload {

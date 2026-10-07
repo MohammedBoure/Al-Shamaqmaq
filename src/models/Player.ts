@@ -14,6 +14,7 @@ export class Player {
   public answerState: PlayerAnswerState;
   public currentVote: PlayerVote | null;
   public lastSeenAt: number;
+  public teamId: string | null;
 
   constructor(params: {
     id: string;
@@ -22,6 +23,7 @@ export class Player {
     sessionToken: string;
     isHost?: boolean;
     socket?: WebSocket;
+    teamId?: string | null;
   }) {
     this.id = params.id;
     this.nickname = params.nickname;
@@ -33,6 +35,7 @@ export class Player {
     this.socket = params.socket ?? null;
     this.lastSeenAt = Date.now();
     this.currentVote = null;
+    this.teamId = params.teamId ?? null;
 
     this.answerState = {
       initialAnswer: '',
@@ -70,6 +73,7 @@ export class Player {
       isHost: this.isHost,
       isConnected: this.isConnected,
       score: this.score,
+      teamId: this.teamId,
     };
   }
 

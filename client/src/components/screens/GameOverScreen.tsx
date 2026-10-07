@@ -6,7 +6,7 @@ import { AudioToggle } from '../common/AudioToggle';
 import { ConsolePet } from '../common/ConsolePet';
 
 export const GameOverScreen: React.FC = () => {
-  const { leaderboard, leaveRoom } = useGame();
+  const { leaderboard, leaveRoom, room } = useGame();
 
   useEffect(() => {
     // إطلاق ألعاب نارية و Confetti متكررة احتفالاً بنهاية المسابقة
@@ -45,7 +45,7 @@ export const GameOverScreen: React.FC = () => {
       </header>
 
       {/* عنوان التتويج */}
-      <div className="space-y-1 mb-6">
+      <div className="space-y-1 mb-4">
         <span className="text-4xl animate-bounce-subtle">👑</span>
         <h1 className="text-2xl sm:text-3xl font-black bg-gradient-to-l from-arcade-yellow via-arcade-pink to-arcade-cyan bg-clip-text text-transparent">
           نهاية اللعبة وتتويج الفائز!
@@ -54,6 +54,28 @@ export const GameOverScreen: React.FC = () => {
           تهانينا للأذكى والأكثر براعة في الخداع والتضليل! 🎭
         </p>
       </div>
+
+      {/* تتويج الفريق الفائز إذا كان وضع الفرق مفعلاً */}
+      {room?.teamScores && room.teamScores.length > 0 && (
+        <div className="mb-6 p-4 rounded-3xl bg-gradient-to-r from-red-950/40 via-arcade-card to-blue-950/40 border-3 border-black shadow-[0_5px_0_#000]">
+          <div className="text-xs font-black text-arcade-yellow mb-1">
+            🏆 نتيجة الفرق النهائية
+          </div>
+          <div className="text-base font-black text-white">
+            {room.teamScores[0]?.score === room.teamScores[1]?.score ? (
+              <span>تعادل بطولي بين الفريقين! ⚔️ ({room.teamScores[0]?.score} نقطة لكل فريق)</span>
+            ) : (
+              <span>
+                الفريق الفائز:{' '}
+                <span className={room.teamScores[0]?.teamId === 'red' ? 'text-red-400' : 'text-blue-400'}>
+                  {room.teamScores[0]?.teamName} 🏆
+                </span>{' '}
+                بـ {room.teamScores[0]?.score} نقطة!
+              </span>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* منصة التتويج (Podium) */}
       <div className="flex items-end justify-center gap-3 mb-8 px-2">

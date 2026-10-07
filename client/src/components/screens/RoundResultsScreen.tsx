@@ -57,6 +57,30 @@ export const RoundResultsScreen: React.FC = () => {
       </header>
 
       <div className="flex-1 space-y-4 overflow-y-auto pr-0.5 pb-4">
+        {/* نتائج الفرق إذا كان وضع الفرق مفعلاً */}
+        {roundResult.teamScores && roundResult.teamScores.length > 0 && (
+          <div className="bg-arcade-card/90 border-2 border-black rounded-3xl p-3.5 shadow-[0_4px_0_#000]">
+            <div className="text-xs font-black text-center text-arcade-cyan mb-2">
+              نتائج الفرق في الجولة ⚔️
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {roundResult.teamScores.map((t) => (
+                <div
+                  key={t.teamId}
+                  className={`p-3 rounded-2xl border-2 text-center shadow-inner ${
+                    t.teamId === 'red'
+                      ? 'bg-red-950/40 border-red-500 text-red-200'
+                      : 'bg-blue-950/40 border-blue-500 text-blue-200'
+                  }`}
+                >
+                  <div className="text-xs font-black mb-0.5">{t.teamName}</div>
+                  <div className="text-2xl font-black">{t.score} نقطة</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* 1. بطاقة الإجابة الحقيقية الأصلية */}
         {correctOption && (
           <div className="bg-gradient-to-r from-emerald-950/80 via-arcade-card to-emerald-950/80 border-2 border-arcade-green rounded-3xl p-5 shadow-neon-green relative overflow-hidden">

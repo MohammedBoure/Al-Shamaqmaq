@@ -9,6 +9,8 @@ import {
   RoundResultOption,
   RoundScoreDetail,
   LeaderboardEntry,
+  TeamScoreEntry,
+  GameMode,
 } from '../types/game';
 import { Puzzle, TopicSummary } from '../types/topics';
 import { ServerMessage } from '../types/messages';
@@ -60,15 +62,31 @@ export class Room {
       bluffDuration: config.DEFAULT_BLUFF_TIME_SECONDS,
       voteDuration: config.DEFAULT_VOTE_TIME_SECONDS,
       revealDuration: config.DEFAULT_REVEAL_TIME_SECONDS,
+      maxPlayers: config.MAX_PLAYERS_PER_ROOM,
+      gameMode: 'individual',
     };
   }
 
   /**
    * إضافة لاعب جديد إلى الغرفة
    */
-  public addPlayer(player: Player): void {
+  public addPlayer(player: Player): { success: boolean; error?: string } {
+    if (this.players.size >= this.settings.maxPlayers) {
+      return {
+        success: false,
+        error: `الغرفة ممتلئة بالكامل (${this.settings.maxPlayers} لاعبين كحد أقصى)`,
+      };
+    }
+
+    if (this.settings.gameMode === 'teams' && !player.teamId) {
+      const redCount = this.getPlayerList().filter((p) => p.teamId === 'red').length;
+      const blueCount = this.getPlayerList().filter((p) => p.teamId === 'blue').length;
+      player.teamId = redCount <= blueCount ? 'red' : 'blue';
+    }
+
     this.players.set(player.id, player);
     this.lastActiveAt = Date.now();
+    return { success: true };
   }
 
   /**
@@ -125,15 +143,24 @@ export class Room {
       this.settings.allowedTopicIds = newSettings.allowedTopicIds;
     }
     if (newSettings.totalRounds && newSettings.totalRounds > 0) {
-      this.settings.totalRounds = newSettings.totalRounds;
+      this.settings.totalRounds = Math.min(Math.max(1, newSettings.totalRounds), 20);
     }
-    if (newSettings.topicPickDuration && newSettings.topicPickDuration >= 10) {
+    if (newSettings.maxPlayers && newSettings.maxPlayers >= 2) {
+      this.settings.maxPlayers = Math.min(Math.max(2, newSettings.maxPlayers), 30);
+    }
+    if (newSettings.gameMode && (newSettings.gameMode === 'individual' || newSettings.gameMode === 'teams')) {
+      this.settings.gameMode = newSettings.gameMode;
+      if (this.settings.gameMode === 'teams') {
+        this.balanceTeams();
+      }
+    }
+    if (newSettings.topicPickDuration && newSettings.topicPickDuration >= 5) {
       this.settings.topicPickDuration = newSettings.topicPickDuration;
     }
-    if (newSettings.answerDuration && newSettings.answerDuration >= 15) {
+    if (newSettings.answerDuration && newSettings.answerDuration >= 10) {
       this.settings.answerDuration = newSettings.answerDuration;
     }
-    if (newSettings.bluffDuration && newSettings.bluffDuration >= 15) {
+    if (newSettings.bluffDuration && newSettings.bluffDuration >= 10) {
       this.settings.bluffDuration = newSettings.bluffDuration;
     }
     if (newSettings.voteDuration && newSettings.voteDuration >= 10) {
@@ -148,9 +175,38 @@ export class Room {
   }
 
   /**
-   * تحديث بيانات الملف الشخصي للاعب (الاسم أو الأفاتار)
+   * موازنة الفرق تلقائياً في وضع الفرق
    */
-  public updatePlayerProfile(playerId: string, nickname?: string, avatar?: string): Player | null {
+  public balanceTeams(): void {
+    const list = this.getPlayerList();
+    let redCount = 0;
+    let blueCount = 0;
+    for (const p of list) {
+      if (p.teamId === 'red') redCount++;
+      else if (p.teamId === 'blue') blueCount++;
+    }
+    for (const p of list) {
+      if (!p.teamId) {
+        if (redCount <= blueCount) {
+          p.teamId = 'red';
+          redCount++;
+        } else {
+          p.teamId = 'blue';
+          blueCount++;
+        }
+      }
+    }
+  }
+
+  /**
+   * تحديث بيانات الملف الشخصي للاعب (الاسم أو الأفاتار أو الفريق)
+   */
+  public updatePlayerProfile(
+    playerId: string,
+    nickname?: string,
+    avatar?: string,
+    teamId?: string | null
+  ): Player | null {
     const player = this.players.get(playerId);
     if (!player) return null;
 
@@ -159,6 +215,9 @@ export class Room {
     }
     if (avatar && avatar.trim()) {
       player.avatar = avatar.trim();
+    }
+    if (teamId !== undefined) {
+      player.teamId = teamId || null;
     }
 
     this.lastActiveAt = Date.now();
@@ -199,6 +258,10 @@ export class Room {
         success: false,
         error: `الحد الأدنى لبدء اللعبة هو ${config.MIN_PLAYERS_TO_START} لاعبين متصلين`,
       };
+    }
+
+    if (this.settings.gameMode === 'teams') {
+      this.balanceTeams();
     }
 
     this.currentRound = 0;
@@ -789,11 +852,13 @@ export class Room {
         deceptionPoints,
         roundPoints,
         totalScore: player.score,
+        teamId: player.teamId,
       });
     }
 
     // إعداد الترتيب العام (Leaderboard)
     const leaderboard = this.getLeaderboard();
+    const teamScores = this.settings.gameMode === 'teams' ? this.getTeamLeaderboard() : undefined;
 
     const roundResult: RoundResult = {
       roundNumber: this.currentRound,
@@ -802,6 +867,7 @@ export class Room {
       correctAnswer: this.currentPuzzle.correct_answers[0],
       options: resultOptions,
       scoreBreakdown,
+      teamScores,
     };
 
     this.lastRoundResult = roundResult;
@@ -812,6 +878,7 @@ export class Room {
       payload: {
         result: roundResult,
         leaderboard,
+        teamScores,
         isLastRound,
         timeRemaining: this.settings.revealDuration,
       },
@@ -843,6 +910,7 @@ export class Room {
     this.lastActiveAt = Date.now();
 
     const leaderboard = this.getLeaderboard();
+    const teamScores = this.settings.gameMode === 'teams' ? this.getTeamLeaderboard() : undefined;
     const winner = leaderboard[0];
 
     this.broadcast({
@@ -850,8 +918,36 @@ export class Room {
       payload: {
         leaderboard,
         winner,
+        teamScores,
       },
     });
+  }
+
+  /**
+   * جلب لوحة صدارة الفرق
+   */
+  public getTeamLeaderboard(): TeamScoreEntry[] {
+    const teams = [
+      { id: 'red', name: 'الفريق الأحمر', color: '#ef4444' },
+      { id: 'blue', name: 'الفريق الأزرق', color: '#3b82f6' },
+    ];
+
+    const teamScores = teams.map((t) => {
+      const teamPlayers = this.getPlayerList().filter((p) => p.teamId === t.id);
+      const score = teamPlayers.reduce((sum, p) => sum + p.score, 0);
+      return {
+        teamId: t.id,
+        teamName: t.name,
+        teamColor: t.color,
+        score,
+        playerCount: teamPlayers.length,
+        rank: 1,
+      };
+    });
+
+    teamScores.sort((a, b) => b.score - a.score);
+    teamScores.forEach((t, i) => (t.rank = i + 1));
+    return teamScores;
   }
 
   /**
@@ -865,6 +961,7 @@ export class Room {
       avatar: p.avatar,
       score: p.score,
       rank: index + 1,
+      teamId: p.teamId,
     }));
   }
 
@@ -884,6 +981,10 @@ export class Room {
       timeRemaining: this.timeRemaining,
       currentTopicTitle: this.currentTopicTitle,
       currentPrompt: this.currentPuzzle?.prompt ?? null,
+      roundDuration: this.settings.answerDuration,
+      maxPlayers: this.settings.maxPlayers,
+      gameMode: this.settings.gameMode,
+      teamScores: this.settings.gameMode === 'teams' ? this.getTeamLeaderboard() : undefined,
     };
   }
 

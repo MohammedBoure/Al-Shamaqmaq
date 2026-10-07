@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, LogIn, PlusCircle, Settings, Users, BookOpen, Camera } from 'lucide-react';
+import { Sparkles, LogIn, PlusCircle, Settings, Users, BookOpen, Camera, Clock, Swords, Hash } from 'lucide-react';
 import { useGame } from '../../context/GameContext';
 import { AvatarPicker } from '../common/AvatarPicker';
 import { ConnectionBadge } from '../common/ConnectionBadge';
@@ -32,6 +32,9 @@ export const LobbyScreen: React.FC = () => {
   // إعدادات المضيف
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [totalRounds, setTotalRounds] = useState<number>(5);
+  const [answerDuration, setAnswerDuration] = useState<number>(60);
+  const [maxPlayers, setMaxPlayers] = useState<number>(8);
+  const [gameMode, setGameMode] = useState<'individual' | 'teams'>('individual');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // تحديد جميع المواضيع كافتراضي عند فتح إنشاء الغرفة
@@ -57,7 +60,17 @@ export const LobbyScreen: React.FC = () => {
     e.preventDefault();
     if (!nickname.trim()) return;
     setIsLoading(true);
-    await createRoom(nickname, avatar, selectedTopics.length > 0 ? selectedTopics : undefined);
+    await createRoom(
+      nickname,
+      avatar,
+      selectedTopics.length > 0 ? selectedTopics : undefined,
+      {
+        totalRounds,
+        answerDuration,
+        maxPlayers,
+        gameMode,
+      }
+    );
     setIsLoading(false);
   };
 
@@ -223,16 +236,92 @@ export const LobbyScreen: React.FC = () => {
                 </div>
               </div>
 
+              {/* نمط اللعبة (فردي أم فرق) */}
+              <div className="bg-arcade-bg/60 p-2.5 rounded-xl border border-arcade-border/60">
+                <label className="block text-xs text-gray-300 mb-1.5 font-bold">
+                  نمط المنافسة:
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setGameMode('individual')}
+                    className={`py-2 rounded-xl text-xs font-black border transition-all flex items-center justify-center gap-1 ${
+                      gameMode === 'individual'
+                        ? 'bg-arcade-cyan text-black border-white shadow-neon-cyan'
+                        : 'bg-arcade-card text-gray-400 border-arcade-border'
+                    }`}
+                  >
+                    <Users className="w-3.5 h-3.5" />
+                    <span>فردي</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setGameMode('teams')}
+                    className={`py-2 rounded-xl text-xs font-black border transition-all flex items-center justify-center gap-1 ${
+                      gameMode === 'teams'
+                        ? 'bg-arcade-pink text-white border-white shadow-neon-pink'
+                        : 'bg-arcade-card text-gray-400 border-arcade-border'
+                    }`}
+                  >
+                    <Swords className="w-3.5 h-3.5" />
+                    <span>وضع الفرق ⚔️</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* وقت الجولة بالثواني والحد الأقصى للاعبين */}
+              <div className="grid grid-cols-2 gap-2">
+                <div className="bg-arcade-bg/60 p-2.5 rounded-xl border border-arcade-border/60">
+                  <div className="flex items-center gap-1 text-xs text-gray-300 mb-1 font-bold">
+                    <Clock className="w-3.5 h-3.5 text-arcade-cyan" />
+                    <span>وقت السؤال:</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <input
+                      type="number"
+                      min={10}
+                      max={180}
+                      step={5}
+                      value={answerDuration}
+                      onChange={(e) => setAnswerDuration(parseInt(e.target.value, 10) || 60)}
+                      className="w-full py-1.5 px-2 bg-arcade-card border border-arcade-border rounded-lg text-center text-sm font-black text-white"
+                    />
+                    <span className="text-[11px] text-gray-400 mr-1">ثانية</span>
+                  </div>
+                </div>
+
+                <div className="bg-arcade-bg/60 p-2.5 rounded-xl border border-arcade-border/60">
+                  <div className="flex items-center gap-1 text-xs text-gray-300 mb-1 font-bold">
+                    <Users className="w-3.5 h-3.5 text-arcade-green" />
+                    <span>سعة اللاعبين:</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <input
+                      type="number"
+                      min={2}
+                      max={30}
+                      value={maxPlayers}
+                      onChange={(e) => setMaxPlayers(parseInt(e.target.value, 10) || 8)}
+                      className="w-full py-1.5 px-2 bg-arcade-card border border-arcade-border rounded-lg text-center text-sm font-black text-white"
+                    />
+                    <span className="text-[11px] text-gray-400 mr-1">لاعب</span>
+                  </div>
+                </div>
+              </div>
+
               {/* عدد الجولات */}
-              <div>
-                <div className="flex justify-between text-xs text-gray-300 mb-1">
-                  <span>عدد الجولات الإجمالي:</span>
-                  <span className="font-bold text-arcade-yellow">{totalRounds} جولات</span>
+              <div className="bg-arcade-bg/60 p-2.5 rounded-xl border border-arcade-border/60">
+                <div className="flex justify-between items-center text-xs text-gray-300 mb-1.5 font-bold">
+                  <span className="flex items-center gap-1">
+                    <Hash className="w-3.5 h-3.5 text-arcade-yellow" />
+                    <span>عدد الجولات:</span>
+                  </span>
+                  <span className="font-black text-arcade-yellow text-sm">{totalRounds} جولات</span>
                 </div>
                 <input
                   type="range"
-                  min={3}
-                  max={10}
+                  min={1}
+                  max={15}
                   value={totalRounds}
                   onChange={(e) => setTotalRounds(parseInt(e.target.value, 10))}
                   className="w-full accent-arcade-pink cursor-pointer"
