@@ -94,18 +94,18 @@ export const RoundResultsScreen: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#1b2245] bg-arcade-pattern px-3 pt-3 max-w-md mx-auto w-full select-none justify-between relative pb-1">
+    <div className="flex flex-col min-h-screen bg-[#1b2245] light:bg-[#f4f7fb] bg-arcade-pattern px-3 pt-3 max-w-md md:max-w-4xl lg:max-w-5xl mx-auto w-full select-none justify-between relative pb-1">
       {/* نافذة القائمة السريعة ☰ */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/70 flex items-start justify-start p-4 pt-16"
+          className="fixed inset-0 z-50 bg-black/70 flex items-start justify-start p-4 pt-16 backdrop-blur-xs"
           onClick={() => setIsMenuOpen(false)}
         >
           <div
-            className="w-56 bg-[#1e2337] border-3 border-black rounded-2xl p-3 shadow-[0_6px_0_#000] space-y-2 animate-fadeIn"
+            className="w-56 bg-[#1e2337] light:bg-white border-3 border-black rounded-2xl p-3 shadow-[0_6px_0_#000] space-y-2 animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="text-xs font-black text-gray-400 px-2 pb-1 border-b border-white/10">
+            <div className="text-xs font-black text-gray-400 light:text-slate-500 px-2 pb-1 border-b border-white/10 light:border-black/10">
               خيارات اللعبة
             </div>
             <button
@@ -114,7 +114,7 @@ export const RoundResultsScreen: React.FC = () => {
                 audio.toggleMute();
                 setIsMenuOpen(false);
               }}
-              className="w-full text-right p-2 rounded-xl hover:bg-white/10 text-xs font-bold text-white flex items-center gap-2"
+              className="w-full text-right p-2 rounded-xl hover:bg-white/10 light:hover:bg-black/5 text-xs font-bold text-white light:text-slate-900 flex items-center gap-2"
             >
               {audio.isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
               <span>{audio.isMuted ? 'تشغيل المؤثرات' : 'كتم المؤثرات'}</span>
@@ -125,7 +125,7 @@ export const RoundResultsScreen: React.FC = () => {
                 leaveRoom();
                 setIsMenuOpen(false);
               }}
-              className="w-full text-right p-2 rounded-xl hover:bg-rose-950/40 text-xs font-bold text-rose-400 flex items-center gap-2"
+              className="w-full text-right p-2 rounded-xl hover:bg-rose-950/40 light:hover:bg-rose-100 text-xs font-bold text-rose-400 light:text-rose-600 flex items-center gap-2"
             >
               <LogOut className="w-4 h-4" />
               <span>مغادرة الجلسة</span>
@@ -145,9 +145,9 @@ export const RoundResultsScreen: React.FC = () => {
 
       {/* ======================= الشاشة 3: كشف الإجابة الصحيحة ======================= */}
       {viewState === 'reveal' && (
-        <>
+        <div className="flex-1 flex flex-col justify-between max-w-2xl mx-auto w-full">
           {/* بطاقة الإجابة الصحيحة الذهبية المتوهجة المطابقة للصورة 3 */}
-          <div className="relative mt-3 mb-2">
+          <div className="relative mt-3 mb-2 w-full">
             {/* اللسان العلوي الشبه منحرف "الإجابة هي" */}
             <div className="flex justify-center -mb-2 relative z-10">
               <div className="bg-white border-2 border-black rounded-t-xl px-7 py-1 shadow-[0_2px_0_#000]">
@@ -158,7 +158,7 @@ export const RoundResultsScreen: React.FC = () => {
             {/* شخصية اللاعب الذي أجاب صحيحاً مثبتة على أعلى يسار البطاقة */}
             {firstCorrectPlayer && (
               <div className="absolute -top-3.5 left-2 z-20 flex flex-col items-center animate-bounce-subtle">
-                <ConsolePet avatar={firstCorrectPlayer.avatar} size={42} />
+                <ConsolePet avatar={firstCorrectPlayer.avatar} size={44} />
                 <span className="text-[10px] font-black text-white text-stroke-sm -mt-1">
                   {firstCorrectPlayer.nickname}
                 </span>
@@ -166,34 +166,34 @@ export const RoundResultsScreen: React.FC = () => {
             )}
 
             {/* جسم البطاقة الذهبية المتوهجة مع انعكاس ضوئي مائل */}
-            <div className="bg-gradient-to-b from-[#f59e0b] via-[#fbbf24] to-[#d97706] border-3 border-black rounded-3xl p-6 pt-7 shadow-[0_6px_0_#92400e] relative overflow-hidden text-center min-h-[140px] flex items-center justify-center">
+            <div className="bg-gradient-to-b from-[#f59e0b] via-[#fbbf24] to-[#d97706] border-3 border-black rounded-3xl p-6 md:p-8 pt-7 md:pt-9 shadow-[0_6px_0_#92400e] relative overflow-hidden text-center min-h-[140px] md:min-h-[180px] flex items-center justify-center">
               {/* شريط الإضاءة المائل */}
               <div className="absolute top-0 right-1/4 w-12 h-full bg-white/20 transform -skew-x-20 pointer-events-none" />
 
-              <h2 className="text-2xl sm:text-3xl font-black text-white text-stroke-arcade tracking-wider leading-relaxed relative z-10 drop-shadow-[0_2px_0_#000]">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white text-stroke-arcade tracking-wider leading-relaxed relative z-10 drop-shadow-[0_2px_0_#000]">
                 {correctAnswerText}
               </h2>
             </div>
 
             {/* كبسولة التفاعل والإعجاب [ 👍 | 👎 ] أسفل البطاقة على اليمين */}
             <div className="flex justify-end mt-2 pr-2">
-              <div className="bg-[#1e2337] border-2 border-black rounded-2xl p-1 flex items-center gap-1 shadow-[0_3px_0_#000]">
+              <div className="bg-[#1e2337] light:bg-white border-2 border-black rounded-2xl p-1 flex items-center gap-1 shadow-[0_3px_0_#000]">
                 <button
                   type="button"
                   onClick={() => toggleReaction(true)}
                   className={`p-1.5 rounded-xl transition-all ${
-                    liked === true ? 'bg-emerald-500 text-white' : 'text-gray-300 hover:text-white'
+                    liked === true ? 'bg-emerald-500 text-white' : 'text-gray-300 light:text-slate-600 hover:text-white'
                   }`}
                   title="إعجاب"
                 >
                   <ThumbsUp className="w-4 h-4 fill-current" />
                 </button>
-                <div className="w-px h-4 bg-black/60" />
+                <div className="w-px h-4 bg-black/60 light:bg-slate-300" />
                 <button
                   type="button"
                   onClick={() => toggleReaction(false)}
                   className={`p-1.5 rounded-xl transition-all ${
-                    liked === false ? 'bg-rose-500 text-white' : 'text-gray-300 hover:text-white'
+                    liked === false ? 'bg-rose-500 text-white' : 'text-gray-300 light:text-slate-600 hover:text-white'
                   }`}
                   title="لم يعجبني"
                 >
@@ -207,10 +207,10 @@ export const RoundResultsScreen: React.FC = () => {
 
           {/* القسم السفلي الأزرق: عرض الخدع وزر "أظهر النتيجة" */}
           <div className="w-full">
-            <div className="bg-[#0070f3] border-3 border-black rounded-t-3xl p-3.5 space-y-3 shadow-[0_6px_0_#0047a5]">
+            <div className="bg-[#0070f3] border-3 border-black rounded-t-3xl p-3.5 md:p-5 space-y-3 shadow-[0_6px_0_#0047a5]">
               {/* عرض الخدع وأصحابها إن وُجدت */}
               {bluffOptions.length > 0 ? (
-                <div className="space-y-2 max-h-40 overflow-y-auto">
+                <div className="space-y-2 max-h-48 overflow-y-auto">
                   {bluffOptions.map((opt) => {
                     const author = opt.authors[0];
                     return (
@@ -220,10 +220,10 @@ export const RoundResultsScreen: React.FC = () => {
                             {author.nickname}
                           </div>
                         )}
-                        <div className="w-full py-3 px-3 rounded-2xl bg-[#e2e8f0] border-2 border-black text-center text-sm font-black text-black shadow-[0_2px_0_#94a3b8]">
+                        <div className="w-full py-3 px-3 rounded-2xl bg-[#e2e8f0] border-2 border-black text-center text-sm md:text-base font-black text-black shadow-[0_2px_0_#94a3b8]">
                           {opt.text}
                           {opt.votes.length > 0 && (
-                            <span className="text-[11px] font-bold text-purple-700 block mt-0.5">
+                            <span className="text-[11px] md:text-xs font-bold text-purple-700 block mt-0.5">
                               خدع {opt.votes.length} لاعبين (+{opt.votes.length} نقطة) 🎭
                             </span>
                           )}
@@ -233,7 +233,7 @@ export const RoundResultsScreen: React.FC = () => {
                   })}
                 </div>
               ) : (
-                <div className="w-full py-3 rounded-2xl bg-white border-2 border-black text-center text-xs font-black text-black shadow-inner">
+                <div className="w-full py-3 rounded-2xl bg-white border-2 border-black text-center text-xs md:text-sm font-black text-black shadow-inner">
                   لم ينجح أحد في خداع الآخرين هذه الجولة!
                 </div>
               )}
@@ -242,22 +242,22 @@ export const RoundResultsScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={handleShowLeaderboard}
-                className="w-full py-3.5 rounded-2xl bg-[#2d354b] hover:bg-[#38435f] text-white font-black text-lg border-3 border-black shadow-[0_4px_0_#1a202c] active:translate-y-1 active:shadow-[0_1px_0_#1a202c] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3.5 rounded-2xl bg-[#2d354b] hover:bg-[#38435f] text-white font-black text-lg md:text-xl border-3 border-black shadow-[0_4px_0_#1a202c] active:translate-y-1 active:shadow-[0_1px_0_#1a202c] transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>أظهر النتيجة</span>
               </button>
             </div>
 
             {/* كبسولة التبديل السفلية */}
-            <div className="flex justify-center bg-[#1b2245] py-2">
-              <div className="flex items-center bg-[#1e2337] border-2 border-black rounded-full p-1 shadow-[0_3px_0_#000]">
+            <div className="flex justify-center bg-[#1b2245] light:bg-[#f4f7fb] py-2">
+              <div className="flex items-center bg-[#1e2337] light:bg-white border-2 border-black rounded-full p-1 shadow-[0_3px_0_#000]">
                 <button
                   type="button"
                   onClick={() => setActiveBottomTab('game')}
                   className={`px-6 py-1 rounded-full text-xs font-black transition-all ${
                     activeBottomTab === 'game'
                       ? 'bg-[#0070f3] text-white border border-black shadow-sm'
-                      : 'text-gray-400 hover:text-white'
+                      : 'text-gray-400 light:text-slate-600 hover:text-white'
                   }`}
                 >
                   لعبة
@@ -267,8 +267,8 @@ export const RoundResultsScreen: React.FC = () => {
                   onClick={() => setActiveBottomTab('chat')}
                   className={`px-6 py-1 rounded-full text-xs font-black transition-all ${
                     activeBottomTab === 'chat'
-                      ? 'bg-[#0070f3] text-white border border-black shadow-sm'
-                      : 'text-gray-400 hover:text-white'
+                  ? 'bg-[#0070f3] text-white border border-black shadow-sm'
+                  : 'text-gray-400 light:text-slate-600 hover:text-white'
                   }`}
                 >
                   دردشة
@@ -276,14 +276,14 @@ export const RoundResultsScreen: React.FC = () => {
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
 
       {/* ======================= الشاشة 4: لوحة النتائج ======================= */}
       {viewState === 'leaderboard' && (
-        <>
+        <div className="flex-1 flex flex-col justify-between max-w-2xl mx-auto w-full">
           {/* بطاقة النتائج الكحلية مع النجوم الثلاث في الأعلى المطابقة للصورة 4 */}
-          <div className="relative mt-4 mb-auto">
+          <div className="relative mt-4 mb-auto w-full">
             {/* النجوم الثلاث الذهبية المثبتة في أعلى الحاوية */}
             <div className="flex justify-center items-end gap-0.5 -mb-3 relative z-10">
               <span className="text-2xl drop-shadow-[0_2px_0_#000] transform -rotate-12">⭐</span>
@@ -292,14 +292,14 @@ export const RoundResultsScreen: React.FC = () => {
             </div>
 
             {/* الحاوية الكحلية للنتائج */}
-            <div className="bg-[#2d354b] border-3 border-black rounded-3xl overflow-hidden shadow-[0_6px_0_#000]">
+            <div className="bg-[#2d354b] light:bg-white border-3 border-black rounded-3xl overflow-hidden shadow-[0_6px_0_#000]">
               {/* شريط العنوان الأبيض "النتائج" */}
-              <div className="py-2 text-center border-b-2 border-black bg-[#232a3c]">
-                <h3 className="text-base font-black text-white tracking-wide">النتائج</h3>
+              <div className="py-2.5 text-center border-b-2 border-black bg-[#232a3c] light:bg-slate-100">
+                <h3 className="text-base md:text-lg font-black text-white light:text-slate-900 tracking-wide">النتائج</h3>
               </div>
 
               {/* صفوف اللاعبين الصفراء المطابقة للصورة 4 */}
-              <div className="p-3 space-y-2 bg-[#ccd7e6] max-h-72 overflow-y-auto">
+              <div className="p-3 md:p-4 space-y-2.5 bg-[#ccd7e6] light:bg-slate-50 max-h-80 overflow-y-auto">
                 {leaderboard.map((entry, idx) => {
                   const scoreDetail = roundResult.scoreBreakdown.find((s) => s.playerId === entry.id);
                   const roundPointsEarned = scoreDetail?.roundPoints ?? 0;
@@ -312,7 +312,7 @@ export const RoundResultsScreen: React.FC = () => {
                   return (
                     <div
                       key={entry.id}
-                      className="bg-[#facc15] border-2 border-black rounded-2xl p-2.5 shadow-[0_3px_0_#000] relative overflow-hidden"
+                      className="bg-[#facc15] border-2 border-black rounded-2xl p-2.5 md:p-3 shadow-[0_3px_0_#000] relative overflow-hidden"
                     >
                       {/* لمعة صفراء في الزاوية العلوية */}
                       <div className="absolute top-0 right-0 w-8 h-8 bg-white/30 rounded-bl-2xl pointer-events-none" />
@@ -324,17 +324,17 @@ export const RoundResultsScreen: React.FC = () => {
                         </div>
 
                         {/* حساب النقاط: 2 +2 */}
-                        <div className="text-xs font-black text-black">
-                          <span className="text-sm">{entry.score}</span>
+                        <div className="text-xs md:text-sm font-black text-black">
+                          <span className="text-sm md:text-base">{entry.score}</span>
                           {roundPointsEarned > 0 && (
-                            <span className="text-emerald-700 font-black mr-1 text-[11px]">
+                            <span className="text-emerald-700 font-black mr-1 text-[11px] md:text-xs">
                               +{roundPointsEarned}
                             </span>
                           )}
                         </div>
 
                         {/* اسم اللاعب */}
-                        <div className="text-xs font-black text-black truncate max-w-[100px] text-right">
+                        <div className="text-xs md:text-sm font-black text-black truncate max-w-[120px] text-right">
                           {entry.nickname} {isCurrent && '(أنت)'}
                         </div>
 
@@ -362,8 +362,8 @@ export const RoundResultsScreen: React.FC = () => {
 
               {/* نتائج الفرق إن كان النمط مفعلاً */}
               {roundResult.teamScores && roundResult.teamScores.length > 0 && (
-                <div className="p-2.5 bg-[#1e2337] border-t-2 border-black text-center">
-                  <div className="text-[11px] font-black text-arcade-cyan mb-1">
+                <div className="p-2.5 bg-[#1e2337] light:bg-slate-200 border-t-2 border-black text-center">
+                  <div className="text-[11px] font-black text-arcade-cyan light:text-slate-800 mb-1">
                     ترتيب الفرق الحالي ⚔️
                   </div>
                   <div className="grid grid-cols-2 gap-2 text-xs font-black">
@@ -387,7 +387,7 @@ export const RoundResultsScreen: React.FC = () => {
 
           {/* القسم السفلي: زر "المتابعة" الأزرق المطابق للصورة 4 */}
           <div className="w-full mt-auto">
-            <div className="bg-[#2d354b] border-3 border-black rounded-t-3xl p-3 shadow-[0_6px_0_#000]">
+            <div className="bg-[#2d354b] light:bg-white border-3 border-black rounded-t-3xl p-3 md:p-4 shadow-[0_6px_0_#000]">
               {isHost ? (
                 <button
                   type="button"
@@ -398,22 +398,22 @@ export const RoundResultsScreen: React.FC = () => {
                   <ChevronRight className="w-5 h-5 rotate-180" />
                 </button>
               ) : (
-                <div className="w-full py-3.5 rounded-2xl bg-[#1e2337] border-2 border-black text-center text-xs font-black text-white shadow-inner">
+                <div className="w-full py-3.5 rounded-2xl bg-[#1e2337] light:bg-slate-100 border-2 border-black text-center text-xs md:text-sm font-black text-white light:text-slate-800 shadow-inner">
                   في انتظار مضيف الغرفة للمتابعة للجولة القادمة... ⏳
                 </div>
               )}
             </div>
 
             {/* كبسولة التبديل السفلية */}
-            <div className="flex justify-center bg-[#1b2245] py-2">
-              <div className="flex items-center bg-[#1e2337] border-2 border-black rounded-full p-1 shadow-[0_3px_0_#000]">
+            <div className="flex justify-center bg-[#1b2245] light:bg-[#f4f7fb] py-2">
+              <div className="flex items-center bg-[#1e2337] light:bg-white border-2 border-black rounded-full p-1 shadow-[0_3px_0_#000]">
                 <button
                   type="button"
                   onClick={() => setActiveBottomTab('game')}
                   className={`px-6 py-1 rounded-full text-xs font-black transition-all ${
                     activeBottomTab === 'game'
                       ? 'bg-[#0070f3] text-white border border-black shadow-sm'
-                      : 'text-gray-400 hover:text-white'
+                      : 'text-gray-400 light:text-slate-600 hover:text-white'
                   }`}
                 >
                   لعبة
@@ -424,7 +424,7 @@ export const RoundResultsScreen: React.FC = () => {
                   className={`px-6 py-1 rounded-full text-xs font-black transition-all ${
                     activeBottomTab === 'chat'
                       ? 'bg-[#0070f3] text-white border border-black shadow-sm'
-                      : 'text-gray-400 hover:text-white'
+                      : 'text-gray-400 light:text-slate-600 hover:text-white'
                   }`}
                 >
                   دردشة
@@ -432,7 +432,7 @@ export const RoundResultsScreen: React.FC = () => {
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

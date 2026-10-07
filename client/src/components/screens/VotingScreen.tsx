@@ -51,18 +51,18 @@ export const VotingScreen: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#1b2245] bg-arcade-pattern px-3 pt-3 max-w-md mx-auto w-full select-none justify-between relative pb-1">
+    <div className="flex flex-col min-h-screen bg-[#1b2245] light:bg-[#f4f7fb] bg-arcade-pattern px-3 pt-3 max-w-md md:max-w-3xl lg:max-w-4xl mx-auto w-full select-none justify-between relative pb-1">
       {/* نافذة القائمة السريعة ☰ */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/70 flex items-start justify-start p-4 pt-16"
+          className="fixed inset-0 z-50 bg-black/70 flex items-start justify-start p-4 pt-16 backdrop-blur-xs"
           onClick={() => setIsMenuOpen(false)}
         >
           <div
-            className="w-56 bg-[#1e2337] border-3 border-black rounded-2xl p-3 shadow-[0_6px_0_#000] space-y-2 animate-fadeIn"
+            className="w-56 bg-[#1e2337] light:bg-white border-3 border-black rounded-2xl p-3 shadow-[0_6px_0_#000] space-y-2 animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="text-xs font-black text-gray-400 px-2 pb-1 border-b border-white/10">
+            <div className="text-xs font-black text-gray-400 light:text-slate-500 px-2 pb-1 border-b border-white/10 light:border-black/10">
               خيارات اللعبة
             </div>
             <button
@@ -71,7 +71,7 @@ export const VotingScreen: React.FC = () => {
                 audio.toggleMute();
                 setIsMenuOpen(false);
               }}
-              className="w-full text-right p-2 rounded-xl hover:bg-white/10 text-xs font-bold text-white flex items-center gap-2"
+              className="w-full text-right p-2 rounded-xl hover:bg-white/10 light:hover:bg-black/5 text-xs font-bold text-white light:text-slate-900 flex items-center gap-2"
             >
               {audio.isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
               <span>{audio.isMuted ? 'تشغيل المؤثرات' : 'كتم المؤثرات'}</span>
@@ -82,7 +82,7 @@ export const VotingScreen: React.FC = () => {
                 leaveRoom();
                 setIsMenuOpen(false);
               }}
-              className="w-full text-right p-2 rounded-xl hover:bg-rose-950/40 text-xs font-bold text-rose-400 flex items-center gap-2"
+              className="w-full text-right p-2 rounded-xl hover:bg-rose-950/40 light:hover:bg-rose-100 text-xs font-bold text-rose-400 light:text-rose-600 flex items-center gap-2"
             >
               <LogOut className="w-4 h-4" />
               <span>مغادرة الجلسة</span>
@@ -102,10 +102,10 @@ export const VotingScreen: React.FC = () => {
       />
 
       {/* 2. بطاقة السؤال البنفسجية المطابقة للصورة */}
-      <div className="relative mt-2 mb-2">
+      <div className="relative mt-2 mb-2 w-full">
         {/* شارة الفئة العلوية */}
         <div className="absolute -top-3.5 right-4 z-20 flex items-center gap-1">
-          <div className="bg-[#1e2337] px-3 py-1 rounded-lg border-2 border-black shadow-[0_2px_0_#000] text-[11px] font-black text-white">
+          <div className="bg-[#1e2337] light:bg-white px-3 py-1 rounded-lg border-2 border-black shadow-[0_2px_0_#000] text-[11px] font-black text-white light:text-slate-900">
             {currentTopicTitle || 'الفلك و الفضاء'}
           </div>
           <div className="w-7 h-7 rounded-lg bg-[#8b5cf6] border-2 border-black flex items-center justify-center text-white shadow-[0_2px_0_#000]">
@@ -114,7 +114,7 @@ export const VotingScreen: React.FC = () => {
         </div>
 
         {/* جسم البطاقة البنفسجية بنمط النقاط */}
-        <div className="bg-[#8b5cf6] border-3 border-black rounded-3xl p-5 pt-7 shadow-[0_6px_0_#4c1d95] relative overflow-hidden text-center min-h-[140px] flex flex-col justify-center">
+        <div className="bg-[#8b5cf6] border-3 border-black rounded-3xl p-5 pt-8 md:p-8 md:pt-10 shadow-[0_6px_0_#4c1d95] relative overflow-hidden text-center min-h-[140px] md:min-h-[180px] flex flex-col justify-center">
           <div
             className="absolute inset-0 opacity-20 pointer-events-none"
             style={{
@@ -123,30 +123,30 @@ export const VotingScreen: React.FC = () => {
             }}
           />
 
-          <h2 className="text-base sm:text-lg font-black text-white text-stroke-arcade leading-relaxed relative z-10 px-2 drop-shadow-[0_2px_0_#000]">
+          <h2 className="text-base sm:text-lg md:text-2xl font-black text-white text-stroke-arcade leading-relaxed relative z-10 px-2 drop-shadow-[0_2px_0_#000]">
             {votingPrompt || 'ما هي قوة الجذب الكونية التي تنشأ بين جميع أجزاء المادة؟'}
           </h2>
         </div>
 
         {/* كبسولة التفاعل والإعجاب [ 👍 | 👎 ] */}
         <div className="flex justify-end mt-2 pr-2">
-          <div className="bg-[#1e2337] border-2 border-black rounded-2xl p-1 flex items-center gap-1 shadow-[0_3px_0_#000]">
+          <div className="bg-[#1e2337] light:bg-white border-2 border-black rounded-2xl p-1 flex items-center gap-1 shadow-[0_3px_0_#000]">
             <button
               type="button"
               onClick={() => toggleReaction(true)}
               className={`p-1.5 rounded-xl transition-all ${
-                liked === true ? 'bg-emerald-500 text-white' : 'text-gray-300 hover:text-white'
+                liked === true ? 'bg-emerald-500 text-white' : 'text-gray-300 light:text-slate-600 hover:text-white'
               }`}
               title="إعجاب بالسؤال"
             >
               <ThumbsUp className="w-4 h-4 fill-current" />
             </button>
-            <div className="w-px h-4 bg-black/60" />
+            <div className="w-px h-4 bg-black/60 light:bg-slate-300" />
             <button
               type="button"
               onClick={() => toggleReaction(false)}
               className={`p-1.5 rounded-xl transition-all ${
-                liked === false ? 'bg-rose-500 text-white' : 'text-gray-300 hover:text-white'
+                liked === false ? 'bg-rose-500 text-white' : 'text-gray-300 light:text-slate-600 hover:text-white'
               }`}
               title="لم يعجبني"
             >
@@ -159,30 +159,30 @@ export const VotingScreen: React.FC = () => {
       {/* 3. كائن وشخصية اللاعب في المنتصف مع شارة النقاط في الأعلى والاسم بالأسفل */}
       <div className="flex flex-col items-center justify-center my-auto py-2">
         <div className="relative flex flex-col items-center">
-          <span className="text-[11px] font-black font-mono text-black bg-white px-2 py-0.5 rounded-md border border-black shadow-[0_1px_0_#000] -mb-1 z-10">
+          <span className="text-[11px] md:text-xs font-black font-mono text-black bg-white px-2.5 py-0.5 rounded-md border border-black shadow-[0_1px_0_#000] -mb-1 z-10">
             {player?.score ?? 0}
           </span>
           <div className="animate-bounce-subtle">
-            <ConsolePet avatar={player?.avatar} size={70} />
+            <ConsolePet avatar={player?.avatar} size={76} />
           </div>
-          <span className="text-xs font-black text-white text-stroke-sm mt-0.5">
+          <span className="text-xs md:text-sm font-black text-white light:text-slate-900 text-stroke-sm mt-0.5">
             {player?.nickname || 'mouh'}
           </span>
         </div>
       </div>
 
-      {/* 4. قسم خيارات التصويت السفلي المطابق تماماً للصورة 2 */}
+      {/* 4. قسم خيارات التصويت السفلي */}
       <div className="w-full">
         {/* اللسان العلوي الشبه منحرف "اختر إجابة" */}
         <div className="flex justify-center -mb-2 relative z-10">
           <div className="bg-white border-2 border-black rounded-t-xl px-6 py-1 shadow-[0_2px_0_#000]">
-            <span className="text-xs font-black text-black">اختر إجابة</span>
+            <span className="text-xs md:text-sm font-black text-black">اختر الإجابة الصحيحة برأيك 🗳️</span>
           </div>
         </div>
 
         {/* الحاوية الزرقاء للخيارات */}
-        <div className="bg-[#0070f3] border-3 border-black rounded-t-3xl p-3.5 pt-5 shadow-[0_6px_0_#0047a5]">
-          <div className="grid grid-cols-2 gap-2.5">
+        <div className="bg-[#0070f3] border-3 border-black rounded-t-3xl p-3.5 md:p-5 pt-5 shadow-[0_6px_0_#0047a5]">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-3.5">
             {votingOptions.map((opt) => {
               const isSelected = votedOptionId === opt.id;
               const isSelf = opt.isSelfSubmission;
@@ -197,7 +197,7 @@ export const VotingScreen: React.FC = () => {
                     <button
                       type="button"
                       disabled
-                      className="w-full py-4 px-2 rounded-2xl bg-[#9cb3cf] border-2 border-black text-[#5a6e85] font-black text-sm sm:text-base cursor-not-allowed opacity-90 shadow-[0_3px_0_#627d98] truncate"
+                      className="w-full py-4 px-2.5 rounded-2xl bg-[#9cb3cf] border-2 border-black text-[#5a6e85] font-black text-sm sm:text-base cursor-not-allowed opacity-90 shadow-[0_3px_0_#627d98] truncate"
                     >
                       {opt.text}
                     </button>
@@ -211,7 +211,7 @@ export const VotingScreen: React.FC = () => {
                   type="button"
                   disabled={hasVoted}
                   onClick={() => handleVote(opt.id, false)}
-                  className={`w-full py-4 px-2 rounded-2xl border-3 border-black font-black text-sm sm:text-base transition-all transform flex items-center justify-center relative active:scale-95 shadow-[0_4px_0_#000] ${
+                  className={`w-full py-4 px-2.5 rounded-2xl border-3 border-black font-black text-sm sm:text-base md:text-lg transition-all transform flex items-center justify-center relative active:scale-95 shadow-[0_4px_0_#000] ${
                     isSelected
                       ? 'bg-[#10b981] text-white shadow-[0_4px_0_#047857] ring-2 ring-white scale-[1.02]'
                       : hasVoted
@@ -231,22 +231,22 @@ export const VotingScreen: React.FC = () => {
           </div>
 
           {hasVoted && (
-            <div className="mt-2.5 text-center text-xs font-black text-white/90">
+            <div className="mt-2.5 text-center text-xs md:text-sm font-black text-white/90 animate-pulse">
               تم تسجيل تصويتك! في انتظار بقية اللاعبين... 🗳️
             </div>
           )}
         </div>
 
         {/* 5. كبسولة التبديل السفلية بين اللعبة والدردشة */}
-        <div className="flex justify-center bg-[#1b2245] py-2">
-          <div className="flex items-center bg-[#1e2337] border-2 border-black rounded-full p-1 shadow-[0_3px_0_#000]">
+        <div className="flex justify-center bg-[#1b2245] light:bg-[#f4f7fb] py-2">
+          <div className="flex items-center bg-[#1e2337] light:bg-white border-2 border-black rounded-full p-1 shadow-[0_3px_0_#000]">
             <button
               type="button"
               onClick={() => setActiveBottomTab('game')}
               className={`px-6 py-1 rounded-full text-xs font-black transition-all ${
                 activeBottomTab === 'game'
                   ? 'bg-[#0070f3] text-white border border-black shadow-sm'
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-gray-400 light:text-slate-600 hover:text-white'
               }`}
             >
               لعبة
@@ -257,7 +257,7 @@ export const VotingScreen: React.FC = () => {
               className={`px-6 py-1 rounded-full text-xs font-black transition-all ${
                 activeBottomTab === 'chat'
                   ? 'bg-[#0070f3] text-white border border-black shadow-sm'
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-gray-400 light:text-slate-600 hover:text-white'
               }`}
             >
               دردشة

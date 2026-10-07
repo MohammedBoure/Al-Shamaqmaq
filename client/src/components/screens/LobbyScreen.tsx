@@ -7,6 +7,7 @@ import { AudioToggle } from '../common/AudioToggle';
 import { CameraQRScanner } from '../common/CameraQRScanner';
 
 import { serializePet, DEFAULT_PET_CONFIG } from '../common/ConsolePet';
+import { ThemeToggle } from '../common/ThemeToggle';
 
 export const LobbyScreen: React.FC = () => {
   const { createRoom, joinRoom, topics, audio, haptic } = useGame();
@@ -81,7 +82,7 @@ export const LobbyScreen: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-8 max-w-md mx-auto w-full">
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-6 md:py-10 max-w-md lg:max-w-5xl xl:max-w-6xl mx-auto w-full transition-all">
       {/* ماسح الكاميرا لرموز QR */}
       <CameraQRScanner
         isOpen={isScannerOpen}
@@ -92,75 +93,98 @@ export const LobbyScreen: React.FC = () => {
       <header className="w-full flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <span className="text-3xl animate-bounce-subtle">🎭</span>
-          <h1 className="text-xl font-black tracking-tight bg-gradient-to-l from-arcade-cyan via-arcade-purple to-arcade-pink bg-clip-text text-transparent">
+          <h1 className="text-xl md:text-2xl font-black tracking-tight bg-gradient-to-l from-arcade-cyan via-arcade-purple to-arcade-pink bg-clip-text text-transparent">
             خداع الألغاز
           </h1>
         </div>
         <div className="flex items-center gap-2">
           <ConnectionBadge />
+          <ThemeToggle />
           <AudioToggle />
         </div>
       </header>
 
-      {/* بطاقة الواجهة الرئيسية */}
-      <div className="w-full bg-arcade-card/90 backdrop-blur-xl border border-arcade-border/80 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
-        {/* أشرطة تزيينية نيون */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-arcade-purple/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-arcade-pink/20 rounded-full blur-3xl pointer-events-none" />
-
-        {/* أزرار التبديل بين الانضمام والإنشاء */}
-        <div className="grid grid-cols-2 gap-2 p-1.5 bg-arcade-bg/80 rounded-2xl border border-arcade-border/60 mb-6">
-          <button
-            type="button"
-            onClick={() => setTab('join')}
-            className={`py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 transform active:scale-95 ${
-              tab === 'join'
-                ? 'bg-gradient-to-l from-arcade-purple to-arcade-cyan text-white shadow-neon-purple'
-                : 'text-gray-400 hover:text-white'
-            }`}
-          >
-            <LogIn className="w-4 h-4" />
-            <span>انضمام لغرفة</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setTab('create')}
-            className={`py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 transform active:scale-95 ${
-              tab === 'create'
-                ? 'bg-gradient-to-l from-arcade-pink to-arcade-purple text-white shadow-neon-pink'
-                : 'text-gray-400 hover:text-white'
-            }`}
-          >
-            <PlusCircle className="w-4 h-4" />
-            <span>إنشاء غرفة</span>
-          </button>
-        </div>
-
-        {/* نموذج الإدخال */}
-        <form onSubmit={tab === 'join' ? handleJoin : handleCreate} className="space-y-4">
-          {/* الاسم المستعار */}
-          <div>
-            <label className="block text-xs font-bold text-gray-300 mb-1.5">
-              اسمك المستعار (اللاعب):
-            </label>
-            <input
-              type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              placeholder="مثال: فارس، سارة، الماكر..."
-              maxLength={20}
-              required
-              className="w-full px-4 py-3 bg-arcade-bg/90 border border-arcade-border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-arcade-cyan focus:ring-2 focus:ring-arcade-cyan/30 text-sm font-semibold transition-all"
+      {/* تصميم متجاوب ثنائي الأعمدة للحواسيب والشاشات الكبيرة */}
+      <div className="w-full lg:grid lg:grid-cols-12 lg:gap-8 items-start">
+        {/* العمود 1: استوديو تخصيص الشخصية والأفاتار (ظاهر في الشاشات الكبيرة والحواسيب) */}
+        <div className="hidden lg:block lg:col-span-5">
+          <div className="w-full bg-arcade-card/95 backdrop-blur-xl border-3 border-black rounded-3xl p-5 shadow-[0_6px_0_#000] relative overflow-hidden sticky top-6">
+            <div className="text-xs font-black text-arcade-cyan mb-2 flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4" />
+              <span>بطاقة شخصيتك:</span>
+            </div>
+            {/* اختيار وتعديل الشخصية */}
+            <AvatarPicker
+              selectedAvatar={avatar}
+              onSelectAvatar={setAvatar}
+              nickname={nickname}
+              onUpdateNickname={setNickname}
             />
           </div>
+        </div>
 
-          {/* اختيار الأفاتار والشخصية */}
-          <AvatarPicker
-            selectedAvatar={avatar}
-            onSelectAvatar={setAvatar}
-            nickname={nickname}
-            onUpdateNickname={setNickname}
-          />
+        {/* العمود 2: بطاقة التحكم وإنشاء/الانضمام للغرفة */}
+        <div className="lg:col-span-7">
+          <div className="w-full bg-arcade-card/95 backdrop-blur-xl border-3 border-black rounded-3xl p-6 shadow-[0_6px_0_#000] relative overflow-hidden">
+            {/* أشرطة تزيينية نيون */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-arcade-purple/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-arcade-pink/20 rounded-full blur-3xl pointer-events-none" />
+
+            {/* أزرار التبديل بين الانضمام والإنشاء */}
+            <div className="grid grid-cols-2 gap-2 p-1.5 bg-arcade-bg/80 rounded-2xl border-2 border-black mb-6 shadow-inner">
+              <button
+                type="button"
+                onClick={() => setTab('join')}
+                className={`py-3 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-2 transform active:scale-95 ${
+                  tab === 'join'
+                    ? 'bg-gradient-to-l from-arcade-purple to-arcade-cyan text-white shadow-neon-purple border-2 border-black'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <LogIn className="w-4 h-4" />
+                <span>انضمام لغرفة</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setTab('create')}
+                className={`py-3 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-2 transform active:scale-95 ${
+                  tab === 'create'
+                    ? 'bg-gradient-to-l from-arcade-pink to-arcade-purple text-white shadow-neon-pink border-2 border-black'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <PlusCircle className="w-4 h-4" />
+                <span>إنشاء غرفة</span>
+              </button>
+            </div>
+
+            {/* نموذج الإدخال */}
+            <form onSubmit={tab === 'join' ? handleJoin : handleCreate} className="space-y-4">
+              {/* الاسم المستعار */}
+              <div>
+                <label className="block text-xs font-bold text-gray-300 mb-1.5">
+                  اسمك المستعار (اللاعب):
+                </label>
+                <input
+                  type="text"
+                  value={nickname}
+                  onChange={(e) => setNickname(e.target.value)}
+                  placeholder="مثال: فارس، سارة، الماكر..."
+                  maxLength={20}
+                  required
+                  className="w-full px-4 py-3 bg-arcade-bg/90 border border-arcade-border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-arcade-cyan focus:ring-2 focus:ring-arcade-cyan/30 text-sm font-semibold transition-all"
+                />
+              </div>
+
+              {/* اختيار الأفاتار والشخصية (ظاهر على الهواتف المحمولة فقط) */}
+              <div className="lg:hidden">
+                <AvatarPicker
+                  selectedAvatar={avatar}
+                  onSelectAvatar={setAvatar}
+                  nickname={nickname}
+                  onUpdateNickname={setNickname}
+                />
+              </div>
 
           {/* حقل كود الغرفة في حال الانضمام */}
           {tab === 'join' && (
@@ -340,6 +364,8 @@ export const LobbyScreen: React.FC = () => {
             <span>{tab === 'join' ? 'انضم إلى المنافسة!' : 'إنشاء وبدء الغرفة!'}</span>
           </button>
         </form>
+          </div>
+        </div>
       </div>
 
       {/* تذييل الصفحة */}

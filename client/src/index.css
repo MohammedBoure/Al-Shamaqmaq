@@ -18,7 +18,33 @@
     touch-action: manipulation;
     font-family: 'Readex Pro', 'Cairo', system-ui, sans-serif;
     background-color: #0f101a;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
+}
+
+/* نمط الوضع الفاتح الكرتوني White & Light Mode */
+html.light body {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+html.light .bg-arcade-bg {
+  background-color: #f8fafc;
+}
+
+html.light .bg-arcade-card {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+html.light .bg-gaming-pattern {
+  background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+.bg-gaming-pattern {
+  background-image: radial-gradient(rgba(139, 92, 246, 0.18) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
 }
 
 /* نمط الخطوط الكرتونية بحدود سوداء ثقيلة مستوحاة من Brawl Stars / Arcade UI */

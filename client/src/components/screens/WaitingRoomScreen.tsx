@@ -28,6 +28,7 @@ import { AudioToggle } from '../common/AudioToggle';
 import { ConsolePet } from '../common/ConsolePet';
 import { QRCodeView } from '../common/QRCodeView';
 import { CameraQRScanner } from '../common/CameraQRScanner';
+import { ThemeToggle } from '../common/ThemeToggle';
 import { CharacterSelectScreen } from './CharacterSelectScreen';
 import { CategoryBrowserScreen } from './CategoryBrowserScreen';
 import { useCodeDictation } from '../../hooks/useCodeDictation';
@@ -205,11 +206,11 @@ export const WaitingRoomScreen: React.FC = () => {
   const bluePlayers = players.filter((p) => p.teamId === 'blue');
 
   return (
-    <div className="flex flex-col min-h-screen px-3 py-4 max-w-md mx-auto w-full select-none pb-28">
+    <div className="flex flex-col min-h-screen px-3 py-4 md:px-6 md:py-8 max-w-md lg:max-w-6xl xl:max-w-7xl mx-auto w-full select-none pb-28 transition-all">
       {/* نافذة التخصيص الكامل للشخصية */}
       {isEditingProfile && (
-        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center">
-          <div className="w-full h-full max-w-md mx-auto">
+        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+          <div className="w-full h-full max-w-md md:max-w-4xl mx-auto flex items-center justify-center">
             <CharacterSelectScreen
               initialNickname={player?.nickname}
               initialAvatar={player?.avatar}
@@ -223,8 +224,8 @@ export const WaitingRoomScreen: React.FC = () => {
 
       {/* شاشة تصفح وتحديد الفئات الشاملة */}
       {isCategoryBrowserOpen && (
-        <div className="fixed inset-0 z-50 bg-[#1b2245] flex items-center justify-center overflow-y-auto">
-          <div className="w-full h-full max-w-md mx-auto">
+        <div className="fixed inset-0 z-50 bg-[#1b2245] flex items-center justify-center overflow-y-auto p-4">
+          <div className="w-full h-full max-w-md md:max-w-4xl mx-auto">
             <CategoryBrowserScreen onClose={() => setIsCategoryBrowserOpen(false)} />
           </div>
         </div>
@@ -299,7 +300,7 @@ export const WaitingRoomScreen: React.FC = () => {
       )}
 
       {/* الشريط العلوي والشعار كلك! مطابق للصورة */}
-      <header className="flex items-center justify-between mb-4 relative z-20">
+      <header className="flex items-center justify-between mb-6 relative z-20">
         <button
           type="button"
           onClick={() => setIsMenuOpen((prev) => !prev)}
@@ -310,16 +311,22 @@ export const WaitingRoomScreen: React.FC = () => {
         </button>
 
         <div className="flex flex-col items-center">
-          <h1 className="text-3xl font-black text-white tracking-wider text-stroke-arcade transform -rotate-1 select-none">
+          <h1 className="text-3xl md:text-4xl font-black text-white tracking-wider text-stroke-arcade transform -rotate-1 select-none">
             كَلَكْ!
           </h1>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <ConnectionBadge />
+          <ThemeToggle />
           <AudioToggle />
         </div>
       </header>
+
+      {/* حاوية شبكية متجاوبة ثنائية الأعمدة للشاشات الكبيرة والحواسيب */}
+      <div className="w-full lg:grid lg:grid-cols-12 lg:gap-8 items-start">
+        {/* العمود 1: اللاعبون والفرق */}
+        <div className="lg:col-span-7 space-y-4">
 
       {/* قسم 1: اللاعبون وتكتل الفرق */}
       <div className="mb-4">
@@ -530,7 +537,10 @@ export const WaitingRoomScreen: React.FC = () => {
           <span>{isHost ? 'تحديد الفئات' : 'استعراض الفئات'}</span>
         </button>
       </div>
+      </div>
 
+      {/* العمود 2: المشاركة وإعدادات الغرفة (على الحواسيب يظهر بجانب اللاعبين) */}
+      <div className="lg:col-span-5 space-y-4">
       {/* قسم 2: المشاركة (QR، الرابط، إملاء الرمز، وسكان الكاميرا) */}
       <div className="mb-4 bg-[#3a4460] rounded-3xl border-3 border-black overflow-hidden shadow-[0_5px_0_#000]">
         <button
@@ -837,10 +847,12 @@ export const WaitingRoomScreen: React.FC = () => {
           </div>
         )}
       </div>
+      </div>
+      </div>
 
-      {/* الشريط السفلي الثابت */}
+      {/* الشريط السفلي الثابت (متجاوب ومركزي على الحواسيب والهواتف) */}
       <div className="fixed bottom-0 left-0 right-0 z-30 p-3 bg-gradient-to-t from-black via-black/90 to-transparent flex flex-col items-center">
-        <div className="w-full max-w-md bg-[#0070f3] rounded-3xl border-3 border-black p-2.5 shadow-[0_6px_0_#0047a5] flex flex-col items-center">
+        <div className="w-full max-w-md lg:max-w-xl bg-[#0070f3] rounded-3xl border-3 border-black p-3 shadow-[0_6px_0_#0047a5] flex flex-col items-center">
           <button
             type="button"
             onClick={() => {

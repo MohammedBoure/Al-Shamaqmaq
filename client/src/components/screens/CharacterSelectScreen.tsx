@@ -80,9 +80,9 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
   };
 
   return (
-    <div className="flex flex-col min-h-screen max-w-md mx-auto w-full bg-[#1b1c28] relative overflow-hidden select-none">
+    <div className="flex flex-col min-h-screen max-w-md md:max-w-4xl lg:max-w-5xl mx-auto w-full bg-[#1b1c28] relative overflow-hidden select-none p-2 sm:p-4 transition-all">
       {/* 1. الشريط العلوي */}
-      <header className="flex items-center justify-between px-4 pt-3 pb-2 z-10">
+      <header className="flex items-center justify-between px-4 pt-3 pb-2 z-10 w-full">
         {/* زر العودة يساراً */}
         {onBack ? (
           <button
@@ -113,46 +113,47 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
         </button>
       </header>
 
-      {/* 2. منطقة عرض الكونسول والشخصية الرئيسية */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-2">
-        {/* صندوق الكونسول الأخضر/التركوازي الرئيسي */}
-        <div className="w-full max-w-[280px] sm:max-w-[310px] bg-[#3cb79d] border-4 border-black rounded-3xl p-3 sm:p-4 shadow-[0_7px_0_#1e7563] flex flex-col items-center">
-          {/* إطار الشاشة الداخلي الداكن */}
-          <div className="w-full bg-[#0a3832] border-[3.5px] border-black rounded-2xl p-2 shadow-inner">
-            {/* شاشة الأشعة الزرقاء (Sunburst Screen) */}
-            <div className="w-full h-44 sm:h-48 rounded-xl sunburst-rays border-2 border-black/80 flex items-center justify-center relative overflow-hidden shadow-inner">
-              <div className="transform scale-110 sm:scale-125 transition-all duration-300">
-                <ConsolePet config={petConfig} size={150} />
+      {/* 2. منطقة العرض التجاوبية (ثنائية الأعمدة على الحاسوب، ومتتالية على الهاتف) */}
+      <div className="flex-1 flex flex-col md:flex-row md:items-center md:justify-center md:gap-8 px-2 sm:px-4 py-2 w-full">
+        {/* العمود 1: صندوق الكونسول الأخضر/التركوازي والشخصية */}
+        <div className="flex flex-col items-center justify-center mb-4 md:mb-0">
+          <div className="w-full max-w-[280px] sm:max-w-[320px] bg-[#3cb79d] border-4 border-black rounded-3xl p-3 sm:p-4 shadow-[0_7px_0_#1e7563] flex flex-col items-center">
+            {/* إطار الشاشة الداخلي الداكن */}
+            <div className="w-full bg-[#0a3832] border-[3.5px] border-black rounded-2xl p-2 shadow-inner">
+              {/* شاشة الأشعة الزرقاء (Sunburst Screen) */}
+              <div className="w-full h-44 sm:h-52 rounded-xl sunburst-rays border-2 border-black/80 flex items-center justify-center relative overflow-hidden shadow-inner">
+                <div className="transform scale-110 sm:scale-130 transition-all duration-300">
+                  <ConsolePet config={petConfig} size={150} />
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* حقل إدخال الاسم المستعار مباشرة داخل الكونسول */}
-          <div className="w-full mt-3">
-            <input
-              type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              placeholder="أدخل اسمك"
-              maxLength={15}
-              className="w-full py-2.5 px-4 bg-[#1b7362] border-2 border-black rounded-xl text-center text-white font-black text-base sm:text-lg placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white/80 shadow-inner"
-            />
-          </div>
-
-          {/* تفاصيل الكونسول بالأسفل: مكبر الصوت ومفتاح التشغيل */}
-          <div className="w-full flex items-center justify-between px-2 pt-2 text-[#1b7362]">
-            <div className="flex gap-1">
-              <span className="w-2 h-2 rounded-full bg-black/60 inline-block" />
-              <span className="w-2 h-2 rounded-full bg-black/60 inline-block" />
-              <span className="w-2 h-2 rounded-full bg-black/60 inline-block" />
+            {/* حقل إدخال الاسم المستعار مباشرة داخل الكونسول */}
+            <div className="w-full mt-3">
+              <input
+                type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                placeholder="أدخل اسمك"
+                maxLength={15}
+                className="w-full py-2.5 px-4 bg-[#1b7362] border-2 border-black rounded-xl text-center text-white font-black text-base sm:text-lg placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white/80 shadow-inner"
+              />
             </div>
-            <div className="w-8 h-2 rounded-full bg-black/60" />
+
+            {/* تفاصيل الكونسول بالأسفل: مكبر الصوت ومفتاح التشغيل */}
+            <div className="w-full flex items-center justify-between px-2 pt-2 text-[#1b7362]">
+              <div className="flex gap-1">
+                <span className="w-2 h-2 rounded-full bg-black/60 inline-block" />
+                <span className="w-2 h-2 rounded-full bg-black/60 inline-block" />
+                <span className="w-2 h-2 rounded-full bg-black/60 inline-block" />
+              </div>
+              <div className="w-8 h-2 rounded-full bg-black/60" />
+            </div>
           </div>
         </div>
-      </main>
 
-      {/* 3. اللوحة السفلية لتخصيص الشخصية والألوان */}
-      <footer className="w-full relative z-20">
+        {/* العمود 2: اللوحة لتخصيص الشخصية والألوان */}
+        <div className="w-full md:max-w-md flex flex-col relative z-20">
         {/* التبويبات العلوية البارزة بتصميم كرتوني مائل */}
         <div className="flex justify-end gap-1 px-4 -mb-1">
           {/* تبويب النظارات */}
@@ -305,7 +306,8 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
             {actionButtonText}
           </button>
         </div>
-      </footer>
+      </div>
+      </div>
     </div>
   );
 };
