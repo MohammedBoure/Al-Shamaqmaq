@@ -1,19 +1,33 @@
-import React, { useState } from 'react';
-import { Sparkles, LogIn, PlusCircle, Settings, Users, BookOpen } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Sparkles, LogIn, PlusCircle, Settings, Users, BookOpen, Camera } from 'lucide-react';
 import { useGame } from '../../context/GameContext';
 import { AvatarPicker } from '../common/AvatarPicker';
 import { ConnectionBadge } from '../common/ConnectionBadge';
 import { AudioToggle } from '../common/AudioToggle';
+import { CameraQRScanner } from '../common/CameraQRScanner';
 
 import { serializePet, DEFAULT_PET_CONFIG } from '../common/ConsolePet';
 
 export const LobbyScreen: React.FC = () => {
-  const { createRoom, joinRoom, topics } = useGame();
+  const { createRoom, joinRoom, topics, audio, haptic } = useGame();
 
   const [tab, setTab] = useState<'join' | 'create'>('join');
   const [nickname, setNickname] = useState<string>('');
   const [avatar, setAvatar] = useState<string>(() => serializePet(DEFAULT_PET_CONFIG));
   const [roomCode, setRoomCode] = useState<string>('');
+  const [isScannerOpen, setIsScannerOpen] = useState<boolean>(false);
+
+  // قراءة كود الغرفة الممرر عبر الرابط أو الباركود تلقائياً (?join=ABCD أو ?code=ABCD)
+  useEffect(() => {
+    try {
+      const searchParams = new URLSearchParams(window.location.search);
+      const urlCode = searchParams.get('join') || searchParams.get('code') || searchParams.get('room');
+      if (urlCode) {
+        setRoomCode(urlCode.toUpperCase());
+        setTab('join');
+      }
+    } catch (_) {}
+  }, []);
 
   // إعدادات المضيف
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
@@ -47,8 +61,20 @@ export const LobbyScreen: React.FC = () => {
     setIsLoading(false);
   };
 
+  const handleScannedCode = (scanned: string) => {
+    setRoomCode(scanned);
+    audio.playClick();
+    haptic.triggerHaptic('success');
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 py-8 max-w-md mx-auto w-full">
+      {/* ماسح الكاميرا لرموز QR */}
+      <CameraQRScanner
+        isOpen={isScannerOpen}
+        onClose={() => setIsScannerOpen(false)}
+        onScan={handleScannedCode}
+      />
       {/* رأس الصفحة والشعار */}
       <header className="w-full flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
@@ -126,18 +152,38 @@ export const LobbyScreen: React.FC = () => {
           {/* حقل كود الغرفة في حال الانضمام */}
           {tab === 'join' && (
             <div>
-              <label className="block text-xs font-bold text-gray-300 mb-1.5">
-                رمز الغرفة (Room Code):
-              </label>
-              <input
-                type="text"
-                value={roomCode}
-                onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
-                placeholder="مثال: ABCD"
-                maxLength={8}
-                required
-                className="w-full px-4 py-3.5 bg-arcade-bg/90 border border-arcade-border rounded-xl text-center text-xl font-black tracking-widest text-arcade-cyan placeholder-gray-600 focus:outline-none focus:border-arcade-pink focus:ring-2 focus:ring-arcade-pink/30 uppercase transition-all"
-              />
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-xs font-bold text-gray-300">
+                  رمز الغرفة (Room Code):
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setIsScannerOpen(true)}
+                  className="text-xs text-arcade-cyan hover:underline font-bold flex items-center gap-1 active:scale-95 transition-transform"
+                >
+                  <Camera className="w-3.5 h-3.5" />
+                  <span>مسح بالكاميرا 📷</span>
+                </button>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={roomCode}
+                  onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
+                  placeholder="مثال: ABCD"
+                  maxLength={8}
+                  required
+                  className="flex-1 px-4 py-3.5 bg-arcade-bg/90 border border-arcade-border rounded-xl text-center text-xl font-black tracking-widest text-arcade-cyan placeholder-gray-600 focus:outline-none focus:border-arcade-pink focus:ring-2 focus:ring-arcade-pink/30 uppercase transition-all"
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsScannerOpen(true)}
+                  className="p-3.5 bg-arcade-card hover:bg-arcade-cardHover border border-arcade-border hover:border-arcade-cyan rounded-xl text-arcade-cyan hover:text-white transition-all shadow-md active:scale-95 shrink-0"
+                  title="مسح رمز QR من الكاميرا"
+                >
+                  <Camera className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           )}
 

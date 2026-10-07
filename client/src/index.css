@@ -92,6 +92,25 @@
   box-shadow: 0 1px 0 #ff6f00;
 }
 
+@keyframes scanLaser {
+  0% {
+    top: 5%;
+    opacity: 0.8;
+  }
+  50% {
+    top: 90%;
+    opacity: 1;
+  }
+  100% {
+    top: 5%;
+    opacity: 0.8;
+  }
+}
+
+.animate-scan-laser {
+  animation: scanLaser 2s ease-in-out infinite;
+}
+
 /* تخصيص شريط التمرير بنمط داكن أنيق */
 ::-webkit-scrollbar {
   width: 6px;
