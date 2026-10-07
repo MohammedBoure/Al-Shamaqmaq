@@ -3,6 +3,7 @@ import confetti from 'canvas-confetti';
 import { RotateCcw } from 'lucide-react';
 import { useGame } from '../../context/GameContext';
 import { AudioToggle } from '../common/AudioToggle';
+import { ConsolePet } from '../common/ConsolePet';
 
 export const GameOverScreen: React.FC = () => {
   const { leaderboard, leaveRoom } = useGame();
@@ -59,8 +60,8 @@ export const GameOverScreen: React.FC = () => {
         {/* المركز الثاني */}
         {secondPlace && (
           <div className="flex-1 flex flex-col items-center">
-            <span className="text-3xl mb-1">{secondPlace.avatar}</span>
-            <span className="text-xs font-black text-gray-200 truncate max-w-[90px]">
+            <ConsolePet avatar={secondPlace.avatar} size={50} />
+            <span className="text-xs font-black text-gray-200 truncate max-w-[90px] mt-1">
               {secondPlace.nickname}
             </span>
             <span className="text-[10px] text-arcade-cyan font-mono font-bold mb-1">
@@ -79,9 +80,9 @@ export const GameOverScreen: React.FC = () => {
               <span className="absolute -top-4 right-1/2 translate-x-1/2 text-2xl animate-bounce">
                 👑
               </span>
-              <span className="text-5xl mb-1">{firstPlace.avatar}</span>
+              <ConsolePet avatar={firstPlace.avatar} size={70} />
             </div>
-            <span className="text-sm font-black text-arcade-yellow truncate max-w-[110px]">
+            <span className="text-sm font-black text-arcade-yellow truncate max-w-[110px] mt-1">
               {firstPlace.nickname}
             </span>
             <span className="text-xs text-arcade-yellow font-mono font-black mb-1">
@@ -96,8 +97,8 @@ export const GameOverScreen: React.FC = () => {
         {/* المركز الثالث */}
         {thirdPlace && (
           <div className="flex-1 flex flex-col items-center">
-            <span className="text-3xl mb-1">{thirdPlace.avatar}</span>
-            <span className="text-xs font-black text-gray-300 truncate max-w-[90px]">
+            <ConsolePet avatar={thirdPlace.avatar} size={44} />
+            <span className="text-xs font-black text-gray-300 truncate max-w-[90px] mt-1">
               {thirdPlace.nickname}
             </span>
             <span className="text-[10px] text-arcade-cyan font-mono font-bold mb-1">
@@ -123,7 +124,7 @@ export const GameOverScreen: React.FC = () => {
             >
               <div className="flex items-center gap-2">
                 <span className="font-bold text-gray-500 w-5">#{entry.rank}</span>
-                <span className="text-lg">{entry.avatar}</span>
+                <ConsolePet avatar={entry.avatar} size={28} />
                 <span className="font-bold text-white">{entry.nickname}</span>
               </div>
               <span className="font-black text-arcade-cyan font-mono">{entry.score} نقطة</span>

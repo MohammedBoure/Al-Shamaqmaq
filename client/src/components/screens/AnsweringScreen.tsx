@@ -5,6 +5,8 @@ import { TimerBar } from '../common/TimerBar';
 import { ConnectionBadge } from '../common/ConnectionBadge';
 import { AudioToggle } from '../common/AudioToggle';
 
+import { ConsolePet } from '../common/ConsolePet';
+
 export const AnsweringScreen: React.FC = () => {
   const {
     currentPuzzle,
@@ -17,6 +19,7 @@ export const AnsweringScreen: React.FC = () => {
     hasSubmittedBluff,
     submitAnswer,
     submitBluff,
+    player,
   } = useGame();
 
   const [initialInput, setInitialInput] = useState<string>('');
@@ -78,6 +81,16 @@ export const AnsweringScreen: React.FC = () => {
         <h2 className="text-lg sm:text-xl font-black text-white leading-relaxed">
           {currentPuzzle?.prompt || 'جارٍ تحميل نص اللغز...'}
         </h2>
+      </div>
+
+      {/* صورة واسم شخصية اللاعب في المنتصف تماماً مثل واجهة اللعبة الأصلية */}
+      <div className="flex flex-col items-center justify-center my-auto py-2">
+        <div className="relative flex flex-col items-center animate-bounce-subtle">
+          <ConsolePet avatar={player?.avatar} size={70} />
+          <span className="text-xs font-black text-stroke-sm mt-0.5">
+            {player?.nickname || 'أنت'}
+          </span>
+        </div>
       </div>
 
       {/* مرحلة تقديم الإجابة الأولية */}

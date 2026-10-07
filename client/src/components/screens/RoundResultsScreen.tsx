@@ -4,6 +4,7 @@ import { Trophy, CheckCircle, ChevronRight, Flame } from 'lucide-react';
 import { useGame } from '../../context/GameContext';
 import { ConnectionBadge } from '../common/ConnectionBadge';
 import { AudioToggle } from '../common/AudioToggle';
+import { ConsolePet } from '../common/ConsolePet';
 
 export const RoundResultsScreen: React.FC = () => {
   const {
@@ -79,7 +80,7 @@ export const RoundResultsScreen: React.FC = () => {
                       key={voter.id}
                       className="px-2.5 py-1 rounded-xl bg-emerald-900/60 border border-emerald-500/50 text-emerald-200 text-xs font-black flex items-center gap-1.5 shadow-sm"
                     >
-                      <span>{voter.avatar}</span>
+                      <ConsolePet avatar={voter.avatar} size={22} />
                       <span>{voter.nickname}</span>
                     </span>
                   ))}
@@ -99,7 +100,7 @@ export const RoundResultsScreen: React.FC = () => {
           </h3>
 
           {bluffOptions.map((opt) => {
-            const authorNames = opt.authors.map((a) => `${a.avatar} ${a.nickname}`).join(' و ');
+            const authorNames = opt.authors.map((a) => a.nickname).join(' و ');
             return (
               <div
                 key={opt.id}
@@ -107,9 +108,12 @@ export const RoundResultsScreen: React.FC = () => {
               >
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-black text-white">{opt.text}</span>
-                  <span className="text-[11px] font-bold text-arcade-pink bg-pink-950/40 px-2 py-0.5 rounded-lg border border-pink-500/30">
-                    كتبها: {authorNames || 'مجهول'}
-                  </span>
+                  <div className="flex items-center gap-1 text-[11px] font-bold text-arcade-pink bg-pink-950/40 px-2 py-0.5 rounded-lg border border-pink-500/30">
+                    {opt.authors.map((a) => (
+                      <ConsolePet key={a.id} avatar={a.avatar} size={18} />
+                    ))}
+                    <span>كتبها: {authorNames || 'مجهول'}</span>
+                  </div>
                 </div>
 
                 <div className="pt-1.5 border-t border-arcade-border/30 flex items-center justify-between text-xs">
@@ -121,7 +125,7 @@ export const RoundResultsScreen: React.FC = () => {
                           key={v.id}
                           className="px-2 py-0.5 rounded-lg bg-arcade-bg/80 border border-arcade-border/50 text-gray-300 text-[11px] font-semibold flex items-center gap-1"
                         >
-                          <span>{v.avatar}</span>
+                          <ConsolePet avatar={v.avatar} size={18} />
                           <span>{v.nickname}</span>
                         </span>
                       ))}
@@ -170,7 +174,7 @@ export const RoundResultsScreen: React.FC = () => {
                     >
                       {entry.rank}
                     </span>
-                    <span className="text-xl">{entry.avatar}</span>
+                    <ConsolePet avatar={entry.avatar} size={36} />
                     <span className="text-xs font-bold text-white">
                       {entry.nickname} {isCurrentUser && '(أنت)'}
                     </span>

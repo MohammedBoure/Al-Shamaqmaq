@@ -5,12 +5,14 @@ import { AvatarPicker } from '../common/AvatarPicker';
 import { ConnectionBadge } from '../common/ConnectionBadge';
 import { AudioToggle } from '../common/AudioToggle';
 
+import { serializePet, DEFAULT_PET_CONFIG } from '../common/ConsolePet';
+
 export const LobbyScreen: React.FC = () => {
   const { createRoom, joinRoom, topics } = useGame();
 
   const [tab, setTab] = useState<'join' | 'create'>('join');
   const [nickname, setNickname] = useState<string>('');
-  const [avatar, setAvatar] = useState<string>('🎭');
+  const [avatar, setAvatar] = useState<string>(() => serializePet(DEFAULT_PET_CONFIG));
   const [roomCode, setRoomCode] = useState<string>('');
 
   // إعدادات المضيف
@@ -113,8 +115,13 @@ export const LobbyScreen: React.FC = () => {
             />
           </div>
 
-          {/* اختيار الأفاتار */}
-          <AvatarPicker selectedAvatar={avatar} onSelectAvatar={setAvatar} />
+          {/* اختيار الأفاتار والشخصية */}
+          <AvatarPicker
+            selectedAvatar={avatar}
+            onSelectAvatar={setAvatar}
+            nickname={nickname}
+            onUpdateNickname={setNickname}
+          />
 
           {/* حقل كود الغرفة في حال الانضمام */}
           {tab === 'join' && (

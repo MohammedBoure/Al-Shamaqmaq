@@ -3,14 +3,13 @@ import { Copy, Check, Play, Crown, LogOut, UserCheck, Edit3 } from 'lucide-react
 import { useGame } from '../../context/GameContext';
 import { ConnectionBadge } from '../common/ConnectionBadge';
 import { AudioToggle } from '../common/AudioToggle';
-import { AvatarPicker } from '../common/AvatarPicker';
+import { ConsolePet } from '../common/ConsolePet';
+import { CharacterSelectScreen } from './CharacterSelectScreen';
 
 export const WaitingRoomScreen: React.FC = () => {
   const { room, player, startGame, leaveRoom, updateProfile, haptic } = useGame();
   const [copied, setCopied] = useState<boolean>(false);
   const [isEditingProfile, setIsEditingProfile] = useState<boolean>(false);
-  const [editNickname, setEditNickname] = useState<string>(player?.nickname || '');
-  const [editAvatar, setEditAvatar] = useState<string>(player?.avatar || '🎭');
 
   const roomCode = room?.code || '';
   const players = room?.players || [];
@@ -28,16 +27,29 @@ export const WaitingRoomScreen: React.FC = () => {
     }
   };
 
-  const handleSaveProfile = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editNickname.trim()) return;
-    updateProfile(editNickname.trim(), editAvatar);
+  const handleSaveProfile = (newNickname: string, newAvatar: string) => {
+    updateProfile(newNickname, newAvatar);
     setIsEditingProfile(false);
     haptic.triggerHaptic('success');
   };
 
   return (
     <div className="flex flex-col min-h-screen px-4 py-6 max-w-lg mx-auto w-full">
+      {/* نافذة التخصيص الكامل للشخصية إن تم فتحها */}
+      {isEditingProfile && (
+        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center">
+          <div className="w-full h-full max-w-md mx-auto">
+            <CharacterSelectScreen
+              initialNickname={player?.nickname}
+              initialAvatar={player?.avatar}
+              onSave={handleSaveProfile}
+              onBack={() => setIsEditingProfile(false)}
+              actionButtonText="حفظ وتأكيد التعديل"
+            />
+          </div>
+        </div>
+      )}
+
       {/* الشريط العلوي */}
       <header className="flex items-center justify-between mb-4">
         <button
@@ -80,43 +92,13 @@ export const WaitingRoomScreen: React.FC = () => {
         </h2>
         <button
           type="button"
-          onClick={() => setIsEditingProfile(!isEditingProfile)}
+          onClick={() => setIsEditingProfile(true)}
           className="text-xs text-arcade-cyan hover:underline flex items-center gap-1 font-bold"
         >
           <Edit3 className="w-3.5 h-3.5" />
-          <span>تعديل اسمي / شخصيتي</span>
+          <span>تعديل شخصيتي واسمي</span>
         </button>
       </div>
-
-      {/* نافذة تعديل الاسم والأفاتار إن تم فتحها */}
-      {isEditingProfile && (
-        <form onSubmit={handleSaveProfile} className="bg-arcade-card p-4 rounded-2xl border border-arcade-border mb-4 space-y-3">
-          <input
-            type="text"
-            value={editNickname}
-            onChange={(e) => setEditNickname(e.target.value)}
-            placeholder="اسمك الجديد..."
-            maxLength={20}
-            className="w-full px-3 py-2 bg-arcade-bg border border-arcade-border rounded-xl text-sm font-semibold text-white focus:outline-none focus:border-arcade-cyan"
-          />
-          <AvatarPicker selectedAvatar={editAvatar} onSelectAvatar={setEditAvatar} />
-          <div className="flex gap-2">
-            <button
-              type="submit"
-              className="flex-1 py-2 bg-arcade-cyan text-black font-black text-xs rounded-xl shadow-neon-cyan hover:opacity-90"
-            >
-              حفظ التعديل
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditingProfile(false)}
-              className="px-4 py-2 bg-arcade-border text-gray-300 font-bold text-xs rounded-xl"
-            >
-              إلغاء
-            </button>
-          </div>
-        </form>
-      )}
 
       {/* شبكة بطاقات اللاعبين */}
       <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 gap-3 overflow-y-auto mb-6 pr-0.5">
@@ -125,9 +107,10 @@ export const WaitingRoomScreen: React.FC = () => {
           return (
             <div
               key={p.id}
+              onClick={() => isCurrentPlayer && setIsEditingProfile(true)}
               className={`p-3.5 rounded-2xl border transition-all flex flex-col items-center justify-center text-center relative ${
                 isCurrentPlayer
-                  ? 'bg-arcade-purple/20 border-arcade-purple shadow-neon-purple'
+                  ? 'bg-arcade-purple/20 border-arcade-purple shadow-neon-purple cursor-pointer hover:scale-102'
                   : 'bg-arcade-card/70 border-arcade-border/60 hover:border-arcade-border'
               }`}
             >
@@ -136,7 +119,9 @@ export const WaitingRoomScreen: React.FC = () => {
                   <Crown className="w-4 h-4 fill-arcade-yellow" />
                 </div>
               )}
-              <span className="text-4xl my-1 animate-bounce-subtle">{p.avatar}</span>
+              <div className="my-1 animate-bounce-subtle">
+                <ConsolePet avatar={p.avatar} size={58} />
+              </div>
               <span className="text-xs font-black text-white truncate max-w-[120px] mt-1">
                 {p.nickname}
               </span>

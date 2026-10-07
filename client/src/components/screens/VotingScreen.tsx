@@ -1,19 +1,10 @@
 import React from 'react';
-import { Check, ShieldAlert, Vote, CheckCircle2 } from 'lucide-react';
+import { Check, Vote, CheckCircle2 } from 'lucide-react';
 import { useGame } from '../../context/GameContext';
 import { TimerBar } from '../common/TimerBar';
 import { ConnectionBadge } from '../common/ConnectionBadge';
 import { AudioToggle } from '../common/AudioToggle';
-
-// لوحة ألوان الألعاب الحيوية للبطاقات
-const CARD_COLOR_STYLES = [
-  'from-purple-900/40 to-purple-950/60 border-purple-500/50 hover:border-purple-400 text-purple-200 shadow-neon-purple',
-  'from-cyan-900/40 to-cyan-950/60 border-cyan-500/50 hover:border-cyan-400 text-cyan-200 shadow-neon-cyan',
-  'from-pink-900/40 to-pink-950/60 border-pink-500/50 hover:border-pink-400 text-pink-200 shadow-neon-pink',
-  'from-amber-900/40 to-amber-950/60 border-amber-500/50 hover:border-amber-400 text-amber-200 shadow-neon-yellow',
-  'from-emerald-900/40 to-emerald-950/60 border-emerald-500/50 hover:border-emerald-400 text-emerald-200 shadow-neon-green',
-  'from-indigo-900/40 to-indigo-950/60 border-indigo-500/50 hover:border-indigo-400 text-indigo-200 shadow-neon-purple',
-];
+import { ConsolePet } from '../common/ConsolePet';
 
 export const VotingScreen: React.FC = () => {
   const {
@@ -25,6 +16,7 @@ export const VotingScreen: React.FC = () => {
     submitVote,
     currentRound,
     totalRounds,
+    player,
   } = useGame();
 
   const handleVote = (optionId: string, isSelf: boolean) => {
@@ -52,67 +44,85 @@ export const VotingScreen: React.FC = () => {
       </header>
 
       {/* المؤقت الزمني */}
-      <div className="mb-4">
+      <div className="mb-3">
         <TimerBar timeRemaining={timeRemaining} totalDuration={40} label="وقت التصويت" />
       </div>
 
       {/* السؤال المدمج في الأعلى */}
-      <div className="bg-arcade-card/90 border border-arcade-border rounded-2xl p-4 shadow-md mb-4 text-center">
-        <span className="text-[11px] font-bold text-gray-400 block mb-1">اللغز المطروح:</span>
-        <h2 className="text-sm sm:text-base font-black text-white leading-relaxed">
+      <div className="bg-[#8b5cf6] border-3 border-black rounded-3xl p-5 shadow-[0_5px_0_#5b21b6] mb-3 text-center">
+        <span className="text-xs font-bold text-purple-200 block mb-1">اللغز المطروح:</span>
+        <h2 className="text-base sm:text-lg font-black text-stroke-arcade leading-relaxed">
           {votingPrompt || 'اختر الإجابة التي تعتقد أنها الحقيقية'}
         </h2>
       </div>
 
       {/* تنبيه الحالة إذا صوّت */}
       {hasVoted && (
-        <div className="mb-3 p-3 rounded-2xl bg-emerald-950/60 border border-emerald-500/50 text-emerald-300 text-center text-xs font-bold flex items-center justify-center gap-2 animate-bounce-subtle">
+        <div className="mb-2 p-2.5 rounded-2xl bg-emerald-950/80 border-2 border-emerald-500 text-emerald-300 text-center text-xs font-bold flex items-center justify-center gap-2 animate-bounce-subtle">
           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           <span>تم تسجيل تصويتك بنجاح! في انتظار باقي اللاعبين... 🗳️</span>
         </div>
       )}
 
-      {/* شبكة خيارات الإجابات */}
-      <div className="flex-1 space-y-3 overflow-y-auto pr-0.5">
-        {votingOptions.map((opt, index) => {
-          const colorStyle = CARD_COLOR_STYLES[index % CARD_COLOR_STYLES.length];
-          const isSelected = votedOptionId === opt.id;
-          const isSelf = opt.isSelfSubmission;
+      {/* صورة واسم شخصية اللاعب في المنتصف تطفو بحركة كرتونية */}
+      <div className="flex flex-col items-center justify-center my-auto py-2">
+        <div className="relative flex flex-col items-center animate-bounce-subtle">
+          <ConsolePet avatar={player?.avatar} size={70} />
+          <span className="text-xs font-black text-stroke-sm mt-0.5">
+            {player?.nickname || 'أنت'}
+          </span>
+        </div>
+      </div>
 
-          return (
-            <button
-              key={opt.id}
-              type="button"
-              disabled={hasVoted || isSelf}
-              onClick={() => handleVote(opt.id, isSelf)}
-              className={`w-full p-4 rounded-2xl border-2 text-right transition-all transform flex items-center justify-between text-base font-black relative overflow-hidden active:scale-98 ${
-                isSelf
-                  ? 'bg-arcade-bg/80 border-gray-700/60 opacity-60 cursor-not-allowed text-gray-400'
-                  : isSelected
-                  ? 'bg-gradient-to-r from-arcade-green/40 to-emerald-950 border-arcade-green text-white shadow-neon-green scale-[1.02]'
-                  : hasVoted
-                  ? 'bg-arcade-card/50 border-arcade-border/40 opacity-70 cursor-default text-gray-300'
-                  : `bg-gradient-to-r ${colorStyle} hover:scale-[1.02] cursor-pointer`
-              }`}
-            >
-              <div className="flex-1 pl-2">
-                <span className="block leading-relaxed">{opt.text}</span>
+      {/* تبويب الحاوية "اختر إجابة" والخيارات */}
+      <div className="w-full mt-auto">
+        <div className="flex justify-center -mb-1">
+          <div className="px-5 py-1.5 bg-[#0080ff] border-t-3 border-x-3 border-black rounded-t-2xl font-black text-xs text-white text-stroke-sm">
+            اختر إجابة
+          </div>
+        </div>
+
+        <div className="bg-[#0080ff] border-3 border-black rounded-3xl p-3 shadow-2xl space-y-2.5">
+          {votingOptions.map((opt) => {
+            const isSelected = votedOptionId === opt.id;
+            const isSelf = opt.isSelfSubmission;
+
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                disabled={hasVoted || isSelf}
+                onClick={() => handleVote(opt.id, isSelf)}
+                className={`w-full p-3.5 rounded-2xl border-3 border-black text-center transition-all transform flex items-center justify-between text-base font-black relative active:scale-98 ${
+                  isSelf
+                    ? 'bg-[#9fb3c8] text-gray-700 opacity-80 cursor-not-allowed shadow-[0_4px_0_#627d98]'
+                    : isSelected
+                    ? 'bg-[#00e676] text-black shadow-[0_4px_0_#00a352] ring-3 ring-yellow-300 scale-[1.02]'
+                    : hasVoted
+                    ? 'bg-[#e2e8f0] text-gray-600 opacity-70 cursor-default shadow-[0_3px_0_#94a3b8]'
+                    : 'bg-white hover:bg-[#f0f9ff] text-black shadow-[0_4px_0_#cbd5e1] hover:scale-[1.01] cursor-pointer'
+                }`}
+              >
+                {/* وسم "إجابتك" عند إجابة اللاعب الذاتية */}
                 {isSelf && (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-bold text-rose-400 mt-1">
-                    <ShieldAlert className="w-3 h-3" />
-                    <span>إجابتك الذاتية (محظور التصويت لها)</span>
+                  <span className="absolute top-1 right-2 px-1.5 py-0.2 bg-black text-white text-[9px] font-black rounded-md">
+                    إجابتك
                   </span>
                 )}
-              </div>
 
-              {isSelected && (
-                <div className="p-2 rounded-xl bg-arcade-green text-black">
-                  <Check className="w-5 h-5 stroke-[3]" />
-                </div>
-              )}
-            </button>
-          );
-        })}
+                <span className="w-full text-center text-sm sm:text-base font-black text-stroke-sm text-black">
+                  {opt.text}
+                </span>
+
+                {isSelected && (
+                  <div className="absolute left-3 w-6 h-6 rounded-full bg-black text-white flex items-center justify-center">
+                    <Check className="w-4 h-4 stroke-[3]" />
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
