@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 190" width="100%" height="100%">
+  <defs>
+    <linearGradient id="grad_celebrities_svg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#831843" />
+      <stop offset="60%" stop-color="#9d174d" />
+      <stop offset="100%" stop-color="#be185d" />
+    </linearGradient>
+    <radialGradient id="glow_grad_celebrities_svg" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="150" height="190" rx="18" fill="url(#grad_celebrities_svg)" />
+  <rect width="150" height="190" rx="18" fill="url(#glow_grad_celebrities_svg)" />
+  <g>
+      <polygon points="75,25 82,45 104,45 86,58 93,78 75,65 57,78 64,58 46,45 68,45" fill="#fde047" stroke="#eab308" stroke-width="2"/>
+    </g>
+  <rect x="0" y="130" width="150" height="60" fill="#000000" fill-opacity="0.65" rx="0" />
+  <text x="75" y="162" font-family="'Cairo', 'Readex Pro', sans-serif" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle" stroke="#000000" stroke-width="2.5" paint-order="stroke fill">مشاهير وترند</text>
+</svg>

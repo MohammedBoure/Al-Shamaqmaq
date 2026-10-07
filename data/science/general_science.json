@@ -1,0 +1,35 @@
+{
+  "id": "science_nature",
+  "categoryId": "science",
+  "categoryTitle": "علوم",
+  "title": "علوم",
+  "description": "حقائق علمية عامة وتجارب معملية مذهلة",
+  "cover_image": "/covers/general_science.svg",
+  "is_vip": false,
+  "puzzles": [
+    {
+      "id": "sci_001",
+      "prompt": "ما هو الغاز الأكثر وفرة في الغلاف الجوي لكوكب الأرض؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["النيتروجين", "غاز النيتروجين", "الأزوت"]
+    },
+    {
+      "id": "sci_002",
+      "prompt": "ما هو العنصر الكيميائي الذي يمثله الرمز O في الجدول الدوري؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الأكسجين", "اكسجين", "الاكسجين"]
+    },
+    {
+      "id": "sci_003",
+      "prompt": "كم تبلغ درجة غليان الماء النقي بالدرجة المئوية (السيلزيوس) عند مستوى سطح البحر؟",
+      "answer_type": "number",
+      "correct_answers": ["100", "مائة", "مئة"]
+    },
+    {
+      "id": "sci_004",
+      "prompt": "ما هي الحالة الرابعة للمادة بالإضافة إلى الصلبة والسائلة والغازية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["البلازما", "بلازما"]
+    }
+  ]
+}

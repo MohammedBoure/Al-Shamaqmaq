@@ -1,0 +1,29 @@
+{
+  "id": "math_puzzles",
+  "categoryId": "science",
+  "categoryTitle": "علوم",
+  "title": "ألغاز رياضيات",
+  "description": "مسائل ذكاء وحسابات سريعة وأحجيات منطقية ممتعة",
+  "cover_image": "/covers/math_puzzles.svg",
+  "is_vip": true,
+  "puzzles": [
+    {
+      "id": "mp_001",
+      "prompt": "ما هو حاصل ضرب جميع الأرقام الموجودة على لوحة مفاتيح الهاتف الذكي؟",
+      "answer_type": "number",
+      "correct_answers": ["0", "صفر"]
+    },
+    {
+      "id": "mp_002",
+      "prompt": "إذا كان نصف قطر دائرة يساوي 5، فكم يبلغ طول قطرها؟",
+      "answer_type": "number",
+      "correct_answers": ["10", "عشرة"]
+    },
+    {
+      "id": "mp_003",
+      "prompt": "ما هو العدد الذي إذا ضُرب في نفسه ثم أُضيف إليه 5 أصبح الناتج 30؟",
+      "answer_type": "number",
+      "correct_answers": ["5", "خمسة"]
+    }
+  ]
+}

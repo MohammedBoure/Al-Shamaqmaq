@@ -1,0 +1,29 @@
+{
+  "id": "riddles",
+  "categoryId": "variety",
+  "categoryTitle": "منوعات",
+  "title": "ألغاز وفوازير شعبية",
+  "description": "فوازير تراثية وألغاز ذكاء وخداع ذهني ممتعة",
+  "cover_image": "/covers/riddles.svg",
+  "is_vip": false,
+  "puzzles": [
+    {
+      "id": "rid_001",
+      "prompt": "ما هو الشيء الذي كلما أخذت منه كَبُر وعَظُم؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الحفرة", "حفرة"]
+    },
+    {
+      "id": "rid_002",
+      "prompt": "يمشي بلا أرجل ويبكي بلا عيون، فما هو؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["السحاب", "السحابة", "الغيم", "المطر"]
+    },
+    {
+      "id": "rid_003",
+      "prompt": "ما هو الشيء الذي يملك أسناناً كثيرة ولكنه لا يعض؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["المشط", "مشط"]
+    }
+  ]
+}

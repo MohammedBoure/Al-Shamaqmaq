@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 190" width="100%" height="100%">
+  <defs>
+    <linearGradient id="grad_space_svg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f051d" />
+      <stop offset="60%" stop-color="#3b0764" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <radialGradient id="glow_grad_space_svg" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="150" height="190" rx="18" fill="url(#grad_space_svg)" />
+  <rect width="150" height="190" rx="18" fill="url(#glow_grad_space_svg)" />
+  <g>
+      <circle cx="75" cy="65" r="32" fill="#7c3aed" opacity="0.6"/>
+      <ellipse cx="75" cy="65" rx="55" ry="12" fill="none" stroke="#f472b6" stroke-width="3" stroke-dasharray="4 2"/>
+      <circle cx="110" cy="35" r="9" fill="#fbbf24"/>
+      <circle cx="35" cy="85" r="5" fill="#38bdf8"/>
+      <circle cx="95" cy="95" r="3" fill="#ffffff" opacity="0.8"/>
+      <circle cx="50" cy="40" r="2" fill="#ffffff" opacity="0.8"/>
+    </g>
+  <rect x="0" y="130" width="150" height="60" fill="#000000" fill-opacity="0.65" rx="0" />
+  <text x="75" y="162" font-family="'Cairo', 'Readex Pro', sans-serif" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle" stroke="#000000" stroke-width="2.5" paint-order="stroke fill">الفلك والفضاء</text>
+</svg>

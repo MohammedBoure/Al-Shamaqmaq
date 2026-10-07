@@ -1,0 +1,29 @@
+{
+  "id": "ai_tech",
+  "categoryId": "new_categories",
+  "categoryTitle": "فئات جديدة",
+  "title": "ذكاء اصطناعي وتقنية",
+  "description": "عالم التقنية، نماذج الذكاء الاصطناعي، والابتكارات الرقمية",
+  "cover_image": "/covers/ai_tech.svg",
+  "is_vip": false,
+  "puzzles": [
+    {
+      "id": "tech_001",
+      "prompt": "ما اسم الشركة الرائدة التي طورت نموذج الذكاء الاصطناعي الشهير ChatGPT؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["OpenAI", "أوبن إيه آي", "اوبن ايه اي", "اوبن اي اي"]
+    },
+    {
+      "id": "tech_002",
+      "prompt": "ما هي لغة البرمجة الأكثر شيوعاً واستخداماً في تدريب نماذج الذكاء الاصطناعي وتعلم الآلة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["بايثون", "Python"]
+    },
+    {
+      "id": "tech_003",
+      "prompt": "ما هو الاسم البرمجي لمساعد الذكاء الاصطناعي التابع لشركة Google؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["جيميني", "Gemini", "بارد"]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "biology",
+  "categoryId": "science",
+  "categoryTitle": "علوم",
+  "title": "الأحياء",
+  "description": "عالم الكائنات الحية الدقيقة والخلايا والوراثة",
+  "cover_image": "/covers/biology.svg",
+  "is_vip": true,
+  "puzzles": [
+    {
+      "id": "bio_001",
+      "prompt": "ما هي الوحدة البنائية والوظيفية الأساسية لجميع الكائنات الحية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الخلية", "خلية"]
+    },
+    {
+      "id": "bio_002",
+      "prompt": "ما هو الحمض النووي المسؤول عن تخزين المعلومات الوراثية وتمريرها في الكائنات الحية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["DNA", "دي ان ايه", "الحمض النووي الريبوزي منقوص الأكسجين", "دي إن إيه"]
+    },
+    {
+      "id": "bio_003",
+      "prompt": "ما هي العضية الخلوية التي تُعرف بلقب (محطة توليد الطاقة في الخلية)؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الميتوكوندريا", "ميتوكوندريا", "المتقدرات"]
+    },
+    {
+      "id": "bio_004",
+      "prompt": "ما هي الصبغة الخضراء المسؤولة عن امتصاص الضوء أثناء عملية البناء الضوئي في النباتات؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الكلوروفيل", "كلوروفيل", "اليخضور"]
+    }
+  ]
+}

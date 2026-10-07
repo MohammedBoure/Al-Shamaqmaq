@@ -20,7 +20,22 @@ export interface TopicSummary {
   id: string;
   title: string;
   description: string;
+  categoryId?: string;
+  categoryTitle?: string;
+  cover_image?: string;
+  is_vip?: boolean;
   puzzleCount: number;
+}
+
+export interface CategoryGroup {
+  id: string;
+  title: string;
+  description?: string;
+  icon?: string;
+  badge?: string;
+  color?: string;
+  order?: number;
+  subtopics: TopicSummary[];
 }
 
 export interface PublicPuzzle {

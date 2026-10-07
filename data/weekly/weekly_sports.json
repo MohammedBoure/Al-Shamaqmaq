@@ -1,0 +1,29 @@
+{
+  "id": "weekly_sports",
+  "categoryId": "weekly",
+  "categoryTitle": "فئات الأسبوع",
+  "title": "رياضة وأبطال",
+  "description": "بطولات كرة القدم والرياضات العالمية والأرقام القياسية",
+  "cover_image": "/covers/sports.svg",
+  "is_vip": false,
+  "puzzles": [
+    {
+      "id": "sport_001",
+      "prompt": "ما هي الدولة الأكثر تتويجاً ببطولة كأس العالم لكرة القدم عبر التاريخ بواقع 5 ألقاب؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["البرازيل", "برازيل"]
+    },
+    {
+      "id": "sport_002",
+      "prompt": "كم يبلغ عدد لاعبي فريق كرة السلة داخل أرضية الملعب في المباراة الرسمية؟",
+      "answer_type": "number",
+      "correct_answers": ["5", "خمسة"]
+    },
+    {
+      "id": "sport_003",
+      "prompt": "من هو أسطورة كرة القدم الأرجنتيني الذي قاد بلاده للفوز بكأس العالم قطر 2022؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["ميسي", "ليونيل ميسي"]
+    }
+  ]
+}

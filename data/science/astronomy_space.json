@@ -1,0 +1,41 @@
+{
+  "id": "astronomy_space",
+  "categoryId": "science",
+  "categoryTitle": "علوم",
+  "title": "الفلك والفضاء",
+  "description": "ألغاز وأسرار الكواكب والنجوم والمجرات الكونية",
+  "cover_image": "/covers/space.svg",
+  "is_vip": false,
+  "puzzles": [
+    {
+      "id": "space_001",
+      "prompt": "ما هو أقرب كوكب إلى الشمس في مجموعتنا الشمسية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["عطارد", "كوكب عطارد"]
+    },
+    {
+      "id": "space_002",
+      "prompt": "ما هو أكبر كوكب حجماً في المجموعة الشمسية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["المشتري", "كوكب المشتري"]
+    },
+    {
+      "id": "space_003",
+      "prompt": "ما اسم المجرة التي ينتمي إليها نظامنا الشمسي وكوكب الأرض؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["درب التبانة", "طريق اللبانة", "مجرة درب التبانة"]
+    },
+    {
+      "id": "space_004",
+      "prompt": "كم يبلغ عدد الكواكب الرئيسية المعترف بها في المجموعة الشمسية حالياً؟",
+      "answer_type": "number",
+      "correct_answers": ["8", "ثمانية"]
+    },
+    {
+      "id": "space_005",
+      "prompt": "ما هو الكوكب الذي يُلقب بـ (الكوكب الأحمر) بسبب وفرة أكسيد الحديد على سطحه؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["المريخ", "كوكب المريخ"]
+    }
+  ]
+}

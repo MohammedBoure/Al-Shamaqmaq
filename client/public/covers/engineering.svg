@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 190" width="100%" height="100%">
+  <defs>
+    <linearGradient id="grad_engineering_svg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#451a03" />
+      <stop offset="60%" stop-color="#78350f" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <radialGradient id="glow_grad_engineering_svg" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="150" height="190" rx="18" fill="url(#grad_engineering_svg)" />
+  <rect width="150" height="190" rx="18" fill="url(#glow_grad_engineering_svg)" />
+  <g>
+      <path d="M45 70 C45 45 105 45 105 70 Z" fill="#fde047" stroke="#ca8a04" stroke-width="2"/>
+      <rect x="40" y="68" width="70" height="8" rx="3" fill="#eab308"/>
+    </g>
+  <rect x="0" y="130" width="150" height="60" fill="#000000" fill-opacity="0.65" rx="0" />
+  <text x="75" y="162" font-family="'Cairo', 'Readex Pro', sans-serif" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle" stroke="#000000" stroke-width="2.5" paint-order="stroke fill">هندسة</text>
+</svg>

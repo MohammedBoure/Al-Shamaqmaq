@@ -30,6 +30,19 @@ apiRouter.get('/topics', (_req: Request, res: Response) => {
 });
 
 /**
+ * GET /api/topics/categories
+ * استعراض الفئات والمواضيع المصنفة شجرياً
+ */
+apiRouter.get('/topics/categories', (_req: Request, res: Response) => {
+  try {
+    const categories = topicService.getCategoryGroups();
+    res.json({ success: true, categories });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
  * POST /api/rooms
  * إنشاء غرفة جديدة
  */

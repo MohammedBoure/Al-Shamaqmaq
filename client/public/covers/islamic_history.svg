@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 190" width="100%" height="100%">
+  <defs>
+    <linearGradient id="grad_islamic_history_svg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" />
+      <stop offset="60%" stop-color="#065f46" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <radialGradient id="glow_grad_islamic_history_svg" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="150" height="190" rx="18" fill="url(#grad_islamic_history_svg)" />
+  <rect width="150" height="190" rx="18" fill="url(#glow_grad_islamic_history_svg)" />
+  <g>
+      <path d="M75 32 C65 45 60 55 60 75 L90 75 C90 55 85 45 75 32 Z" fill="#fef08a" opacity="0.8"/>
+      <circle cx="75" cy="26" r="4" fill="#facc15"/>
+    </g>
+  <rect x="0" y="130" width="150" height="60" fill="#000000" fill-opacity="0.65" rx="0" />
+  <text x="75" y="162" font-family="'Cairo', 'Readex Pro', sans-serif" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle" stroke="#000000" stroke-width="2.5" paint-order="stroke fill">تاريخ وحضارة إسلامية</text>
+</svg>

@@ -1,0 +1,29 @@
+{
+  "id": "anatomy_health",
+  "categoryId": "science",
+  "categoryTitle": "علوم",
+  "title": "علم الجسم والصحة",
+  "description": "تشريح جسم الإنسان والأجهزة الحيوية وأسرار اللياقة",
+  "cover_image": "/covers/anatomy_health.svg",
+  "is_vip": true,
+  "puzzles": [
+    {
+      "id": "ant_001",
+      "prompt": "ما هو أكبر عضو حجماً ووزناً في جسم الإنسان البالغ؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الجلد", "جلد"]
+    },
+    {
+      "id": "ant_002",
+      "prompt": "ما هي أقوى عضلة في جسم الإنسان قياساً إلى حجمها وتستخدم في المضغ؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["عضلة الفك", "الفك", "العضلة الماضغة"]
+    },
+    {
+      "id": "ant_003",
+      "prompt": "ما هو الشريان الأكبر والأهم في جسم الإنسان الذي ينقل الدم المؤكسج من القلب؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الأبهر", "الشريان الأبهر", "الأورطي", "شريان الابهر"]
+    }
+  ]
+}

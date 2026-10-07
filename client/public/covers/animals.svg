@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 190" width="100%" height="100%">
+  <defs>
+    <linearGradient id="grad_animals_svg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#14532d" />
+      <stop offset="60%" stop-color="#15803d" />
+      <stop offset="100%" stop-color="#78350f" />
+    </linearGradient>
+    <radialGradient id="glow_grad_animals_svg" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="150" height="190" rx="18" fill="url(#grad_animals_svg)" />
+  <rect width="150" height="190" rx="18" fill="url(#glow_grad_animals_svg)" />
+  <g>
+      <circle cx="75" cy="55" r="26" fill="#f59e0b"/>
+      <polygon points="60,35 55,20 70,30" fill="#d97706"/>
+      <polygon points="90,35 95,20 80,30" fill="#d97706"/>
+      <circle cx="68" cy="52" r="3" fill="#1e293b"/>
+      <circle cx="82" cy="52" r="3" fill="#1e293b"/>
+      <polygon points="75,58 72,64 78,64" fill="#78350f"/>
+    </g>
+  <rect x="0" y="130" width="150" height="60" fill="#000000" fill-opacity="0.65" rx="0" />
+  <text x="75" y="162" font-family="'Cairo', 'Readex Pro', sans-serif" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle" stroke="#000000" stroke-width="2.5" paint-order="stroke fill">حيوانات</text>
+</svg>

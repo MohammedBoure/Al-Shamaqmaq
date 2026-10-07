@@ -1,0 +1,29 @@
+{
+  "id": "psychology",
+  "categoryId": "science",
+  "categoryTitle": "علوم",
+  "title": "علم النفس",
+  "description": "خفايا العقل البشري والشخصيات وسلوكيات الإنسان",
+  "cover_image": "/covers/psychology.svg",
+  "is_vip": false,
+  "puzzles": [
+    {
+      "id": "psy_001",
+      "prompt": "من هو الطبيب النمساوي الشهير المؤسس لمدرسة التحليل النفسي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["سيغموند فرويد", "فرويد", "سيجموند فرويد"]
+    },
+    {
+      "id": "psy_002",
+      "prompt": "ما اسم هرم الاحتياجات الإنسانية الشهير الذي يبدأ بالاحتياجات الفسيولوجية وينتهي بتحقيق الذات؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["هرم ماسلو", "ماسلو"]
+    },
+    {
+      "id": "psy_003",
+      "prompt": "ما هو المصطلح النفسي الذي يصف الخوف الشديد وغير المبرر من أشياء أو مواقف محددة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["فوبيا", "الرهاب", "رهاب", "الفوبيا"]
+    }
+  ]
+}

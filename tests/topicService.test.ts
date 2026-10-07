@@ -40,4 +40,22 @@ describe('TopicService', () => {
       }
     }
   });
+
+  it('loads category hierarchy and groups correctly', () => {
+    const categories = topicService.getCategoryGroups();
+    expect(categories.length).toBeGreaterThanOrEqual(4);
+
+    const scienceCategory = categories.find((c) => c.id === 'science');
+    expect(scienceCategory).toBeDefined();
+    expect(scienceCategory?.title).toBe('علوم');
+    expect(scienceCategory?.subtopics.length).toBeGreaterThanOrEqual(10);
+
+    const varietyCategory = categories.find((c) => c.id === 'variety');
+    expect(varietyCategory).toBeDefined();
+    expect(varietyCategory?.title).toBe('منوعات');
+
+    // التأكد من شارات VIP
+    const vipTopics = scienceCategory?.subtopics.filter((t) => t.is_vip);
+    expect(vipTopics && vipTopics.length).toBeGreaterThan(0);
+  });
 });

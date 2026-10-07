@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 190" width="100%" height="100%">
+  <defs>
+    <linearGradient id="grad_physics_svg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#172554" />
+      <stop offset="60%" stop-color="#1e40af" />
+      <stop offset="100%" stop-color="#312e81" />
+    </linearGradient>
+    <radialGradient id="glow_grad_physics_svg" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="150" height="190" rx="18" fill="url(#grad_physics_svg)" />
+  <rect width="150" height="190" rx="18" fill="url(#glow_grad_physics_svg)" />
+  <g>
+      <ellipse cx="75" cy="65" rx="46" ry="16" fill="none" stroke="#60a5fa" stroke-width="2.5" transform="rotate(30, 75, 65)"/>
+      <ellipse cx="75" cy="65" rx="46" ry="16" fill="none" stroke="#c084fc" stroke-width="2.5" transform="rotate(-30, 75, 65)"/>
+      <ellipse cx="75" cy="65" rx="46" ry="16" fill="none" stroke="#38bdf8" stroke-width="2.5" transform="rotate(90, 75, 65)"/>
+      <circle cx="75" cy="65" r="10" fill="#f43f5e"/>
+    </g>
+  <rect x="0" y="130" width="150" height="60" fill="#000000" fill-opacity="0.65" rx="0" />
+  <text x="75" y="162" font-family="'Cairo', 'Readex Pro', sans-serif" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle" stroke="#000000" stroke-width="2.5" paint-order="stroke fill">الفيزياء</text>
+</svg>

@@ -1,0 +1,29 @@
+{
+  "id": "medicine",
+  "categoryId": "science",
+  "categoryTitle": "علوم",
+  "title": "طب عام",
+  "description": "معلومات طبية، علاجات، أمراض، وتاريخ الطب",
+  "cover_image": "/covers/medicine.svg",
+  "is_vip": true,
+  "puzzles": [
+    {
+      "id": "med_001",
+      "prompt": "ما هو الطبيب اليوناني القديم الملقب بـ (أبو الطب الحديث) وصاحب القَسَم الطبي الشهير؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["أبقراط", "ابقراط"]
+    },
+    {
+      "id": "med_002",
+      "prompt": "ما هو الهرمون المسؤول عن تنظيم مستوى السكر في الدم ويفرزه البنكرياس؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الإنسولين", "انسولين", "الانسولين"]
+    },
+    {
+      "id": "med_003",
+      "prompt": "ما هو جهاز الفحص الطبي الذي اخترعه الطبيب الفرنسي رينيه لاينك لسماع دقات القلب؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["سماعة الطبيب", "السماعة الطبية", "السماعة", "المسماع"]
+    }
+  ]
+}

@@ -19,6 +19,8 @@ import {
   Clock,
   Hash,
   Scale,
+  BookOpen,
+  Layers,
 } from 'lucide-react';
 import { useGame } from '../../context/GameContext';
 import { ConnectionBadge } from '../common/ConnectionBadge';
@@ -27,6 +29,7 @@ import { ConsolePet } from '../common/ConsolePet';
 import { QRCodeView } from '../common/QRCodeView';
 import { CameraQRScanner } from '../common/CameraQRScanner';
 import { CharacterSelectScreen } from './CharacterSelectScreen';
+import { CategoryBrowserScreen } from './CategoryBrowserScreen';
 import { useCodeDictation } from '../../hooks/useCodeDictation';
 
 export const WaitingRoomScreen: React.FC = () => {
@@ -47,6 +50,7 @@ export const WaitingRoomScreen: React.FC = () => {
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
   const [isEditingProfile, setIsEditingProfile] = useState<boolean>(false);
   const [isScannerOpen, setIsScannerOpen] = useState<boolean>(false);
+  const [isCategoryBrowserOpen, setIsCategoryBrowserOpen] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   // أقسام قابلة للطي (Accordions)
@@ -217,6 +221,15 @@ export const WaitingRoomScreen: React.FC = () => {
         </div>
       )}
 
+      {/* شاشة تصفح وتحديد الفئات الشاملة */}
+      {isCategoryBrowserOpen && (
+        <div className="fixed inset-0 z-50 bg-[#1b2245] flex items-center justify-center overflow-y-auto">
+          <div className="w-full h-full max-w-md mx-auto">
+            <CategoryBrowserScreen onClose={() => setIsCategoryBrowserOpen(false)} />
+          </div>
+        </div>
+      )}
+
       {/* ماسح الكاميرا الداخلي لرموز QR */}
       <CameraQRScanner
         isOpen={isScannerOpen}
@@ -237,6 +250,17 @@ export const WaitingRoomScreen: React.FC = () => {
             <div className="text-xs font-black text-gray-400 px-2 pb-1 border-b border-arcade-border/50">
               خيارات الغرفة
             </div>
+            <button
+              type="button"
+              onClick={() => {
+                setIsCategoryBrowserOpen(true);
+                setIsMenuOpen(false);
+              }}
+              className="w-full text-right p-2 rounded-xl hover:bg-arcade-bg/60 text-xs font-bold text-white flex items-center gap-2"
+            >
+              <BookOpen className="w-4 h-4 text-purple-400" />
+              <span>تصفح وتحديد الفئات 📚</span>
+            </button>
             <button
               type="button"
               onClick={() => {
@@ -478,6 +502,33 @@ export const WaitingRoomScreen: React.FC = () => {
             </div>
           )}
         </div>
+      </div>
+
+      {/* قسم الفئات والألغاز المطابق للثيم */}
+      <div className="mb-4 bg-[#3a4460] rounded-3xl border-3 border-black p-3 shadow-[0_5px_0_#000] flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="w-10 h-10 rounded-2xl bg-[#8b5cf6] border-2 border-black flex items-center justify-center shadow-[0_2px_0_#000]">
+            <BookOpen className="w-5 h-5 text-white" />
+          </div>
+          <div className="text-right">
+            <span className="text-xs font-black text-white block">الفئات والألغاز</span>
+            <span className="text-[10px] font-bold text-gray-300">
+              {String(categoriesCount).padStart(2, '0')} فئات مختارة للجلسة
+            </span>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            audio.playClick();
+            setIsCategoryBrowserOpen(true);
+          }}
+          className="px-3 py-1.5 rounded-xl bg-arcade-yellow hover:bg-yellow-400 text-black font-black text-xs border-2 border-black shadow-[0_2px_0_#000] active:translate-y-0.5 transition-all flex items-center gap-1"
+        >
+          <Layers className="w-3.5 h-3.5" />
+          <span>{isHost ? 'تحديد الفئات' : 'استعراض الفئات'}</span>
+        </button>
       </div>
 
       {/* قسم 2: المشاركة (QR، الرابط، إملاء الرمز، وسكان الكاميرا) */}
@@ -790,9 +841,16 @@ export const WaitingRoomScreen: React.FC = () => {
       {/* الشريط السفلي الثابت */}
       <div className="fixed bottom-0 left-0 right-0 z-30 p-3 bg-gradient-to-t from-black via-black/90 to-transparent flex flex-col items-center">
         <div className="w-full max-w-md bg-[#0070f3] rounded-3xl border-3 border-black p-2.5 shadow-[0_6px_0_#0047a5] flex flex-col items-center">
-          <div className="text-white text-xs font-black tracking-wide text-stroke-sm mb-2 text-center">
-            {String(categoriesCount).padStart(2, '0')} فئات &nbsp;•&nbsp; {playersCountFormatted} لاعبين {isTeamMode && '• وضع الفرق'}
-          </div>
+          <button
+            type="button"
+            onClick={() => {
+              audio.playClick();
+              setIsCategoryBrowserOpen(true);
+            }}
+            className="text-white text-xs font-black tracking-wide text-stroke-sm mb-2 text-center hover:underline cursor-pointer"
+          >
+            {String(categoriesCount).padStart(2, '0')} فئات &nbsp;•&nbsp; {playersCountFormatted} لاعبين {isTeamMode && '• وضع الفرق'} 🔍
+          </button>
 
           {isHost ? (
             <button

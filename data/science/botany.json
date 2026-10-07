@@ -1,0 +1,29 @@
+{
+  "id": "botany",
+  "categoryId": "science",
+  "categoryTitle": "علوم",
+  "title": "نباتات",
+  "description": "أسرار الغابات والنباتات والأشجار والزهور",
+  "cover_image": "/covers/botany.svg",
+  "is_vip": true,
+  "puzzles": [
+    {
+      "id": "bot_001",
+      "prompt": "ما هو أطول أنواع النباتات العشبية نمواً في العالم وينتمي لعائلة النجيليات؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الخيزران", "البامبو", "خيزران"]
+    },
+    {
+      "id": "bot_002",
+      "prompt": "ما هي الشجرة المعمرة الشهيرة التي تعد رمزاً وطنياً للبنان وتنمو على جباله؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الأرز", "شجرة الأرز", "شجر الأرز"]
+    },
+    {
+      "id": "bot_003",
+      "prompt": "ما اسم الشجرة الاستوائية التي يُستخرج من بذورها مسحوق الشوكولاتة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الكاكاو", "شجرة الكاكاو", "كاكاو"]
+    }
+  ]
+}

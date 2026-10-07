@@ -1,0 +1,35 @@
+{
+  "id": "animals",
+  "categoryId": "science",
+  "categoryTitle": "علوم",
+  "title": "حيوانات",
+  "description": "عالم الحيوان وعجائب الكائنات الحية وسلوكياتها",
+  "cover_image": "/covers/animals.svg",
+  "is_vip": false,
+  "puzzles": [
+    {
+      "id": "anim_001",
+      "prompt": "ما هو الحيوان الثديي الوحيد القادر على الطيران الحقيقي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الخفاش", "الوطواط"]
+    },
+    {
+      "id": "anim_002",
+      "prompt": "ما هو أضخم كائن حي عاش ويعيش على كوكب الأرض حتى اليوم؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الحوت الأزرق", "حوت أزرق"]
+    },
+    {
+      "id": "anim_003",
+      "prompt": "كم يبلغ عدد قلوب الأخطبوط؟",
+      "answer_type": "number",
+      "correct_answers": ["3", "ثلاثة"]
+    },
+    {
+      "id": "anim_004",
+      "prompt": "ما هو أسرع حيوان بري على اليابسة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["الفهد", "الشيتا"]
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import {
   RoundResult,
   LeaderboardEntry,
   RoomPublicState,
+  CategoryGroup,
 } from '../types';
 import { useWebSocket, WsStatus } from '../hooks/useWebSocket';
 import { useAudio } from '../hooks/useAudio';
@@ -21,6 +22,7 @@ interface GameContextType {
   roomCode: string | null;
   room: RoomPublicState | null;
   topics: TopicSummary[];
+  categoryGroups: CategoryGroup[];
   timeRemaining: number;
   wsStatus: WsStatus;
 
@@ -88,6 +90,8 @@ interface GameContextType {
   submitVote: (optionId: string) => void;
   nextRound: () => void;
   leaveRoom: () => void;
+  toggleAllowedTopic: (topicId: string) => void;
+  setAllowedTopicIdsList: (topicIds: string[]) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -103,6 +107,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [room, setRoom] = useState<RoomPublicState | null>(null);
   const [phase, setPhase] = useState<GamePhase>('LOBBY');
   const [topics, setTopics] = useState<TopicSummary[]>([]);
+  const [categoryGroups, setCategoryGroups] = useState<CategoryGroup[]>([]);
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -343,7 +348,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     },
   });
 
-  // جلب ملخص المواضيع المتاحة عند التحميل الأولي عبر REST API
+  // جلب ملخص المواضيع والفئات المتاحة عند التحميل الأولي عبر REST API
   useEffect(() => {
     fetch('/api/topics')
       .then((res) => res.json())
@@ -353,6 +358,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       })
       .catch((err) => console.error('Failed to load initial topics:', err));
+
+    fetch('/api/topics/categories')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.categories) {
+          setCategoryGroups(data.categories);
+        }
+      })
+      .catch((err) => console.error('Failed to load initial category groups:', err));
   }, []);
 
   // دالة إنشاء غرفة جديدة عبر REST API ثم الربط بالـ WebSocket
@@ -524,6 +538,43 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setPhase('LOBBY');
   }, []);
 
+  // تبديل اختيار موضوع مسموح به
+  const toggleAllowedTopic = useCallback(
+    (topicId: string) => {
+      audio.playClick();
+      const current = room?.allowedTopicIds && room.allowedTopicIds.length > 0
+        ? room.allowedTopicIds
+        : topics.map((t) => t.id);
+
+      const exists = current.includes(topicId);
+      let updated: string[];
+      if (exists) {
+        if (current.length <= 1) {
+          triggerToast('يجب اختيار فئة واحدة على الأقل!', true);
+          return;
+        }
+        updated = current.filter((id) => id !== topicId);
+      } else {
+        updated = [...current, topicId];
+      }
+
+      updateSettings({ allowedTopicIds: updated });
+      haptic.triggerHaptic('light');
+    },
+    [audio, room?.allowedTopicIds, topics, triggerToast, updateSettings, haptic]
+  );
+
+  // تعيين قائمة المعرفات المسموحة دفعة واحدة
+  const setAllowedTopicIdsList = useCallback(
+    (topicIds: string[]) => {
+      if (topicIds.length === 0) return;
+      audio.playClick();
+      updateSettings({ allowedTopicIds: topicIds });
+      haptic.triggerHaptic('success');
+    },
+    [audio, updateSettings, haptic]
+  );
+
   return (
     <GameContext.Provider
       value={{
@@ -533,6 +584,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         roomCode,
         room,
         topics,
+        categoryGroups,
         timeRemaining,
         wsStatus,
         errorMessage,
@@ -570,6 +622,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         submitVote,
         nextRound,
         leaveRoom,
+        toggleAllowedTopic,
+        setAllowedTopicIdsList,
       }}
     >
       {children}

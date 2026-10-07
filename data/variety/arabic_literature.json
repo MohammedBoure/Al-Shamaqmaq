@@ -1,0 +1,65 @@
+{
+  "id": "arabic_language",
+  "categoryId": "variety",
+  "categoryTitle": "منوعات",
+  "title": "لغة عربية وأدب",
+  "description": "أسرار لغة الضاد، معاني الكلمات، وألغاز الشعر والأدب",
+  "cover_image": "/covers/arabic_literature.svg",
+  "is_vip": false,
+  "puzzles": [
+    {
+      "id": "al_001",
+      "prompt": "ما هو الاسم الذي يطلق على ولد الظبية (الغزال) في المعاجم العربية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الشادن",
+        "شادن",
+        "الرشا",
+        "رشا",
+        "الطلا",
+        "طلا",
+        "الخشف",
+        "خشف"
+      ]
+    },
+    {
+      "id": "al_002",
+      "prompt": "ما هو اللقب المشهور للشاعر الجاهلي عمرو بن كلثوم التغلبي صاحب المعلقة الشهيرة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "صاحب المعلقة",
+        "فتى العرب",
+        "أبو الأسود"
+      ]
+    },
+    {
+      "id": "al_003",
+      "prompt": "ما هو جمع كلمة (عِندليب) في اللغة العربية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "عنادل",
+        "العنادل",
+        "عناديل"
+      ]
+    },
+    {
+      "id": "al_004",
+      "prompt": "ما هو الحرف الوحيد في اللغة العربية الذي لا يوجد في أي لغة أخرى واشتُهرت اللغة به؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الضاد",
+        "ضاد",
+        "ض"
+      ]
+    },
+    {
+      "id": "al_005",
+      "prompt": "ما هو اللقب الذي أُطلق على الشاعر أحمد بن الحسين الجعفي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "المتنبي",
+        "أبو الطيب المتنبي"
+      ]
+    }
+  ]
+}

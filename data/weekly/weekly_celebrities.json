@@ -1,0 +1,29 @@
+{
+  "id": "weekly_celebrities",
+  "categoryId": "weekly",
+  "categoryTitle": "فئات الأسبوع",
+  "title": "مشاهير وترند",
+  "description": "أشهر الشخصيات العالمية والترندات الرائجة هذا الأسبوع",
+  "cover_image": "/covers/celebrities.svg",
+  "is_vip": false,
+  "puzzles": [
+    {
+      "id": "celeb_001",
+      "prompt": "من هو الملياردير صاحب شركتي تسلا وسبيس إكس ومنصة X (تويتر سابقاً)؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["إيلون ماسك", "ايلون ماسك", "ماسك"]
+    },
+    {
+      "id": "celeb_002",
+      "prompt": "ما اسم الممثل العالمي صاحب شخصية (جاك سبارو) في سلسلة قراصنة الكاريبي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["جوني ديب", "جوني ديب"]
+    },
+    {
+      "id": "celeb_003",
+      "prompt": "من هو أسرع عداء في التاريخ والحاصل على الرقم القياسي لسباق 100 متر من جامايكا؟",
+      "answer_type": "text_normalized",
+      "correct_answers": ["يوسين بولت", "بولت", "يوسين بولت"]
+    }
+  ]
+}
