@@ -1,0 +1,4429 @@
+{
+  "id": "أغاني_أجنبي",
+  "categoryId": "celebrities_arts",
+  "categoryTitle": "شهرة و فنون",
+  "title": "أغاني (أجنبي)",
+  "description": "عالم أغاني (أجنبي) وعجائبه وأبرز أسراره وتحدياته",
+  "cover_image": "/covers/أغاني_أجنبي.svg",
+  "is_vip": false,
+  "puzzles": [
+    {
+      "id": "أغان_001",
+      "prompt": "ما هي الأغنية المنفردة الأولى التي أطلقتها النجمة أديل في مسيرتها الفنية وكانت سبباً في شهرتها العالمية من ألبومها الأول؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "هومتاون غلوري",
+        "الهومتاون غلوري",
+        "Hometown Glory",
+        "الHometown Glory"
+      ],
+      "wrong_answers": [
+        "Rolling in the Deep",
+        "Someone Like You",
+        "Hello",
+        "Set Fire to the Rain",
+        "Skyfall",
+        "Chasing Pavements",
+        "When We Were Young",
+        "Send My Love"
+      ]
+    },
+    {
+      "id": "أغان_002",
+      "prompt": "ما هو الاسم الحقيقي للمغني الكندي الشهير ذا ويكند ذو الجذور الإثيوبية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "ابيل تسفاي",
+        "Abel Tesfaye",
+        "أبيل تسفاي",
+        "الAbel Tesfaye",
+        "الأبيل تسفاي",
+        "الابيل تسفاي"
+      ],
+      "wrong_answers": [
+        "Justin Bieber",
+        "Drake",
+        "Shawn Mendes",
+        "Michael Jackson",
+        "Bruno Mars",
+        "The Kid LAROI",
+        "Post Malone",
+        "Ed Sheeran"
+      ]
+    },
+    {
+      "id": "أغان_003",
+      "prompt": "كم عدد الجوائز التي فازت بها المغنية بيونسيه في تاريخ حفل توزيع جوائز غرامي حتى الآن تقريبا؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ال32",
+        "32",
+        "الاثنتان وثلاثون",
+        "اثنتان وثلاثون",
+        "٣٢"
+      ],
+      "wrong_answers": [
+        "12",
+        "22",
+        "28",
+        "35",
+        "40",
+        "18",
+        "25",
+        "30"
+      ]
+    },
+    {
+      "id": "أغان_004",
+      "prompt": "ما هو اسم الفرقة الموسيقية الكورية الجنوبية التي حطمت الأرقام القياسية بأغنيتها دينايت عام 2020؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "BTS",
+        "الBTS",
+        "بي تي إس",
+        "البي تي إس",
+        "البي تي اس",
+        "بي تي اس"
+      ],
+      "wrong_answers": [
+        "BLACKPINK",
+        "EXO",
+        "Stray Kids",
+        "TWICE",
+        "SEVENTEEN",
+        "TXT",
+        "NCT",
+        "Red Velvet"
+      ]
+    },
+    {
+      "id": "أغان_005",
+      "prompt": "أي أغنية للمغنية لويس فونسي ودادي يانكي أصبحت الفيديو الأكثر مشاهدة على يوتيوب لعدة سنوات؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Despacito",
+        "الDespacito",
+        "ديسباسيتو",
+        "الديسباسيتو"
+      ],
+      "wrong_answers": [
+        "Gangnam Style",
+        "Shape of You",
+        "Baby Shark",
+        "Waka Waka",
+        "Hello",
+        "Uptown Funk",
+        "Sugar",
+        "Lean On"
+      ]
+    },
+    {
+      "id": "أغان_006",
+      "prompt": "في أي عام تم إصدار الأغنية الشهيرة ثريلر لملك البوب مايكل جاكسون؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "العام 1982",
+        "ال1982",
+        "عام ١٩٨٢",
+        "1982",
+        "١٩٨٢",
+        "عام 1982"
+      ],
+      "wrong_answers": [
+        "1978",
+        "1980",
+        "1984",
+        "1986",
+        "1975",
+        "1988",
+        "1990",
+        "1981"
+      ]
+    },
+    {
+      "id": "أغان_007",
+      "prompt": "ما هو اسم الألبوم الأول للنجمة بيليلي إيليش الذي صدر عام 2019 وحقق نجاحاً مدوياً؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "وين وي ألل فال أسليب وير دو وي غو",
+        "When We All Fall Asleep Where Do We Go",
+        "وين وي الل فال اسليب وير دو وي غو",
+        "الWhen We All Fall Asleep Where Do We Go",
+        "الوين وي الل فال اسليب وير دو وي غو",
+        "الوين وي ألل فال أسليب وير دو وي غو"
+      ],
+      "wrong_answers": [
+        "Happier Than Ever",
+        "Hit Me Hard and Soft",
+        "Don't Smile at Me",
+        "Future Nostalgia",
+        "SOUR",
+        "1989",
+        "Fine Line",
+        "Anti"
+      ]
+    },
+    {
+      "id": "أغان_008",
+      "prompt": "ما هي الفرقة البريطانية الأسطورية التي قدمت أغنية بوهيميان رابسودي عام 1975؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الQueen",
+        "الكوين",
+        "Queen",
+        "كوين"
+      ],
+      "wrong_answers": [
+        "The Beatles",
+        "The Rolling Stones",
+        "Led Zeppelin",
+        "Pink Floyd",
+        "AC DC",
+        "Metallica",
+        "Nirvana",
+        "U2"
+      ]
+    },
+    {
+      "id": "أغان_009",
+      "prompt": "أي مغنية أمريكية اشتهرت بلقب أم البوب وأصدرت ألبومات شهيرة مثل لايك آ فيرجن؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "مادونا",
+        "Madonna",
+        "المادونا",
+        "الMadonna"
+      ],
+      "wrong_answers": [
+        "Lady Gaga",
+        "Britney Spears",
+        "Cher",
+        "Celine Dion",
+        "Mariah Carey",
+        "Whitney Houston",
+        "Katy Perry",
+        "Taylor Swift"
+      ]
+    },
+    {
+      "id": "أغان_010",
+      "prompt": "كم يبلغ عدد أعضاء فرقة الفتيان الكورية إكسو في تشكيلتهم الأساسية؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "تسعه",
+        "التسعة",
+        "تسعة",
+        "التسعه",
+        "9",
+        "ال9",
+        "٩"
+      ],
+      "wrong_answers": [
+        "5",
+        "6",
+        "7",
+        "8",
+        "10",
+        "11",
+        "12",
+        "13"
+      ]
+    },
+    {
+      "id": "أغان_011",
+      "prompt": "ما هو اسم الأغنية التي جعلت المغنية تايلور سويفت تفوز بجائزة ألبوم العام في الغرامي للمرة الرابعة التاريخية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "ميدنايتس",
+        "الميدنايتس",
+        "Midnights",
+        "الMidnights"
+      ],
+      "wrong_answers": [
+        "Folklore",
+        "Fearless",
+        "1989",
+        "Red",
+        "Lover",
+        "Evermore",
+        "Reputation",
+        "Speak Now"
+      ]
+    },
+    {
+      "id": "أغان_012",
+      "prompt": "ما هي الجنسية الأصلية للمنسق الموسيقي والدي جي الشهير ألان واكر صاحب أغنية فيديرد؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "النرويجي",
+        "نرويجي",
+        "Norwegian",
+        "الNorwegian"
+      ],
+      "wrong_answers": [
+        "Swedish",
+        "Dutch",
+        "German",
+        "French",
+        "American",
+        "British",
+        "Finnish",
+        "Danish"
+      ]
+    },
+    {
+      "id": "أغان_013",
+      "prompt": "في أي مدينة ولد فرقة الروك الشهيرة ذا بيتلز قبل غزوهم الساحلي لأمريكا؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Liverpool",
+        "ليفربول",
+        "الLiverpool",
+        "الليفربول"
+      ],
+      "wrong_answers": [
+        "London",
+        "Manchester",
+        "Birmingham",
+        "Dublin",
+        "Edinburgh",
+        "Glasgow",
+        "Bristol",
+        "Cardiff"
+      ]
+    },
+    {
+      "id": "أغان_014",
+      "prompt": "ما هو اسم الألبوم المنفرد الأول للمغني هاري ستايلز بعد انفصاله عن فرقة ون دايركشن؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Harry Styles",
+        "الHarry Styles",
+        "الهاري ستايلز",
+        "هاري ستايلز"
+      ],
+      "wrong_answers": [
+        "Fine Line",
+        "Harry's House",
+        "Midnight Memories",
+        "Four",
+        "Made in the A.M.",
+        "Take Me Home",
+        "Up All Night",
+        "Sign of the Times"
+      ]
+    },
+    {
+      "id": "أغان_015",
+      "prompt": "كم عدد الأغاني التي تتضمنها الأسطوانة المطولة الشهيرة دي بيرث لفرقة بي تي إس الصادرة عام 2013؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "السبعة",
+        "ال7",
+        "7",
+        "٧",
+        "سبعه",
+        "سبعة",
+        "السبعه"
+      ],
+      "wrong_answers": [
+        "4",
+        "5",
+        "6",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+      ]
+    },
+    {
+      "id": "أغان_016",
+      "prompt": "ما هو الاسم الحقيقي لمغنية الراب الأمريكية الشهيرة كاردي بي صاحبة أغنية بوداك يال؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الBelcalis Almánzar",
+        "Belcalis Almánzar",
+        "بيلكاليس المانزار",
+        "بيلكاليس ألمانزار",
+        "البيلكاليس المانزار",
+        "البيلكاليس ألمانزار"
+      ],
+      "wrong_answers": [
+        "Onika Maraj",
+        "Belinda Carlisle",
+        "Amala Dlamini",
+        "Taraji P Henson",
+        "Solange Knowles",
+        "Rihanna Fenty",
+        "Beyonce Knowles",
+        "Alicia Auguest"
+      ]
+    },
+    {
+      "id": "أغان_017",
+      "prompt": "ما هي الأغنية التي أطلقها إد شيران في عام 2017 وحطمت الأرقام القياسية كأكثر أغنية استماعاً في التاريخ على سبوتيفاي لفترة طويلة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الشيب أوف يو",
+        "Shape of You",
+        "شيب أوف يو",
+        "الShape of You",
+        "شيب اوف يو",
+        "الشيب اوف يو"
+      ],
+      "wrong_answers": [
+        "Perfect",
+        "Thinking Out Loud",
+        "Castle on the Hill",
+        "Bad Habits",
+        "Photograph",
+        "Galway Girl",
+        "South of the Border",
+        "Shivers"
+      ]
+    },
+    {
+      "id": "أغان_018",
+      "prompt": "أي فرقة روك أمريكية اشتهرت بأغنيتها سميلز لايك تين سبيريت وأحدثت ثورة الغرانج في التسعينيات؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "النيرفانا",
+        "Nirvana",
+        "نيرفانا",
+        "الNirvana"
+      ],
+      "wrong_answers": [
+        "Pearl Jam",
+        "Soundgarden",
+        "Alice in Chains",
+        "Foo Fighters",
+        "Green Day",
+        "Red Hot Chili Peppers",
+        "Linkin Park",
+        "Radiohead"
+      ]
+    },
+    {
+      "id": "أغان_019",
+      "prompt": "في أي عقد ميلادي تم إصدار أغنية ستيريو هارت للفرقة جيم كلاس هيروز بمشاركة آدم ليفين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "العقد 2010",
+        "عقد 2010",
+        "ال2010",
+        "عقد ٢٠١٠",
+        "٢٠١٠",
+        "2010"
+      ],
+      "wrong_answers": [
+        "1980",
+        "1990",
+        "2000",
+        "2020",
+        "1970",
+        "1960",
+        "2005",
+        "2015"
+      ]
+    },
+    {
+      "id": "أغان_020",
+      "prompt": "ما هو اسم المغنية والمؤلفة الأمريكية المعروفة بلقب ليدي غاغا قبل شهرتها الفنية الواسعة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "ستيفاني جيرمانوتا",
+        "Stefani Germanotta",
+        "الStefani Germanotta",
+        "الستيفاني جيرمانوتا"
+      ],
+      "wrong_answers": [
+        "Ashley Frangipane",
+        "Elizabeth Grant",
+        "Miley Cyrus",
+        "Alecia Moore",
+        "Robyn Fenty",
+        "Katy Hudson",
+        "Demi Lovato",
+        "Selena Gomez"
+      ]
+    },
+    {
+      "id": "أغان_021",
+      "prompt": "ما هو اسم المغني ومؤلف الأغاني الكندي الذي حقق شهرة واسعة عالمياً بأغنيته بايبي عام 2010؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "جاستن بيبر",
+        "Justin Bieber",
+        "الJustin Bieber",
+        "الجاستن بيبر"
+      ],
+      "wrong_answers": [
+        "Shawn Mendes",
+        "Drake",
+        "The Weeknd",
+        "Michael Buble",
+        "Bryan Adams",
+        "Avril Lavigne",
+        "Celine Dion",
+        "Nelly Furtado"
+      ]
+    },
+    {
+      "id": "أغان_022",
+      "prompt": "ما هي الدولة التي تنتمي إليها فرقة الفتيات الشهيرة بلاك بينك؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "كوريا الجنوبية",
+        "الكوريا الجنوبيه",
+        "الSouth Korea",
+        "الكوريا الجنوبية",
+        "South Korea",
+        "كوريا الجنوبيه"
+      ],
+      "wrong_answers": [
+        "Japan",
+        "China",
+        "Thailand",
+        "United States",
+        "United Kingdom",
+        "Australia",
+        "Canada",
+        "France"
+      ]
+    },
+    {
+      "id": "أغان_023",
+      "prompt": "ما هي الأغنية التي أعادت النجمة ماريا كاري إلى صدارة قوائم الموسيقى كل عام في موسم الأعياد منذ إصدارها عام 1994؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الأول أي وونت فور كريستماس إز يو",
+        "All I Want for Christmas Is You",
+        "الاول اي وونت فور كريستماس از يو",
+        "اول اي وونت فور كريستماس از يو",
+        "أول أي وونت فور كريستماس إز يو",
+        "الAll I Want for Christmas Is You"
+      ],
+      "wrong_answers": [
+        "Last Christmas",
+        "Jingle Bell Rock",
+        "Santa Tell Me",
+        "Snowman",
+        "Mistletoe",
+        "White Christmas",
+        "Let It Snow",
+        "Happy Xmas"
+      ]
+    },
+    {
+      "id": "أغان_024",
+      "prompt": "أي من مغنيي البوب الأمريكيين أطلق ألبوم بيلبورد الشهير تو إن إي ون وتوفي بسبب جرعة زائدة عام 2009؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Michael Jackson",
+        "الMichael Jackson",
+        "المايكل جاكسون",
+        "مايكل جاكسون"
+      ],
+      "wrong_answers": [
+        "Elvis Presley",
+        "Prince",
+        "George Michael",
+        "Freddie Mercury",
+        "David Bowie",
+        "Whitney Houston",
+        "John Lennon",
+        "Tupac Shakur"
+      ]
+    },
+    {
+      "id": "أغان_025",
+      "prompt": "كم يبلغ عدد أعضاء فرقة الروك الكلاسيكية الشهيرة ليد زيبلين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "أربعة",
+        "الأربعة",
+        "٤",
+        "4",
+        "اربعه",
+        "ال4",
+        "الاربعه"
+      ],
+      "wrong_answers": [
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "1"
+      ]
+    },
+    {
+      "id": "أغان_026",
+      "prompt": "ما هي الأغنية المنفردة الأولى التي أطلقتها النجمة أديل في مسيرتها الفنية وكانت سبباً في شهرتها العالمية من ألبومها الأول؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "هومتاون غلوري",
+        "الهومتاون غلوري",
+        "Hometown Glory",
+        "الHometown Glory"
+      ],
+      "wrong_answers": [
+        "Rolling in the Deep",
+        "Someone Like You",
+        "Hello",
+        "Set Fire to the Rain",
+        "Skyfall",
+        "Chasing Pavements",
+        "When We Were Young",
+        "Send My Love"
+      ]
+    },
+    {
+      "id": "أغان_027",
+      "prompt": "ما هو الاسم الحقيقي للمغني الكندي الشهير ذا ويكند ذو الجذور الإثيوبية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "ابيل تسفاي",
+        "Abel Tesfaye",
+        "أبيل تسفاي",
+        "الAbel Tesfaye",
+        "الأبيل تسفاي",
+        "الابيل تسفاي"
+      ],
+      "wrong_answers": [
+        "Justin Bieber",
+        "Drake",
+        "Shawn Mendes",
+        "Michael Jackson",
+        "Bruno Mars",
+        "The Kid LAROI",
+        "Post Malone",
+        "Ed Sheeran"
+      ]
+    },
+    {
+      "id": "أغان_028",
+      "prompt": "كم عدد الجوائز التي فازت بها المغنية بيونسيه في تاريخ حفل توزيع جوائز غرامي حتى الآن تقريبا؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ال32",
+        "32",
+        "الاثنتان وثلاثون",
+        "اثنتان وثلاثون",
+        "٣٢"
+      ],
+      "wrong_answers": [
+        "12",
+        "22",
+        "28",
+        "35",
+        "40",
+        "18",
+        "25",
+        "30"
+      ]
+    },
+    {
+      "id": "أغان_029",
+      "prompt": "ما هو اسم الفرقة الموسيقية الكورية الجنوبية التي حطمت الأرقام القياسية بأغنيتها دينايت عام 2020؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "BTS",
+        "الBTS",
+        "بي تي إس",
+        "البي تي إس",
+        "البي تي اس",
+        "بي تي اس"
+      ],
+      "wrong_answers": [
+        "BLACKPINK",
+        "EXO",
+        "Stray Kids",
+        "TWICE",
+        "SEVENTEEN",
+        "TXT",
+        "NCT",
+        "Red Velvet"
+      ]
+    },
+    {
+      "id": "أغان_030",
+      "prompt": "أي أغنية للمغنية لويس فونسي ودادي يانكي أصبحت الفيديو الأكثر مشاهدة على يوتيوب لعدة سنوات؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Despacito",
+        "الDespacito",
+        "ديسباسيتو",
+        "الديسباسيتو"
+      ],
+      "wrong_answers": [
+        "Gangnam Style",
+        "Shape of You",
+        "Baby Shark",
+        "Waka Waka",
+        "Hello",
+        "Uptown Funk",
+        "Sugar",
+        "Lean On"
+      ]
+    },
+    {
+      "id": "أغان_031",
+      "prompt": "في أي عام تم إصدار الأغنية الشهيرة ثريلر لملك البوب مايكل جاكسون؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "العام 1982",
+        "ال1982",
+        "عام ١٩٨٢",
+        "1982",
+        "١٩٨٢",
+        "عام 1982"
+      ],
+      "wrong_answers": [
+        "1978",
+        "1980",
+        "1984",
+        "1986",
+        "1975",
+        "1988",
+        "1990",
+        "1981"
+      ]
+    },
+    {
+      "id": "أغان_032",
+      "prompt": "ما هو اسم الألبوم الأول للنجمة بيليلي إيليش الذي صدر عام 2019 وحقق نجاحاً مدوياً؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "وين وي ألل فال أسليب وير دو وي غو",
+        "When We All Fall Asleep Where Do We Go",
+        "وين وي الل فال اسليب وير دو وي غو",
+        "الWhen We All Fall Asleep Where Do We Go",
+        "الوين وي الل فال اسليب وير دو وي غو",
+        "الوين وي ألل فال أسليب وير دو وي غو"
+      ],
+      "wrong_answers": [
+        "Happier Than Ever",
+        "Hit Me Hard and Soft",
+        "Don't Smile at Me",
+        "Future Nostalgia",
+        "SOUR",
+        "1989",
+        "Fine Line",
+        "Anti"
+      ]
+    },
+    {
+      "id": "أغان_033",
+      "prompt": "ما هي الفرقة البريطانية الأسطورية التي قدمت أغنية بوهيميان رابسودي عام 1975؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الQueen",
+        "الكوين",
+        "Queen",
+        "كوين"
+      ],
+      "wrong_answers": [
+        "The Beatles",
+        "The Rolling Stones",
+        "Led Zeppelin",
+        "Pink Floyd",
+        "AC DC",
+        "Metallica",
+        "Nirvana",
+        "U2"
+      ]
+    },
+    {
+      "id": "أغان_034",
+      "prompt": "أي مغنية أمريكية اشتهرت بلقب أم البوب وأصدرت ألبومات شهيرة مثل لايك آ فيرجن؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "مادونا",
+        "Madonna",
+        "المادونا",
+        "الMadonna"
+      ],
+      "wrong_answers": [
+        "Lady Gaga",
+        "Britney Spears",
+        "Cher",
+        "Celine Dion",
+        "Mariah Carey",
+        "Whitney Houston",
+        "Katy Perry",
+        "Taylor Swift"
+      ]
+    },
+    {
+      "id": "أغان_035",
+      "prompt": "كم يبلغ عدد أعضاء فرقة الفتيان الكورية إكسو في تشكيلتهم الأساسية؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "تسعه",
+        "التسعة",
+        "تسعة",
+        "التسعه",
+        "9",
+        "ال9",
+        "٩"
+      ],
+      "wrong_answers": [
+        "5",
+        "6",
+        "7",
+        "8",
+        "10",
+        "11",
+        "12",
+        "13"
+      ]
+    },
+    {
+      "id": "أغان_036",
+      "prompt": "ما هو اسم الأغنية التي جعلت المغنية تايلور سويفت تفوز بجائزة ألبوم العام في الغرامي للمرة الرابعة التاريخية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "ميدنايتس",
+        "الميدنايتس",
+        "Midnights",
+        "الMidnights"
+      ],
+      "wrong_answers": [
+        "Folklore",
+        "Fearless",
+        "1989",
+        "Red",
+        "Lover",
+        "Evermore",
+        "Reputation",
+        "Speak Now"
+      ]
+    },
+    {
+      "id": "أغان_037",
+      "prompt": "ما هي الجنسية الأصلية للمنسق الموسيقي والدي جي الشهير ألان واكر صاحب أغنية فيديرد؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "النرويجي",
+        "نرويجي",
+        "Norwegian",
+        "الNorwegian"
+      ],
+      "wrong_answers": [
+        "Swedish",
+        "Dutch",
+        "German",
+        "French",
+        "American",
+        "British",
+        "Finnish",
+        "Danish"
+      ]
+    },
+    {
+      "id": "أغان_038",
+      "prompt": "في أي مدينة ولد فرقة الروك الشهيرة ذا بيتلز قبل غزوهم الساحلي لأمريكا؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Liverpool",
+        "ليفربول",
+        "الLiverpool",
+        "الليفربول"
+      ],
+      "wrong_answers": [
+        "London",
+        "Manchester",
+        "Birmingham",
+        "Dublin",
+        "Edinburgh",
+        "Glasgow",
+        "Bristol",
+        "Cardiff"
+      ]
+    },
+    {
+      "id": "أغان_039",
+      "prompt": "ما هو اسم الألبوم المنفرد الأول للمغني هاري ستايلز بعد انفصاله عن فرقة ون دايركشن؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Harry Styles",
+        "الHarry Styles",
+        "الهاري ستايلز",
+        "هاري ستايلز"
+      ],
+      "wrong_answers": [
+        "Fine Line",
+        "Harry's House",
+        "Midnight Memories",
+        "Four",
+        "Made in the A.M.",
+        "Take Me Home",
+        "Up All Night",
+        "Sign of the Times"
+      ]
+    },
+    {
+      "id": "أغان_040",
+      "prompt": "كم عدد الأغاني التي تتضمنها الأسطوانة المطولة الشهيرة دي بيرث لفرقة بي تي إس الصادرة عام 2013؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "السبعة",
+        "ال7",
+        "7",
+        "٧",
+        "سبعه",
+        "سبعة",
+        "السبعه"
+      ],
+      "wrong_answers": [
+        "4",
+        "5",
+        "6",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+      ]
+    },
+    {
+      "id": "أغان_041",
+      "prompt": "ما هو الاسم الحقيقي لمغنية الراب الأمريكية الشهيرة كاردي بي صاحبة أغنية بوداك يال؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الBelcalis Almánzar",
+        "Belcalis Almánzar",
+        "بيلكاليس المانزار",
+        "بيلكاليس ألمانزار",
+        "البيلكاليس المانزار",
+        "البيلكاليس ألمانزار"
+      ],
+      "wrong_answers": [
+        "Onika Maraj",
+        "Belinda Carlisle",
+        "Amala Dlamini",
+        "Taraji P Henson",
+        "Solange Knowles",
+        "Rihanna Fenty",
+        "Beyonce Knowles",
+        "Alicia Auguest"
+      ]
+    },
+    {
+      "id": "أغان_042",
+      "prompt": "ما هي الأغنية التي أطلقها إد شيران في عام 2017 وحطمت الأرقام القياسية كأكثر أغنية استماعاً في التاريخ على سبوتيفاي لفترة طويلة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الشيب أوف يو",
+        "Shape of You",
+        "شيب أوف يو",
+        "الShape of You",
+        "شيب اوف يو",
+        "الشيب اوف يو"
+      ],
+      "wrong_answers": [
+        "Perfect",
+        "Thinking Out Loud",
+        "Castle on the Hill",
+        "Bad Habits",
+        "Photograph",
+        "Galway Girl",
+        "South of the Border",
+        "Shivers"
+      ]
+    },
+    {
+      "id": "أغان_043",
+      "prompt": "أي فرقة روك أمريكية اشتهرت بأغنيتها سميلز لايك تين سبيريت وأحدثت ثورة الغرانج في التسعينيات؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "النيرفانا",
+        "Nirvana",
+        "نيرفانا",
+        "الNirvana"
+      ],
+      "wrong_answers": [
+        "Pearl Jam",
+        "Soundgarden",
+        "Alice in Chains",
+        "Foo Fighters",
+        "Green Day",
+        "Red Hot Chili Peppers",
+        "Linkin Park",
+        "Radiohead"
+      ]
+    },
+    {
+      "id": "أغان_044",
+      "prompt": "في أي عقد ميلادي تم إصدار أغنية ستيريو هارت للفرقة جيم كلاس هيروز بمشاركة آدم ليفين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "العقد 2010",
+        "عقد 2010",
+        "ال2010",
+        "عقد ٢٠١٠",
+        "٢٠١٠",
+        "2010"
+      ],
+      "wrong_answers": [
+        "1980",
+        "1990",
+        "2000",
+        "2020",
+        "1970",
+        "1960",
+        "2005",
+        "2015"
+      ]
+    },
+    {
+      "id": "أغان_045",
+      "prompt": "ما هو اسم المغنية والمؤلفة الأمريكية المعروفة بلقب ليدي غاغا قبل شهرتها الفنية الواسعة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "ستيفاني جيرمانوتا",
+        "Stefani Germanotta",
+        "الStefani Germanotta",
+        "الستيفاني جيرمانوتا"
+      ],
+      "wrong_answers": [
+        "Ashley Frangipane",
+        "Elizabeth Grant",
+        "Miley Cyrus",
+        "Alecia Moore",
+        "Robyn Fenty",
+        "Katy Hudson",
+        "Demi Lovato",
+        "Selena Gomez"
+      ]
+    },
+    {
+      "id": "أغان_046",
+      "prompt": "ما هو اسم المغني ومؤلف الأغاني الكندي الذي حقق شهرة واسعة عالمياً بأغنيته بايبي عام 2010؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "جاستن بيبر",
+        "Justin Bieber",
+        "الJustin Bieber",
+        "الجاستن بيبر"
+      ],
+      "wrong_answers": [
+        "Shawn Mendes",
+        "Drake",
+        "The Weeknd",
+        "Michael Buble",
+        "Bryan Adams",
+        "Avril Lavigne",
+        "Celine Dion",
+        "Nelly Furtado"
+      ]
+    },
+    {
+      "id": "أغان_047",
+      "prompt": "ما هي الدولة التي تنتمي إليها فرقة الفتيات الشهيرة بلاك بينك؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "كوريا الجنوبية",
+        "الكوريا الجنوبيه",
+        "الSouth Korea",
+        "الكوريا الجنوبية",
+        "South Korea",
+        "كوريا الجنوبيه"
+      ],
+      "wrong_answers": [
+        "Japan",
+        "China",
+        "Thailand",
+        "United States",
+        "United Kingdom",
+        "Australia",
+        "Canada",
+        "France"
+      ]
+    },
+    {
+      "id": "أغان_048",
+      "prompt": "ما هي الأغنية التي أعادت النجمة ماريا كاري إلى صدارة قوائم الموسيقى كل عام في موسم الأعياد منذ إصدارها عام 1994؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الأول أي وونت فور كريستماس إز يو",
+        "All I Want for Christmas Is You",
+        "الاول اي وونت فور كريستماس از يو",
+        "اول اي وونت فور كريستماس از يو",
+        "أول أي وونت فور كريستماس إز يو",
+        "الAll I Want for Christmas Is You"
+      ],
+      "wrong_answers": [
+        "Last Christmas",
+        "Jingle Bell Rock",
+        "Santa Tell Me",
+        "Snowman",
+        "Mistletoe",
+        "White Christmas",
+        "Let It Snow",
+        "Happy Xmas"
+      ]
+    },
+    {
+      "id": "أغان_049",
+      "prompt": "أي من مغنيي البوب الأمريكيين أطلق ألبوم بيلبورد الشهير تو إن إي ون وتوفي بسبب جرعة زائدة عام 2009؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Michael Jackson",
+        "الMichael Jackson",
+        "المايكل جاكسون",
+        "مايكل جاكسون"
+      ],
+      "wrong_answers": [
+        "Elvis Presley",
+        "Prince",
+        "George Michael",
+        "Freddie Mercury",
+        "David Bowie",
+        "Whitney Houston",
+        "John Lennon",
+        "Tupac Shakur"
+      ]
+    },
+    {
+      "id": "أغان_050",
+      "prompt": "كم يبلغ عدد أعضاء فرقة الروك الكلاسيكية الشهيرة ليد زيبلين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "أربعة",
+        "الأربعة",
+        "٤",
+        "4",
+        "اربعه",
+        "ال4",
+        "الاربعه"
+      ],
+      "wrong_answers": [
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "1"
+      ]
+    },
+    {
+      "id": "أغان_051",
+      "prompt": "ما هو الاسم الحقيقي للنجمة العالمية ريانا والتي اشتهرت بأغنيتها أمبريلا؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الRobyn Rihanna Fenty",
+        "روبين ريانا فنتي",
+        "الروبين ريانا فنتي",
+        "Robyn Rihanna Fenty"
+      ],
+      "wrong_answers": [
+        "Nicki Minaj",
+        "Cardi B",
+        "Beyonce Knowles",
+        "Alicia Keys",
+        "Ciara Princess",
+        "Katy Perry",
+        "Taylor Swift",
+        "Ariana Grande"
+      ]
+    },
+    {
+      "id": "أغان_052",
+      "prompt": "ما هو اسم ألبوم برونو مارس وفاي سي كش الذي صدر عام 2021 وحاز على عدة جوائز غرامي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الان ايفنينغ ويذ سيلك سونيك",
+        "An Evening with Silk Sonic",
+        "الأن إيفنينغ ويذ سيلك سونيك",
+        "ان ايفنينغ ويذ سيلك سونيك",
+        "أن إيفنينغ ويذ سيلك سونيك",
+        "الAn Evening with Silk Sonic"
+      ],
+      "wrong_answers": [
+        "24K Magic",
+        "Unorthodox Jukebox",
+        "Doo Wops and Hooligans",
+        "Future Nostalgia",
+        "After Hours",
+        "Planet Her",
+        "Justice",
+        "Sour"
+      ]
+    },
+    {
+      "id": "أغان_053",
+      "prompt": "في أي سنة ميلادية أصدرت فرقة البوب السويدية أبا أغنيتها الخالدة دانسينغ كوين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "عام ١٩٧٦",
+        "عام 1976",
+        "ال1976",
+        "العام 1976",
+        "1976",
+        "١٩٧٦"
+      ],
+      "wrong_answers": [
+        "1972",
+        "1974",
+        "1978",
+        "1980",
+        "1970",
+        "1982",
+        "1975",
+        "1977"
+      ]
+    },
+    {
+      "id": "أغان_054",
+      "prompt": "ما هو اسم المغنية البريطانية صاحبة الصوت القوي التي اشتهرت بأغنيتها هيلو ودمي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Adele",
+        "الAdele",
+        "اديل",
+        "أديل",
+        "الاديل",
+        "الأديل"
+      ],
+      "wrong_answers": [
+        "Dua Lipa",
+        "Rita Ora",
+        "Ellie Goulding",
+        "Jessie J",
+        "Florence Welch",
+        "Amy Winehouse",
+        "Leona Lewis",
+        "Sia Furler"
+      ]
+    },
+    {
+      "id": "أغان_055",
+      "prompt": "ما هو اسم المغني ومؤلف الأغاني الكندي المعروف بأغانيه الحزينة والعميقة مثل درايفرز لنس؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Shawn Mendes",
+        "شون مينديز",
+        "الShawn Mendes",
+        "الشون مينديز"
+      ],
+      "wrong_answers": [
+        "Justin Bieber",
+        "Charlie Puth",
+        "Ed Sheeran",
+        "Niall Horan",
+        "Harry Styles",
+        "Sam Smith",
+        "Lewis Capaldi",
+        "Lauv"
+      ]
+    },
+    {
+      "id": "أغان_056",
+      "prompt": "كم عدد الجوائز التي فازت بها النجمة تايلور سويفت في فئة ألبوم العام بغرامي حتى الآن؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "٤",
+        "4",
+        "الاربع مرات",
+        "اربع مرات",
+        "الأربع مرات",
+        "ال4",
+        "أربع مرات"
+      ],
+      "wrong_answers": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "0"
+      ]
+    },
+    {
+      "id": "أغان_057",
+      "prompt": "أي فرقة روك عالمية قدمت الأغنية الشهيرة إند نك المأخوذة من ألبوم هايبرد ثيوري؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Linkin Park",
+        "لينكين بارك",
+        "اللينكين بارك",
+        "الLinkin Park"
+      ],
+      "wrong_answers": [
+        "Green Day",
+        "Blink 182",
+        "System of a Down",
+        "My Chemical Romance",
+        "Fall Out Boy",
+        "Paramore",
+        "Evanescence",
+        "Slipknot"
+      ]
+    },
+    {
+      "id": "أغان_058",
+      "prompt": "ما هو اسم المغني الأسترالي الشاب الذي حقق نجاحاً ساحقاً بأغنيته ستاي بالتعاون مع ذا كيد لاروي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "ذا كيد لاروي",
+        "الذا كيد لاروي",
+        "The Kid LAROI",
+        "الThe Kid LAROI"
+      ],
+      "wrong_answers": [
+        "Troye Sivan",
+        "Keith Urban",
+        "Vance Joy",
+        "Dean Lewis",
+        "Flume",
+        "Gotye",
+        "Darren Hayes",
+        "Chet Faker"
+      ]
+    },
+    {
+      "id": "أغان_059",
+      "prompt": "ما هو اسم ألبوم المغنية الأمريكية أريانا غراندي الصادر عام 2018 والذي تضمن أغنية ثانك يو نيكست؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الThank U Next",
+        "ثانك يو نيكست",
+        "Thank U Next",
+        "الثانك يو نيكست"
+      ],
+      "wrong_answers": [
+        "Sweetener",
+        "Dangerous Woman",
+        "Positions",
+        "My Everything",
+        "Yours Truly",
+        "Eternal Sunshine",
+        "Focus",
+        "Break Free"
+      ]
+    },
+    {
+      "id": "أغان_060",
+      "prompt": "ما هو العدد الإجمالي لأعضاء الفرقة البريطانية الأسطورية ذا بيتلز؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "أربعة",
+        "الأربعة",
+        "٤",
+        "4",
+        "اربعه",
+        "ال4",
+        "الاربعه"
+      ],
+      "wrong_answers": [
+        "2",
+        "3",
+        "5",
+        "6",
+        "1",
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    {
+      "id": "أغان_061",
+      "prompt": "ما هو الاسم الحقيقي للمغني العالمي الشهير برونو مارس الملقب بملك البوب الحديث؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Peter Gene Hernandez",
+        "الPeter Gene Hernandez",
+        "بيتر جين هيرنانديز",
+        "البيتر جين هيرنانديز"
+      ],
+      "wrong_answers": [
+        "Austin Mahone",
+        "Shawn Mendes",
+        "Enrique Iglesias",
+        "Ricky Martin",
+        "Luis Fonsi",
+        "Jason Derulo",
+        "Adam Levine",
+        "Justin Timberlake"
+      ]
+    },
+    {
+      "id": "أغان_062",
+      "prompt": "أي أغنية للمغنية ليدي غاغا أصبحت نشظاً عالمياً لحقوق المثليين والمهمشين منذ صدورها عام 2011؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "بورن ذيس ويه",
+        "Born This Way",
+        "البورن ذيس ويه",
+        "الBorn This Way"
+      ],
+      "wrong_answers": [
+        "Bad Romance",
+        "Poker Face",
+        "Just Dance",
+        "Paprazzi",
+        "Telephone",
+        "Shallow",
+        "Judas",
+        "Applause"
+      ]
+    },
+    {
+      "id": "أغان_063",
+      "prompt": "ما هي الجنسية الأصلية للمغنية والمؤلفة دوا ليبا صاحبة الأغاني الراقصة الشهيرة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "البريطانية",
+        "البريطانيه",
+        "الBritish",
+        "بريطانية",
+        "بريطانيه",
+        "British"
+      ],
+      "wrong_answers": [
+        "American",
+        "Australian",
+        "Canadian",
+        "French",
+        "German",
+        "Spanish",
+        "Italian",
+        "Swedish"
+      ]
+    },
+    {
+      "id": "أغان_064",
+      "prompt": "في أي عام تم إطلاق الأغنية الشهيرة بيليه للمغني مايكل جاكسون ضمن ألبوم ثريلر؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "العام 1982",
+        "ال1982",
+        "عام ١٩٨٢",
+        "1982",
+        "١٩٨٢",
+        "عام 1982"
+      ],
+      "wrong_answers": [
+        "1979",
+        "1981",
+        "1983",
+        "1985",
+        "1987",
+        "1977",
+        "1984",
+        "1980"
+      ]
+    },
+    {
+      "id": "أغان_065",
+      "prompt": "ما هو اسم الألبوم الأول للنجمة أوليفيا رودريغو الذي تضمن أغانٍ حققت صدارة بيلبورد مثل جيد فور يو؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "السور",
+        "الSour",
+        "Sour",
+        "سور"
+      ],
+      "wrong_answers": [
+        "Guts",
+        "Fearless",
+        "Folklore",
+        "Future Nostalgia",
+        "Planet Her",
+        "Happier Than Ever",
+        "Normof Fa",
+        "Fine Line"
+      ]
+    },
+    {
+      "id": "أغان_066",
+      "prompt": "أي مغني بريطاني اشتهرت أغنيته بلدينغ غاس وتصدرت قوائم الاستماع العالمية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "سام سميث",
+        "السام سميث",
+        "الSam Smith",
+        "Sam Smith"
+      ],
+      "wrong_answers": [
+        "Ed Sheeran",
+        "Harry Styles",
+        "Calum Scott",
+        "James Arthur",
+        "Tom Odell",
+        "John Newman",
+        "George Ezra",
+        "Olly Murs"
+      ]
+    },
+    {
+      "id": "أغان_067",
+      "prompt": "ما هو عدد الأعضاء الحاليين في فرقة الفتيان الكورية الشهيرة سيفرتين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ثلاثة عشر",
+        "الثلاثة عشر",
+        "الثلاثه عشر",
+        "ثلاثه عشر",
+        "ال13",
+        "١٣",
+        "13"
+      ],
+      "wrong_answers": [
+        "7",
+        "9",
+        "11",
+        "12",
+        "10",
+        "8",
+        "6",
+        "14"
+      ]
+    },
+    {
+      "id": "أغان_068",
+      "prompt": "ما هو اسم ألبوم فرقة الروك الأمريكية إماجن دراغونز الصادر عام 2012 والذي ضم أغنية راديواكتيف؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الNight Visions",
+        "Night Visions",
+        "نايت فيجونز",
+        "النايت فيجونز"
+      ],
+      "wrong_answers": [
+        "Smoke and Mirrors",
+        "Evolve",
+        "Origins",
+        "Mercury",
+        "Mercury Act 1",
+        "Act 2",
+        "Believer",
+        "Thunder"
+      ]
+    },
+    {
+      "id": "أغان_069",
+      "prompt": "ما هو الاسم الفني الحقيقي للمغني والمنتج الموسيقي الأمريكي المعروف بـ مارشميلو خافي الوجه؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "كريستوفر كومستوك",
+        "الChristopher Comstock",
+        "الكريستوفر كومستوك",
+        "Christopher Comstock"
+      ],
+      "wrong_answers": [
+        "Sonny Moore",
+        "Thomas Pentz",
+        "Tim Bergling",
+        "Anton Zaslavski",
+        "Adam Wiles",
+        "Joel Zimmerman",
+        "Jacques Webster",
+        "Marshall Mathers"
+      ]
+    },
+    {
+      "id": "أغان_070",
+      "prompt": "كم يبلغ عدد الجوائز التي حققتها فرقة بي تي إس في حفل بيلبورد للموسيقى لعام واحد كأفضل فرقة؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "٤",
+        "4",
+        "ال4",
+        "الاربع جوائز",
+        "اربع جوائز",
+        "الأربع جوائز",
+        "أربع جوائز"
+      ],
+      "wrong_answers": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "0"
+      ]
+    },
+    {
+      "id": "أغان_071",
+      "prompt": "ما هي الأغنية التي أصدرتها فرقة الروك البريطانية كولدفلاي بالتعاون مع فرقة بي تي إس وحققت نجاحاً هائلاً عام 2021؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الماي يونيفيرس",
+        "الMy Universe",
+        "ماي يونيفيرس",
+        "My Universe"
+      ],
+      "wrong_answers": [
+        "Yellow",
+        "Viva la Vida",
+        "Fix You",
+        "Paradise",
+        "Hymn for the Weekend",
+        "Something Just Like This",
+        "A Sky Full of Stars",
+        "Adventure of a Lifetime"
+      ]
+    },
+    {
+      "id": "أغان_072",
+      "prompt": "ما هو اسم المغنية والملحنة الأمريكية البارزة المعروفة بأغنيتها إيثيليز المفعمة بالمشاعر؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الBillie Eilish",
+        "Billie Eilish",
+        "بيلي إيليش",
+        "البيلي ايليش",
+        "بيلي ايليش",
+        "البيلي إيليش"
+      ],
+      "wrong_answers": [
+        "Sabrina Carpenter",
+        "Gracie Abrams",
+        "Tate McRae",
+        "Clairo",
+        "Lorde",
+        "Phoebe Bridgers",
+        "Bebe Rexha",
+        "Halsey"
+      ]
+    },
+    {
+      "id": "أغان_073",
+      "prompt": "أي فنان راب أمريكي اشتهر بسلسلة ألبومات ذا مارشال ماذرز وإطلاق لقب إمينيم؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الEminem",
+        "امينيم",
+        "الإمينيم",
+        "إمينيم",
+        "الامينيم",
+        "Eminem"
+      ],
+      "wrong_answers": [
+        "Snoop Dogg",
+        "Dr Dre",
+        "50 Cent",
+        "Kendrick Lamar",
+        "J Cole",
+        "Kanye West",
+        "Drake",
+        "Lil Wayne"
+      ]
+    },
+    {
+      "id": "أغان_074",
+      "prompt": "في أي عقد زمني بدأت مسيرة فرقة الروك الأمريكية الأسطورية ميتاليكا؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ال1980",
+        "1980",
+        "عقد الثمانينيات",
+        "١٩٨٠",
+        "العقد الثمانينيات"
+      ],
+      "wrong_answers": [
+        "1960",
+        "1970",
+        "1990",
+        "2000",
+        "1950",
+        "2010",
+        "1975",
+        "1985"
+      ]
+    },
+    {
+      "id": "أغان_075",
+      "prompt": "ما هو اسم المغني الكولومبي الذي جلب النكهة اللاتينية للعالم بأغانيه الشهيرة مثل ميكو ومينال؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "جيه بالفين",
+        "الجيه بالفين",
+        "الJ Balvin",
+        "J Balvin"
+      ],
+      "wrong_answers": [
+        "Maluma",
+        "Bad Bunny",
+        "Ozuna",
+        "Daddy Yankee",
+        "Nicky Jam",
+        "Rauw Alejandro",
+        "Anuel AA",
+        "Farruko"
+      ]
+    },
+    {
+      "id": "أغان_076",
+      "prompt": "ما هو الاسم الحقيقي للنجمة العالمية ريانا والتي اشتهرت بأغنيتها أمبريلا؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الRobyn Rihanna Fenty",
+        "روبين ريانا فنتي",
+        "الروبين ريانا فنتي",
+        "Robyn Rihanna Fenty"
+      ],
+      "wrong_answers": [
+        "Nicki Minaj",
+        "Cardi B",
+        "Beyonce Knowles",
+        "Alicia Keys",
+        "Ciara Princess",
+        "Katy Perry",
+        "Taylor Swift",
+        "Ariana Grande"
+      ]
+    },
+    {
+      "id": "أغان_077",
+      "prompt": "ما هو اسم ألبوم برونو مارس وفاي سي كش الذي صدر عام 2021 وحاز على عدة جوائز غرامي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الان ايفنينغ ويذ سيلك سونيك",
+        "An Evening with Silk Sonic",
+        "الأن إيفنينغ ويذ سيلك سونيك",
+        "ان ايفنينغ ويذ سيلك سونيك",
+        "أن إيفنينغ ويذ سيلك سونيك",
+        "الAn Evening with Silk Sonic"
+      ],
+      "wrong_answers": [
+        "24K Magic",
+        "Unorthodox Jukebox",
+        "Doo Wops and Hooligans",
+        "Future Nostalgia",
+        "After Hours",
+        "Planet Her",
+        "Justice",
+        "Sour"
+      ]
+    },
+    {
+      "id": "أغان_078",
+      "prompt": "في أي سنة ميلادية أصدرت فرقة البوب السويدية أبا أغنيتها الخالدة دانسينغ كوين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "عام ١٩٧٦",
+        "عام 1976",
+        "ال1976",
+        "العام 1976",
+        "1976",
+        "١٩٧٦"
+      ],
+      "wrong_answers": [
+        "1972",
+        "1974",
+        "1978",
+        "1980",
+        "1970",
+        "1982",
+        "1975",
+        "1977"
+      ]
+    },
+    {
+      "id": "أغان_079",
+      "prompt": "ما هو اسم المغنية البريطانية صاحبة الصوت القوي التي اشتهرت بأغنيتها هيلو ودمي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Adele",
+        "الAdele",
+        "اديل",
+        "أديل",
+        "الاديل",
+        "الأديل"
+      ],
+      "wrong_answers": [
+        "Dua Lipa",
+        "Rita Ora",
+        "Ellie Goulding",
+        "Jessie J",
+        "Florence Welch",
+        "Amy Winehouse",
+        "Leona Lewis",
+        "Sia Furler"
+      ]
+    },
+    {
+      "id": "أغان_080",
+      "prompt": "ما هو اسم المغني ومؤلف الأغاني الكندي المعروف بأغانيه الحزينة والعميقة مثل درايفرز لنس؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Shawn Mendes",
+        "شون مينديز",
+        "الShawn Mendes",
+        "الشون مينديز"
+      ],
+      "wrong_answers": [
+        "Justin Bieber",
+        "Charlie Puth",
+        "Ed Sheeran",
+        "Niall Horan",
+        "Harry Styles",
+        "Sam Smith",
+        "Lewis Capaldi",
+        "Lauv"
+      ]
+    },
+    {
+      "id": "أغان_081",
+      "prompt": "كم عدد الجوائز التي فازت بها النجمة تايلور سويفت في فئة ألبوم العام بغرامي حتى الآن؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "٤",
+        "4",
+        "الاربع مرات",
+        "اربع مرات",
+        "الأربع مرات",
+        "ال4",
+        "أربع مرات"
+      ],
+      "wrong_answers": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "0"
+      ]
+    },
+    {
+      "id": "أغان_082",
+      "prompt": "أي فرقة روك عالمية قدمت الأغنية الشهيرة إند نك المأخوذة من ألبوم هايبرد ثيوري؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Linkin Park",
+        "لينكين بارك",
+        "اللينكين بارك",
+        "الLinkin Park"
+      ],
+      "wrong_answers": [
+        "Green Day",
+        "Blink 182",
+        "System of a Down",
+        "My Chemical Romance",
+        "Fall Out Boy",
+        "Paramore",
+        "Evanescence",
+        "Slipknot"
+      ]
+    },
+    {
+      "id": "أغان_083",
+      "prompt": "ما هو اسم المغني الأسترالي الشاب الذي حقق نجاحاً ساحقاً بأغنيته ستاي بالتعاون مع ذا كيد لاروي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "ذا كيد لاروي",
+        "الذا كيد لاروي",
+        "The Kid LAROI",
+        "الThe Kid LAROI"
+      ],
+      "wrong_answers": [
+        "Troye Sivan",
+        "Keith Urban",
+        "Vance Joy",
+        "Dean Lewis",
+        "Flume",
+        "Gotye",
+        "Darren Hayes",
+        "Chet Faker"
+      ]
+    },
+    {
+      "id": "أغان_084",
+      "prompt": "ما هو اسم ألبوم المغنية الأمريكية أريانا غراندي الصادر عام 2018 والذي تضمن أغنية ثانك يو نيكست؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الThank U Next",
+        "ثانك يو نيكست",
+        "Thank U Next",
+        "الثانك يو نيكست"
+      ],
+      "wrong_answers": [
+        "Sweetener",
+        "Dangerous Woman",
+        "Positions",
+        "My Everything",
+        "Yours Truly",
+        "Eternal Sunshine",
+        "Focus",
+        "Break Free"
+      ]
+    },
+    {
+      "id": "أغان_085",
+      "prompt": "ما هو العدد الإجمالي لأعضاء الفرقة البريطانية الأسطورية ذا بيتلز؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "أربعة",
+        "الأربعة",
+        "٤",
+        "4",
+        "اربعه",
+        "ال4",
+        "الاربعه"
+      ],
+      "wrong_answers": [
+        "2",
+        "3",
+        "5",
+        "6",
+        "1",
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    {
+      "id": "أغان_086",
+      "prompt": "ما هو الاسم الحقيقي للمغني العالمي الشهير برونو مارس الملقب بملك البوب الحديث؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Peter Gene Hernandez",
+        "الPeter Gene Hernandez",
+        "بيتر جين هيرنانديز",
+        "البيتر جين هيرنانديز"
+      ],
+      "wrong_answers": [
+        "Austin Mahone",
+        "Shawn Mendes",
+        "Enrique Iglesias",
+        "Ricky Martin",
+        "Luis Fonsi",
+        "Jason Derulo",
+        "Adam Levine",
+        "Justin Timberlake"
+      ]
+    },
+    {
+      "id": "أغان_087",
+      "prompt": "أي أغنية للمغنية ليدي غاغا أصبحت نشظاً عالمياً لحقوق المثليين والمهمشين منذ صدورها عام 2011؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "بورن ذيس ويه",
+        "Born This Way",
+        "البورن ذيس ويه",
+        "الBorn This Way"
+      ],
+      "wrong_answers": [
+        "Bad Romance",
+        "Poker Face",
+        "Just Dance",
+        "Paprazzi",
+        "Telephone",
+        "Shallow",
+        "Judas",
+        "Applause"
+      ]
+    },
+    {
+      "id": "أغان_088",
+      "prompt": "ما هي الجنسية الأصلية للمغنية والمؤلفة دوا ليبا صاحبة الأغاني الراقصة الشهيرة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "البريطانية",
+        "البريطانيه",
+        "الBritish",
+        "بريطانية",
+        "بريطانيه",
+        "British"
+      ],
+      "wrong_answers": [
+        "American",
+        "Australian",
+        "Canadian",
+        "French",
+        "German",
+        "Spanish",
+        "Italian",
+        "Swedish"
+      ]
+    },
+    {
+      "id": "أغان_089",
+      "prompt": "في أي عام تم إطلاق الأغنية الشهيرة بيليه للمغني مايكل جاكسون ضمن ألبوم ثريلر؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "العام 1982",
+        "ال1982",
+        "عام ١٩٨٢",
+        "1982",
+        "١٩٨٢",
+        "عام 1982"
+      ],
+      "wrong_answers": [
+        "1979",
+        "1981",
+        "1983",
+        "1985",
+        "1987",
+        "1977",
+        "1984",
+        "1980"
+      ]
+    },
+    {
+      "id": "أغان_090",
+      "prompt": "ما هو اسم الألبوم الأول للنجمة أوليفيا رودريغو الذي تضمن أغانٍ حققت صدارة بيلبورد مثل جيد فور يو؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "السور",
+        "الSour",
+        "Sour",
+        "سور"
+      ],
+      "wrong_answers": [
+        "Guts",
+        "Fearless",
+        "Folklore",
+        "Future Nostalgia",
+        "Planet Her",
+        "Happier Than Ever",
+        "Normof Fa",
+        "Fine Line"
+      ]
+    },
+    {
+      "id": "أغان_091",
+      "prompt": "أي مغني بريطاني اشتهرت أغنيته بلدينغ غاس وتصدرت قوائم الاستماع العالمية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "سام سميث",
+        "السام سميث",
+        "الSam Smith",
+        "Sam Smith"
+      ],
+      "wrong_answers": [
+        "Ed Sheeran",
+        "Harry Styles",
+        "Calum Scott",
+        "James Arthur",
+        "Tom Odell",
+        "John Newman",
+        "George Ezra",
+        "Olly Murs"
+      ]
+    },
+    {
+      "id": "أغان_092",
+      "prompt": "ما هو عدد الأعضاء الحاليين في فرقة الفتيان الكورية الشهيرة سيفرتين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ثلاثة عشر",
+        "الثلاثة عشر",
+        "الثلاثه عشر",
+        "ثلاثه عشر",
+        "ال13",
+        "١٣",
+        "13"
+      ],
+      "wrong_answers": [
+        "7",
+        "9",
+        "11",
+        "12",
+        "10",
+        "8",
+        "6",
+        "14"
+      ]
+    },
+    {
+      "id": "أغان_093",
+      "prompt": "ما هو اسم ألبوم فرقة الروك الأمريكية إماجن دراغونز الصادر عام 2012 والذي ضم أغنية راديواكتيف؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الNight Visions",
+        "Night Visions",
+        "نايت فيجونز",
+        "النايت فيجونز"
+      ],
+      "wrong_answers": [
+        "Smoke and Mirrors",
+        "Evolve",
+        "Origins",
+        "Mercury",
+        "Mercury Act 1",
+        "Act 2",
+        "Believer",
+        "Thunder"
+      ]
+    },
+    {
+      "id": "أغان_094",
+      "prompt": "ما هو الاسم الفني الحقيقي للمغني والمنتج الموسيقي الأمريكي المعروف بـ مارشميلو خافي الوجه؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "كريستوفر كومستوك",
+        "الChristopher Comstock",
+        "الكريستوفر كومستوك",
+        "Christopher Comstock"
+      ],
+      "wrong_answers": [
+        "Sonny Moore",
+        "Thomas Pentz",
+        "Tim Bergling",
+        "Anton Zaslavski",
+        "Adam Wiles",
+        "Joel Zimmerman",
+        "Jacques Webster",
+        "Marshall Mathers"
+      ]
+    },
+    {
+      "id": "أغان_095",
+      "prompt": "كم يبلغ عدد الجوائز التي حققتها فرقة بي تي إس في حفل بيلبورد للموسيقى لعام واحد كأفضل فرقة؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "٤",
+        "4",
+        "ال4",
+        "الاربع جوائز",
+        "اربع جوائز",
+        "الأربع جوائز",
+        "أربع جوائز"
+      ],
+      "wrong_answers": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "0"
+      ]
+    },
+    {
+      "id": "أغان_096",
+      "prompt": "ما هي الأغنية التي أصدرتها فرقة الروك البريطانية كولدفلاي بالتعاون مع فرقة بي تي إس وحققت نجاحاً هائلاً عام 2021؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الماي يونيفيرس",
+        "الMy Universe",
+        "ماي يونيفيرس",
+        "My Universe"
+      ],
+      "wrong_answers": [
+        "Yellow",
+        "Viva la Vida",
+        "Fix You",
+        "Paradise",
+        "Hymn for the Weekend",
+        "Something Just Like This",
+        "A Sky Full of Stars",
+        "Adventure of a Lifetime"
+      ]
+    },
+    {
+      "id": "أغان_097",
+      "prompt": "ما هو اسم المغنية والملحنة الأمريكية البارزة المعروفة بأغنيتها إيثيليز المفعمة بالمشاعر؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الBillie Eilish",
+        "Billie Eilish",
+        "بيلي إيليش",
+        "البيلي ايليش",
+        "بيلي ايليش",
+        "البيلي إيليش"
+      ],
+      "wrong_answers": [
+        "Sabrina Carpenter",
+        "Gracie Abrams",
+        "Tate McRae",
+        "Clairo",
+        "Lorde",
+        "Phoebe Bridgers",
+        "Bebe Rexha",
+        "Halsey"
+      ]
+    },
+    {
+      "id": "أغان_098",
+      "prompt": "أي فنان راب أمريكي اشتهر بسلسلة ألبومات ذا مارشال ماذرز وإطلاق لقب إمينيم؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الEminem",
+        "امينيم",
+        "الإمينيم",
+        "إمينيم",
+        "الامينيم",
+        "Eminem"
+      ],
+      "wrong_answers": [
+        "Snoop Dogg",
+        "Dr Dre",
+        "50 Cent",
+        "Kendrick Lamar",
+        "J Cole",
+        "Kanye West",
+        "Drake",
+        "Lil Wayne"
+      ]
+    },
+    {
+      "id": "أغان_099",
+      "prompt": "في أي عقد زمني بدأت مسيرة فرقة الروك الأمريكية الأسطورية ميتاليكا؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ال1980",
+        "1980",
+        "عقد الثمانينيات",
+        "١٩٨٠",
+        "العقد الثمانينيات"
+      ],
+      "wrong_answers": [
+        "1960",
+        "1970",
+        "1990",
+        "2000",
+        "1950",
+        "2010",
+        "1975",
+        "1985"
+      ]
+    },
+    {
+      "id": "أغان_100",
+      "prompt": "ما هو اسم المغني الكولومبي الذي جلب النكهة اللاتينية للعالم بأغانيه الشهيرة مثل ميكو ومينال؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "جيه بالفين",
+        "الجيه بالفين",
+        "الJ Balvin",
+        "J Balvin"
+      ],
+      "wrong_answers": [
+        "Maluma",
+        "Bad Bunny",
+        "Ozuna",
+        "Daddy Yankee",
+        "Nicky Jam",
+        "Rauw Alejandro",
+        "Anuel AA",
+        "Farruko"
+      ]
+    },
+    {
+      "id": "أغان_101",
+      "prompt": "ما هو الاسم الحقيقي للنجمة العالمية ريانا والتي اشتهرت بأغنيتها أمبريلا؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الRobyn Rihanna Fenty",
+        "روبين ريانا فنتي",
+        "الروبين ريانا فنتي",
+        "Robyn Rihanna Fenty"
+      ],
+      "wrong_answers": [
+        "Nicki Minaj",
+        "Cardi B",
+        "Beyonce Knowles",
+        "Alicia Keys",
+        "Ciara Princess",
+        "Katy Perry",
+        "Taylor Swift",
+        "Ariana Grande"
+      ]
+    },
+    {
+      "id": "أغان_102",
+      "prompt": "ما هو اسم ألبوم برونو مارس وفاي سي كش الذي صدر عام 2021 وحاز على عدة جوائز غرامي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الان ايفنينغ ويذ سيلك سونيك",
+        "An Evening with Silk Sonic",
+        "الأن إيفنينغ ويذ سيلك سونيك",
+        "ان ايفنينغ ويذ سيلك سونيك",
+        "أن إيفنينغ ويذ سيلك سونيك",
+        "الAn Evening with Silk Sonic"
+      ],
+      "wrong_answers": [
+        "24K Magic",
+        "Unorthodox Jukebox",
+        "Doo Wops and Hooligans",
+        "Future Nostalgia",
+        "After Hours",
+        "Planet Her",
+        "Justice",
+        "Sour"
+      ]
+    },
+    {
+      "id": "أغان_103",
+      "prompt": "في أي سنة ميلادية أصدرت فرقة البوب السويدية أبا أغنيتها الخالدة دانسينغ كوين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "عام ١٩٧٦",
+        "عام 1976",
+        "ال1976",
+        "العام 1976",
+        "1976",
+        "١٩٧٦"
+      ],
+      "wrong_answers": [
+        "1972",
+        "1974",
+        "1978",
+        "1980",
+        "1970",
+        "1982",
+        "1975",
+        "1977"
+      ]
+    },
+    {
+      "id": "أغان_104",
+      "prompt": "ما هو اسم المغنية البريطانية صاحبة الصوت القوي التي اشتهرت بأغنيتها هيلو ودمي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Adele",
+        "الAdele",
+        "اديل",
+        "أديل",
+        "الاديل",
+        "الأديل"
+      ],
+      "wrong_answers": [
+        "Dua Lipa",
+        "Rita Ora",
+        "Ellie Goulding",
+        "Jessie J",
+        "Florence Welch",
+        "Amy Winehouse",
+        "Leona Lewis",
+        "Sia Furler"
+      ]
+    },
+    {
+      "id": "أغان_105",
+      "prompt": "ما هو اسم المغني ومؤلف الأغاني الكندي المعروف بأغانيه الحزينة والعميقة مثل درايفرز لنس؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Shawn Mendes",
+        "شون مينديز",
+        "الShawn Mendes",
+        "الشون مينديز"
+      ],
+      "wrong_answers": [
+        "Justin Bieber",
+        "Charlie Puth",
+        "Ed Sheeran",
+        "Niall Horan",
+        "Harry Styles",
+        "Sam Smith",
+        "Lewis Capaldi",
+        "Lauv"
+      ]
+    },
+    {
+      "id": "أغان_106",
+      "prompt": "كم عدد الجوائز التي فازت بها النجمة تايلور سويفت في فئة ألبوم العام بغرامي حتى الآن؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "٤",
+        "4",
+        "الاربع مرات",
+        "اربع مرات",
+        "الأربع مرات",
+        "ال4",
+        "أربع مرات"
+      ],
+      "wrong_answers": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "0"
+      ]
+    },
+    {
+      "id": "أغان_107",
+      "prompt": "أي فرقة روك عالمية قدمت الأغنية الشهيرة إند نك المأخوذة من ألبوم هايبرد ثيوري؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Linkin Park",
+        "لينكين بارك",
+        "اللينكين بارك",
+        "الLinkin Park"
+      ],
+      "wrong_answers": [
+        "Green Day",
+        "Blink 182",
+        "System of a Down",
+        "My Chemical Romance",
+        "Fall Out Boy",
+        "Paramore",
+        "Evanescence",
+        "Slipknot"
+      ]
+    },
+    {
+      "id": "أغان_108",
+      "prompt": "ما هو اسم المغني الأسترالي الشاب الذي حقق نجاحاً ساحقاً بأغنيته ستاي بالتعاون مع ذا كيد لاروي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "ذا كيد لاروي",
+        "الذا كيد لاروي",
+        "The Kid LAROI",
+        "الThe Kid LAROI"
+      ],
+      "wrong_answers": [
+        "Troye Sivan",
+        "Keith Urban",
+        "Vance Joy",
+        "Dean Lewis",
+        "Flume",
+        "Gotye",
+        "Darren Hayes",
+        "Chet Faker"
+      ]
+    },
+    {
+      "id": "أغان_109",
+      "prompt": "ما هو اسم ألبوم المغنية الأمريكية أريانا غراندي الصادر عام 2018 والذي تضمن أغنية ثانك يو نيكست؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الThank U Next",
+        "ثانك يو نيكست",
+        "Thank U Next",
+        "الثانك يو نيكست"
+      ],
+      "wrong_answers": [
+        "Sweetener",
+        "Dangerous Woman",
+        "Positions",
+        "My Everything",
+        "Yours Truly",
+        "Eternal Sunshine",
+        "Focus",
+        "Break Free"
+      ]
+    },
+    {
+      "id": "أغان_110",
+      "prompt": "ما هو العدد الإجمالي لأعضاء الفرقة البريطانية الأسطورية ذا بيتلز؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "أربعة",
+        "الأربعة",
+        "٤",
+        "4",
+        "اربعه",
+        "ال4",
+        "الاربعه"
+      ],
+      "wrong_answers": [
+        "2",
+        "3",
+        "5",
+        "6",
+        "1",
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    {
+      "id": "أغان_111",
+      "prompt": "ما هو الاسم الحقيقي للمغني العالمي الشهير برونو مارس الملقب بملك البوب الحديث؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Peter Gene Hernandez",
+        "الPeter Gene Hernandez",
+        "بيتر جين هيرنانديز",
+        "البيتر جين هيرنانديز"
+      ],
+      "wrong_answers": [
+        "Austin Mahone",
+        "Shawn Mendes",
+        "Enrique Iglesias",
+        "Ricky Martin",
+        "Luis Fonsi",
+        "Jason Derulo",
+        "Adam Levine",
+        "Justin Timberlake"
+      ]
+    },
+    {
+      "id": "أغان_112",
+      "prompt": "أي أغنية للمغنية ليدي غاغا أصبحت نشظاً عالمياً لحقوق المثليين والمهمشين منذ صدورها عام 2011؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "بورن ذيس ويه",
+        "Born This Way",
+        "البورن ذيس ويه",
+        "الBorn This Way"
+      ],
+      "wrong_answers": [
+        "Bad Romance",
+        "Poker Face",
+        "Just Dance",
+        "Paprazzi",
+        "Telephone",
+        "Shallow",
+        "Judas",
+        "Applause"
+      ]
+    },
+    {
+      "id": "أغان_113",
+      "prompt": "ما هي الجنسية الأصلية للمغنية والمؤلفة دوا ليبا صاحبة الأغاني الراقصة الشهيرة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "البريطانية",
+        "البريطانيه",
+        "الBritish",
+        "بريطانية",
+        "بريطانيه",
+        "British"
+      ],
+      "wrong_answers": [
+        "American",
+        "Australian",
+        "Canadian",
+        "French",
+        "German",
+        "Spanish",
+        "Italian",
+        "Swedish"
+      ]
+    },
+    {
+      "id": "أغان_114",
+      "prompt": "في أي عام تم إطلاق الأغنية الشهيرة بيليه للمغني مايكل جاكسون ضمن ألبوم ثريلر؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "العام 1982",
+        "ال1982",
+        "عام ١٩٨٢",
+        "1982",
+        "١٩٨٢",
+        "عام 1982"
+      ],
+      "wrong_answers": [
+        "1979",
+        "1981",
+        "1983",
+        "1985",
+        "1987",
+        "1977",
+        "1984",
+        "1980"
+      ]
+    },
+    {
+      "id": "أغان_115",
+      "prompt": "ما هو اسم الألبوم الأول للنجمة أوليفيا رودريغو الذي تضمن أغانٍ حققت صدارة بيلبورد مثل جيد فور يو؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "السور",
+        "الSour",
+        "Sour",
+        "سور"
+      ],
+      "wrong_answers": [
+        "Guts",
+        "Fearless",
+        "Folklore",
+        "Future Nostalgia",
+        "Planet Her",
+        "Happier Than Ever",
+        "Normof Fa",
+        "Fine Line"
+      ]
+    },
+    {
+      "id": "أغان_116",
+      "prompt": "أي مغني بريطاني اشتهرت أغنيته بلدينغ غاس وتصدرت قوائم الاستماع العالمية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "سام سميث",
+        "السام سميث",
+        "الSam Smith",
+        "Sam Smith"
+      ],
+      "wrong_answers": [
+        "Ed Sheeran",
+        "Harry Styles",
+        "Calum Scott",
+        "James Arthur",
+        "Tom Odell",
+        "John Newman",
+        "George Ezra",
+        "Olly Murs"
+      ]
+    },
+    {
+      "id": "أغان_117",
+      "prompt": "ما هو عدد الأعضاء الحاليين في فرقة الفتيان الكورية الشهيرة سيفرتين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ثلاثة عشر",
+        "الثلاثة عشر",
+        "الثلاثه عشر",
+        "ثلاثه عشر",
+        "ال13",
+        "١٣",
+        "13"
+      ],
+      "wrong_answers": [
+        "7",
+        "9",
+        "11",
+        "12",
+        "10",
+        "8",
+        "6",
+        "14"
+      ]
+    },
+    {
+      "id": "أغان_118",
+      "prompt": "ما هو اسم ألبوم فرقة الروك الأمريكية إماجن دراغونز الصادر عام 2012 والذي ضم أغنية راديواكتيف؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الNight Visions",
+        "Night Visions",
+        "نايت فيجونز",
+        "النايت فيجونز"
+      ],
+      "wrong_answers": [
+        "Smoke and Mirrors",
+        "Evolve",
+        "Origins",
+        "Mercury",
+        "Mercury Act 1",
+        "Act 2",
+        "Believer",
+        "Thunder"
+      ]
+    },
+    {
+      "id": "أغان_119",
+      "prompt": "ما هو الاسم الفني الحقيقي للمغني والمنتج الموسيقي الأمريكي المعروف بـ مارشميلو خافي الوجه؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "كريستوفر كومستوك",
+        "الChristopher Comstock",
+        "الكريستوفر كومستوك",
+        "Christopher Comstock"
+      ],
+      "wrong_answers": [
+        "Sonny Moore",
+        "Thomas Pentz",
+        "Tim Bergling",
+        "Anton Zaslavski",
+        "Adam Wiles",
+        "Joel Zimmerman",
+        "Jacques Webster",
+        "Marshall Mathers"
+      ]
+    },
+    {
+      "id": "أغان_120",
+      "prompt": "كم يبلغ عدد الجوائز التي حققتها فرقة بي تي إس في حفل بيلبورد للموسيقى لعام واحد كأفضل فرقة؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "٤",
+        "4",
+        "ال4",
+        "الاربع جوائز",
+        "اربع جوائز",
+        "الأربع جوائز",
+        "أربع جوائز"
+      ],
+      "wrong_answers": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "0"
+      ]
+    },
+    {
+      "id": "أغان_121",
+      "prompt": "ما هي الأغنية التي أصدرتها فرقة الروك البريطانية كولدفلاي بالتعاون مع فرقة بي تي إس وحققت نجاحاً هائلاً عام 2021؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الماي يونيفيرس",
+        "الMy Universe",
+        "ماي يونيفيرس",
+        "My Universe"
+      ],
+      "wrong_answers": [
+        "Yellow",
+        "Viva la Vida",
+        "Fix You",
+        "Paradise",
+        "Hymn for the Weekend",
+        "Something Just Like This",
+        "A Sky Full of Stars",
+        "Adventure of a Lifetime"
+      ]
+    },
+    {
+      "id": "أغان_122",
+      "prompt": "ما هو اسم المغنية والملحنة الأمريكية البارزة المعروفة بأغنيتها إيثيليز المفعمة بالمشاعر؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الBillie Eilish",
+        "Billie Eilish",
+        "بيلي إيليش",
+        "البيلي ايليش",
+        "بيلي ايليش",
+        "البيلي إيليش"
+      ],
+      "wrong_answers": [
+        "Sabrina Carpenter",
+        "Gracie Abrams",
+        "Tate McRae",
+        "Clairo",
+        "Lorde",
+        "Phoebe Bridgers",
+        "Bebe Rexha",
+        "Halsey"
+      ]
+    },
+    {
+      "id": "أغان_123",
+      "prompt": "أي فنان راب أمريكي اشتهر بسلسلة ألبومات ذا مارشال ماذرز وإطلاق لقب إمينيم؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الEminem",
+        "امينيم",
+        "الإمينيم",
+        "إمينيم",
+        "الامينيم",
+        "Eminem"
+      ],
+      "wrong_answers": [
+        "Snoop Dogg",
+        "Dr Dre",
+        "50 Cent",
+        "Kendrick Lamar",
+        "J Cole",
+        "Kanye West",
+        "Drake",
+        "Lil Wayne"
+      ]
+    },
+    {
+      "id": "أغان_124",
+      "prompt": "في أي عقد زمني بدأت مسيرة فرقة الروك الأمريكية الأسطورية ميتاليكا؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ال1980",
+        "1980",
+        "عقد الثمانينيات",
+        "١٩٨٠",
+        "العقد الثمانينيات"
+      ],
+      "wrong_answers": [
+        "1960",
+        "1970",
+        "1990",
+        "2000",
+        "1950",
+        "2010",
+        "1975",
+        "1985"
+      ]
+    },
+    {
+      "id": "أغان_125",
+      "prompt": "ما هو اسم المغني الكولومبي الذي جلب النكهة اللاتينية للعالم بأغانيه الشهيرة مثل ميكو ومينال؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "جيه بالفين",
+        "الجيه بالفين",
+        "الJ Balvin",
+        "J Balvin"
+      ],
+      "wrong_answers": [
+        "Maluma",
+        "Bad Bunny",
+        "Ozuna",
+        "Daddy Yankee",
+        "Nicky Jam",
+        "Rauw Alejandro",
+        "Anuel AA",
+        "Farruko"
+      ]
+    },
+    {
+      "id": "أغان_126",
+      "prompt": "ما هو الاسم الحقيقي للنجمة العالمية ريانا والتي اشتهرت بأغنيتها أمبريلا؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الRobyn Rihanna Fenty",
+        "روبين ريانا فنتي",
+        "الروبين ريانا فنتي",
+        "Robyn Rihanna Fenty"
+      ],
+      "wrong_answers": [
+        "Nicki Minaj",
+        "Cardi B",
+        "Beyonce Knowles",
+        "Alicia Keys",
+        "Ciara Princess",
+        "Katy Perry",
+        "Taylor Swift",
+        "Ariana Grande"
+      ]
+    },
+    {
+      "id": "أغان_127",
+      "prompt": "ما هو اسم ألبوم برونو مارس وفاي سي كش الذي صدر عام 2021 وحاز على عدة جوائز غرامي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الان ايفنينغ ويذ سيلك سونيك",
+        "An Evening with Silk Sonic",
+        "الأن إيفنينغ ويذ سيلك سونيك",
+        "ان ايفنينغ ويذ سيلك سونيك",
+        "أن إيفنينغ ويذ سيلك سونيك",
+        "الAn Evening with Silk Sonic"
+      ],
+      "wrong_answers": [
+        "24K Magic",
+        "Unorthodox Jukebox",
+        "Doo Wops and Hooligans",
+        "Future Nostalgia",
+        "After Hours",
+        "Planet Her",
+        "Justice",
+        "Sour"
+      ]
+    },
+    {
+      "id": "أغان_128",
+      "prompt": "في أي سنة ميلادية أصدرت فرقة البوب السويدية أبا أغنيتها الخالدة دانسينغ كوين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "عام ١٩٧٦",
+        "عام 1976",
+        "ال1976",
+        "العام 1976",
+        "1976",
+        "١٩٧٦"
+      ],
+      "wrong_answers": [
+        "1972",
+        "1974",
+        "1978",
+        "1980",
+        "1970",
+        "1982",
+        "1975",
+        "1977"
+      ]
+    },
+    {
+      "id": "أغان_129",
+      "prompt": "ما هو اسم المغنية البريطانية صاحبة الصوت القوي التي اشتهرت بأغنيتها هيلو ودمي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Adele",
+        "الAdele",
+        "اديل",
+        "أديل",
+        "الاديل",
+        "الأديل"
+      ],
+      "wrong_answers": [
+        "Dua Lipa",
+        "Rita Ora",
+        "Ellie Goulding",
+        "Jessie J",
+        "Florence Welch",
+        "Amy Winehouse",
+        "Leona Lewis",
+        "Sia Furler"
+      ]
+    },
+    {
+      "id": "أغان_130",
+      "prompt": "ما هو اسم المغني ومؤلف الأغاني الكندي المعروف بأغانيه الحزينة والعميقة مثل درايفرز لنس؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Shawn Mendes",
+        "شون مينديز",
+        "الShawn Mendes",
+        "الشون مينديز"
+      ],
+      "wrong_answers": [
+        "Justin Bieber",
+        "Charlie Puth",
+        "Ed Sheeran",
+        "Niall Horan",
+        "Harry Styles",
+        "Sam Smith",
+        "Lewis Capaldi",
+        "Lauv"
+      ]
+    },
+    {
+      "id": "أغان_131",
+      "prompt": "كم عدد الجوائز التي فازت بها النجمة تايلور سويفت في فئة ألبوم العام بغرامي حتى الآن؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "٤",
+        "4",
+        "الاربع مرات",
+        "اربع مرات",
+        "الأربع مرات",
+        "ال4",
+        "أربع مرات"
+      ],
+      "wrong_answers": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "0"
+      ]
+    },
+    {
+      "id": "أغان_132",
+      "prompt": "أي فرقة روك عالمية قدمت الأغنية الشهيرة إند نك المأخوذة من ألبوم هايبرد ثيوري؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Linkin Park",
+        "لينكين بارك",
+        "اللينكين بارك",
+        "الLinkin Park"
+      ],
+      "wrong_answers": [
+        "Green Day",
+        "Blink 182",
+        "System of a Down",
+        "My Chemical Romance",
+        "Fall Out Boy",
+        "Paramore",
+        "Evanescence",
+        "Slipknot"
+      ]
+    },
+    {
+      "id": "أغان_133",
+      "prompt": "ما هو اسم المغني الأسترالي الشاب الذي حقق نجاحاً ساحقاً بأغنيته ستاي بالتعاون مع ذا كيد لاروي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "ذا كيد لاروي",
+        "الذا كيد لاروي",
+        "The Kid LAROI",
+        "الThe Kid LAROI"
+      ],
+      "wrong_answers": [
+        "Troye Sivan",
+        "Keith Urban",
+        "Vance Joy",
+        "Dean Lewis",
+        "Flume",
+        "Gotye",
+        "Darren Hayes",
+        "Chet Faker"
+      ]
+    },
+    {
+      "id": "أغان_134",
+      "prompt": "ما هو اسم ألبوم المغنية الأمريكية أريانا غراندي الصادر عام 2018 والذي تضمن أغنية ثانك يو نيكست؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الThank U Next",
+        "ثانك يو نيكست",
+        "Thank U Next",
+        "الثانك يو نيكست"
+      ],
+      "wrong_answers": [
+        "Sweetener",
+        "Dangerous Woman",
+        "Positions",
+        "My Everything",
+        "Yours Truly",
+        "Eternal Sunshine",
+        "Focus",
+        "Break Free"
+      ]
+    },
+    {
+      "id": "أغان_135",
+      "prompt": "ما هو العدد الإجمالي لأعضاء الفرقة البريطانية الأسطورية ذا بيتلز؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "أربعة",
+        "الأربعة",
+        "٤",
+        "4",
+        "اربعه",
+        "ال4",
+        "الاربعه"
+      ],
+      "wrong_answers": [
+        "2",
+        "3",
+        "5",
+        "6",
+        "1",
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    {
+      "id": "أغان_136",
+      "prompt": "ما هو الاسم الحقيقي للمغني العالمي الشهير برونو مارس الملقب بملك البوب الحديث؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Peter Gene Hernandez",
+        "الPeter Gene Hernandez",
+        "بيتر جين هيرنانديز",
+        "البيتر جين هيرنانديز"
+      ],
+      "wrong_answers": [
+        "Austin Mahone",
+        "Shawn Mendes",
+        "Enrique Iglesias",
+        "Ricky Martin",
+        "Luis Fonsi",
+        "Jason Derulo",
+        "Adam Levine",
+        "Justin Timberlake"
+      ]
+    },
+    {
+      "id": "أغان_137",
+      "prompt": "أي أغنية للمغنية ليدي غاغا أصبحت نشظاً عالمياً لحقوق المثليين والمهمشين منذ صدورها عام 2011؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "بورن ذيس ويه",
+        "Born This Way",
+        "البورن ذيس ويه",
+        "الBorn This Way"
+      ],
+      "wrong_answers": [
+        "Bad Romance",
+        "Poker Face",
+        "Just Dance",
+        "Paprazzi",
+        "Telephone",
+        "Shallow",
+        "Judas",
+        "Applause"
+      ]
+    },
+    {
+      "id": "أغان_138",
+      "prompt": "ما هي الجنسية الأصلية للمغنية والمؤلفة دوا ليبا صاحبة الأغاني الراقصة الشهيرة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "البريطانية",
+        "البريطانيه",
+        "الBritish",
+        "بريطانية",
+        "بريطانيه",
+        "British"
+      ],
+      "wrong_answers": [
+        "American",
+        "Australian",
+        "Canadian",
+        "French",
+        "German",
+        "Spanish",
+        "Italian",
+        "Swedish"
+      ]
+    },
+    {
+      "id": "أغان_139",
+      "prompt": "في أي عام تم إطلاق الأغنية الشهيرة بيليه للمغني مايكل جاكسون ضمن ألبوم ثريلر؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "العام 1982",
+        "ال1982",
+        "عام ١٩٨٢",
+        "1982",
+        "١٩٨٢",
+        "عام 1982"
+      ],
+      "wrong_answers": [
+        "1979",
+        "1981",
+        "1983",
+        "1985",
+        "1987",
+        "1977",
+        "1984",
+        "1980"
+      ]
+    },
+    {
+      "id": "أغان_140",
+      "prompt": "ما هو اسم الألبوم الأول للنجمة أوليفيا رودريغو الذي تضمن أغانٍ حققت صدارة بيلبورد مثل جيد فور يو؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "السور",
+        "الSour",
+        "Sour",
+        "سور"
+      ],
+      "wrong_answers": [
+        "Guts",
+        "Fearless",
+        "Folklore",
+        "Future Nostalgia",
+        "Planet Her",
+        "Happier Than Ever",
+        "Normof Fa",
+        "Fine Line"
+      ]
+    },
+    {
+      "id": "أغان_141",
+      "prompt": "أي مغني بريطاني اشتهرت أغنيته بلدينغ غاس وتصدرت قوائم الاستماع العالمية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "سام سميث",
+        "السام سميث",
+        "الSam Smith",
+        "Sam Smith"
+      ],
+      "wrong_answers": [
+        "Ed Sheeran",
+        "Harry Styles",
+        "Calum Scott",
+        "James Arthur",
+        "Tom Odell",
+        "John Newman",
+        "George Ezra",
+        "Olly Murs"
+      ]
+    },
+    {
+      "id": "أغان_142",
+      "prompt": "ما هو عدد الأعضاء الحاليين في فرقة الفتيان الكورية الشهيرة سيفرتين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ثلاثة عشر",
+        "الثلاثة عشر",
+        "الثلاثه عشر",
+        "ثلاثه عشر",
+        "ال13",
+        "١٣",
+        "13"
+      ],
+      "wrong_answers": [
+        "7",
+        "9",
+        "11",
+        "12",
+        "10",
+        "8",
+        "6",
+        "14"
+      ]
+    },
+    {
+      "id": "أغان_143",
+      "prompt": "ما هو اسم ألبوم فرقة الروك الأمريكية إماجن دراغونز الصادر عام 2012 والذي ضم أغنية راديواكتيف؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الNight Visions",
+        "Night Visions",
+        "نايت فيجونز",
+        "النايت فيجونز"
+      ],
+      "wrong_answers": [
+        "Smoke and Mirrors",
+        "Evolve",
+        "Origins",
+        "Mercury",
+        "Mercury Act 1",
+        "Act 2",
+        "Believer",
+        "Thunder"
+      ]
+    },
+    {
+      "id": "أغان_144",
+      "prompt": "ما هو الاسم الفني الحقيقي للمغني والمنتج الموسيقي الأمريكي المعروف بـ مارشميلو خافي الوجه؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "كريستوفر كومستوك",
+        "الChristopher Comstock",
+        "الكريستوفر كومستوك",
+        "Christopher Comstock"
+      ],
+      "wrong_answers": [
+        "Sonny Moore",
+        "Thomas Pentz",
+        "Tim Bergling",
+        "Anton Zaslavski",
+        "Adam Wiles",
+        "Joel Zimmerman",
+        "Jacques Webster",
+        "Marshall Mathers"
+      ]
+    },
+    {
+      "id": "أغان_145",
+      "prompt": "كم يبلغ عدد الجوائز التي حققتها فرقة بي تي إس في حفل بيلبورد للموسيقى لعام واحد كأفضل فرقة؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "٤",
+        "4",
+        "ال4",
+        "الاربع جوائز",
+        "اربع جوائز",
+        "الأربع جوائز",
+        "أربع جوائز"
+      ],
+      "wrong_answers": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "0"
+      ]
+    },
+    {
+      "id": "أغان_146",
+      "prompt": "ما هي الأغنية التي أصدرتها فرقة الروك البريطانية كولدفلاي بالتعاون مع فرقة بي تي إس وحققت نجاحاً هائلاً عام 2021؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الماي يونيفيرس",
+        "الMy Universe",
+        "ماي يونيفيرس",
+        "My Universe"
+      ],
+      "wrong_answers": [
+        "Yellow",
+        "Viva la Vida",
+        "Fix You",
+        "Paradise",
+        "Hymn for the Weekend",
+        "Something Just Like This",
+        "A Sky Full of Stars",
+        "Adventure of a Lifetime"
+      ]
+    },
+    {
+      "id": "أغان_147",
+      "prompt": "ما هو اسم المغنية والملحنة الأمريكية البارزة المعروفة بأغنيتها إيثيليز المفعمة بالمشاعر؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الBillie Eilish",
+        "Billie Eilish",
+        "بيلي إيليش",
+        "البيلي ايليش",
+        "بيلي ايليش",
+        "البيلي إيليش"
+      ],
+      "wrong_answers": [
+        "Sabrina Carpenter",
+        "Gracie Abrams",
+        "Tate McRae",
+        "Clairo",
+        "Lorde",
+        "Phoebe Bridgers",
+        "Bebe Rexha",
+        "Halsey"
+      ]
+    },
+    {
+      "id": "أغان_148",
+      "prompt": "أي فنان راب أمريكي اشتهر بسلسلة ألبومات ذا مارشال ماذرز وإطلاق لقب إمينيم؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الEminem",
+        "امينيم",
+        "الإمينيم",
+        "إمينيم",
+        "الامينيم",
+        "Eminem"
+      ],
+      "wrong_answers": [
+        "Snoop Dogg",
+        "Dr Dre",
+        "50 Cent",
+        "Kendrick Lamar",
+        "J Cole",
+        "Kanye West",
+        "Drake",
+        "Lil Wayne"
+      ]
+    },
+    {
+      "id": "أغان_149",
+      "prompt": "في أي عقد زمني بدأت مسيرة فرقة الروك الأمريكية الأسطورية ميتاليكا؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ال1980",
+        "1980",
+        "عقد الثمانينيات",
+        "١٩٨٠",
+        "العقد الثمانينيات"
+      ],
+      "wrong_answers": [
+        "1960",
+        "1970",
+        "1990",
+        "2000",
+        "1950",
+        "2010",
+        "1975",
+        "1985"
+      ]
+    },
+    {
+      "id": "أغان_150",
+      "prompt": "ما هو اسم المغني الكولومبي الذي جلب النكهة اللاتينية للعالم بأغانيه الشهيرة مثل ميكو ومينال؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "جيه بالفين",
+        "الجيه بالفين",
+        "الJ Balvin",
+        "J Balvin"
+      ],
+      "wrong_answers": [
+        "Maluma",
+        "Bad Bunny",
+        "Ozuna",
+        "Daddy Yankee",
+        "Nicky Jam",
+        "Rauw Alejandro",
+        "Anuel AA",
+        "Farruko"
+      ]
+    },
+    {
+      "id": "أغان_151",
+      "prompt": "ما هو الاسم الحقيقي للنجمة العالمية ريانا والتي اشتهرت بأغنيتها أمبريلا؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الRobyn Rihanna Fenty",
+        "روبين ريانا فنتي",
+        "الروبين ريانا فنتي",
+        "Robyn Rihanna Fenty"
+      ],
+      "wrong_answers": [
+        "Nicki Minaj",
+        "Cardi B",
+        "Beyonce Knowles",
+        "Alicia Keys",
+        "Ciara Princess",
+        "Katy Perry",
+        "Taylor Swift",
+        "Ariana Grande"
+      ]
+    },
+    {
+      "id": "أغان_152",
+      "prompt": "ما هو اسم ألبوم برونو مارس وفاي سي كش الذي صدر عام 2021 وحاز على عدة جوائز غرامي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الان ايفنينغ ويذ سيلك سونيك",
+        "An Evening with Silk Sonic",
+        "الأن إيفنينغ ويذ سيلك سونيك",
+        "ان ايفنينغ ويذ سيلك سونيك",
+        "أن إيفنينغ ويذ سيلك سونيك",
+        "الAn Evening with Silk Sonic"
+      ],
+      "wrong_answers": [
+        "24K Magic",
+        "Unorthodox Jukebox",
+        "Doo Wops and Hooligans",
+        "Future Nostalgia",
+        "After Hours",
+        "Planet Her",
+        "Justice",
+        "Sour"
+      ]
+    },
+    {
+      "id": "أغان_153",
+      "prompt": "في أي سنة ميلادية أصدرت فرقة البوب السويدية أبا أغنيتها الخالدة دانسينغ كوين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "عام ١٩٧٦",
+        "عام 1976",
+        "ال1976",
+        "العام 1976",
+        "1976",
+        "١٩٧٦"
+      ],
+      "wrong_answers": [
+        "1972",
+        "1974",
+        "1978",
+        "1980",
+        "1970",
+        "1982",
+        "1975",
+        "1977"
+      ]
+    },
+    {
+      "id": "أغان_154",
+      "prompt": "ما هو اسم المغنية البريطانية صاحبة الصوت القوي التي اشتهرت بأغنيتها هيلو ودمي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Adele",
+        "الAdele",
+        "اديل",
+        "أديل",
+        "الاديل",
+        "الأديل"
+      ],
+      "wrong_answers": [
+        "Dua Lipa",
+        "Rita Ora",
+        "Ellie Goulding",
+        "Jessie J",
+        "Florence Welch",
+        "Amy Winehouse",
+        "Leona Lewis",
+        "Sia Furler"
+      ]
+    },
+    {
+      "id": "أغان_155",
+      "prompt": "ما هو اسم المغني ومؤلف الأغاني الكندي المعروف بأغانيه الحزينة والعميقة مثل درايفرز لنس؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Shawn Mendes",
+        "شون مينديز",
+        "الShawn Mendes",
+        "الشون مينديز"
+      ],
+      "wrong_answers": [
+        "Justin Bieber",
+        "Charlie Puth",
+        "Ed Sheeran",
+        "Niall Horan",
+        "Harry Styles",
+        "Sam Smith",
+        "Lewis Capaldi",
+        "Lauv"
+      ]
+    },
+    {
+      "id": "أغان_156",
+      "prompt": "كم عدد الجوائز التي فازت بها النجمة تايلور سويفت في فئة ألبوم العام بغرامي حتى الآن؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "٤",
+        "4",
+        "الاربع مرات",
+        "اربع مرات",
+        "الأربع مرات",
+        "ال4",
+        "أربع مرات"
+      ],
+      "wrong_answers": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "0"
+      ]
+    },
+    {
+      "id": "أغان_157",
+      "prompt": "أي فرقة روك عالمية قدمت الأغنية الشهيرة إند نك المأخوذة من ألبوم هايبرد ثيوري؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Linkin Park",
+        "لينكين بارك",
+        "اللينكين بارك",
+        "الLinkin Park"
+      ],
+      "wrong_answers": [
+        "Green Day",
+        "Blink 182",
+        "System of a Down",
+        "My Chemical Romance",
+        "Fall Out Boy",
+        "Paramore",
+        "Evanescence",
+        "Slipknot"
+      ]
+    },
+    {
+      "id": "أغان_158",
+      "prompt": "ما هو اسم المغني الأسترالي الشاب الذي حقق نجاحاً ساحقاً بأغنيته ستاي بالتعاون مع ذا كيد لاروي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "ذا كيد لاروي",
+        "الذا كيد لاروي",
+        "The Kid LAROI",
+        "الThe Kid LAROI"
+      ],
+      "wrong_answers": [
+        "Troye Sivan",
+        "Keith Urban",
+        "Vance Joy",
+        "Dean Lewis",
+        "Flume",
+        "Gotye",
+        "Darren Hayes",
+        "Chet Faker"
+      ]
+    },
+    {
+      "id": "أغان_159",
+      "prompt": "ما هو اسم ألبوم المغنية الأمريكية أريانا غراندي الصادر عام 2018 والذي تضمن أغنية ثانك يو نيكست؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الThank U Next",
+        "ثانك يو نيكست",
+        "Thank U Next",
+        "الثانك يو نيكست"
+      ],
+      "wrong_answers": [
+        "Sweetener",
+        "Dangerous Woman",
+        "Positions",
+        "My Everything",
+        "Yours Truly",
+        "Eternal Sunshine",
+        "Focus",
+        "Break Free"
+      ]
+    },
+    {
+      "id": "أغان_160",
+      "prompt": "ما هو العدد الإجمالي لأعضاء الفرقة البريطانية الأسطورية ذا بيتلز؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "أربعة",
+        "الأربعة",
+        "٤",
+        "4",
+        "اربعه",
+        "ال4",
+        "الاربعه"
+      ],
+      "wrong_answers": [
+        "2",
+        "3",
+        "5",
+        "6",
+        "1",
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    {
+      "id": "أغان_161",
+      "prompt": "ما هو الاسم الحقيقي للمغني العالمي الشهير برونو مارس الملقب بملك البوب الحديث؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Peter Gene Hernandez",
+        "الPeter Gene Hernandez",
+        "بيتر جين هيرنانديز",
+        "البيتر جين هيرنانديز"
+      ],
+      "wrong_answers": [
+        "Austin Mahone",
+        "Shawn Mendes",
+        "Enrique Iglesias",
+        "Ricky Martin",
+        "Luis Fonsi",
+        "Jason Derulo",
+        "Adam Levine",
+        "Justin Timberlake"
+      ]
+    },
+    {
+      "id": "أغان_162",
+      "prompt": "أي أغنية للمغنية ليدي غاغا أصبحت نشظاً عالمياً لحقوق المثليين والمهمشين منذ صدورها عام 2011؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "بورن ذيس ويه",
+        "Born This Way",
+        "البورن ذيس ويه",
+        "الBorn This Way"
+      ],
+      "wrong_answers": [
+        "Bad Romance",
+        "Poker Face",
+        "Just Dance",
+        "Paprazzi",
+        "Telephone",
+        "Shallow",
+        "Judas",
+        "Applause"
+      ]
+    },
+    {
+      "id": "أغان_163",
+      "prompt": "ما هي الجنسية الأصلية للمغنية والمؤلفة دوا ليبا صاحبة الأغاني الراقصة الشهيرة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "البريطانية",
+        "البريطانيه",
+        "الBritish",
+        "بريطانية",
+        "بريطانيه",
+        "British"
+      ],
+      "wrong_answers": [
+        "American",
+        "Australian",
+        "Canadian",
+        "French",
+        "German",
+        "Spanish",
+        "Italian",
+        "Swedish"
+      ]
+    },
+    {
+      "id": "أغان_164",
+      "prompt": "في أي عام تم إطلاق الأغنية الشهيرة بيليه للمغني مايكل جاكسون ضمن ألبوم ثريلر؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "العام 1982",
+        "ال1982",
+        "عام ١٩٨٢",
+        "1982",
+        "١٩٨٢",
+        "عام 1982"
+      ],
+      "wrong_answers": [
+        "1979",
+        "1981",
+        "1983",
+        "1985",
+        "1987",
+        "1977",
+        "1984",
+        "1980"
+      ]
+    },
+    {
+      "id": "أغان_165",
+      "prompt": "ما هو اسم الألبوم الأول للنجمة أوليفيا رودريغو الذي تضمن أغانٍ حققت صدارة بيلبورد مثل جيد فور يو؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "السور",
+        "الSour",
+        "Sour",
+        "سور"
+      ],
+      "wrong_answers": [
+        "Guts",
+        "Fearless",
+        "Folklore",
+        "Future Nostalgia",
+        "Planet Her",
+        "Happier Than Ever",
+        "Normof Fa",
+        "Fine Line"
+      ]
+    },
+    {
+      "id": "أغان_166",
+      "prompt": "أي مغني بريطاني اشتهرت أغنيته بلدينغ غاس وتصدرت قوائم الاستماع العالمية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "سام سميث",
+        "السام سميث",
+        "الSam Smith",
+        "Sam Smith"
+      ],
+      "wrong_answers": [
+        "Ed Sheeran",
+        "Harry Styles",
+        "Calum Scott",
+        "James Arthur",
+        "Tom Odell",
+        "John Newman",
+        "George Ezra",
+        "Olly Murs"
+      ]
+    },
+    {
+      "id": "أغان_167",
+      "prompt": "ما هو عدد الأعضاء الحاليين في فرقة الفتيان الكورية الشهيرة سيفرتين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ثلاثة عشر",
+        "الثلاثة عشر",
+        "الثلاثه عشر",
+        "ثلاثه عشر",
+        "ال13",
+        "١٣",
+        "13"
+      ],
+      "wrong_answers": [
+        "7",
+        "9",
+        "11",
+        "12",
+        "10",
+        "8",
+        "6",
+        "14"
+      ]
+    },
+    {
+      "id": "أغان_168",
+      "prompt": "ما هو اسم ألبوم فرقة الروك الأمريكية إماجن دراغونز الصادر عام 2012 والذي ضم أغنية راديواكتيف؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الNight Visions",
+        "Night Visions",
+        "نايت فيجونز",
+        "النايت فيجونز"
+      ],
+      "wrong_answers": [
+        "Smoke and Mirrors",
+        "Evolve",
+        "Origins",
+        "Mercury",
+        "Mercury Act 1",
+        "Act 2",
+        "Believer",
+        "Thunder"
+      ]
+    },
+    {
+      "id": "أغان_169",
+      "prompt": "ما هو الاسم الفني الحقيقي للمغني والمنتج الموسيقي الأمريكي المعروف بـ مارشميلو خافي الوجه؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "كريستوفر كومستوك",
+        "الChristopher Comstock",
+        "الكريستوفر كومستوك",
+        "Christopher Comstock"
+      ],
+      "wrong_answers": [
+        "Sonny Moore",
+        "Thomas Pentz",
+        "Tim Bergling",
+        "Anton Zaslavski",
+        "Adam Wiles",
+        "Joel Zimmerman",
+        "Jacques Webster",
+        "Marshall Mathers"
+      ]
+    },
+    {
+      "id": "أغان_170",
+      "prompt": "كم يبلغ عدد الجوائز التي حققتها فرقة بي تي إس في حفل بيلبورد للموسيقى لعام واحد كأفضل فرقة؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "٤",
+        "4",
+        "ال4",
+        "الاربع جوائز",
+        "اربع جوائز",
+        "الأربع جوائز",
+        "أربع جوائز"
+      ],
+      "wrong_answers": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "0"
+      ]
+    },
+    {
+      "id": "أغان_171",
+      "prompt": "ما هي الأغنية التي أصدرتها فرقة الروك البريطانية كولدفلاي بالتعاون مع فرقة بي تي إس وحققت نجاحاً هائلاً عام 2021؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الماي يونيفيرس",
+        "الMy Universe",
+        "ماي يونيفيرس",
+        "My Universe"
+      ],
+      "wrong_answers": [
+        "Yellow",
+        "Viva la Vida",
+        "Fix You",
+        "Paradise",
+        "Hymn for the Weekend",
+        "Something Just Like This",
+        "A Sky Full of Stars",
+        "Adventure of a Lifetime"
+      ]
+    },
+    {
+      "id": "أغان_172",
+      "prompt": "ما هو اسم المغنية والملحنة الأمريكية البارزة المعروفة بأغنيتها إيثيليز المفعمة بالمشاعر؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الBillie Eilish",
+        "Billie Eilish",
+        "بيلي إيليش",
+        "البيلي ايليش",
+        "بيلي ايليش",
+        "البيلي إيليش"
+      ],
+      "wrong_answers": [
+        "Sabrina Carpenter",
+        "Gracie Abrams",
+        "Tate McRae",
+        "Clairo",
+        "Lorde",
+        "Phoebe Bridgers",
+        "Bebe Rexha",
+        "Halsey"
+      ]
+    },
+    {
+      "id": "أغان_173",
+      "prompt": "أي فنان راب أمريكي اشتهر بسلسلة ألبومات ذا مارشال ماذرز وإطلاق لقب إمينيم؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الEminem",
+        "امينيم",
+        "الإمينيم",
+        "إمينيم",
+        "الامينيم",
+        "Eminem"
+      ],
+      "wrong_answers": [
+        "Snoop Dogg",
+        "Dr Dre",
+        "50 Cent",
+        "Kendrick Lamar",
+        "J Cole",
+        "Kanye West",
+        "Drake",
+        "Lil Wayne"
+      ]
+    },
+    {
+      "id": "أغان_174",
+      "prompt": "في أي عقد زمني بدأت مسيرة فرقة الروك الأمريكية الأسطورية ميتاليكا؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ال1980",
+        "1980",
+        "عقد الثمانينيات",
+        "١٩٨٠",
+        "العقد الثمانينيات"
+      ],
+      "wrong_answers": [
+        "1960",
+        "1970",
+        "1990",
+        "2000",
+        "1950",
+        "2010",
+        "1975",
+        "1985"
+      ]
+    },
+    {
+      "id": "أغان_175",
+      "prompt": "ما هو اسم المغني الكولومبي الذي جلب النكهة اللاتينية للعالم بأغانيه الشهيرة مثل ميكو ومينال؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "جيه بالفين",
+        "الجيه بالفين",
+        "الJ Balvin",
+        "J Balvin"
+      ],
+      "wrong_answers": [
+        "Maluma",
+        "Bad Bunny",
+        "Ozuna",
+        "Daddy Yankee",
+        "Nicky Jam",
+        "Rauw Alejandro",
+        "Anuel AA",
+        "Farruko"
+      ]
+    },
+    {
+      "id": "أغان_176",
+      "prompt": "ما هو الاسم الحقيقي للنجمة العالمية ريانا والتي اشتهرت بأغنيتها أمبريلا؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الRobyn Rihanna Fenty",
+        "روبين ريانا فنتي",
+        "الروبين ريانا فنتي",
+        "Robyn Rihanna Fenty"
+      ],
+      "wrong_answers": [
+        "Nicki Minaj",
+        "Cardi B",
+        "Beyonce Knowles",
+        "Alicia Keys",
+        "Ciara Princess",
+        "Katy Perry",
+        "Taylor Swift",
+        "Ariana Grande"
+      ]
+    },
+    {
+      "id": "أغان_177",
+      "prompt": "ما هو اسم ألبوم برونو مارس وفاي سي كش الذي صدر عام 2021 وحاز على عدة جوائز غرامي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الان ايفنينغ ويذ سيلك سونيك",
+        "An Evening with Silk Sonic",
+        "الأن إيفنينغ ويذ سيلك سونيك",
+        "ان ايفنينغ ويذ سيلك سونيك",
+        "أن إيفنينغ ويذ سيلك سونيك",
+        "الAn Evening with Silk Sonic"
+      ],
+      "wrong_answers": [
+        "24K Magic",
+        "Unorthodox Jukebox",
+        "Doo Wops and Hooligans",
+        "Future Nostalgia",
+        "After Hours",
+        "Planet Her",
+        "Justice",
+        "Sour"
+      ]
+    },
+    {
+      "id": "أغان_178",
+      "prompt": "في أي سنة ميلادية أصدرت فرقة البوب السويدية أبا أغنيتها الخالدة دانسينغ كوين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "عام ١٩٧٦",
+        "عام 1976",
+        "ال1976",
+        "العام 1976",
+        "1976",
+        "١٩٧٦"
+      ],
+      "wrong_answers": [
+        "1972",
+        "1974",
+        "1978",
+        "1980",
+        "1970",
+        "1982",
+        "1975",
+        "1977"
+      ]
+    },
+    {
+      "id": "أغان_179",
+      "prompt": "ما هو اسم المغنية البريطانية صاحبة الصوت القوي التي اشتهرت بأغنيتها هيلو ودمي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Adele",
+        "الAdele",
+        "اديل",
+        "أديل",
+        "الاديل",
+        "الأديل"
+      ],
+      "wrong_answers": [
+        "Dua Lipa",
+        "Rita Ora",
+        "Ellie Goulding",
+        "Jessie J",
+        "Florence Welch",
+        "Amy Winehouse",
+        "Leona Lewis",
+        "Sia Furler"
+      ]
+    },
+    {
+      "id": "أغان_180",
+      "prompt": "ما هو اسم المغني ومؤلف الأغاني الكندي المعروف بأغانيه الحزينة والعميقة مثل درايفرز لنس؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Shawn Mendes",
+        "شون مينديز",
+        "الShawn Mendes",
+        "الشون مينديز"
+      ],
+      "wrong_answers": [
+        "Justin Bieber",
+        "Charlie Puth",
+        "Ed Sheeran",
+        "Niall Horan",
+        "Harry Styles",
+        "Sam Smith",
+        "Lewis Capaldi",
+        "Lauv"
+      ]
+    },
+    {
+      "id": "أغان_181",
+      "prompt": "كم عدد الجوائز التي فازت بها النجمة تايلور سويفت في فئة ألبوم العام بغرامي حتى الآن؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "٤",
+        "4",
+        "الاربع مرات",
+        "اربع مرات",
+        "الأربع مرات",
+        "ال4",
+        "أربع مرات"
+      ],
+      "wrong_answers": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "0"
+      ]
+    },
+    {
+      "id": "أغان_182",
+      "prompt": "أي فرقة روك عالمية قدمت الأغنية الشهيرة إند نك المأخوذة من ألبوم هايبرد ثيوري؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Linkin Park",
+        "لينكين بارك",
+        "اللينكين بارك",
+        "الLinkin Park"
+      ],
+      "wrong_answers": [
+        "Green Day",
+        "Blink 182",
+        "System of a Down",
+        "My Chemical Romance",
+        "Fall Out Boy",
+        "Paramore",
+        "Evanescence",
+        "Slipknot"
+      ]
+    },
+    {
+      "id": "أغان_183",
+      "prompt": "ما هو اسم المغني الأسترالي الشاب الذي حقق نجاحاً ساحقاً بأغنيته ستاي بالتعاون مع ذا كيد لاروي؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "ذا كيد لاروي",
+        "الذا كيد لاروي",
+        "The Kid LAROI",
+        "الThe Kid LAROI"
+      ],
+      "wrong_answers": [
+        "Troye Sivan",
+        "Keith Urban",
+        "Vance Joy",
+        "Dean Lewis",
+        "Flume",
+        "Gotye",
+        "Darren Hayes",
+        "Chet Faker"
+      ]
+    },
+    {
+      "id": "أغان_184",
+      "prompt": "ما هو اسم ألبوم المغنية الأمريكية أريانا غراندي الصادر عام 2018 والذي تضمن أغنية ثانك يو نيكست؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الThank U Next",
+        "ثانك يو نيكست",
+        "Thank U Next",
+        "الثانك يو نيكست"
+      ],
+      "wrong_answers": [
+        "Sweetener",
+        "Dangerous Woman",
+        "Positions",
+        "My Everything",
+        "Yours Truly",
+        "Eternal Sunshine",
+        "Focus",
+        "Break Free"
+      ]
+    },
+    {
+      "id": "أغان_185",
+      "prompt": "ما هو العدد الإجمالي لأعضاء الفرقة البريطانية الأسطورية ذا بيتلز؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "أربعة",
+        "الأربعة",
+        "٤",
+        "4",
+        "اربعه",
+        "ال4",
+        "الاربعه"
+      ],
+      "wrong_answers": [
+        "2",
+        "3",
+        "5",
+        "6",
+        "1",
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    {
+      "id": "أغان_186",
+      "prompt": "ما هو الاسم الحقيقي للمغني العالمي الشهير برونو مارس الملقب بملك البوب الحديث؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "Peter Gene Hernandez",
+        "الPeter Gene Hernandez",
+        "بيتر جين هيرنانديز",
+        "البيتر جين هيرنانديز"
+      ],
+      "wrong_answers": [
+        "Austin Mahone",
+        "Shawn Mendes",
+        "Enrique Iglesias",
+        "Ricky Martin",
+        "Luis Fonsi",
+        "Jason Derulo",
+        "Adam Levine",
+        "Justin Timberlake"
+      ]
+    },
+    {
+      "id": "أغان_187",
+      "prompt": "أي أغنية للمغنية ليدي غاغا أصبحت نشظاً عالمياً لحقوق المثليين والمهمشين منذ صدورها عام 2011؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "بورن ذيس ويه",
+        "Born This Way",
+        "البورن ذيس ويه",
+        "الBorn This Way"
+      ],
+      "wrong_answers": [
+        "Bad Romance",
+        "Poker Face",
+        "Just Dance",
+        "Paprazzi",
+        "Telephone",
+        "Shallow",
+        "Judas",
+        "Applause"
+      ]
+    },
+    {
+      "id": "أغان_188",
+      "prompt": "ما هي الجنسية الأصلية للمغنية والمؤلفة دوا ليبا صاحبة الأغاني الراقصة الشهيرة؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "البريطانية",
+        "البريطانيه",
+        "الBritish",
+        "بريطانية",
+        "بريطانيه",
+        "British"
+      ],
+      "wrong_answers": [
+        "American",
+        "Australian",
+        "Canadian",
+        "French",
+        "German",
+        "Spanish",
+        "Italian",
+        "Swedish"
+      ]
+    },
+    {
+      "id": "أغان_189",
+      "prompt": "في أي عام تم إطلاق الأغنية الشهيرة بيليه للمغني مايكل جاكسون ضمن ألبوم ثريلر؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "العام 1982",
+        "ال1982",
+        "عام ١٩٨٢",
+        "1982",
+        "١٩٨٢",
+        "عام 1982"
+      ],
+      "wrong_answers": [
+        "1979",
+        "1981",
+        "1983",
+        "1985",
+        "1987",
+        "1977",
+        "1984",
+        "1980"
+      ]
+    },
+    {
+      "id": "أغان_190",
+      "prompt": "ما هو اسم الألبوم الأول للنجمة أوليفيا رودريغو الذي تضمن أغانٍ حققت صدارة بيلبورد مثل جيد فور يو؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "السور",
+        "الSour",
+        "Sour",
+        "سور"
+      ],
+      "wrong_answers": [
+        "Guts",
+        "Fearless",
+        "Folklore",
+        "Future Nostalgia",
+        "Planet Her",
+        "Happier Than Ever",
+        "Normof Fa",
+        "Fine Line"
+      ]
+    },
+    {
+      "id": "أغان_191",
+      "prompt": "أي مغني بريطاني اشتهرت أغنيته بلدينغ غاس وتصدرت قوائم الاستماع العالمية؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "سام سميث",
+        "السام سميث",
+        "الSam Smith",
+        "Sam Smith"
+      ],
+      "wrong_answers": [
+        "Ed Sheeran",
+        "Harry Styles",
+        "Calum Scott",
+        "James Arthur",
+        "Tom Odell",
+        "John Newman",
+        "George Ezra",
+        "Olly Murs"
+      ]
+    },
+    {
+      "id": "أغان_192",
+      "prompt": "ما هو عدد الأعضاء الحاليين في فرقة الفتيان الكورية الشهيرة سيفرتين؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ثلاثة عشر",
+        "الثلاثة عشر",
+        "الثلاثه عشر",
+        "ثلاثه عشر",
+        "ال13",
+        "١٣",
+        "13"
+      ],
+      "wrong_answers": [
+        "7",
+        "9",
+        "11",
+        "12",
+        "10",
+        "8",
+        "6",
+        "14"
+      ]
+    },
+    {
+      "id": "أغان_193",
+      "prompt": "ما هو اسم ألبوم فرقة الروك الأمريكية إماجن دراغونز الصادر عام 2012 والذي ضم أغنية راديواكتيف؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الNight Visions",
+        "Night Visions",
+        "نايت فيجونز",
+        "النايت فيجونز"
+      ],
+      "wrong_answers": [
+        "Smoke and Mirrors",
+        "Evolve",
+        "Origins",
+        "Mercury",
+        "Mercury Act 1",
+        "Act 2",
+        "Believer",
+        "Thunder"
+      ]
+    },
+    {
+      "id": "أغان_194",
+      "prompt": "ما هو الاسم الفني الحقيقي للمغني والمنتج الموسيقي الأمريكي المعروف بـ مارشميلو خافي الوجه؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "كريستوفر كومستوك",
+        "الChristopher Comstock",
+        "الكريستوفر كومستوك",
+        "Christopher Comstock"
+      ],
+      "wrong_answers": [
+        "Sonny Moore",
+        "Thomas Pentz",
+        "Tim Bergling",
+        "Anton Zaslavski",
+        "Adam Wiles",
+        "Joel Zimmerman",
+        "Jacques Webster",
+        "Marshall Mathers"
+      ]
+    },
+    {
+      "id": "أغان_195",
+      "prompt": "كم يبلغ عدد الجوائز التي حققتها فرقة بي تي إس في حفل بيلبورد للموسيقى لعام واحد كأفضل فرقة؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "٤",
+        "4",
+        "ال4",
+        "الاربع جوائز",
+        "اربع جوائز",
+        "الأربع جوائز",
+        "أربع جوائز"
+      ],
+      "wrong_answers": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "8",
+        "0"
+      ]
+    },
+    {
+      "id": "أغان_196",
+      "prompt": "ما هي الأغنية التي أصدرتها فرقة الروك البريطانية كولدفلاي بالتعاون مع فرقة بي تي إس وحققت نجاحاً هائلاً عام 2021؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الماي يونيفيرس",
+        "الMy Universe",
+        "ماي يونيفيرس",
+        "My Universe"
+      ],
+      "wrong_answers": [
+        "Yellow",
+        "Viva la Vida",
+        "Fix You",
+        "Paradise",
+        "Hymn for the Weekend",
+        "Something Just Like This",
+        "A Sky Full of Stars",
+        "Adventure of a Lifetime"
+      ]
+    },
+    {
+      "id": "أغان_197",
+      "prompt": "ما هو اسم المغنية والملحنة الأمريكية البارزة المعروفة بأغنيتها إيثيليز المفعمة بالمشاعر؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الBillie Eilish",
+        "Billie Eilish",
+        "بيلي إيليش",
+        "البيلي ايليش",
+        "بيلي ايليش",
+        "البيلي إيليش"
+      ],
+      "wrong_answers": [
+        "Sabrina Carpenter",
+        "Gracie Abrams",
+        "Tate McRae",
+        "Clairo",
+        "Lorde",
+        "Phoebe Bridgers",
+        "Bebe Rexha",
+        "Halsey"
+      ]
+    },
+    {
+      "id": "أغان_198",
+      "prompt": "أي فنان راب أمريكي اشتهر بسلسلة ألبومات ذا مارشال ماذرز وإطلاق لقب إمينيم؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "الEminem",
+        "امينيم",
+        "الإمينيم",
+        "إمينيم",
+        "الامينيم",
+        "Eminem"
+      ],
+      "wrong_answers": [
+        "Snoop Dogg",
+        "Dr Dre",
+        "50 Cent",
+        "Kendrick Lamar",
+        "J Cole",
+        "Kanye West",
+        "Drake",
+        "Lil Wayne"
+      ]
+    },
+    {
+      "id": "أغان_199",
+      "prompt": "في أي عقد زمني بدأت مسيرة فرقة الروك الأمريكية الأسطورية ميتاليكا؟",
+      "answer_type": "number",
+      "correct_answers": [
+        "ال1980",
+        "1980",
+        "عقد الثمانينيات",
+        "١٩٨٠",
+        "العقد الثمانينيات"
+      ],
+      "wrong_answers": [
+        "1960",
+        "1970",
+        "1990",
+        "2000",
+        "1950",
+        "2010",
+        "1975",
+        "1985"
+      ]
+    },
+    {
+      "id": "أغان_200",
+      "prompt": "ما هو اسم المغني الكولومبي الذي جلب النكهة اللاتينية للعالم بأغانيه الشهيرة مثل ميكو ومينال؟",
+      "answer_type": "text_normalized",
+      "correct_answers": [
+        "جيه بالفين",
+        "الجيه بالفين",
+        "الJ Balvin",
+        "J Balvin"
+      ],
+      "wrong_answers": [
+        "Maluma",
+        "Bad Bunny",
+        "Ozuna",
+        "Daddy Yankee",
+        "Nicky Jam",
+        "Rauw Alejandro",
+        "Anuel AA",
+        "Farruko"
+      ]
+    }
+  ]
+}
