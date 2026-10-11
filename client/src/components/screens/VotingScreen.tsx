@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { ThumbsUp, ThumbsDown, LogOut, Volume2, VolumeX, Sparkles, Check } from 'lucide-react';
 import { useGame } from '../../context/GameContext';
-import { ConsolePet } from '../common/ConsolePet';
 import { GameTopHeader } from '../common/GameTopHeader';
+import { ConsolePet } from '../common/ConsolePet';
 
 export const VotingScreen: React.FC = () => {
   const {
@@ -14,16 +13,17 @@ export const VotingScreen: React.FC = () => {
     submitVote,
     currentRound,
     totalRounds,
-    currentTopicTitle,
     player,
     audio,
     haptic,
     leaveRoom,
+    abortGame,
+    room,
   } = useGame();
 
+  const isHost = player?.id === room?.hostId;
+
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [activeBottomTab, setActiveBottomTab] = useState<'game' | 'chat'>('game');
-  const [liked, setLiked] = useState<boolean | null>(null);
 
   const handleVote = (optionId: string, isSelf: boolean) => {
     if (hasVoted || isSelf) return;
@@ -32,38 +32,20 @@ export const VotingScreen: React.FC = () => {
     submitVote(optionId);
   };
 
-  const handleShare = async () => {
-    audio.playClick();
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'لعبة كلك! - مرحلة التصويت',
-          text: `أي هذه الإجابات هي الحقيقية برأيك؟: ${votingPrompt}`,
-        });
-      } catch (_) {}
-    }
-  };
-
-  const toggleReaction = (isLike: boolean) => {
-    audio.playClick();
-    haptic.triggerHaptic('light');
-    setLiked((prev) => (prev === isLike ? null : isLike));
-  };
-
   return (
-    <div className="flex flex-col min-h-screen bg-[#1b2245] light:bg-[#f4f7fb] bg-arcade-pattern px-3 pt-3 max-w-md md:max-w-3xl lg:max-w-4xl mx-auto w-full select-none justify-between relative pb-1">
-      {/* نافذة القائمة السريعة ☰ */}
+    <div className="flex flex-col h-full max-h-full overflow-y-auto px-3 sm:px-4 py-3 sm:py-4 max-w-3xl mx-auto w-full select-none justify-between relative">
+      {/* القائمة السريعة */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/70 flex items-start justify-start p-4 pt-16 backdrop-blur-xs"
+          className="fixed inset-0 z-50 bg-black/75 flex items-start justify-start p-4 pt-16 backdrop-blur-md"
           onClick={() => setIsMenuOpen(false)}
         >
           <div
-            className="w-56 bg-[#1e2337] light:bg-white border-3 border-black rounded-2xl p-3 shadow-[0_6px_0_#000] space-y-2 animate-fadeIn"
+            className="w-56 bg-surface-container-low border border-outline-variant/60 rounded-2xl p-3 shadow-2xl space-y-2 animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="text-xs font-black text-gray-400 light:text-slate-500 px-2 pb-1 border-b border-white/10 light:border-black/10">
-              خيارات اللعبة
+            <div className="text-xs font-bold text-on-surface-variant px-2 pb-1 border-b border-outline-variant/30">
+              خيارات الجلسة
             </div>
             <button
               type="button"
@@ -71,9 +53,11 @@ export const VotingScreen: React.FC = () => {
                 audio.toggleMute();
                 setIsMenuOpen(false);
               }}
-              className="w-full text-right p-2 rounded-xl hover:bg-white/10 light:hover:bg-black/5 text-xs font-bold text-white light:text-slate-900 flex items-center gap-2"
+              className="w-full text-right p-2 rounded-xl hover:bg-surface-container text-xs font-semibold text-white flex items-center gap-2"
             >
-              {audio.isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
+              <span className="material-symbols-outlined text-[18px]">
+                {audio.isMuted ? 'volume_off' : 'volume_up'}
+              </span>
               <span>{audio.isMuted ? 'تشغيل المؤثرات' : 'كتم المؤثرات'}</span>
             </button>
             <button
@@ -82,189 +66,110 @@ export const VotingScreen: React.FC = () => {
                 leaveRoom();
                 setIsMenuOpen(false);
               }}
-              className="w-full text-right p-2 rounded-xl hover:bg-rose-950/40 light:hover:bg-rose-100 text-xs font-bold text-rose-400 light:text-rose-600 flex items-center gap-2"
+              className="w-full text-right p-2 rounded-xl hover:bg-red-950/40 text-xs font-semibold text-rose-400 flex items-center gap-2"
             >
-              <LogOut className="w-4 h-4" />
+              <span className="material-symbols-outlined text-[18px]">logout</span>
               <span>مغادرة الجلسة</span>
             </button>
+            {isHost && (
+              <button
+                type="button"
+                onClick={() => {
+                  abortGame();
+                  setIsMenuOpen(false);
+                }}
+                className="w-full text-right p-2 rounded-xl hover:bg-amber-950/40 text-xs font-semibold text-amber-400 flex items-center gap-2 border-t border-outline-variant/30 pt-2"
+              >
+                <span className="material-symbols-outlined text-[18px]">stop_circle</span>
+                <span>إنهاء المباراة للجميع (للمضيف)</span>
+              </button>
+            )}
           </div>
         </div>
       )}
 
-      {/* 1. الشريط العلوي المتزامن (1/10 • المؤقت الدائري • 0:56) */}
+      {/* الشريط العلوي */}
       <GameTopHeader
         currentRound={currentRound}
         totalRounds={totalRounds}
         timeRemaining={timeRemaining}
         centerType="timer"
         onMenuClick={() => setIsMenuOpen(true)}
-        onShareClick={handleShare}
       />
 
-      {/* 2. بطاقة السؤال البنفسجية المطابقة للصورة */}
-      <div className="relative mt-2 mb-2 w-full">
-        {/* شارة الفئة العلوية */}
-        <div className="absolute -top-3.5 right-4 z-20 flex items-center gap-1">
-          <div className="bg-[#1e2337] light:bg-white px-3 py-1 rounded-lg border-2 border-black shadow-[0_2px_0_#000] text-[11px] font-black text-white light:text-slate-900">
-            {currentTopicTitle || 'الفلك و الفضاء'}
-          </div>
-          <div className="w-7 h-7 rounded-lg bg-[#8b5cf6] border-2 border-black flex items-center justify-center text-white shadow-[0_2px_0_#000]">
-            <Sparkles className="w-3.5 h-3.5" />
-          </div>
-        </div>
-
-        {/* جسم البطاقة البنفسجية بنمط النقاط */}
-        <div className="bg-[#8b5cf6] border-3 border-black rounded-3xl p-5 pt-8 md:p-8 md:pt-10 shadow-[0_6px_0_#4c1d95] relative overflow-hidden text-center min-h-[140px] md:min-h-[180px] flex flex-col justify-center">
-          <div
-            className="absolute inset-0 opacity-20 pointer-events-none"
-            style={{
-              backgroundImage: 'radial-gradient(#ffffff 2px, transparent 2px)',
-              backgroundSize: '16px 16px',
-            }}
-          />
-
-          <h2 className="text-base sm:text-lg md:text-2xl font-black text-white text-stroke-arcade leading-relaxed relative z-10 px-2 drop-shadow-[0_2px_0_#000]">
-            {votingPrompt || 'ما هي قوة الجذب الكونية التي تنشأ بين جميع أجزاء المادة؟'}
+      {/* بطاقة السؤال المركزية */}
+      <div className="my-auto space-y-4 sm:space-y-6">
+        <div className="dark-monochrome-card rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-white/10 text-center">
+          <span className="text-[11px] sm:text-xs font-medium text-on-surface-variant mb-1.5 sm:mb-2 block">
+            أي هذه الإجابات هي الحقيقة؟ 🕵️‍♂️
+          </span>
+          <h2 className="text-base sm:text-xl md:text-2xl font-bold text-white tracking-tight">
+            {votingPrompt || 'اختر الإجابة الصحيحة وتجنب الوقوع في فخ الخداع!'}
           </h2>
         </div>
 
-        {/* كبسولة التفاعل والإعجاب [ 👍 | 👎 ] */}
-        <div className="flex justify-end mt-2 pr-2">
-          <div className="bg-[#1e2337] light:bg-white border-2 border-black rounded-2xl p-1 flex items-center gap-1 shadow-[0_3px_0_#000]">
-            <button
-              type="button"
-              onClick={() => toggleReaction(true)}
-              className={`p-1.5 rounded-xl transition-all ${
-                liked === true ? 'bg-emerald-500 text-white' : 'text-gray-300 light:text-slate-600 hover:text-white'
-              }`}
-              title="إعجاب بالسؤال"
-            >
-              <ThumbsUp className="w-4 h-4 fill-current" />
-            </button>
-            <div className="w-px h-4 bg-black/60 light:bg-slate-300" />
-            <button
-              type="button"
-              onClick={() => toggleReaction(false)}
-              className={`p-1.5 rounded-xl transition-all ${
-                liked === false ? 'bg-rose-500 text-white' : 'text-gray-300 light:text-slate-600 hover:text-white'
-              }`}
-              title="لم يعجبني"
-            >
-              <ThumbsDown className="w-4 h-4 fill-current" />
-            </button>
-          </div>
-        </div>
-      </div>
+        {/* شبكة خيارات التصويت */}
+        <div className="grid grid-cols-2 gap-2 sm:gap-3.5">
+          {votingOptions.map((opt, idx) => {
+            const isSelected = votedOptionId === opt.id;
+            const isSelf = opt.isSelfSubmission;
+            const isLastOdd = idx === votingOptions.length - 1 && votingOptions.length % 2 !== 0;
 
-      {/* 3. كائن وشخصية اللاعب في المنتصف مع شارة النقاط في الأعلى والاسم بالأسفل */}
-      <div className="flex flex-col items-center justify-center my-auto py-2">
-        <div className="relative flex flex-col items-center">
-          <span className="text-[11px] md:text-xs font-black font-mono text-black bg-white px-2.5 py-0.5 rounded-md border border-black shadow-[0_1px_0_#000] -mb-1 z-10">
-            {player?.score ?? 0}
-          </span>
-          <div className="animate-bounce-subtle">
-            <ConsolePet avatar={player?.avatar} size={76} />
-          </div>
-          <span className="text-xs md:text-sm font-black text-white light:text-slate-900 text-stroke-sm mt-0.5">
-            {player?.nickname || 'mouh'}
-          </span>
-        </div>
-      </div>
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                disabled={hasVoted || isSelf}
+                onClick={() => handleVote(opt.id, isSelf)}
+                className={`w-full relative text-center px-6 py-3.5 sm:py-4.5 rounded-2xl sm:rounded-3xl border transition-all duration-150 flex flex-col items-center justify-center min-h-[58px] sm:min-h-[66px] ${
+                  isLastOdd ? 'col-span-2' : 'col-span-1'
+                } ${
+                  isSelected
+                    ? 'bg-surface-container-high border-2 border-white ring-2 ring-white/10 shadow-lg scale-[1.01]'
+                    : isSelf
+                    ? 'bg-surface-container-low/50 border-outline-variant/30 opacity-40 cursor-not-allowed'
+                    : 'bg-surface-container-low hover:bg-surface-container border-outline-variant/50 text-white active:scale-98 cursor-pointer'
+                }`}
+              >
+                <span className="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-snug w-full block">
+                  {opt.text}
+                </span>
 
-      {/* 4. قسم خيارات التصويت السفلي */}
-      <div className="w-full">
-        {/* اللسان العلوي الشبه منحرف "اختر إجابة" */}
-        <div className="flex justify-center -mb-2 relative z-10">
-          <div className="bg-white border-2 border-black rounded-t-xl px-6 py-1 shadow-[0_2px_0_#000]">
-            <span className="text-xs md:text-sm font-black text-black">اختر الإجابة الصحيحة برأيك 🗳️</span>
-          </div>
-        </div>
+                {isSelf && (
+                  <span className="text-[10px] sm:text-[11px] text-outline mt-1 text-center font-medium block">
+                    (إجابتك أنت — لا يمكنك التصويت عليها)
+                  </span>
+                )}
 
-        {/* الحاوية الزرقاء للخيارات */}
-        <div className="bg-[#0070f3] border-3 border-black rounded-t-3xl p-3.5 md:p-5 pt-5 shadow-[0_6px_0_#0047a5]">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-3.5">
-            {votingOptions.map((opt) => {
-              const isSelected = votedOptionId === opt.id;
-              const isSelf = opt.isSelfSubmission;
-
-              if (isSelf) {
-                return (
-                  <div key={opt.id} className="relative">
-                    {/* شارة "إجابتك" السوداء المثبتة فوق الخيار المعطل */}
-                    <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10 bg-black text-white px-2 py-0.2 rounded border border-white/50 text-[10px] font-black shadow-sm">
-                      إجابتك
-                    </div>
-                    <button
-                      type="button"
-                      disabled
-                      className="w-full py-4 px-2.5 rounded-2xl bg-[#9cb3cf] border-2 border-black text-[#5a6e85] font-black text-sm sm:text-base cursor-not-allowed opacity-90 shadow-[0_3px_0_#627d98] truncate"
-                    >
-                      {opt.text}
-                    </button>
+                {/* مؤشر الاختيار والتصويت على جانب الكبسولة */}
+                {isSelected && (
+                  <div className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white text-surface-container-lowest flex items-center justify-center shrink-0 shadow-md">
+                    <span className="material-symbols-outlined text-[14px] sm:text-[16px] font-bold">check</span>
                   </div>
-                );
-              }
+                )}
+              </button>
+            );
+          })}
+        </div>
 
-              return (
-                <button
-                  key={opt.id}
-                  type="button"
-                  disabled={hasVoted}
-                  onClick={() => handleVote(opt.id, false)}
-                  className={`w-full py-4 px-2.5 rounded-2xl border-3 border-black font-black text-sm sm:text-base md:text-lg transition-all transform flex items-center justify-center relative active:scale-95 shadow-[0_4px_0_#000] ${
-                    isSelected
-                      ? 'bg-[#10b981] text-white shadow-[0_4px_0_#047857] ring-2 ring-white scale-[1.02]'
-                      : hasVoted
-                      ? 'bg-gray-200 text-gray-500 cursor-default opacity-80'
-                      : 'bg-white hover:bg-slate-100 text-black cursor-pointer hover:scale-[1.02]'
-                  }`}
-                >
-                  <span className="truncate">{opt.text}</span>
-                  {isSelected && (
-                    <div className="absolute left-2 w-5 h-5 rounded-full bg-black text-white flex items-center justify-center">
-                      <Check className="w-3.5 h-3.5 stroke-[3]" />
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          {hasVoted && (
-            <div className="mt-2.5 text-center text-xs md:text-sm font-black text-white/90 animate-pulse">
-              تم تسجيل تصويتك! في انتظار بقية اللاعبين... 🗳️
+        {/* حالة بعد التصويت */}
+        {hasVoted && (
+          <div className="p-3 sm:p-4 rounded-xl bg-surface-container-low border border-outline-variant/40 text-center animate-fadeIn flex items-center justify-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-surface-container-high border border-outline-variant/50 flex items-center justify-center overflow-hidden shrink-0">
+              <ConsolePet avatar={player?.avatar} size={28} />
             </div>
-          )}
-        </div>
-
-        {/* 5. كبسولة التبديل السفلية بين اللعبة والدردشة */}
-        <div className="flex justify-center bg-[#1b2245] light:bg-[#f4f7fb] py-2">
-          <div className="flex items-center bg-[#1e2337] light:bg-white border-2 border-black rounded-full p-1 shadow-[0_3px_0_#000]">
-            <button
-              type="button"
-              onClick={() => setActiveBottomTab('game')}
-              className={`px-6 py-1 rounded-full text-xs font-black transition-all ${
-                activeBottomTab === 'game'
-                  ? 'bg-[#0070f3] text-white border border-black shadow-sm'
-                  : 'text-gray-400 light:text-slate-600 hover:text-white'
-              }`}
-            >
-              لعبة
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveBottomTab('chat')}
-              className={`px-6 py-1 rounded-full text-xs font-black transition-all ${
-                activeBottomTab === 'chat'
-                  ? 'bg-[#0070f3] text-white border border-black shadow-sm'
-                  : 'text-gray-400 light:text-slate-600 hover:text-white'
-              }`}
-            >
-              دردشة
-            </button>
+            <span className="text-xs font-bold text-white flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[15px] sm:text-[16px] text-emerald-400">check_circle</span>
+              <span>تم تسجيل تصويتك يا {player?.nickname}! في انتظار كشف الخدعة...</span>
+            </span>
           </div>
-        </div>
+        )}
       </div>
+
+      {/* تذييل */}
+      <footer className="text-center text-xs text-outline pt-4 font-mono">
+        ESC — مرحلة التصويت وكشف الخداع
+      </footer>
     </div>
   );
 };

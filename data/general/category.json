@@ -1,0 +1,8 @@
+{
+  "id": "general",
+  "title": "معلومات عامة",
+  "icon": "HelpCircle",
+  "badge": "منوع",
+  "color": "#6366f1",
+  "order": 2
+}

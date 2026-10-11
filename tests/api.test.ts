@@ -42,7 +42,7 @@ describe('REST API Endpoints', () => {
       body: JSON.stringify({
         hostNickname: 'قائد اللعبة',
         hostAvatar: '🦁',
-        allowedTopicIds: ['islamic_history', 'science_nature'],
+        allowedTopicIds: ['الفيزياء', 'رياضة'],
       }),
     });
 

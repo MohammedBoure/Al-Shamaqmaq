@@ -13,8 +13,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البيك",
-        "الAlbaik",
-        "Albaik",
         "بيك"
       ],
       "wrong_answers": [
@@ -34,9 +32,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الكودو",
-        "Kudu",
-        "كودو",
-        "الKudu"
+        "كودو"
       ],
       "wrong_answers": [
         "هرفي",
@@ -56,9 +52,7 @@
       "correct_answers": [
         "الرومانسيه",
         "رومانسيه",
-        "الAl Romansiah",
         "رومانسية",
-        "Al Romansiah",
         "الرومانسية"
       ],
       "wrong_answers": [
@@ -79,10 +73,8 @@
       "correct_answers": [
         "ماما نورة",
         "الماما نورة",
-        "الMama Noura",
         "الماما نوره",
-        "ماما نوره",
-        "Mama Noura"
+        "ماما نوره"
       ],
       "wrong_answers": [
         "شاورمر",
@@ -125,9 +117,7 @@
       "prompt": "ما اسم سلسلة مطاعم البرجر السعودية الرائدة التي أسسها أحمد السعيد في الرياض عام 1981؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHerfy",
         "الهرفي",
-        "Herfy",
         "هرفي"
       ],
       "wrong_answers": [
@@ -147,10 +137,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -169,10 +157,8 @@
       "prompt": "ما اسم السلسلة السعودية المتخصصة في تقديم لحوم الحاشي والأرز الشعبي في مختلف مناطق المملكة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHashi Basha",
         "حاشي باشا",
-        "الحاشي باشا",
-        "Hashi Basha"
+        "الحاشي باشا"
       ],
       "wrong_answers": [
         "الرومانسية",
@@ -191,8 +177,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "شاورمر",
-        "Shawarmer",
-        "الShawarmer",
         "الشاورمر"
       ],
       "wrong_answers": [
@@ -211,13 +195,7 @@
       "prompt": "كم عدد قطع الدجاج في وجبة 'المسحب' الكلاسيكية الأكثر مبيعاً لدى مطعم البيك؟",
       "answer_type": "number",
       "correct_answers": [
-        "10",
-        "١٠",
-        "عشرة",
-        "العشره",
-        "عشره",
-        "العشرة",
-        "ال10"
+        "10"
       ],
       "wrong_answers": [
         "6",
@@ -238,8 +216,6 @@
         "قريه نجديه",
         "قرية نجدية",
         "القرية نجدية",
-        "الNajd Village",
-        "Najd Village",
         "القريه النجديه",
         "قرية النجدية",
         "قريه النجديه",
@@ -262,11 +238,7 @@
       "prompt": "ما اسم مطعم البرجر الفاخر الشهير الذي بدأ في مدينة جدة وحقق شهرة واسعة بشعار حرف B الأسود؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Section-B",
-        "Section B",
-        "الSection-B",
         "سيكشن بي",
-        "الSection B",
         "السكشن بي",
         "سكشن بي",
         "السيكشن بي"
@@ -322,9 +294,7 @@
       "correct_answers": [
         "شوايه الخليج",
         "شواية الخليج",
-        "Shawayat Al Khaleej",
         "الشواية الخليج",
-        "الShawayat Al Khaleej",
         "الشوايه الخليج"
       ],
       "wrong_answers": [
@@ -373,9 +343,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "معصوب",
-        "Masoub",
-        "المعصوب",
-        "الMasoub"
+        "المعصوب"
       ],
       "wrong_answers": [
         "العريكة",
@@ -394,11 +362,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "برغرايزك",
-        "Burgerizzr",
         "البرجرايزك",
         "البرغرايزك",
-        "برجرايزك",
-        "الBurgerizzr"
+        "برجرايزك"
       ],
       "wrong_answers": [
         "هامبرغيني",
@@ -419,8 +385,6 @@
         "فاير جريل",
         "الفاير جريل",
         "الفايرجريل",
-        "FireGrill",
-        "الFireGrill",
         "فايرجريل"
       ],
       "wrong_answers": [
@@ -440,9 +404,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "المطبق",
-        "الMutabbaq",
-        "مطبق",
-        "Mutabbaq"
+        "مطبق"
       ],
       "wrong_answers": [
         "التميس",
@@ -460,12 +422,6 @@
       "prompt": "كم عدد قطع الدجاج الكلاسيكية في وجبة البروستد العادية التي يقدمها مطعم البيك؟",
       "answer_type": "number",
       "correct_answers": [
-        "٤",
-        "الأربعة",
-        "أربعة",
-        "اربعه",
-        "ال4",
-        "الاربعه",
         "4"
       ],
       "wrong_answers": [
@@ -486,8 +442,6 @@
       "correct_answers": [
         "الأبو زيد",
         "أبو زيد",
-        "الAbu Zaid",
-        "Abu Zaid",
         "ابو زيد",
         "الابو زيد"
       ],
@@ -508,9 +462,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "منتو",
-        "الMantu",
-        "المنتو",
-        "Mantu"
+        "المنتو"
       ],
       "wrong_answers": [
         "الفرموزة",
@@ -529,9 +481,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "خبز التميس",
-        "الTamees",
         "تميس",
-        "Tamees",
         "التميس",
         "الخبز التميس"
       ],
@@ -551,8 +501,6 @@
       "prompt": "ما اسم سلسلة مطاعم الشاورما السعودية الكبيرة التي بدأت في الرياض وتشتهر بتقديم وجبات عربية عائلية وبوكسات الشاورما الصاج؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawarma House",
-        "الShawarma House",
         "بيت الشاورما",
         "البيت الشاورما"
       ],
@@ -573,10 +521,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -596,8 +542,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البيك",
-        "الAlbaik",
-        "Albaik",
         "بيك"
       ],
       "wrong_answers": [
@@ -617,9 +561,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الكودو",
-        "Kudu",
-        "كودو",
-        "الKudu"
+        "كودو"
       ],
       "wrong_answers": [
         "هرفي",
@@ -639,9 +581,7 @@
       "correct_answers": [
         "الرومانسيه",
         "رومانسيه",
-        "الAl Romansiah",
         "رومانسية",
-        "Al Romansiah",
         "الرومانسية"
       ],
       "wrong_answers": [
@@ -662,10 +602,8 @@
       "correct_answers": [
         "ماما نورة",
         "الماما نورة",
-        "الMama Noura",
         "الماما نوره",
-        "ماما نوره",
-        "Mama Noura"
+        "ماما نوره"
       ],
       "wrong_answers": [
         "شاورمر",
@@ -708,9 +646,7 @@
       "prompt": "ما اسم سلسلة مطاعم البرجر السعودية الرائدة التي أسسها أحمد السعيد في الرياض عام 1981؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHerfy",
         "الهرفي",
-        "Herfy",
         "هرفي"
       ],
       "wrong_answers": [
@@ -730,10 +666,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -752,10 +686,8 @@
       "prompt": "ما اسم السلسلة السعودية المتخصصة في تقديم لحوم الحاشي والأرز الشعبي في مختلف مناطق المملكة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHashi Basha",
         "حاشي باشا",
-        "الحاشي باشا",
-        "Hashi Basha"
+        "الحاشي باشا"
       ],
       "wrong_answers": [
         "الرومانسية",
@@ -774,8 +706,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "شاورمر",
-        "Shawarmer",
-        "الShawarmer",
         "الشاورمر"
       ],
       "wrong_answers": [
@@ -794,13 +724,7 @@
       "prompt": "كم عدد قطع الدجاج في وجبة 'المسحب' الكلاسيكية الأكثر مبيعاً لدى مطعم البيك؟",
       "answer_type": "number",
       "correct_answers": [
-        "10",
-        "١٠",
-        "عشرة",
-        "العشره",
-        "عشره",
-        "العشرة",
-        "ال10"
+        "10"
       ],
       "wrong_answers": [
         "6",
@@ -821,8 +745,6 @@
         "قريه نجديه",
         "قرية نجدية",
         "القرية نجدية",
-        "الNajd Village",
-        "Najd Village",
         "القريه النجديه",
         "قرية النجدية",
         "قريه النجديه",
@@ -845,11 +767,7 @@
       "prompt": "ما اسم مطعم البرجر الفاخر الشهير الذي بدأ في مدينة جدة وحقق شهرة واسعة بشعار حرف B الأسود؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Section-B",
-        "Section B",
-        "الSection-B",
         "سيكشن بي",
-        "الSection B",
         "السكشن بي",
         "سكشن بي",
         "السيكشن بي"
@@ -905,9 +823,7 @@
       "correct_answers": [
         "شوايه الخليج",
         "شواية الخليج",
-        "Shawayat Al Khaleej",
         "الشواية الخليج",
-        "الShawayat Al Khaleej",
         "الشوايه الخليج"
       ],
       "wrong_answers": [
@@ -956,9 +872,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "معصوب",
-        "Masoub",
-        "المعصوب",
-        "الMasoub"
+        "المعصوب"
       ],
       "wrong_answers": [
         "العريكة",
@@ -977,11 +891,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "برغرايزك",
-        "Burgerizzr",
         "البرجرايزك",
         "البرغرايزك",
-        "برجرايزك",
-        "الBurgerizzr"
+        "برجرايزك"
       ],
       "wrong_answers": [
         "هامبرغيني",
@@ -1002,8 +914,6 @@
         "فاير جريل",
         "الفاير جريل",
         "الفايرجريل",
-        "FireGrill",
-        "الFireGrill",
         "فايرجريل"
       ],
       "wrong_answers": [
@@ -1023,9 +933,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "المطبق",
-        "الMutabbaq",
-        "مطبق",
-        "Mutabbaq"
+        "مطبق"
       ],
       "wrong_answers": [
         "التميس",
@@ -1043,12 +951,6 @@
       "prompt": "كم عدد قطع الدجاج الكلاسيكية في وجبة البروستد العادية التي يقدمها مطعم البيك؟",
       "answer_type": "number",
       "correct_answers": [
-        "٤",
-        "الأربعة",
-        "أربعة",
-        "اربعه",
-        "ال4",
-        "الاربعه",
         "4"
       ],
       "wrong_answers": [
@@ -1069,8 +971,6 @@
       "correct_answers": [
         "الأبو زيد",
         "أبو زيد",
-        "الAbu Zaid",
-        "Abu Zaid",
         "ابو زيد",
         "الابو زيد"
       ],
@@ -1091,9 +991,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "منتو",
-        "الMantu",
-        "المنتو",
-        "Mantu"
+        "المنتو"
       ],
       "wrong_answers": [
         "الفرموزة",
@@ -1112,9 +1010,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "خبز التميس",
-        "الTamees",
         "تميس",
-        "Tamees",
         "التميس",
         "الخبز التميس"
       ],
@@ -1134,8 +1030,6 @@
       "prompt": "ما اسم سلسلة مطاعم الشاورما السعودية الكبيرة التي بدأت في الرياض وتشتهر بتقديم وجبات عربية عائلية وبوكسات الشاورما الصاج؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawarma House",
-        "الShawarma House",
         "بيت الشاورما",
         "البيت الشاورما"
       ],
@@ -1156,10 +1050,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -1179,8 +1071,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البيك",
-        "الAlbaik",
-        "Albaik",
         "بيك"
       ],
       "wrong_answers": [
@@ -1200,9 +1090,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الكودو",
-        "Kudu",
-        "كودو",
-        "الKudu"
+        "كودو"
       ],
       "wrong_answers": [
         "هرفي",
@@ -1222,9 +1110,7 @@
       "correct_answers": [
         "الرومانسيه",
         "رومانسيه",
-        "الAl Romansiah",
         "رومانسية",
-        "Al Romansiah",
         "الرومانسية"
       ],
       "wrong_answers": [
@@ -1245,10 +1131,8 @@
       "correct_answers": [
         "ماما نورة",
         "الماما نورة",
-        "الMama Noura",
         "الماما نوره",
-        "ماما نوره",
-        "Mama Noura"
+        "ماما نوره"
       ],
       "wrong_answers": [
         "شاورمر",
@@ -1291,9 +1175,7 @@
       "prompt": "ما اسم سلسلة مطاعم البرجر والوجبات السريعة السعودية التي أسسها أحمد السعيد في الرياض عام 1981 بالشراكة مع شركة المراعي؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHerfy",
         "الهرفي",
-        "Herfy",
         "هرفي"
       ],
       "wrong_answers": [
@@ -1313,10 +1195,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -1335,10 +1215,8 @@
       "prompt": "ما اسم السلسلة السعودية الشهيرة المتخصصة بتقديم مضغوط ومكبوس لحم الحاشي الطازج ولها مئات الفروع؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHashi Basha",
         "حاشي باشا",
-        "الحاشي باشا",
-        "Hashi Basha"
+        "الحاشي باشا"
       ],
       "wrong_answers": [
         "الرومانسية",
@@ -1357,8 +1235,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "شاورمر",
-        "Shawarmer",
-        "الShawarmer",
         "الشاورمر"
       ],
       "wrong_answers": [
@@ -1377,13 +1253,7 @@
       "prompt": "كم عدد قطع الدجاج في وجبة 'المسحب' الكلاسيكية الشهيرة لدى مطعم البيك السعودي؟",
       "answer_type": "number",
       "correct_answers": [
-        "10",
-        "١٠",
-        "عشرة",
-        "العشره",
-        "عشره",
-        "العشرة",
-        "ال10"
+        "10"
       ],
       "wrong_answers": [
         "6",
@@ -1404,8 +1274,6 @@
         "قريه نجديه",
         "قرية نجدية",
         "القرية نجدية",
-        "الNajd Village",
-        "Najd Village",
         "القريه النجديه",
         "قرية النجدية",
         "قريه النجديه",
@@ -1428,11 +1296,7 @@
       "prompt": "ما اسم مطعم البرجر الفاخر المستقل الذي بدأ في جدة وحقق صيتاً واسعاً في المملكة بشعار حرف B المميز؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Section-B",
-        "Section B",
-        "الSection-B",
         "سيكشن بي",
-        "الSection B",
         "السكشن بي",
         "سكشن بي",
         "السيكشن بي"
@@ -1488,9 +1352,7 @@
       "correct_answers": [
         "شوايه الخليج",
         "شواية الخليج",
-        "Shawayat Al Khaleej",
         "الشواية الخليج",
-        "الShawayat Al Khaleej",
         "الشوايه الخليج"
       ],
       "wrong_answers": [
@@ -1539,9 +1401,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "معصوب",
-        "Masoub",
-        "المعصوب",
-        "الMasoub"
+        "المعصوب"
       ],
       "wrong_answers": [
         "العريكة",
@@ -1560,11 +1420,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "برغرايزك",
-        "Burgerizzr",
         "البرجرايزك",
         "البرغرايزك",
-        "برجرايزك",
-        "الBurgerizzr"
+        "برجرايزك"
       ],
       "wrong_answers": [
         "هامبرغيني",
@@ -1585,8 +1443,6 @@
         "فاير جريل",
         "الفاير جريل",
         "الفايرجريل",
-        "FireGrill",
-        "الFireGrill",
         "فايرجريل"
       ],
       "wrong_answers": [
@@ -1606,9 +1462,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "المطبق",
-        "الMutabbaq",
-        "مطبق",
-        "Mutabbaq"
+        "مطبق"
       ],
       "wrong_answers": [
         "التميس",
@@ -1626,12 +1480,6 @@
       "prompt": "كم عدد قطع الدجاج الكلاسيكية في وجبة الدجاج البروستد العادية الشهيرة التي يقدمها مطعم البيك؟",
       "answer_type": "number",
       "correct_answers": [
-        "٤",
-        "الأربعة",
-        "أربعة",
-        "اربعه",
-        "ال4",
-        "الاربعه",
         "4"
       ],
       "wrong_answers": [
@@ -1652,8 +1500,6 @@
       "correct_answers": [
         "الأبو زيد",
         "أبو زيد",
-        "الAbu Zaid",
-        "Abu Zaid",
         "ابو زيد",
         "الابو زيد"
       ],
@@ -1674,9 +1520,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "منتو",
-        "الMantu",
-        "المنتو",
-        "Mantu"
+        "المنتو"
       ],
       "wrong_answers": [
         "الفرموزة",
@@ -1695,9 +1539,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "خبز التميس",
-        "الTamees",
         "تميس",
-        "Tamees",
         "التميس",
         "الخبز التميس"
       ],
@@ -1717,8 +1559,6 @@
       "prompt": "ما اسم سلسلة مطاعم الشاورما الكبيرة في الرياض التي اشتهرت بتقديم صحون الشاورما العربي والبوكسات العائلية والساندويتشات بالصاج؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawarma House",
-        "الShawarma House",
         "بيت الشاورما",
         "البيت الشاورما"
       ],
@@ -1739,10 +1579,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -1762,8 +1600,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البيك",
-        "الAlbaik",
-        "Albaik",
         "بيك"
       ],
       "wrong_answers": [
@@ -1783,9 +1619,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الكودو",
-        "Kudu",
-        "كودو",
-        "الKudu"
+        "كودو"
       ],
       "wrong_answers": [
         "هرفي",
@@ -1805,9 +1639,7 @@
       "correct_answers": [
         "الرومانسيه",
         "رومانسيه",
-        "الAl Romansiah",
         "رومانسية",
-        "Al Romansiah",
         "الرومانسية"
       ],
       "wrong_answers": [
@@ -1828,10 +1660,8 @@
       "correct_answers": [
         "ماما نورة",
         "الماما نورة",
-        "الMama Noura",
         "الماما نوره",
-        "ماما نوره",
-        "Mama Noura"
+        "ماما نوره"
       ],
       "wrong_answers": [
         "شاورمر",
@@ -1874,9 +1704,7 @@
       "prompt": "ما اسم سلسلة مطاعم البرجر والوجبات السريعة السعودية التي أسسها أحمد السعيد في الرياض عام 1981 بالشراكة مع شركة المراعي؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHerfy",
         "الهرفي",
-        "Herfy",
         "هرفي"
       ],
       "wrong_answers": [
@@ -1896,10 +1724,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -1918,10 +1744,8 @@
       "prompt": "ما اسم السلسلة السعودية الشهيرة المتخصصة بتقديم مضغوط ومكبوس لحم الحاشي الطازج ولها مئات الفروع بالمملكة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHashi Basha",
         "حاشي باشا",
-        "الحاشي باشا",
-        "Hashi Basha"
+        "الحاشي باشا"
       ],
       "wrong_answers": [
         "الرومانسية",
@@ -1940,8 +1764,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "شاورمر",
-        "Shawarmer",
-        "الShawarmer",
         "الشاورمر"
       ],
       "wrong_answers": [
@@ -1960,13 +1782,7 @@
       "prompt": "كم عدد قطع الدجاج في وجبة 'المسحب' الكلاسيكية الشهيرة الأكثر طلباً لدى مطعم البيك السعودي؟",
       "answer_type": "number",
       "correct_answers": [
-        "10",
-        "١٠",
-        "عشرة",
-        "العشره",
-        "عشره",
-        "العشرة",
-        "ال10"
+        "10"
       ],
       "wrong_answers": [
         "6",
@@ -1987,8 +1803,6 @@
         "قريه نجديه",
         "قرية نجدية",
         "القرية نجدية",
-        "الNajd Village",
-        "Najd Village",
         "القريه النجديه",
         "قرية النجدية",
         "قريه النجديه",
@@ -2011,11 +1825,7 @@
       "prompt": "ما اسم مطعم البرجر الفاخر المستقل الذي بدأ في جدة وحقق صيتاً واسعاً في المملكة بشعار حرف B الأسود؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Section-B",
-        "Section B",
-        "الSection-B",
         "سيكشن بي",
-        "الSection B",
         "السكشن بي",
         "سكشن بي",
         "السيكشن بي"
@@ -2071,9 +1881,7 @@
       "correct_answers": [
         "شوايه الخليج",
         "شواية الخليج",
-        "Shawayat Al Khaleej",
         "الشواية الخليج",
-        "الShawayat Al Khaleej",
         "الشوايه الخليج"
       ],
       "wrong_answers": [
@@ -2122,9 +1930,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "معصوب",
-        "Masoub",
-        "المعصوب",
-        "الMasoub"
+        "المعصوب"
       ],
       "wrong_answers": [
         "العريكة",
@@ -2143,11 +1949,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "برغرايزك",
-        "Burgerizzr",
         "البرجرايزك",
         "البرغرايزك",
-        "برجرايزك",
-        "الBurgerizzr"
+        "برجرايزك"
       ],
       "wrong_answers": [
         "هامبرغيني",
@@ -2168,8 +1972,6 @@
         "فاير جريل",
         "الفاير جريل",
         "الفايرجريل",
-        "FireGrill",
-        "الFireGrill",
         "فايرجريل"
       ],
       "wrong_answers": [
@@ -2189,9 +1991,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "المطبق",
-        "الMutabbaq",
-        "مطبق",
-        "Mutabbaq"
+        "مطبق"
       ],
       "wrong_answers": [
         "التميس",
@@ -2209,12 +2009,6 @@
       "prompt": "كم عدد قطع الدجاج الكلاسيكية في وجبة الدجاج البروستد العادية الشهيرة التي يقدمها مطعم البيك؟",
       "answer_type": "number",
       "correct_answers": [
-        "٤",
-        "الأربعة",
-        "أربعة",
-        "اربعه",
-        "ال4",
-        "الاربعه",
         "4"
       ],
       "wrong_answers": [
@@ -2235,8 +2029,6 @@
       "correct_answers": [
         "الأبو زيد",
         "أبو زيد",
-        "الAbu Zaid",
-        "Abu Zaid",
         "ابو زيد",
         "الابو زيد"
       ],
@@ -2257,9 +2049,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "منتو",
-        "الMantu",
-        "المنتو",
-        "Mantu"
+        "المنتو"
       ],
       "wrong_answers": [
         "الفرموزة",
@@ -2278,9 +2068,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "خبز التميس",
-        "الTamees",
         "تميس",
-        "Tamees",
         "التميس",
         "الخبز التميس"
       ],
@@ -2300,8 +2088,6 @@
       "prompt": "ما اسم سلسلة مطاعم الشاورما الكبيرة في الرياض التي اشتهرت بتقديم صحون الشاورما العربي والبوكسات العائلية والساندويتشات بالصاج؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawarma House",
-        "الShawarma House",
         "بيت الشاورما",
         "البيت الشاورما"
       ],
@@ -2322,10 +2108,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -2345,8 +2129,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البيك",
-        "الAlbaik",
-        "Albaik",
         "بيك"
       ],
       "wrong_answers": [
@@ -2366,9 +2148,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الكودو",
-        "Kudu",
-        "كودو",
-        "الKudu"
+        "كودو"
       ],
       "wrong_answers": [
         "هرفي",
@@ -2388,9 +2168,7 @@
       "correct_answers": [
         "الرومانسيه",
         "رومانسيه",
-        "الAl Romansiah",
         "رومانسية",
-        "Al Romansiah",
         "الرومانسية"
       ],
       "wrong_answers": [
@@ -2411,10 +2189,8 @@
       "correct_answers": [
         "ماما نورة",
         "الماما نورة",
-        "الMama Noura",
         "الماما نوره",
-        "ماما نوره",
-        "Mama Noura"
+        "ماما نوره"
       ],
       "wrong_answers": [
         "شاورمر",
@@ -2457,9 +2233,7 @@
       "prompt": "ما اسم سلسلة مطاعم البرجر والوجبات السريعة السعودية التي أسسها أحمد السعيد في الرياض عام 1981 بالشراكة مع شركة المراعي؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHerfy",
         "الهرفي",
-        "Herfy",
         "هرفي"
       ],
       "wrong_answers": [
@@ -2479,10 +2253,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -2501,10 +2273,8 @@
       "prompt": "ما اسم السلسلة السعودية الشهيرة المتخصصة بتقديم مضغوط ومكبوس لحم الحاشي الطازج ولها مئات الفروع بالمملكة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHashi Basha",
         "حاشي باشا",
-        "الحاشي باشا",
-        "Hashi Basha"
+        "الحاشي باشا"
       ],
       "wrong_answers": [
         "الرومانسية",
@@ -2523,8 +2293,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "شاورمر",
-        "Shawarmer",
-        "الShawarmer",
         "الشاورمر"
       ],
       "wrong_answers": [
@@ -2543,13 +2311,7 @@
       "prompt": "كم عدد قطع الدجاج في وجبة 'المسحب' الكلاسيكية الشهيرة الأكثر طلباً لدى مطعم البيك السعودي؟",
       "answer_type": "number",
       "correct_answers": [
-        "10",
-        "١٠",
-        "عشرة",
-        "العشره",
-        "عشره",
-        "العشرة",
-        "ال10"
+        "10"
       ],
       "wrong_answers": [
         "6",
@@ -2570,8 +2332,6 @@
         "قريه نجديه",
         "قرية نجدية",
         "القرية نجدية",
-        "الNajd Village",
-        "Najd Village",
         "القريه النجديه",
         "قرية النجدية",
         "قريه النجديه",
@@ -2594,11 +2354,7 @@
       "prompt": "ما اسم مطعم البرجر الفاخر المستقل الذي بدأ في جدة وحقق صيتاً واسعاً في المملكة بشعار حرف B الأسود؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Section-B",
-        "Section B",
-        "الSection-B",
         "سيكشن بي",
-        "الSection B",
         "السكشن بي",
         "سكشن بي",
         "السيكشن بي"
@@ -2654,9 +2410,7 @@
       "correct_answers": [
         "شوايه الخليج",
         "شواية الخليج",
-        "Shawayat Al Khaleej",
         "الشواية الخليج",
-        "الShawayat Al Khaleej",
         "الشوايه الخليج"
       ],
       "wrong_answers": [
@@ -2705,9 +2459,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "معصوب",
-        "Masoub",
-        "المعصوب",
-        "الMasoub"
+        "المعصوب"
       ],
       "wrong_answers": [
         "العريكة",
@@ -2726,11 +2478,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "برغرايزك",
-        "Burgerizzr",
         "البرجرايزك",
         "البرغرايزك",
-        "برجرايزك",
-        "الBurgerizzr"
+        "برجرايزك"
       ],
       "wrong_answers": [
         "هامبرغيني",
@@ -2751,8 +2501,6 @@
         "فاير جريل",
         "الفاير جريل",
         "الفايرجريل",
-        "FireGrill",
-        "الFireGrill",
         "فايرجريل"
       ],
       "wrong_answers": [
@@ -2772,9 +2520,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "المطبق",
-        "الMutabbaq",
-        "مطبق",
-        "Mutabbaq"
+        "مطبق"
       ],
       "wrong_answers": [
         "التميس",
@@ -2792,12 +2538,6 @@
       "prompt": "كم عدد قطع الدجاج الكلاسيكية في وجبة الدجاج البروستد العادية الشهيرة التي يقدمها مطعم البيك؟",
       "answer_type": "number",
       "correct_answers": [
-        "٤",
-        "الأربعة",
-        "أربعة",
-        "اربعه",
-        "ال4",
-        "الاربعه",
         "4"
       ],
       "wrong_answers": [
@@ -2818,8 +2558,6 @@
       "correct_answers": [
         "الأبو زيد",
         "أبو زيد",
-        "الAbu Zaid",
-        "Abu Zaid",
         "ابو زيد",
         "الابو زيد"
       ],
@@ -2840,9 +2578,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "منتو",
-        "الMantu",
-        "المنتو",
-        "Mantu"
+        "المنتو"
       ],
       "wrong_answers": [
         "الفرموزة",
@@ -2861,9 +2597,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "خبز التميس",
-        "الTamees",
         "تميس",
-        "Tamees",
         "التميس",
         "الخبز التميس"
       ],
@@ -2883,8 +2617,6 @@
       "prompt": "ما اسم سلسلة مطاعم الشاورما الكبيرة في الرياض التي اشتهرت بتقديم صحون الشاورما العربي والبوكسات العائلية والساندويتشات بالصاج؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawarma House",
-        "الShawarma House",
         "بيت الشاورما",
         "البيت الشاورما"
       ],
@@ -2905,10 +2637,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -2928,8 +2658,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البيك",
-        "الAlbaik",
-        "Albaik",
         "بيك"
       ],
       "wrong_answers": [
@@ -2949,9 +2677,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الكودو",
-        "Kudu",
-        "كودو",
-        "الKudu"
+        "كودو"
       ],
       "wrong_answers": [
         "هرفي",
@@ -2971,9 +2697,7 @@
       "correct_answers": [
         "الرومانسيه",
         "رومانسيه",
-        "الAl Romansiah",
         "رومانسية",
-        "Al Romansiah",
         "الرومانسية"
       ],
       "wrong_answers": [
@@ -2994,10 +2718,8 @@
       "correct_answers": [
         "ماما نورة",
         "الماما نورة",
-        "الMama Noura",
         "الماما نوره",
-        "ماما نوره",
-        "Mama Noura"
+        "ماما نوره"
       ],
       "wrong_answers": [
         "شاورمر",
@@ -3040,9 +2762,7 @@
       "prompt": "ما اسم سلسلة مطاعم البرجر والوجبات السريعة السعودية التي أسسها أحمد السعيد في الرياض عام 1981 بالشراكة مع شركة المراعي؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHerfy",
         "الهرفي",
-        "Herfy",
         "هرفي"
       ],
       "wrong_answers": [
@@ -3062,10 +2782,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -3084,10 +2802,8 @@
       "prompt": "ما اسم السلسلة السعودية الشهيرة المتخصصة بتقديم مضغوط ومكبوس لحم الحاشي الطازج ولها مئات الفروع بالمملكة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHashi Basha",
         "حاشي باشا",
-        "الحاشي باشا",
-        "Hashi Basha"
+        "الحاشي باشا"
       ],
       "wrong_answers": [
         "الرومانسية",
@@ -3106,8 +2822,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "شاورمر",
-        "Shawarmer",
-        "الShawarmer",
         "الشاورمر"
       ],
       "wrong_answers": [
@@ -3126,13 +2840,7 @@
       "prompt": "كم عدد قطع الدجاج في وجبة 'المسحب' الكلاسيكية الأكثر مبيعاً لدى مطعم البيك السعودي؟",
       "answer_type": "number",
       "correct_answers": [
-        "10",
-        "١٠",
-        "عشرة",
-        "العشره",
-        "عشره",
-        "العشرة",
-        "ال10"
+        "10"
       ],
       "wrong_answers": [
         "6",
@@ -3153,8 +2861,6 @@
         "قريه نجديه",
         "قرية نجدية",
         "القرية نجدية",
-        "الNajd Village",
-        "Najd Village",
         "القريه النجديه",
         "قرية النجدية",
         "قريه النجديه",
@@ -3177,11 +2883,7 @@
       "prompt": "ما اسم مطعم البرجر الفاخر المستقل الذي بدأ في جدة وحقق صيتاً واسعاً في المملكة بشعار حرف B الأسود؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Section-B",
-        "Section B",
-        "الSection-B",
         "سيكشن بي",
-        "الSection B",
         "السكشن بي",
         "سكشن بي",
         "السيكشن بي"
@@ -3237,9 +2939,7 @@
       "correct_answers": [
         "شوايه الخليج",
         "شواية الخليج",
-        "Shawayat Al Khaleej",
         "الشواية الخليج",
-        "الShawayat Al Khaleej",
         "الشوايه الخليج"
       ],
       "wrong_answers": [
@@ -3288,9 +2988,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "معصوب",
-        "Masoub",
-        "المعصوب",
-        "الMasoub"
+        "المعصوب"
       ],
       "wrong_answers": [
         "العريكة",
@@ -3309,11 +3007,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "برغرايزك",
-        "Burgerizzr",
         "البرجرايزك",
         "البرغرايزك",
-        "برجرايزك",
-        "الBurgerizzr"
+        "برجرايزك"
       ],
       "wrong_answers": [
         "هامبرغيني",
@@ -3334,8 +3030,6 @@
         "فاير جريل",
         "الفاير جريل",
         "الفايرجريل",
-        "FireGrill",
-        "الFireGrill",
         "فايرجريل"
       ],
       "wrong_answers": [
@@ -3355,9 +3049,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "المطبق",
-        "الMutabbaq",
-        "مطبق",
-        "Mutabbaq"
+        "مطبق"
       ],
       "wrong_answers": [
         "التميس",
@@ -3375,12 +3067,6 @@
       "prompt": "كم عدد قطع الدجاج الكلاسيكية في وجبة الدجاج البروستد العادية الشهيرة التي يقدمها مطعم البيك؟",
       "answer_type": "number",
       "correct_answers": [
-        "٤",
-        "الأربعة",
-        "أربعة",
-        "اربعه",
-        "ال4",
-        "الاربعه",
         "4"
       ],
       "wrong_answers": [
@@ -3401,8 +3087,6 @@
       "correct_answers": [
         "الأبو زيد",
         "أبو زيد",
-        "الAbu Zaid",
-        "Abu Zaid",
         "ابو زيد",
         "الابو زيد"
       ],
@@ -3423,9 +3107,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "منتو",
-        "الMantu",
-        "المنتو",
-        "Mantu"
+        "المنتو"
       ],
       "wrong_answers": [
         "الفرموزة",
@@ -3444,9 +3126,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "خبز التميس",
-        "الTamees",
         "تميس",
-        "Tamees",
         "التميس",
         "الخبز التميس"
       ],
@@ -3466,8 +3146,6 @@
       "prompt": "ما اسم سلسلة مطاعم الشاورما الكبيرة في الرياض التي اشتهرت بتقديم صحون الشاورما العربي والبوكسات العائلية والساندويتشات بالصاج؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawarma House",
-        "الShawarma House",
         "بيت الشاورما",
         "البيت الشاورما"
       ],
@@ -3488,10 +3166,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -3511,8 +3187,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البيك",
-        "الAlbaik",
-        "Albaik",
         "بيك"
       ],
       "wrong_answers": [
@@ -3532,9 +3206,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الكودو",
-        "Kudu",
-        "كودو",
-        "الKudu"
+        "كودو"
       ],
       "wrong_answers": [
         "هرفي",
@@ -3554,9 +3226,7 @@
       "correct_answers": [
         "الرومانسيه",
         "رومانسيه",
-        "الAl Romansiah",
         "رومانسية",
-        "Al Romansiah",
         "الرومانسية"
       ],
       "wrong_answers": [
@@ -3577,10 +3247,8 @@
       "correct_answers": [
         "ماما نورة",
         "الماما نورة",
-        "الMama Noura",
         "الماما نوره",
-        "ماما نوره",
-        "Mama Noura"
+        "ماما نوره"
       ],
       "wrong_answers": [
         "شاورمر",
@@ -3623,9 +3291,7 @@
       "prompt": "ما اسم سلسلة مطاعم البرجر والوجبات السريعة السعودية التي أسسها أحمد السعيد في الرياض عام 1981 بالشراكة مع شركة المراعي؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHerfy",
         "الهرفي",
-        "Herfy",
         "هرفي"
       ],
       "wrong_answers": [
@@ -3645,10 +3311,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -3667,10 +3331,8 @@
       "prompt": "ما اسم السلسلة السعودية الشهيرة المتخصصة بتقديم مضغوط ومكبوس لحم الحاشي الطازج ولها مئات الفروع بالمملكة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHashi Basha",
         "حاشي باشا",
-        "الحاشي باشا",
-        "Hashi Basha"
+        "الحاشي باشا"
       ],
       "wrong_answers": [
         "الرومانسية",
@@ -3689,8 +3351,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "شاورمر",
-        "Shawarmer",
-        "الShawarmer",
         "الشاورمر"
       ],
       "wrong_answers": [
@@ -3709,13 +3369,7 @@
       "prompt": "كم عدد قطع الدجاج في وجبة 'المسحب' الكلاسيكية الشهيرة الأكثر طلباً لدى مطعم البيك السعودي؟",
       "answer_type": "number",
       "correct_answers": [
-        "10",
-        "١٠",
-        "عشرة",
-        "العشره",
-        "عشره",
-        "العشرة",
-        "ال10"
+        "10"
       ],
       "wrong_answers": [
         "6",
@@ -3736,8 +3390,6 @@
         "قريه نجديه",
         "قرية نجدية",
         "القرية نجدية",
-        "الNajd Village",
-        "Najd Village",
         "القريه النجديه",
         "قرية النجدية",
         "قريه النجديه",
@@ -3760,11 +3412,7 @@
       "prompt": "ما اسم مطعم البرجر الفاخر المستقل الذي بدأ في جدة وحقق صيتاً واسعاً في المملكة بشعار حرف B الأسود؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Section-B",
-        "Section B",
-        "الSection-B",
         "سيكشن بي",
-        "الSection B",
         "السكشن بي",
         "سكشن بي",
         "السيكشن بي"
@@ -3820,9 +3468,7 @@
       "correct_answers": [
         "شوايه الخليج",
         "شواية الخليج",
-        "Shawayat Al Khaleej",
         "الشواية الخليج",
-        "الShawayat Al Khaleej",
         "الشوايه الخليج"
       ],
       "wrong_answers": [
@@ -3871,9 +3517,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "معصوب",
-        "Masoub",
-        "المعصوب",
-        "الMasoub"
+        "المعصوب"
       ],
       "wrong_answers": [
         "العريكة",
@@ -3892,11 +3536,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "برغرايزك",
-        "Burgerizzr",
         "البرجرايزك",
         "البرغرايزك",
-        "برجرايزك",
-        "الBurgerizzr"
+        "برجرايزك"
       ],
       "wrong_answers": [
         "هامبرغيني",
@@ -3917,8 +3559,6 @@
         "فاير جريل",
         "الفاير جريل",
         "الفايرجريل",
-        "FireGrill",
-        "الFireGrill",
         "فايرجريل"
       ],
       "wrong_answers": [
@@ -3938,9 +3578,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "المطبق",
-        "الMutabbaq",
-        "مطبق",
-        "Mutabbaq"
+        "مطبق"
       ],
       "wrong_answers": [
         "التميس",
@@ -3958,12 +3596,6 @@
       "prompt": "كم عدد قطع الدجاج الكلاسيكية في وجبة الدجاج البروستد العادية الشهيرة التي يقدمها مطعم البيك؟",
       "answer_type": "number",
       "correct_answers": [
-        "٤",
-        "الأربعة",
-        "أربعة",
-        "اربعه",
-        "ال4",
-        "الاربعه",
         "4"
       ],
       "wrong_answers": [
@@ -3984,8 +3616,6 @@
       "correct_answers": [
         "الأبو زيد",
         "أبو زيد",
-        "الAbu Zaid",
-        "Abu Zaid",
         "ابو زيد",
         "الابو زيد"
       ],
@@ -4006,9 +3636,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "منتو",
-        "الMantu",
-        "المنتو",
-        "Mantu"
+        "المنتو"
       ],
       "wrong_answers": [
         "الفرموزة",
@@ -4027,9 +3655,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "خبز التميس",
-        "الTamees",
         "تميس",
-        "Tamees",
         "التميس",
         "الخبز التميس"
       ],
@@ -4049,8 +3675,6 @@
       "prompt": "ما اسم سلسلة مطاعم الشاورما الكبيرة في الرياض التي اشتهرت بتقديم صحون الشاورما العربي والبوكسات العائلية والساندويتشات بالصاج؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawarma House",
-        "الShawarma House",
         "بيت الشاورما",
         "البيت الشاورما"
       ],
@@ -4071,10 +3695,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -4094,8 +3716,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البيك",
-        "الAlbaik",
-        "Albaik",
         "بيك"
       ],
       "wrong_answers": [
@@ -4115,9 +3735,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الكودو",
-        "Kudu",
-        "كودو",
-        "الKudu"
+        "كودو"
       ],
       "wrong_answers": [
         "هرفي",
@@ -4137,9 +3755,7 @@
       "correct_answers": [
         "الرومانسيه",
         "رومانسيه",
-        "الAl Romansiah",
         "رومانسية",
-        "Al Romansiah",
         "الرومانسية"
       ],
       "wrong_answers": [
@@ -4160,10 +3776,8 @@
       "correct_answers": [
         "ماما نورة",
         "الماما نورة",
-        "الMama Noura",
         "الماما نوره",
-        "ماما نوره",
-        "Mama Noura"
+        "ماما نوره"
       ],
       "wrong_answers": [
         "شاورمر",
@@ -4206,9 +3820,7 @@
       "prompt": "ما اسم سلسلة مطاعم البرجر والوجبات السريعة السعودية التي أسسها أحمد السعيد في الرياض عام 1981 بالشراكة مع شركة المراعي؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHerfy",
         "الهرفي",
-        "Herfy",
         "هرفي"
       ],
       "wrong_answers": [
@@ -4228,10 +3840,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [
@@ -4250,10 +3860,8 @@
       "prompt": "ما اسم السلسلة السعودية الشهيرة المتخصصة بتقديم مضغوط ومكبوس لحم الحاشي الطازج ولها مئات الفروع بالمملكة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الHashi Basha",
         "حاشي باشا",
-        "الحاشي باشا",
-        "Hashi Basha"
+        "الحاشي باشا"
       ],
       "wrong_answers": [
         "الرومانسية",
@@ -4272,8 +3880,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "شاورمر",
-        "Shawarmer",
-        "الShawarmer",
         "الشاورمر"
       ],
       "wrong_answers": [
@@ -4292,13 +3898,7 @@
       "prompt": "كم عدد قطع الدجاج في وجبة 'المسحب' الكلاسيكية الشهيرة الأكثر طلباً لدى مطعم البيك السعودي؟",
       "answer_type": "number",
       "correct_answers": [
-        "10",
-        "١٠",
-        "عشرة",
-        "العشره",
-        "عشره",
-        "العشرة",
-        "ال10"
+        "10"
       ],
       "wrong_answers": [
         "6",
@@ -4319,8 +3919,6 @@
         "قريه نجديه",
         "قرية نجدية",
         "القرية نجدية",
-        "الNajd Village",
-        "Najd Village",
         "القريه النجديه",
         "قرية النجدية",
         "قريه النجديه",
@@ -4343,11 +3941,7 @@
       "prompt": "ما اسم مطعم البرجر الفاخر المستقل الذي بدأ في جدة وحقق صيتاً واسعاً في المملكة بشعار حرف B الأسود؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Section-B",
-        "Section B",
-        "الSection-B",
         "سيكشن بي",
-        "الSection B",
         "السكشن بي",
         "سكشن بي",
         "السيكشن بي"
@@ -4403,9 +3997,7 @@
       "correct_answers": [
         "شوايه الخليج",
         "شواية الخليج",
-        "Shawayat Al Khaleej",
         "الشواية الخليج",
-        "الShawayat Al Khaleej",
         "الشوايه الخليج"
       ],
       "wrong_answers": [
@@ -4454,9 +4046,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "معصوب",
-        "Masoub",
-        "المعصوب",
-        "الMasoub"
+        "المعصوب"
       ],
       "wrong_answers": [
         "العريكة",
@@ -4475,11 +4065,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "برغرايزك",
-        "Burgerizzr",
         "البرجرايزك",
         "البرغرايزك",
-        "برجرايزك",
-        "الBurgerizzr"
+        "برجرايزك"
       ],
       "wrong_answers": [
         "هامبرغيني",
@@ -4500,8 +4088,6 @@
         "فاير جريل",
         "الفاير جريل",
         "الفايرجريل",
-        "FireGrill",
-        "الFireGrill",
         "فايرجريل"
       ],
       "wrong_answers": [
@@ -4521,9 +4107,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "المطبق",
-        "الMutabbaq",
-        "مطبق",
-        "Mutabbaq"
+        "مطبق"
       ],
       "wrong_answers": [
         "التميس",
@@ -4541,12 +4125,6 @@
       "prompt": "كم عدد قطع الدجاج الكلاسيكية في وجبة الدجاج البروستد العادية الشهيرة التي يقدمها مطعم البيك؟",
       "answer_type": "number",
       "correct_answers": [
-        "٤",
-        "الأربعة",
-        "أربعة",
-        "اربعه",
-        "ال4",
-        "الاربعه",
         "4"
       ],
       "wrong_answers": [
@@ -4567,8 +4145,6 @@
       "correct_answers": [
         "الأبو زيد",
         "أبو زيد",
-        "الAbu Zaid",
-        "Abu Zaid",
         "ابو زيد",
         "الابو زيد"
       ],
@@ -4589,9 +4165,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "منتو",
-        "الMantu",
-        "المنتو",
-        "Mantu"
+        "المنتو"
       ],
       "wrong_answers": [
         "الفرموزة",
@@ -4610,9 +4184,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "خبز التميس",
-        "الTamees",
         "تميس",
-        "Tamees",
         "التميس",
         "الخبز التميس"
       ],
@@ -4632,8 +4204,6 @@
       "prompt": "ما اسم سلسلة مطاعم الشاورما الكبيرة في الرياض التي اشتهرت بتقديم صحون الشاورما العربي والبوكسات العائلية والساندويتشات بالصاج؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawarma House",
-        "الShawarma House",
         "بيت الشاورما",
         "البيت الشاورما"
       ],
@@ -4654,10 +4224,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجدة",
-        "الJeddah",
         "جدة",
         "الجده",
-        "Jeddah",
         "جده"
       ],
       "wrong_answers": [

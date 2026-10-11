@@ -13,9 +13,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "كوتلين",
-        "الكوتلين",
-        "الkotlin",
-        "kotlin"
+        "الكوتلين"
       ],
       "wrong_answers": [
         "جافا",
@@ -33,8 +31,6 @@
       "prompt": "ما هو المبدأ البرمجي الذي يعني إخفاء تفاصيل الكائن وعرض الوظائف الضرورية فقط؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الencapsulation",
-        "encapsulation",
         "تغليف",
         "التغليف"
       ],
@@ -55,9 +51,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجيت",
-        "الgit",
-        "جيت",
-        "git"
+        "جيت"
       ],
       "wrong_answers": [
         "جيثب",
@@ -75,9 +69,7 @@
       "prompt": "كم عدد بتات البايت الواحد في علم الحاسوب والبرمجة؟",
       "answer_type": "number",
       "correct_answers": [
-        "٨",
-        "8",
-        "ال8"
+        "8"
       ],
       "wrong_answers": [
         "4",
@@ -95,13 +87,9 @@
       "prompt": "ما هي لغة البرمجة التي تم إنشاؤها بواسطة غوغل وتتميز بالسرعة ودعم الأنظمة الموزعة وتُعرف بـ Go؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "go",
         "الجولانج",
         "الجو",
         "جولانج",
-        "الgo",
-        "الgolang",
-        "golang",
         "جو"
       ],
       "wrong_answers": [
@@ -123,13 +111,9 @@
         "بق",
         "البق",
         "خطا",
-        "الbug",
         "خطأ",
-        "bug",
         "علة",
         "الخطأ",
-        "الerror",
-        "error",
         "العله",
         "عله",
         "العلة",
@@ -151,8 +135,6 @@
       "prompt": "ما هو اسم الهيكل البياني الذي يتبع مبدأ الداخل أولاً يخرج أولاً (FIFO)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الqueue",
-        "queue",
         "الصف",
         "طابور",
         "صف",
@@ -176,8 +158,6 @@
       "correct_answers": [
         "الكومه",
         "الكومة",
-        "stack",
-        "الstack",
         "كدس",
         "كومة",
         "كومه",
@@ -200,8 +180,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سويفت",
-        "الswift",
-        "swift",
         "السويفت"
       ],
       "wrong_answers": [
@@ -221,9 +199,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "مترجم",
-        "compiler",
-        "المترجم",
-        "الcompiler"
+        "المترجم"
       ],
       "wrong_answers": [
         "مفسر",
@@ -241,9 +217,7 @@
       "prompt": "ماذا يسمى البرنامج الذي ينفذ الكود سطرًا بسطر مباشرة دون ترجمة كاملة مسبقة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الinterpreter",
         "المفسر",
-        "interpreter",
         "مفسر"
       ],
       "wrong_answers": [
@@ -263,8 +237,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الاس كيو ال",
-        "sql",
-        "الsql",
         "اس كيو ال"
       ],
       "wrong_answers": [
@@ -283,8 +255,6 @@
       "prompt": "ما هو اسم تقنية تخزين البيانات الشهيرة غير العلائقية المعتمدة على الوثائق (Document-based)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "mongodb",
-        "الmongodb",
         "المونجودبي",
         "مونجودبي"
       ],
@@ -305,8 +275,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "رقم سحري",
-        "الmagic number",
-        "magic number",
         "الماجيك نمبر",
         "الرقم سحري",
         "ماجيك نمبر"
@@ -329,8 +297,6 @@
       "correct_answers": [
         "وراثه",
         "وراثة",
-        "inheritance",
-        "الinheritance",
         "الوراثة",
         "الوراثه"
       ],
@@ -354,10 +320,8 @@
         "تعدد الاشكال",
         "بوليمورفيزم",
         "التعدد الأشكال",
-        "polymorphism",
         "البوليمورفيزم",
-        "تعدد الأشكال",
-        "الpolymorphism"
+        "تعدد الأشكال"
       ],
       "wrong_answers": [
         "وراثة",
@@ -375,8 +339,6 @@
       "prompt": "ما هي لغة البرمجة التي تُعتبر الأكثر استخداماً في مجالات الذكاء الاصطناعي وتحليل البيانات حالياً؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الpython",
-        "python",
         "بايثون",
         "البايثون"
       ],
@@ -396,14 +358,10 @@
       "prompt": "ما هو اسم إطار العمل الشهير لتطوير تطبيقات الويب بلغة بايثون والذي يتميز بالسرعة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "flask",
         "الفلاسك",
-        "الflask",
         "فلاسك",
         "جانغو",
-        "الجانغو",
-        "django",
-        "الdjango"
+        "الجانغو"
       ],
       "wrong_answers": [
         "لاراول",
@@ -421,10 +379,7 @@
       "prompt": "ما هو اسم مدير الحزم الافتراضي للغة JavaScript وعقدة الخادم Node.js؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "npm",
-        "النpm",
-        "نpm",
-        "الnpm"
+        "npm"
       ],
       "wrong_answers": [
         "باي بي",
@@ -442,10 +397,8 @@
       "prompt": "ما هي لغة البرمجة التي طورتها مايكروسوفت وتُعد امتداداً لـ JavaScript مع إضافة أنواع البيانات؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "typescript",
         "تايب سكريبت",
-        "التايب سكريبت",
-        "الtypescript"
+        "التايب سكريبت"
       ],
       "wrong_answers": [
         "جافاسكريبت",
@@ -463,9 +416,7 @@
       "prompt": "كم عدد أنواع البيانات البدائية الأساسية في لغة JavaScript الحديثة تقريباً؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال7",
-        "7",
-        "٧"
+        "7"
       ],
       "wrong_answers": [
         "3",
@@ -483,12 +434,8 @@
       "prompt": "ما هو اسم البروتوكول الأساسي الذي تعتمد عليه شبكة الويب العالمية لنقل الصفحات؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "https",
-        "http",
         "الاتش تي تي بي",
-        "الhttp",
-        "اتش تي تي بي",
-        "الhttps"
+        "اتش تي تي بي"
       ],
       "wrong_answers": [
         "إف تي بي",
@@ -507,9 +454,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الام في سي",
-        "ام في سي",
-        "الmvc",
-        "mvc"
+        "ام في سي"
       ],
       "wrong_answers": [
         "إم في في إم",
@@ -527,9 +472,7 @@
       "prompt": "ما هو اسم المبدأ الشهير في البرمجة الذي ينص على عدم تكرار الكود ويختصر بـ DRY؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "dry",
         "دراي",
-        "الdry",
         "الدراي"
       ],
       "wrong_answers": [
@@ -551,8 +494,6 @@
         "البي اتش بي",
         "البي إتش بي",
         "بي اتش بي",
-        "php",
-        "الphp",
         "بي إتش بي"
       ],
       "wrong_answers": [
@@ -572,8 +513,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البحث الثنائي",
-        "الbinary search",
-        "binary search",
         "بحث ثنائي",
         "بحث الثنائي",
         "البحث ثنائي"
@@ -596,10 +535,8 @@
       "correct_answers": [
         "الدامج",
         "الدمج",
-        "الmerge sort",
         "دامج",
-        "دمج",
-        "merge sort"
+        "دمج"
       ],
       "wrong_answers": [
         "ترتيب فقاعي",
@@ -618,9 +555,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الاتش تي ام ال",
-        "html",
-        "اتش تي ام ال",
-        "الhtml"
+        "اتش تي ام ال"
       ],
       "wrong_answers": [
         "إكس إم إل",
@@ -638,8 +573,6 @@
       "prompt": "ما هو اسم نظام التشغيل المفتوح المصدر المبني على نواة لينكس ويستخدم على نطاق واسع في الخوادم والسحب؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الlinux",
-        "linux",
         "اللينكس",
         "لينكس"
       ],
@@ -661,9 +594,7 @@
       "correct_answers": [
         "تعبير النمطي",
         "ريجكس",
-        "regex",
         "الريجكس",
-        "الregex",
         "التعبير النمطي"
       ],
       "wrong_answers": [
@@ -686,8 +617,6 @@
         "الأبي",
         "واجهة برمجة التطبيقات",
         "الواجهة برمجة التطبيقات",
-        "الapi",
-        "api",
         "ابي",
         "الواجهه برمجه التطبيقات",
         "أبي",
@@ -709,9 +638,7 @@
       "prompt": "كم عدد طبقات نموذج الاتصال الشبكي الشهير (OSI Model) في شبكات الحاسوب؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال7",
-        "7",
-        "٧"
+        "7"
       ],
       "wrong_answers": [
         "4",
@@ -729,8 +656,6 @@
       "prompt": "ما هو اسم نمط التصميم البرمجي الذي يضمن إنشاء نسخة واحدة فقط من الكลาส طوال دورة حياة التطبيق؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "singleton",
-        "الsingleton",
         "السنجلتون",
         "سنجلتون"
       ],
@@ -750,9 +675,7 @@
       "prompt": "ما هو اسم خوارزمية التشفير التماثلي المعيارية المتقدمة الشائعة الاستخدام في حماية البيانات (AES)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "aes",
         "الاي اي اس",
-        "الaes",
         "اي اي اس"
       ],
       "wrong_answers": [
@@ -774,9 +697,7 @@
         "مفتوح المصدر",
         "المفتوح",
         "المفتوح المصدر",
-        "الopen source",
-        "مفتوح",
-        "open source"
+        "مفتوح"
       ],
       "wrong_answers": [
         "مجاني بالكامل",
@@ -795,8 +716,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سي اس اس",
-        "css",
-        "الcss",
         "السي اس اس"
       ],
       "wrong_answers": [
@@ -815,10 +734,8 @@
       "prompt": "ما هو اسم المنصة السحابية الشهيرة التابعة لشركة أمازون لخدمات الحوسبة والبنية التحتية؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "aws",
         "الامازون وب سيرفيسز",
         "أبليكيشن وب سيرفيسز",
-        "الaws",
         "امازون وب سيرفيسز",
         "ابليكيشن وب سيرفيسز",
         "الابليكيشن وب سيرفيسز",
@@ -842,11 +759,9 @@
       "correct_answers": [
         "العودية",
         "الاستدعاء ذاتي",
-        "الrecursion",
         "عودية",
         "عوديه",
         "العوديه",
-        "recursion",
         "استدعاء ذاتي"
       ],
       "wrong_answers": [
@@ -865,9 +780,7 @@
       "prompt": "ما هو اسم أداة احتواء التطبيقات وحزمها مع بيئتها الافتراضية الشهيرة التي شعارها الحوت؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الdocker",
         "دوكر",
-        "docker",
         "الدوكر"
       ],
       "wrong_answers": [
@@ -888,9 +801,7 @@
       "correct_answers": [
         "كيوبيرنتس",
         "الكوبيرنيتس",
-        "الkubernetes",
         "الكيوبيرنتس",
-        "kubernetes",
         "كوبيرنيتس"
       ],
       "wrong_answers": [
@@ -909,10 +820,8 @@
       "prompt": "ماذا يسمى الملف البرمجي الذي يحتوي على إعدادات المشروع وتبعياته بلغة JSON في حزم Node.js؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "package.json",
         "باكدج جيسون",
-        "الباكدج جيسون",
-        "الpackage.json"
+        "الباكدج جيسون"
       ],
       "wrong_answers": [
         "كونفج جيسون",
@@ -920,7 +829,6 @@
         "بويلد غرادل",
         "ميك فايل",
         "سيتينغز",
-        "دockerfile",
         "آي إن آي",
         "ريادم"
       ]
@@ -930,10 +838,8 @@
       "prompt": "ما هو اسم منصة استضاف مشاريع البرمجيات والتعاون المعتمدة على نظام Git والمملوكة لـ Microsoft؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "github",
         "جيثب",
-        "الجيثب",
-        "الgithub"
+        "الجيثب"
       ],
       "wrong_answers": [
         "جيت لاب",
@@ -952,9 +858,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجي دي كي",
-        "jdk",
-        "جي دي كي",
-        "الjdk"
+        "جي دي كي"
       ],
       "wrong_answers": [
         "جيري",
@@ -973,9 +877,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "ايرلانغ",
-        "الerlang",
-        "الايرلانغ",
-        "erlang"
+        "الايرلانغ"
       ],
       "wrong_answers": [
         "فورتبران",
@@ -996,10 +898,8 @@
         "التصحيح الاخطاء",
         "تصحيح الاخطاء",
         "التصحيح الأخطاء",
-        "debugging",
         "الديباجنج",
         "تصحيح الأخطاء",
-        "الdebugging",
         "ديباجنج"
       ],
       "wrong_answers": [
@@ -1021,12 +921,10 @@
         "برمجه الوظيفيه",
         "البرمجة وظيفية",
         "البرمجه الوظيفيه",
-        "functional programming",
         "برمجة الوظيفية",
         "برمجه وظيفيه",
         "البرمجه وظيفيه",
         "برمجة وظيفية",
-        "الfunctional programming",
         "البرمجة الوظيفية"
       ],
       "wrong_answers": [
@@ -1045,9 +943,7 @@
       "prompt": "كم عدد أبعاد مصفوفة تقليدية ذات مستويين (صفوف وأعمدة) في البرمجة؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال2",
-        "2",
-        "٢"
+        "2"
       ],
       "wrong_answers": [
         "1",
@@ -1065,12 +961,8 @@
       "prompt": "ما هو اسم لغة الاستعلام الأساسية المستخدمة للتعامل مع محرك البحث وقاعدة البيانات المرنة Elasticsearch؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الjson query",
-        "الdsl",
-        "dsl",
         "دي اس ال",
-        "الدي اس ال",
-        "json query"
+        "الدي اس ال"
       ],
       "wrong_answers": [
         "اس كيو ال",
@@ -1088,14 +980,12 @@
       "prompt": "ماذا يسمى الرمز أو المعرف الفريد الذي يُستخدم لتمييز صف أو كائن في قواعد البيانات (غالباً يكون فريداً وغير متكرر)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Primary Key",
         "المفتاح أساسي",
         "المفتاح اساسي",
         "مفتاح أساسي",
         "مفتاح رئيسي",
         "مفتاح اساسي",
-        "المفتاح رئيسي",
-        "الPrimary Key"
+        "المفتاح رئيسي"
       ],
       "wrong_answers": [
         "مفتاح أجنبي",
@@ -1115,12 +1005,10 @@
       "correct_answers": [
         "سي",
         "اللغة سي",
-        "الc",
         "لغه سي",
         "اللغه سي",
         "السي",
-        "لغة سي",
-        "c"
+        "لغة سي"
       ],
       "wrong_answers": [
         "سي بلس بلس",
@@ -1139,10 +1027,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "خدمات مصغرة",
-        "microservices",
         "خدمات مصغره",
         "الخدمات مصغرة",
-        "الmicroservices",
         "مايكروسيرفيس",
         "الخدمات مصغره",
         "المايكروسيرفيس"
@@ -1163,11 +1049,7 @@
       "prompt": "ما هي لغة البرمجة التي صُممت بواسطة بيرنستروب كاممتدادة للغة C وتدعم البرمجة كائنية التوجه؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "cpp",
-        "c++",
-        "الc++",
         "السي بلس بلس",
-        "الcpp",
         "سي بلس بلس"
       ],
       "wrong_answers": [
@@ -1189,9 +1071,7 @@
         "باني",
         "بناء",
         "الباني",
-        "الbuilder",
-        "البناء",
-        "builder"
+        "البناء"
       ],
       "wrong_answers": [
         "مصنع",
@@ -1210,9 +1090,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "ريديس",
-        "redis",
-        "الريديس",
-        "الredis"
+        "الريديس"
       ],
       "wrong_answers": [
         "مونجودبي",
@@ -1230,9 +1108,7 @@
       "prompt": "كم عدد حالات الأكل (States) الأساسية لوعاء الاتصالات في دورة حياة برمجيات خيوط المعالجة (Threads)؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال6",
-        "6",
-        "٦"
+        "6"
       ],
       "wrong_answers": [
         "2",
@@ -1250,13 +1126,10 @@
       "prompt": "ما هو اسم أداة إدارة التبعيات والمكتبات الشهيرة المستخدمة في لغة PHP؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "composer",
         "الكومبوزر",
-        "الcomposer",
         "كومبوزر"
       ],
       "wrong_answers": [
-        "نpm",
         "باي بي",
         "مافن",
         "جرادل",
@@ -1272,8 +1145,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سويفت",
-        "الswift",
-        "swift",
         "السويفت"
       ],
       "wrong_answers": [
@@ -1293,10 +1164,8 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "اعاده البناء",
-        "refactoring",
         "إعادة البناء",
         "الاعاده هيكله",
-        "الrefactoring",
         "الإعادة البناء",
         "الاعاده البناء",
         "إعادة هيكلة",
@@ -1319,9 +1188,7 @@
       "prompt": "ما هو اسم خوارزمية التشفير غير التماثلي الشهيرة التي تعتمد على صعوبة تحليل الأعداد الأولية (RSA)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الrsa",
         "ار اس ايه",
-        "rsa",
         "الار اس ايه"
       ],
       "wrong_answers": [
@@ -1343,9 +1210,7 @@
         "يونت تست",
         "اختبار الوحده",
         "اختبار الوحدة",
-        "الunit test",
         "اليونت تست",
-        "unit test",
         "الاختبار الوحده",
         "الاختبار الوحدة"
       ],
@@ -1367,11 +1232,9 @@
       "correct_answers": [
         "مراقب",
         "اوبزرفر",
-        "الobserver",
         "الاوبزرفر",
         "المراقب",
         "الأوبزرفر",
-        "observer",
         "أوبزرفر"
       ],
       "wrong_answers": [
@@ -1390,12 +1253,8 @@
       "prompt": "ما هي لغة البرمجة التي تُستخدم لتنفيذ السكريبتات داخل متصفحات الويب وتعتبر اللغة الأساسية للجهة الأمامية؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "javascript",
         "الجافاسكريبت",
-        "الjs",
-        "js",
-        "جافاسكريبت",
-        "الjavascript"
+        "جافاسكريبت"
       ],
       "wrong_answers": [
         "بايثون",
@@ -1416,8 +1275,6 @@
         "جيثب أكشنز",
         "الجيثب أكشنز",
         "الجيثب اكشنز",
-        "الgithub actions",
-        "github actions",
         "جيثب اكشنز"
       ],
       "wrong_answers": [
@@ -1436,9 +1293,7 @@
       "prompt": "كم عدد المعلمات أو القيم التي يمكن أن تعيدها دالة واحدة كحد أقصى في لغة برمجة تقليدية مثل C أو Java بدون هياكل بيانات؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال1",
-        "1",
-        "١"
+        "1"
       ],
       "wrong_answers": [
         "0",
@@ -1447,8 +1302,7 @@
         "4",
         "5",
         "8",
-        "10",
-        "غير محدود"
+        "10"
       ]
     },
     {
@@ -1457,11 +1311,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سبرينغ",
-        "السبرينغ",
-        "spring boot",
-        "spring",
-        "الspring",
-        "الspring boot"
+        "السبرينغ"
       ],
       "wrong_answers": [
         "لاراول",
@@ -1482,9 +1332,7 @@
         "الاتش تي تي بي إس",
         "الاتش تي تي بي اس",
         "اتش تي تي بي اس",
-        "اتش تي تي بي إس",
-        "https",
-        "الhttps"
+        "اتش تي تي بي إس"
       ],
       "wrong_answers": [
         "اتش تي تي بي",
@@ -1503,9 +1351,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجرادل",
-        "gradle",
-        "جرادل",
-        "الgradle"
+        "جرادل"
       ],
       "wrong_answers": [
         "مافن",
@@ -1524,9 +1370,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجافا",
-        "جافا",
-        "java",
-        "الjava"
+        "جافا"
       ],
       "wrong_answers": [
         "جافاسكريبت",
@@ -1544,9 +1388,7 @@
       "prompt": "ماذا يسمى الرمز البرمجي المؤقت أو الحل السريع الذي يتركه المبرمجون لإصلاحه لاحقاً وغالباً ما يُكتب بتعليق؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الtodo",
         "تودو",
-        "todo",
         "التودو"
       ],
       "wrong_answers": [
@@ -1565,11 +1407,9 @@
       "prompt": "ما هو اسم الهيكل البياني الذي يمثل ترابط العقد ببعضها وتتكون من رؤوس (Vertices) وأقواس أو حواف (Edges)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الgraph",
         "جراف",
         "الرسم بياني",
         "الجراف",
-        "graph",
         "رسم بياني"
       ],
       "wrong_answers": [
@@ -1588,8 +1428,6 @@
       "prompt": "ما هو اسم نمط التصميم الذي يسمح بتحويل واجهة كلاس إلى واجهة أخرى متوافقة يطلبها العميل؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "adapter",
-        "الadapter",
         "المحول",
         "أداة تكييف",
         "اداه تكييف",
@@ -1613,8 +1451,6 @@
       "prompt": "ما هي لغة البرمجة التي تُستخدم لتطوير تطبيقات الويب وتتميز بنظام قالب لغة يعتمد على المسافات البادئة وتُدعى نسبةً إلى ثعبان؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الpython",
-        "python",
         "بايثون",
         "البايثون"
       ],
@@ -1634,9 +1470,7 @@
       "prompt": "كم عدد مبادئ التصميم البرمجي الأساسية الشهيرة المعروفة بمختصر SOLID في البرمجة كائنية التوجه؟",
       "answer_type": "number",
       "correct_answers": [
-        "5",
-        "ال5",
-        "٥"
+        "5"
       ],
       "wrong_answers": [
         "3",
@@ -1654,12 +1488,8 @@
       "prompt": "ما هو اسم نظام إدارة قواعد البيانات العلائقية المفتوح المصدر الشهير الذي يُرمز له بفيل البحر أو الفهد أحياناً؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الpostgresql",
         "البوستجري اس كيو ال",
-        "بوستجري اس كيو ال",
-        "postgresql",
-        "postgres",
-        "الpostgres"
+        "بوستجري اس كيو ال"
       ],
       "wrong_answers": [
         "مايسكول",
@@ -1677,14 +1507,10 @@
       "prompt": "ما هو اسم الفرع الافتراضي الأساسي الذي يتم إنشاؤه تلقائياً عند بدء مستودع جديد في نظام Git؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الmaster",
         "ماستر",
         "مين",
-        "الmain",
         "الماستر",
-        "master",
-        "المين",
-        "main"
+        "المين"
       ],
       "wrong_answers": [
         "ديفلوب",
@@ -1705,8 +1531,6 @@
         "كاشينج",
         "تخزين مؤقت",
         "التخزين مؤقت",
-        "caching",
-        "الcaching",
         "الكاشينج"
       ],
       "wrong_answers": [
@@ -1725,11 +1549,7 @@
       "prompt": "ما هي لغة البرمجة التي تُستخدم لتوسيع وتعزيز قدرات تطبيقات الويب وتعتبر التطور الطبيعي للغة C وتدعم الأنظمة المدمجة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "cpp",
-        "c++",
-        "الc++",
         "السي بلس بلس",
-        "الcpp",
         "سي بلس بلس"
       ],
       "wrong_answers": [
@@ -1748,12 +1568,10 @@
       "prompt": "ما هو اسم نمط التصميم الذي يقوم بفصل خوارزمية معينة عن الكائن المستخدم لها لتصبح قابلة للتبديل مرناً؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الstrategy",
         "استراتيجية",
         "الاستراتيجي",
         "الاستراتيجيه",
         "الاستراتيجية",
-        "strategy",
         "استراتيجيه",
         "استراتيجي"
       ],
@@ -1773,8 +1591,6 @@
       "prompt": "كم عدد البتات الموجودة في عنوان بروتوكول الإنترنت الإصدار السادس (IPv6)؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال128",
-        "١٢٨",
         "128"
       ],
       "wrong_answers": [
@@ -1784,8 +1600,7 @@
         "256",
         "512",
         "8",
-        "48",
-        "64"
+        "48"
       ]
     },
     {
@@ -1794,12 +1609,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "باي بي",
-        "pip",
-        "الpip",
         "الباي بي"
       ],
       "wrong_answers": [
-        "نpm",
         "كومبوزر",
         "مافن",
         "جرادل",
@@ -1817,14 +1629,10 @@
         "الحلقة تكرار",
         "حلقة",
         "الحلقة",
-        "الwhile",
         "الحلقه",
-        "loop",
         "حلقة تكرار",
         "حلقه",
         "الحلقه تكرار",
-        "while",
-        "الloop",
         "حلقه تكرار"
       ],
       "wrong_answers": [
@@ -1844,11 +1652,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سي شارب",
-        "الc#",
-        "السي شارب",
-        "csharp",
-        "الcsharp",
-        "c#"
+        "السي شارب"
       ],
       "wrong_answers": [
         "سي بلس بلس",
@@ -1867,9 +1671,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سكلايت",
-        "السكلايت",
-        "الsqlite",
-        "sqlite"
+        "السكلايت"
       ],
       "wrong_answers": [
         "مايسكول",
@@ -1890,9 +1692,7 @@
         "المصادقة",
         "توثيق",
         "التوثيق",
-        "authentication",
         "المصادقه",
-        "الauthentication",
         "مصادقه",
         "مصادقة"
       ],
@@ -1913,14 +1713,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجيم",
-        "الrubygems",
-        "gem",
-        "جيم",
-        "الgem",
-        "rubygems"
+        "جيم"
       ],
       "wrong_answers": [
-        "نpm",
         "باي بي",
         "كومبوزر",
         "مافن",
@@ -1935,8 +1730,6 @@
       "prompt": "كم عدد البتات الموجودة في عنوان بروتوكول الإنترنت الإصدار الرابع (IPv4)؟",
       "answer_type": "number",
       "correct_answers": [
-        "٣٢",
-        "ال32",
         "32"
       ],
       "wrong_answers": [
@@ -1955,10 +1748,8 @@
       "prompt": "ما هو اسم إطار العمل الشهير لتطوير تطبيقات الجوال الهجينة (Cross-platform) باستخدام لغة Dart من Google؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الflutter",
         "الفلاتر",
-        "فلاتر",
-        "flutter"
+        "فلاتر"
       ],
       "wrong_answers": [
         "رياكت نيتيف",
@@ -1976,11 +1767,9 @@
       "prompt": "ما هو اسم الخوارزمية التي تستخدم لترتيب العناصر عن طريق مقارنة العناصر المتجاورة وتبديل أماكنها إذا كانت غير مرتبة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الbubble sort",
         "ترتيب فقاعي",
         "الترتيب فقاعي",
         "فرز الفقاعي",
-        "bubble sort",
         "الفرز الفقاعي"
       ],
       "wrong_answers": [
@@ -1999,9 +1788,7 @@
       "prompt": "ما هو اسم نمط التصميم الذي يتيح إضافة وظائف جديدة لكائن بشكل ديناميكي دون تعديل بنيته الأساسية؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "decorator",
         "ديكوراتور",
-        "الdecorator",
         "المزخرف",
         "الديكوراتور",
         "مزخرف"
@@ -2022,12 +1809,8 @@
       "prompt": "ما هي لغة البرمجة التي تُستخدم لتطوير واجهات المستخدم التفاعلية لصفحات الويب بجانب HTML و CSS؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "javascript",
         "الجافاسكريبت",
-        "الjs",
-        "js",
-        "جافاسكريبت",
-        "الjavascript"
+        "جافاسكريبت"
       ],
       "wrong_answers": [
         "بايثون",
@@ -2045,10 +1828,6 @@
       "prompt": "ما هو اسم إطار العمل الشهير لتطوير واجهات المستخدم بلغة JavaScript والذي تم تطويره بواسطة شركة Meta (Facebook)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الreactjs",
-        "reactjs",
-        "react",
-        "الreact",
         "رياكت",
         "الرياكت"
       ],
@@ -2068,9 +1847,7 @@
       "prompt": "كم عدد الأحرف الأساسية أو الأنواع في نظام العد الثنائي (Binary) الذي يعتمد عليه الحاسوب؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال2",
-        "2",
-        "٢"
+        "2"
       ],
       "wrong_answers": [
         "8",
@@ -2091,10 +1868,8 @@
         "التسجيل الاحداث",
         "اللوغينغ",
         "تسجيل الاحداث",
-        "الlogging",
         "لوغينغ",
         "التسجيل الأحداث",
-        "logging",
         "تسجيل الأحداث"
       ],
       "wrong_answers": [
@@ -2113,10 +1888,8 @@
       "prompt": "ما هو اسم لغة الاستعلام أو الهيكل البرمجي المخصص لبيانات الجراف (Graph) الشهيرة والتابعة لـ Facebook؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الgraphql",
         "كيو ال",
-        "الكيو ال",
-        "graphql"
+        "الكيو ال"
       ],
       "wrong_answers": [
         "اس كيو ال",
@@ -2135,9 +1908,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجيت",
-        "الgit",
-        "جيت",
-        "git"
+        "جيت"
       ],
       "wrong_answers": [
         "سفن",
@@ -2157,11 +1928,9 @@
       "correct_answers": [
         "الاختبار وحدة",
         "يونت تست",
-        "الunit test",
         "اختبار وحده",
         "اليونت تست",
         "الاختبار وحده",
-        "unit test",
         "اختبار وحدة"
       ],
       "wrong_answers": [
@@ -2181,8 +1950,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سي",
-        "الc",
-        "c",
         "السي"
       ],
       "wrong_answers": [
@@ -2201,11 +1968,9 @@
       "prompt": "ما هو اسم نمط التصميم البرمجي الذي يمنع إنشاء كائنات مباشرة ويترك عملية إنشاء الكائنات الفرعية لفئات محددة (Factory)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "factory method",
         "الميثود فاكتوري",
         "مصنع",
         "المصنع",
-        "الfactory method",
         "ميثود فاكتوري"
       ],
       "wrong_answers": [
@@ -2225,12 +1990,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "كارغو",
-        "الكارغو",
-        "cargo",
-        "الcargo"
+        "الكارغو"
       ],
       "wrong_answers": [
-        "نpm",
         "باي بي",
         "كومبوزر",
         "مافن",
@@ -2245,10 +2007,8 @@
       "prompt": "ما هو اسم المعيار العالمي الذي يحدد كيفية تمثيل البيانات باستخدام تنسيق نصي خفيف يعتمد على كائنات JavaScript؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "json",
         "الجايسون",
-        "جايسون",
-        "الjson"
+        "جايسون"
       ],
       "wrong_answers": [
         "إكس إم إل",
@@ -2271,11 +2031,9 @@
         "المعماريه موجهه بالاحداث",
         "إيفينت دريفن",
         "معماريه موجهه بالاحداث",
-        "event-driven",
         "المعمارية موجهة بالأحداث",
         "الإيفينت دريفن",
-        "ايفينت دريفن",
-        "الevent-driven"
+        "ايفينت دريفن"
       ],
       "wrong_answers": [
         "معمارية طبقات",
@@ -2298,10 +2056,8 @@
         "الخوارزمية جينية",
         "خوارزمية جينية",
         "الجينيتيك ألغوريثم",
-        "الgenetic algorithm",
         "الجينيتيك الغوريثم",
         "الخوارزميه جينيه",
-        "genetic algorithm",
         "جينيتيك الغوريثم"
       ],
       "wrong_answers": [
@@ -2321,9 +2077,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجافا",
-        "جافا",
-        "java",
-        "الjava"
+        "جافا"
       ],
       "wrong_answers": [
         "كوتلين",
@@ -2341,9 +2095,7 @@
       "prompt": "كم عدد البتات في البايت الواحد المضاف إليه بت التحقق من التناظر البسيط (Parity Bit) في بعض أنظمة الذاكرة القديمة؟",
       "answer_type": "number",
       "correct_answers": [
-        "9",
-        "٩",
-        "ال9"
+        "9"
       ],
       "wrong_answers": [
         "8",
@@ -2361,13 +2113,10 @@
       "prompt": "ما هو اسم أداة إدارة حزم لغة PHP التي تُعد المعيار الحديث لإدارة المكتبات البرمجية وتعتمد على ملف composer.json؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "composer",
         "الكومبوزر",
-        "الcomposer",
         "كومبوزر"
       ],
       "wrong_answers": [
-        "نpm",
         "باي بي",
         "مافن",
         "جرادل",
@@ -2385,9 +2134,7 @@
         "الجدول هاش",
         "جدول هاش",
         "الهيكل هاش",
-        "الhash table",
-        "هيكل هاش",
-        "hash table"
+        "هيكل هاش"
       ],
       "wrong_answers": [
         "مصفوفة",
@@ -2406,9 +2153,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سايفر",
-        "السايفر",
-        "الcypher",
-        "cypher"
+        "السايفر"
       ],
       "wrong_answers": [
         "اس كيو ال",
@@ -2426,9 +2171,7 @@
       "prompt": "ما هو اسم أداة أتمتة البنية التحتية ككود (Infrastructure as Code) الشهيرة التي تعتمد على ملفات HCL لإدارة الموارد السحابية؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "terraform",
         "التيررافورم",
-        "الterraform",
         "تيررافورم"
       ],
       "wrong_answers": [
@@ -2447,9 +2190,7 @@
       "prompt": "ماذا يسمى الثغرة الأمنية الشهيرة التي تتعلق بإدخال أوامر استعلام خبيثة داخل مدخلات المستخدم لقاعدة البيانات؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "sql injection",
         "حقن اس كيو ال",
-        "الsql injection",
         "الحقن اس كيو ال"
       ],
       "wrong_answers": [
@@ -2471,9 +2212,7 @@
         "واجهه اماميه",
         "فاستاد",
         "الفاستاد",
-        "facade",
         "واجهة أمامية",
-        "الfacade",
         "الواجهه اماميه",
         "الواجهة أمامية"
       ],
@@ -2493,8 +2232,6 @@
       "prompt": "كم عدد البتات في معمارية المعالجات التقليدية التي يُشار إليها بـ 64-bit؟",
       "answer_type": "number",
       "correct_answers": [
-        "٦٤",
-        "ال64",
         "64"
       ],
       "wrong_answers": [
@@ -2513,8 +2250,6 @@
       "prompt": "ما هي لغة البرمجة التي تُستخدم لتطوير تطبيقات الويب السريعة والفعالة وتعتمد على بناء مكتوب بنظام النوع الثابت وتدعم التجميع للغة WebAssembly؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الrust",
-        "rust",
         "راست",
         "الراست"
       ],
@@ -2537,14 +2272,11 @@
         "فاسبي اي",
         "الفاسبي آي",
         "الفاسبي اي",
-        "fastapi",
-        "فاسبي آي",
-        "الfastapi"
+        "فاسبي آي"
       ],
       "wrong_answers": [
         "جانغو",
         "فلاسك",
-        "تornado",
         "بيрамиد",
         "سبرينغ",
         "لاراول",
@@ -2557,11 +2289,9 @@
       "prompt": "ماذا يسمى المبدأ البرمجي الذي ينص على أن الكلاس يجب أن يكون له سبب واحد فقط للتغيير في مبادئ SOLID؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الsingle responsibility principle",
         "مبدا المسؤوليه الفرديه",
         "المبدا المسؤوليه الفرديه",
         "مبدأ المسؤولية الفردية",
-        "single responsibility principle",
         "المبدأ المسؤولية الفردية"
       ],
       "wrong_answers": [
@@ -2582,10 +2312,8 @@
       "correct_answers": [
         "الأنسبل",
         "الانسبل",
-        "ansible",
         "انسبل",
-        "أنسبل",
-        "الansible"
+        "أنسبل"
       ],
       "wrong_answers": [
         "تيررافورم",
@@ -2603,14 +2331,10 @@
       "prompt": "ما هو اسم نظام التشغيل أو البيئة التي تُستخدم لتشغيل كود JavaScript خارج المتصفح مستندة على محرك V8؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الnodejs",
         "نود جي إس",
         "النود جي إس",
         "نود جي اس",
-        "النود جي اس",
-        "node.js",
-        "الnode.js",
-        "nodejs"
+        "النود جي اس"
       ],
       "wrong_answers": [
         "رياكت",
@@ -2628,9 +2352,7 @@
       "prompt": "ما هو اسم لغة البرمجة الوظيفية البحتة التي تستخدم نظام أنواع قوي جداً وتعتمد على الكسل في تقييم التعبيرات (Lazy Evaluation)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "haskell",
         "الهسكل",
-        "الhaskell",
         "هسكل"
       ],
       "wrong_answers": [
@@ -2649,9 +2371,7 @@
       "prompt": "كم عدد مستويات العزل الأساسية transactions isolation levels في قواعد البيانات العلائقية القياسية؟",
       "answer_type": "number",
       "correct_answers": [
-        "4",
-        "ال4",
-        "٤"
+        "4"
       ],
       "wrong_answers": [
         "2",
@@ -2669,8 +2389,6 @@
       "prompt": "ما هو اسم نمط التصميم الذي يمنع إنشاء كائنات ثقيلة متكررة عبر مشاركة أكبر قدر ممكن من البيانات مع كائنات أخرى مشابهة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "flyweight",
-        "الflyweight",
         "فلايويت",
         "الفلايويت"
       ],
@@ -2690,12 +2408,8 @@
       "prompt": "ما هي لغة البرمجة التي تُعد الأساس في كتابة سكربتات التحكم بنظام التشغيل والتعامل مع واجهة الأوامر في أنظمة يونكس ولينكس (Bash)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الbash",
         "بش",
-        "bash",
-        "البش",
-        "shell",
-        "الshell"
+        "البش"
       ],
       "wrong_answers": [
         "بايثون",
@@ -2714,11 +2428,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الروبي اون ريلز",
-        "روبي اون ريلز",
-        "الrails",
-        "ruby on rails",
-        "rails",
-        "الruby on rails"
+        "روبي اون ريلز"
       ],
       "wrong_answers": [
         "لاراول",
@@ -2736,14 +2446,10 @@
       "prompt": "ما هو اسم الأداة المعيارية المستخدمة لإجراء اختبارات الأداء والضغط على خوادم الويب عبر توليد آلاف الطلبات المتزامنة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "jmeter",
         "الأباتشي جيه متر",
-        "الab",
         "أباتشي جيه متر",
         "الاباتشي جيه متر",
-        "اباتشي جيه متر",
-        "ab",
-        "الjmeter"
+        "اباتشي جيه متر"
       ],
       "wrong_answers": [
         "بوستمان",
@@ -2761,11 +2467,9 @@
       "prompt": "ما هو اسم خوارزمية الترتيب التي تعتمد على اختيار أصغر عنصر في كل مرة وضعه في مكانه الصحيح بالبداية؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الselection sort",
         "الترتيب بالاختيار",
         "ترتيب بالاختيار",
         "فرز بالاختيار",
-        "selection sort",
         "الفرز بالاختيار"
       ],
       "wrong_answers": [
@@ -2784,12 +2488,10 @@
       "prompt": "ماذا يسمى الرمز أو المعرف الذي يُستخدم للربط بين جدولين في قواعد البيانات العلائقية عبر مفتاح أساسي في جدول آخر؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "foreign key",
         "مفتاح اجنبي",
         "مفتاح أجنبي",
         "المفتاح أجنبي",
-        "المفتاح اجنبي",
-        "الforeign key"
+        "المفتاح اجنبي"
       ],
       "wrong_answers": [
         "مفتاح أساسي",
@@ -2808,8 +2510,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سوليديتي",
-        "solidity",
-        "الsolidity",
         "السوليديتي"
       ],
       "wrong_answers": [
@@ -2831,9 +2531,7 @@
         "الفرز السريع",
         "ترتيب سريع",
         "فرز السريع",
-        "الترتيب سريع",
-        "quick sort",
-        "الquick sort"
+        "الترتيب سريع"
       ],
       "wrong_answers": [
         "ترتيب فقاعي",
@@ -2852,11 +2550,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "المصنع مجرد",
-        "abstract factory",
         "ابستراكت فاكتوري",
         "الأبستراكت فاكتوري",
         "أبستراكت فاكتوري",
-        "الabstract factory",
         "الابستراكت فاكتوري",
         "مصنع مجرد"
       ],
@@ -2876,8 +2572,6 @@
       "prompt": "ما هي لغة البرمجة التي تُستخدم لتطوير تطبيقات الويب السريعة والآمنة والتي طورتها شركة Mozilla وتتميز بعدم وجود جامع قمامة تقليدي؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الrust",
-        "rust",
         "راست",
         "الراست"
       ],
@@ -2897,8 +2591,6 @@
       "prompt": "كم عدد أشكال الحالة الأساسية لدورة حياة اتصال بروتوكول TCP في الشبكات؟",
       "answer_type": "number",
       "correct_answers": [
-        "١١",
-        "ال11",
         "11"
       ],
       "wrong_answers": [
@@ -2917,20 +2609,16 @@
       "prompt": "ما هو اسم أداة إدارة التبعيات والمكتبات الشهيرة المستخدمة في لغة C++ وتسمى غالبًا باسم أداة من أدوات البناء؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "conan",
-        "الconan",
         "كونان",
         "الكونان"
       ],
       "wrong_answers": [
-        "نpm",
         "باي بي",
         "كومبوزر",
         "مافن",
         "جرادل",
         "جيم",
-        "كارغو",
-        "فcp"
+        "كارغو"
       ]
     },
     {
@@ -2941,8 +2629,6 @@
         "الشجره",
         "الشجرة",
         "شجره",
-        "tree",
-        "الtree",
         "شجرة"
       ],
       "wrong_answers": [
@@ -2961,10 +2647,8 @@
       "prompt": "ما هي لغة البرمجة التي تُستخدم لتطوير التطبيقات الرياضية والإحصائية المعقدة وتعتمد على المصفوفات بشكل أساسي وتدعى MATLAB؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "matlab",
         "الماتلاب",
-        "ماتلاب",
-        "الmatlab"
+        "ماتلاب"
       ],
       "wrong_answers": [
         "روبي",
@@ -2982,12 +2666,8 @@
       "prompt": "ما هو اسم أداة فحص ومراقبة جودة الكود البرمجي وإيجاد الثغرات الأمنية والتعقيدات الشائعة تلقائياً؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الsonarqube",
-        "sonar",
         "سونار كيو ب",
-        "الsonar",
-        "السونار كيو ب",
-        "sonarqube"
+        "السونار كيو ب"
       ],
       "wrong_answers": [
         "جيت",
@@ -3012,9 +2692,7 @@
         "البفر اوفرفلو",
         "بفر اوفرفلو",
         "البفر أوفرفلو",
-        "بفر أوفرفلو",
-        "buffer overflow",
-        "الbuffer overflow"
+        "بفر أوفرفلو"
       ],
       "wrong_answers": [
         "حقن اس كيو ال",
@@ -3035,9 +2713,7 @@
         "باني",
         "بناء",
         "الباني",
-        "الbuilder",
-        "البناء",
-        "builder"
+        "البناء"
       ],
       "wrong_answers": [
         "مصنع",
@@ -3055,9 +2731,7 @@
       "prompt": "كم عدد أعمدة مصفوفة الوحدة (Identity Matrix) من الدرجة الرابعة في الجبر الخطي والبرمجة؟",
       "answer_type": "number",
       "correct_answers": [
-        "4",
-        "ال4",
-        "٤"
+        "4"
       ],
       "wrong_answers": [
         "1",
@@ -3075,11 +2749,7 @@
       "prompt": "ما هي لغة البرمجة التي تُستخدم لتطوير تطبيقات الألعاب عبر محرك Unreal Engine وتعتمد على بناء بصري أو نصوص؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "cpp",
-        "c++",
-        "الc++",
         "السي بلس بلس",
-        "الcpp",
         "سي بلس بلس"
       ],
       "wrong_answers": [
@@ -3098,8 +2768,6 @@
       "prompt": "ما هو اسم إطار العمل الشهير الخاص بلغة PHP والذي يُعد الأكثر استخداماً لبناء تطبيقات الويب الحديثة والمرنة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الlaravel",
-        "laravel",
         "اللاراول",
         "لاراول"
       ],
@@ -3120,11 +2788,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "مبدا استبدال لسكوف",
-        "الliskov substitution principle",
         "مبدأ استبدال لسكوف",
         "المبدأ استبدال لسكوف",
-        "المبدا استبدال لسكوف",
-        "liskov substitution principle"
+        "المبدا استبدال لسكوف"
       ],
       "wrong_answers": [
         "مبدأ المسؤولية الفردية",
@@ -3143,9 +2809,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "شيف",
-        "chef",
-        "الشيف",
-        "الchef"
+        "الشيف"
       ],
       "wrong_answers": [
         "أنسبل",
@@ -3166,11 +2830,7 @@
         "الاكسبريس",
         "اكسبريس",
         "إكسبريس",
-        "الexpress.js",
-        "الexpress",
-        "الإكسبريس",
-        "express",
-        "express.js"
+        "الإكسبريس"
       ],
       "wrong_answers": [
         "رياكت",
@@ -3189,9 +2849,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجافا",
-        "جافا",
-        "java",
-        "الjava"
+        "جافا"
       ],
       "wrong_answers": [
         "كوتلين",
@@ -3209,8 +2867,6 @@
       "prompt": "كم عدد بتات التشفير المفتاحي في خوارزمية AES القياسية الأساسية الأقصر طولاً؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال128",
-        "١٢٨",
         "128"
       ],
       "wrong_answers": [
@@ -3229,12 +2885,10 @@
       "prompt": "ما هو اسم نمط التصميم الذي يقلل من التبعيات المعقدة بين الكائنات عبر إدخال كائن وسيط يدير الاتصالات بينها؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الmediator",
         "الوسيط",
         "الميدياتور",
         "وسيط",
-        "ميدياتور",
-        "mediator"
+        "ميدياتور"
       ],
       "wrong_answers": [
         "مصنع",
@@ -3253,8 +2907,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سي",
-        "الc",
-        "c",
         "السي"
       ],
       "wrong_answers": [
@@ -3273,9 +2925,7 @@
       "prompt": "ما هو اسم نمط التصميم الذي يتيح إضافة أو إزالة مسؤوليات من الكائن ديناميكياً أثناء وقت التشغيل عبر تغليفه بمحتوى مطابق؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "decorator",
         "ديكوراتور",
-        "الdecorator",
         "المزخرف",
         "الديكوراتور",
         "مزخرف"
@@ -3297,8 +2947,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البوستمان",
-        "postman",
-        "الpostman",
         "بوستمان"
       ],
       "wrong_answers": [
@@ -3323,10 +2971,8 @@
         "فرز بالادراج",
         "الترتيب بالإدراج",
         "ترتيب بالإدراج",
-        "insertion sort",
         "الفرز بالإدراج",
-        "فرز بالإدراج",
-        "الinsertion sort"
+        "فرز بالإدراج"
       ],
       "wrong_answers": [
         "ترتيب فقاعي",
@@ -3351,8 +2997,6 @@
         "الملف البيئه",
         "دوت انف",
         "الملف البيئة",
-        "ال.env",
-        ".env",
         "ملف البيئة"
       ],
       "wrong_answers": [
@@ -3372,9 +3016,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "لوا",
-        "اللوا",
-        "lua",
-        "الlua"
+        "اللوا"
       ],
       "wrong_answers": [
         "بايثون",
@@ -3395,9 +3037,7 @@
         "الفرز السريع",
         "ترتيب سريع",
         "فرز السريع",
-        "الترتيب سريع",
-        "quick sort",
-        "الquick sort"
+        "الترتيب سريع"
       ],
       "wrong_answers": [
         "ترتيب فقاعي",
@@ -3416,11 +3056,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "المصنع مجرد",
-        "abstract factory",
         "ابستراكت فاكتوري",
         "الأبستراكت فاكتوري",
         "أبستراكت فاكتوري",
-        "الabstract factory",
         "الابستراكت فاكتوري",
         "مصنع مجرد"
       ],
@@ -3440,8 +3078,6 @@
       "prompt": "ما هي لغة البرمجة التي تُستخدم لتطوير تطبيقات الويب السريعة والآمنة والتي طورتها شركة Mozilla وتتميز بعدم وجود جامع قمامة تقليدي؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الrust",
-        "rust",
         "راست",
         "الراست"
       ],
@@ -3461,8 +3097,6 @@
       "prompt": "كم عدد أشكال الحالة الأساسية لدورة حياة اتصال بروتوكول TCP في الشبكات؟",
       "answer_type": "number",
       "correct_answers": [
-        "١١",
-        "ال11",
         "11"
       ],
       "wrong_answers": [
@@ -3481,20 +3115,16 @@
       "prompt": "ما هو اسم أداة إدارة التبعيات والمكتبات الشهيرة المستخدمة في لغة C++ وتسمى غالبًا باسم أداة من أدوات البناء؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "conan",
-        "الconan",
         "كونان",
         "الكونان"
       ],
       "wrong_answers": [
-        "نpm",
         "باي بي",
         "كومبوزر",
         "مافن",
         "جرادل",
         "جيم",
-        "كارغو",
-        "فcp"
+        "كارغو"
       ]
     },
     {
@@ -3505,8 +3135,6 @@
         "الشجره",
         "الشجرة",
         "شجره",
-        "tree",
-        "الtree",
         "شجرة"
       ],
       "wrong_answers": [
@@ -3525,10 +3153,8 @@
       "prompt": "ما هي لغة البرمجة التي تُستخدم لتطوير التطبيقات الرياضية والإحصائية المعقدة وتعتمد على المصفوفات بشكل أساسي وتدعى MATLAB؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "matlab",
         "الماتلاب",
-        "ماتلاب",
-        "الmatlab"
+        "ماتلاب"
       ],
       "wrong_answers": [
         "روبي",
@@ -3546,12 +3172,8 @@
       "prompt": "ما هو اسم أداة فحص ومراقبة جودة الكود البرمجي وإيجاد الثغرات الأمنية والتعقيدات الشائعة تلقائياً؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الsonarqube",
-        "sonar",
         "سونار كيو ب",
-        "الsonar",
-        "السونار كيو ب",
-        "sonarqube"
+        "السونار كيو ب"
       ],
       "wrong_answers": [
         "جيت",
@@ -3576,9 +3198,7 @@
         "البفر اوفرفلو",
         "بفر اوفرفلو",
         "البفر أوفرفلو",
-        "بفر أوفرفلو",
-        "buffer overflow",
-        "الbuffer overflow"
+        "بفر أوفرفلو"
       ],
       "wrong_answers": [
         "حقن اس كيو ال",
@@ -3599,9 +3219,7 @@
         "باني",
         "بناء",
         "الباني",
-        "الbuilder",
-        "البناء",
-        "builder"
+        "البناء"
       ],
       "wrong_answers": [
         "مصنع",
@@ -3619,9 +3237,7 @@
       "prompt": "كم عدد أعمدة مصفوفة الوحدة (Identity Matrix) من الدرجة الرابعة في الجبر الخطي والبرمجة؟",
       "answer_type": "number",
       "correct_answers": [
-        "4",
-        "ال4",
-        "٤"
+        "4"
       ],
       "wrong_answers": [
         "1",
@@ -3639,11 +3255,7 @@
       "prompt": "ما هي لغة البرمجة التي تُستخدم لتطوير تطبيقات الألعاب عبر محرك Unreal Engine وتعتمد على بناء بصري أو نصوص؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "cpp",
-        "c++",
-        "الc++",
         "السي بلس بلس",
-        "الcpp",
         "سي بلس بلس"
       ],
       "wrong_answers": [
@@ -3662,8 +3274,6 @@
       "prompt": "ما هو اسم إطار العمل الشهير الخاص بلغة PHP والذي يُعد الأكثر استخداماً لبناء تطبيقات الويب الحديثة والمرنة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الlaravel",
-        "laravel",
         "اللاراول",
         "لاراول"
       ],
@@ -3684,11 +3294,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "مبدا استبدال لسكوف",
-        "الliskov substitution principle",
         "مبدأ استبدال لسكوف",
         "المبدأ استبدال لسكوف",
-        "المبدا استبدال لسكوف",
-        "liskov substitution principle"
+        "المبدا استبدال لسكوف"
       ],
       "wrong_answers": [
         "مبدأ المسؤولية الفردية",
@@ -3707,9 +3315,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "شيف",
-        "chef",
-        "الشيف",
-        "الchef"
+        "الشيف"
       ],
       "wrong_answers": [
         "أنسبل",
@@ -3730,11 +3336,7 @@
         "الاكسبريس",
         "اكسبريس",
         "إكسبريس",
-        "الexpress.js",
-        "الexpress",
-        "الإكسبريس",
-        "express",
-        "express.js"
+        "الإكسبريس"
       ],
       "wrong_answers": [
         "رياكت",
@@ -3753,9 +3355,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجافا",
-        "جافا",
-        "java",
-        "الjava"
+        "جافا"
       ],
       "wrong_answers": [
         "كوتلين",
@@ -3773,8 +3373,6 @@
       "prompt": "كم عدد بتات التشفير المفتاحي في خوارزمية AES القياسية الأساسية الأقصر طولاً؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال128",
-        "١٢٨",
         "128"
       ],
       "wrong_answers": [
@@ -3793,12 +3391,10 @@
       "prompt": "ما هو اسم نمط التصميم الذي يقلل من التبعيات المعقدة بين الكائنات عبر إدخال كائن وسيط يدير الاتصالات بينها؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الmediator",
         "الوسيط",
         "الميدياتور",
         "وسيط",
-        "ميدياتور",
-        "mediator"
+        "ميدياتور"
       ],
       "wrong_answers": [
         "مصنع",
@@ -3817,8 +3413,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سي",
-        "الc",
-        "c",
         "السي"
       ],
       "wrong_answers": [
@@ -3837,9 +3431,7 @@
       "prompt": "ما هو اسم نمط التصميم الذي يتيح إضافة أو إزالة مسؤوليات من الكائن ديناميكياً أثناء وقت التشغيل عبر تغليفه بمحتوى مطابق؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "decorator",
         "ديكوراتور",
-        "الdecorator",
         "المزخرف",
         "الديكوراتور",
         "مزخرف"
@@ -3861,8 +3453,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البوستمان",
-        "postman",
-        "الpostman",
         "بوستمان"
       ],
       "wrong_answers": [
@@ -3887,10 +3477,8 @@
         "فرز بالادراج",
         "الترتيب بالإدراج",
         "ترتيب بالإدراج",
-        "insertion sort",
         "الفرز بالإدراج",
-        "فرز بالإدراج",
-        "الinsertion sort"
+        "فرز بالإدراج"
       ],
       "wrong_answers": [
         "ترتيب فقاعي",
@@ -3915,8 +3503,6 @@
         "الملف البيئه",
         "دوت انف",
         "الملف البيئة",
-        "ال.env",
-        ".env",
         "ملف البيئة"
       ],
       "wrong_answers": [
@@ -3936,9 +3522,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "لوا",
-        "اللوا",
-        "lua",
-        "الlua"
+        "اللوا"
       ],
       "wrong_answers": [
         "بايثون",
@@ -3956,10 +3540,8 @@
       "prompt": "ما هو اسم خوارزمية الترتيب التي تعتمد على مفهوم كومة البيانات (Heap) لترتيب العناصر بكفاءة في وقت O(n log n)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "heap sort",
         "ترتيب كومومي",
         "فرز كومي",
-        "الheap sort",
         "الترتيب كومومي",
         "الفرز كومي"
       ],
@@ -3981,8 +3563,6 @@
       "correct_answers": [
         "بروتوتايب",
         "نموذج اولي",
-        "الprototype",
-        "prototype",
         "نموذج أولي",
         "البروتوتايب",
         "النموذج اولي",
@@ -4004,10 +3584,8 @@
       "prompt": "ما هي لغة البرمجة الوظيفية التي تعمل على بيئة خادم Java Virtual Machine وتجمع بين البرمجة الكائنية والوظيفية وتدعى Scala؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "scala",
         "السكالا",
-        "سكالا",
-        "الscala"
+        "سكالا"
       ],
       "wrong_answers": [
         "كوتلين",
@@ -4025,9 +3603,7 @@
       "prompt": "كم عدد المعلمات القياسية التي تقبلها دالة الحد الأدنى (main) كمدخلات رئيسية في لغة سي (C) العادية؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال2",
-        "2",
-        "٢"
+        "2"
       ],
       "wrong_answers": [
         "0",
@@ -4036,8 +3612,7 @@
         "4",
         "5",
         "8",
-        "10",
-        "غير محدود"
+        "10"
       ]
     },
     {
@@ -4045,13 +3620,10 @@
       "prompt": "ما هو اسم أداة إدارة حزم لغة JavaScript الشهيرة التي أُنشئت بواسطة Facebook لتوفير سرعة وأمان أعلى من npm؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "yarn",
         "اليارن",
-        "يارن",
-        "الyarn"
+        "يارن"
       ],
       "wrong_answers": [
-        "نpm",
         "باي بي",
         "كومبوزر",
         "مافن",
@@ -4069,9 +3641,7 @@
         "ديك",
         "الديك",
         "طابور مزدوج",
-        "الطابور مزدوج",
-        "deque",
-        "الdeque"
+        "الطابور مزدوج"
       ],
       "wrong_answers": [
         "كدس",
@@ -4090,8 +3660,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الالكسير",
-        "الelixir",
-        "elixir",
         "ألكسير",
         "الكسير",
         "الألكسير"
@@ -4112,10 +3680,8 @@
       "prompt": "ما هو اسم أداة فحص واختبار التسلل والتحقق من أمان تطبيقات الويب التي تعمل كبروكسي وسيط (Interceptor)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "burp suite",
         "البورب سويت",
-        "بورب سويت",
-        "الburp suite"
+        "بورب سويت"
       ],
       "wrong_answers": [
         "بوستمان",
@@ -4136,9 +3702,7 @@
         "دمج مستمر",
         "التكامل المستمر",
         "تكامل المستمر",
-        "الدمج مستمر",
-        "الcontinuous integration",
-        "continuous integration"
+        "الدمج مستمر"
       ],
       "wrong_answers": [
         "النشر المستمر",
@@ -4157,8 +3721,6 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "النائب",
-        "الproxy",
-        "proxy",
         "البروكسي",
         "بروكسي",
         "نائب"
@@ -4179,9 +3741,7 @@
       "prompt": "كم عدد بايتات الذاكرة التي يحجزها متغير من نوع عدد صحيح قصير (short int) في أغلب المعماريات الحديثة؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال2",
-        "2",
-        "٢"
+        "2"
       ],
       "wrong_answers": [
         "1",
@@ -4199,12 +3759,8 @@
       "prompt": "ما هي لغة البرمجة التي تُستخدم لتطوير تطبيقات الويب والعروض البرمجية المعتمدة على محرك سكريبتات مايكروسوفت القديم وتدعى ASP؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الasp.net",
         "الاي اس بي دوت نت",
-        "الc#",
-        "asp.net",
-        "اي اس بي دوت نت",
-        "c#"
+        "اي اس بي دوت نت"
       ],
       "wrong_answers": [
         "بي إتش بي",
@@ -4222,15 +3778,12 @@
       "prompt": "ما هو اسم الإطار البرمجي الشهير الخاص بلغة Python لتطوير مواقع الويب الكبيرة والمعقدة والذي يتبنى معمارية MVT؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الdjango",
-        "django",
         "الجانغو",
         "جانغو"
       ],
       "wrong_answers": [
         "فلاسك",
         "فاسبي آي",
-        "تornado",
         "سبرينغ",
         "لاراول",
         "إكسبريس",
@@ -4245,10 +3798,8 @@
       "correct_answers": [
         "مبدأ فصل الواجهات",
         "المبدا فصل الواجهات",
-        "الinterface segregation principle",
         "المبدأ فصل الواجهات",
-        "مبدا فصل الواجهات",
-        "interface segregation principle"
+        "مبدا فصل الواجهات"
       ],
       "wrong_answers": [
         "مبدأ المسؤولية الفردية",
@@ -4266,8 +3817,6 @@
       "prompt": "ما هو اسم أداة الإدارة والتشغيل الآلي للخوادم القديمة المعتمدة على لغة Python وتُدعى Fabric أو ما شابهها؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الfabric",
-        "fabric",
         "فابريك",
         "الفابريك"
       ],
@@ -4287,9 +3836,7 @@
       "prompt": "ما هو اسم مكتبة جافاسكريبت الشهيرة القديمة لتسهيل التعامل مع DOM وإجراء العمليات الحركية قبل ظهور الإطارات الحديثة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "jquery",
         "الجيكوري",
-        "الjquery",
         "جيكوري"
       ],
       "wrong_answers": [
@@ -4309,9 +3856,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الجافا",
-        "جافا",
-        "java",
-        "الjava"
+        "جافا"
       ],
       "wrong_answers": [
         "كوتلين",
@@ -4329,9 +3874,7 @@
       "prompt": "كم عدد المحاولات القصوى للبحث في شجرة بحث ثنائية متوازنة (Balanced BST) تحتوي على 1024 عنصر في أسوأ الأحوال تقريباً؟",
       "answer_type": "number",
       "correct_answers": [
-        "١٠",
-        "10",
-        "ال10"
+        "10"
       ],
       "wrong_answers": [
         "5",
@@ -4349,8 +3892,6 @@
       "prompt": "ما هو اسم نمط التصميم الذي يجمع الطلبات أو العمليات في كائنات مستقلة لتنفيذها لاحقاً أو التراجع عنها (Command Pattern)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الcommand",
-        "command",
         "أمر",
         "امر",
         "كوماند",
@@ -4375,9 +3916,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "اللوجو",
-        "logo",
-        "لوجو",
-        "الlogo"
+        "لوجو"
       ],
       "wrong_answers": [
         "بايثون",
@@ -4398,8 +3937,6 @@
         "مكرر",
         "ايتراتور",
         "الايتراتور",
-        "الiterator",
-        "iterator",
         "المكرر"
       ],
       "wrong_answers": [
@@ -4419,9 +3956,7 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "السيلينيوم",
-        "سيلينيوم",
-        "selenium",
-        "الselenium"
+        "سيلينيوم"
       ],
       "wrong_answers": [
         "بوستمان",
@@ -4442,9 +3977,7 @@
         "الفرز العد",
         "فرز العد",
         "الترتيب العد",
-        "ترتيب العد",
-        "counting sort",
-        "الcounting sort"
+        "ترتيب العد"
       ],
       "wrong_answers": [
         "ترتيب فقاعي",
@@ -4462,9 +3995,7 @@
       "prompt": "ماذا يسمى الملف البرمجي الذي يحتوي على إعدادات تشغيل الحاويات في نظام Docker ويحدد أوامر البناء خطوة بخطوة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الdockerfile",
         "دوكر فايل",
-        "dockerfile",
         "الدوكر فايل"
       ],
       "wrong_answers": [
@@ -4483,8 +4014,6 @@
       "prompt": "ما هي لغة البرمجة النصية المستخدمة في إدارة قواعد البيانات واستعلامات نظام Oracle وتُعرف بـ PL/SQL؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الpl/sql",
-        "pl/sql",
         "البي ال اس كيو ال",
         "بي ال اس كيو ال"
       ],

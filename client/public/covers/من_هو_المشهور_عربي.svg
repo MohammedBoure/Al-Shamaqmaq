@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 190" width="100%" height="100%">
+  <defs>
+    <linearGradient id="grad_d985d9865fd9" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#500724" />
+      <stop offset="60%" stop-color="#831843" />
+      <stop offset="100%" stop-color="#9d174d" />
+    </linearGradient>
+    <radialGradient id="glow_grad_d985d9865fd9" cx="50%" cy="35%" r="55%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="150" height="190" rx="18" fill="url(#grad_d985d9865fd9)" />
+  <rect width="150" height="190" rx="18" fill="url(#glow_grad_d985d9865fd9)" />
+  <g>
+      <circle cx="75" cy="62" r="32" fill="#be185d" opacity="0.4"/>
+      <polygon points="75,32 82,50 102,50 86,63 92,82 75,70 58,82 64,63 48,50 68,50" fill="#fde047" stroke="#eab308" stroke-width="2.5"/>
+      <circle cx="75" cy="62" r="6" fill="#ffffff" opacity="0.9"/>
+    </g>
+  <rect x="0" y="130" width="150" height="60" fill="#000000" fill-opacity="0.75" />
+  <text x="75" y="162" font-family="'Cairo', 'Readex Pro', sans-serif" font-weight="900" font-size="13" fill="#ffffff" text-anchor="middle" stroke="#000000" stroke-width="2" paint-order="stroke fill">من هو المشهور (عربي)</text>
+</svg>

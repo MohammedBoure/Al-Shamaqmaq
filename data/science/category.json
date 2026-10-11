@@ -1,0 +1,8 @@
+{
+  "id": "science",
+  "title": "علوم",
+  "icon": "FlaskConical",
+  "badge": "علمي",
+  "color": "#10b981",
+  "order": 1
+}

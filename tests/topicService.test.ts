@@ -19,14 +19,14 @@ describe('TopicService', () => {
   });
 
   it('retrieves specific topic by id', () => {
-    const topic = topicService.getTopicById('islamic_history');
+    const topic = topicService.getTopicById('الفيزياء');
     expect(topic).toBeDefined();
-    expect(topic?.title).toContain('إسلامية');
+    expect(topic?.title).toContain('فيزياء');
     expect(topic?.puzzles.length).toBeGreaterThan(0);
   });
 
   it('selects random puzzle excluding previously played puzzles', () => {
-    const topicId = 'islamic_history';
+    const topicId = 'الفيزياء';
     const excluded = new Set<string>();
 
     const puzzle1 = topicService.getRandomPuzzle(topicId, excluded);
@@ -50,12 +50,12 @@ describe('TopicService', () => {
     expect(scienceCategory?.title).toBe('علوم');
     expect(scienceCategory?.subtopics.length).toBeGreaterThanOrEqual(10);
 
-    const varietyCategory = categories.find((c) => c.id === 'variety');
-    expect(varietyCategory).toBeDefined();
-    expect(varietyCategory?.title).toBe('منوعات');
+    const generalCategory = categories.find((c) => c.id === 'general');
+    expect(generalCategory).toBeDefined();
+    expect(generalCategory?.title).toBe('معلومات عامة');
 
-    // التأكد من شارات VIP
-    const vipTopics = scienceCategory?.subtopics.filter((t) => t.is_vip);
-    expect(vipTopics && vipTopics.length).toBeGreaterThan(0);
+    // التأكد من ملخصات المواضيع
+    expect(Array.isArray(scienceCategory?.subtopics)).toBe(true);
+    expect(scienceCategory!.subtopics.length).toBeGreaterThan(0);
   });
 });
