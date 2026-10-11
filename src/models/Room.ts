@@ -847,8 +847,9 @@ export class Room {
       }
 
       // إذا لم تكتمل الخيارات المطلوبة، نستعين بإجابات مضللة من ألغاز أخرى لنفس الموضوع
-      if (options.length < targetTotalOptions && this.currentTopic?.puzzles) {
-        for (const p of this.currentTopic.puzzles) {
+      const currentTopic = this.currentTopicId ? topicService.getTopicById(this.currentTopicId) : undefined;
+      if (options.length < targetTotalOptions && currentTopic?.puzzles) {
+        for (const p of currentTopic.puzzles) {
           if (options.length >= targetTotalOptions) break;
           for (const decoy of p.wrong_answers || []) {
             if (options.length >= targetTotalOptions) break;
