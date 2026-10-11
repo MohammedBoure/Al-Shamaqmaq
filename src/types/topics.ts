@@ -6,6 +6,7 @@ export interface Puzzle {
   image_url?: string;
   answer_type: AnswerType;
   correct_answers: string[];
+  wrong_answers?: string[];
 }
 
 export interface Topic {

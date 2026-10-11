@@ -4,6 +4,10 @@ import { PublicPuzzle, TopicSummary } from './topics';
 // Client to Server Actions
 export type ClientMessageType =
   | 'JOIN_ROOM'
+  | 'LEAVE_ROOM'
+  | 'KICK_PLAYER'
+  | 'ABORT_GAME'
+  | 'REMATCH'
   | 'UPDATE_PROFILE'
   | 'UPDATE_SETTINGS'
   | 'START_GAME'
@@ -13,6 +17,10 @@ export type ClientMessageType =
   | 'SUBMIT_VOTE'
   | 'NEXT_ROUND'
   | 'PING';
+
+export interface KickPlayerPayload {
+  targetPlayerId: string;
+}
 
 export interface JoinRoomPayload {
   roomCode: string;
@@ -67,6 +75,10 @@ export type ServerMessageType =
   | 'PLAYER_JOINED'
   | 'PLAYER_LEFT'
   | 'PLAYER_UPDATED'
+  | 'KICKED'
+  | 'MATCH_ABORTED'
+  | 'REMATCH_STARTED'
+  | 'LEFT_ROOM'
   | 'GAME_STARTED'
   | 'PHASE_CHANGED'
   | 'TOPIC_SELECTION_STARTED'

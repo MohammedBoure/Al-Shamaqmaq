@@ -2,157 +2,630 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ========================================================
+   MONOCHROME MINIMALIST SYSTEM
+   ======================================================== */
+
+:root,
+.dark {
+  --theme-bg: #121414;
+  --theme-card: #1b1c1c;
+  --theme-card-hover: #292a2a;
+  --theme-card-subtle: #1f2020;
+  --theme-border: #343535;
+  --theme-border-subtle: #292a2a;
+  --theme-primary: #ffffff;
+  --theme-primary-hover: #e3e2e2;
+  --theme-secondary: #c7c6c6;
+  --theme-accent: #ffffff;
+  --theme-text: #e3e2e2;
+  --theme-text-muted: #c4c7c7;
+  --theme-shadow-color: rgba(0, 0, 0, 0.85);
+}
+
+html {
+  font-size: 13.5px;
+}
+
+@media (max-width: 375px) {
+  html {
+    font-size: 12.5px;
+  }
+}
+
+@media (min-width: 640px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+}
+
 @layer base {
   * {
     -webkit-tap-highlight-color: transparent;
-    user-select: none;
-    -webkit-user-select: none;
+    box-sizing: border-box;
   }
 
-  input, textarea {
-    user-select: text;
-    -webkit-user-select: text;
-  }
-
+  html,
   body {
+    height: 100%;
+    height: 100dvh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
     touch-action: manipulation;
-    font-family: 'Readex Pro', 'Cairo', system-ui, sans-serif;
-    background-color: #0f101a;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    font-family: 'IBM Plex Sans Arabic', 'Inter', 'Cairo', sans-serif;
+    background-color: #121414;
+    color: #e3e2e2;
+  }
+
+  #root {
+    height: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 }
 
-/* نمط الوضع الفاتح الكرتوني White & Light Mode */
-html.light body {
-  background-color: #f1f5f9;
-  color: #0f172a;
+/* Material Symbols configuration */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
 }
 
-html.light .bg-arcade-bg {
-  background-color: #f8fafc;
+/* Table Canvas Dark Background (Board game dimmed parlor ambiance) */
+.table-canvas-dark {
+  background-color: #121414;
+  background-image: 
+    radial-gradient(at 20% 20%, rgba(255, 255, 255, 0.03) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(255, 255, 255, 0.02) 0px, transparent 55%),
+    radial-gradient(at 50% 50%, #0d0e0f 0px, #121414 100%);
 }
 
-html.light .bg-arcade-card {
-  background-color: #ffffff;
-  color: #0f172a;
-}
-
-html.light .bg-gaming-pattern {
-  background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
-}
-
-.bg-gaming-pattern {
-  background-image: radial-gradient(rgba(139, 92, 246, 0.18) 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
-}
-
-/* نمط الخطوط الكرتونية بحدود سوداء ثقيلة مستوحاة من Brawl Stars / Arcade UI */
-.text-stroke-arcade {
-  color: #ffffff;
-  -webkit-text-stroke: 1.5px #000000;
-  text-shadow: 
-    2px 2px 0 #000000,
-    -2px 2px 0 #000000,
-    2px -2px 0 #000000,
-    -2px -2px 0 #000000,
-    0px 3px 0 #000000;
-}
-
-.text-stroke-sm {
-  color: #ffffff;
-  -webkit-text-stroke: 1px #000000;
-  text-shadow: 
-    1.5px 1.5px 0 #000000,
-    -1.5px 1.5px 0 #000000,
-    1.5px -1.5px 0 #000000,
-    -1.5px -1.5px 0 #000000,
-    0px 2px 0 #000000;
-}
-
-/* خلفية الأشعة الدائرية الزرقاء (Sunburst) لشاشة الشخصية */
-.sunburst-rays {
-  background: repeating-conic-gradient(
-    from 0deg at 50% 50%,
-    #2196f3 0deg 12deg,
-    #1565c0 12deg 24deg
-  );
-}
-
-/* زر أركيد ثلاثي الأبعاد أزرق */
-.arcade-btn-blue {
-  background: #0070eb;
-  border: 3px solid #000000;
-  box-shadow: 0 5px 0 #004099;
-  transition: all 0.1s ease-in-out;
-}
-
-.arcade-btn-blue:active {
-  transform: translateY(4px);
-  box-shadow: 0 1px 0 #004099;
-}
-
-/* زر أركيد ثلاثي الأبعاد أخضر */
-.arcade-btn-green {
-  background: #00c853;
-  border: 3px solid #000000;
-  box-shadow: 0 5px 0 #007e33;
-  transition: all 0.1s ease-in-out;
-}
-
-.arcade-btn-green:active {
-  transform: translateY(4px);
-  box-shadow: 0 1px 0 #007e33;
-}
-
-/* زر أركيد ثلاثي الأبعاد أصفر */
-.arcade-btn-yellow {
-  background: #ffb300;
-  border: 3px solid #000000;
-  box-shadow: 0 5px 0 #ff6f00;
-  transition: all 0.1s ease-in-out;
-}
-
-.arcade-btn-yellow:active {
-  transform: translateY(4px);
-  box-shadow: 0 1px 0 #ff6f00;
-}
-
-@keyframes scanLaser {
-  0% {
-    top: 5%;
-    opacity: 0.8;
+/* Low Time Urgency Flashing Border (عندما يقل المؤقت عن 10 ثوانٍ) */
+@keyframes urgency-flash {
+  0%, 100% {
+    box-shadow: inset 0 0 16px rgba(239, 68, 68, 0.35);
+    border-color: rgba(239, 68, 68, 0.45);
   }
   50% {
-    top: 90%;
-    opacity: 1;
-  }
-  100% {
-    top: 5%;
-    opacity: 0.8;
+    box-shadow: inset 0 0 65px rgba(239, 68, 68, 0.85), inset 0 0 25px rgba(255, 0, 0, 0.95);
+    border-color: rgba(239, 68, 68, 1);
   }
 }
 
-.animate-scan-laser {
-  animation: scanLaser 2s ease-in-out infinite;
+.urgency-border-flash {
+  animation: urgency-flash 0.85s ease-in-out infinite;
 }
 
-/* تخصيص شريط التمرير بنمط داكن أنيق */
+/* Elevation & Depth Shadows */
+.dark-card-primary {
+  box-shadow: 
+    0 14px 28px -6px rgba(0, 0, 0, 0.7),
+    0 6px 12px -2px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.dark-card-secondary {
+  box-shadow: 
+    0 10px 24px -6px rgba(0, 0, 0, 0.5),
+    0 4px 10px -2px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.06);
+}
+
+.dark-monochrome-card {
+  background-color: rgba(24, 25, 26, 0.94);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.dark-pill-recessed {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.dark-input-slot {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.dark-input-slot:focus-within {
+  box-shadow: 0 0 0 2px #e3e2e2, inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Minimalist Monochrome Card and Well Styles */
+.mono-card {
+  background: #1b1c1c;
+  border: 1px solid #343535;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+}
+
+.mono-card-nested {
+  background: #191a1a;
+  border: 1px solid #292a2a;
+}
+
+.mono-well {
+  background: #121414;
+  border: 1px solid #292a2a;
+}
+
+/* Range Slider Styling */
+input[type=range] {
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 24px;
+  width: 24px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 2px solid #121414;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  margin-top: -8px;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: #e3e2e2;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: #292a2a;
+  border-radius: 9999px;
+  border: 1px solid #343535;
+}
+
+/* Minimalist Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(13, 13, 25, 0.6);
+  background: #121414;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.4);
+  background: #343535;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.8);
+  background: #8e9192;
+}
+
+/* ========================================================
+   LIGHT THEME (الوضع النهاري الفاخر)
+   ======================================================== */
+.theme-light body {
+  background-color: #f4f5f8;
+  color: #111827;
+}
+
+.theme-light .table-canvas-dark {
+  background-color: #f4f5f8;
+  background-image: 
+    radial-gradient(at 20% 20%, rgba(0, 0, 0, 0.03) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(0, 0, 0, 0.02) 0px, transparent 55%),
+    radial-gradient(at 50% 50%, #edf0f5 0px, #f4f5f8 100%);
+}
+
+.theme-light .mono-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+.theme-light .mono-card-nested {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.theme-light .mono-well {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+.theme-light .dark-monochrome-card {
+  background-color: rgba(255, 255, 255, 0.98);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.theme-light .dark-pill-recessed {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  background-color: #f1f5f9;
+}
+
+.theme-light .dark-input-slot {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  background-color: #f8fafc;
+}
+
+.theme-light .dark-input-slot:focus-within {
+  box-shadow: 0 0 0 2px #111827, inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* التباين والألوان للوضع النهاري */
+.theme-light .text-white {
+  color: #0f172a !important;
+}
+
+.theme-light .text-on-surface-variant {
+  color: #475569 !important;
+}
+
+.theme-light .bg-surface-container-lowest {
+  background-color: #f1f5f9 !important;
+}
+
+.theme-light .bg-surface-container-low {
+  background-color: #ffffff !important;
+}
+
+.theme-light .bg-surface-container {
+  background-color: #f8fafc !important;
+}
+
+.theme-light .bg-surface-container-high {
+  background-color: #f1f5f9 !important;
+}
+
+.theme-light .bg-surface-container-highest {
+  background-color: #e2e8f0 !important;
+}
+
+.theme-light .border-outline-variant\/40,
+.theme-light .border-outline-variant\/50,
+.theme-light .border-outline-variant\/60,
+.theme-light .border-outline-variant\/30,
+.theme-light .border-outline-variant {
+  border-color: #e2e8f0 !important;
+}
+
+.theme-light [class*="border-white/"],
+.theme-light [class*="border-white"],
+.theme-light .border-white {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+.theme-light .bg-surface\/90 {
+  background-color: rgba(255, 255, 255, 0.94) !important;
+}
+
+.theme-light .bg-surface {
+  background-color: #ffffff !important;
+}
+
+/* الأزرار الرئيسية في الوضع النهاري */
+.theme-light button.bg-white,
+.theme-light [role="button"].bg-white,
+.theme-light div.bg-white,
+.theme-light .bg-white.text-surface-container-lowest,
+.theme-light button.bg-white.text-surface-container-lowest {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+
+.theme-light button.bg-white:hover,
+.theme-light [role="button"].bg-white:hover,
+.theme-light div.bg-white:hover {
+  background-color: #1e293b !important;
+}
+
+.theme-light button.bg-white *,
+.theme-light [role="button"].bg-white *,
+.theme-light div.bg-white *,
+.theme-light .bg-white.text-surface-container-lowest * {
+  color: #ffffff !important;
+}
+
+/* الحفاظ على وضوح النصوص البيضاء داخل الأزرار والشارات الملونة */
+.theme-light [class*="bg-emerald-"] *,
+.theme-light [class*="bg-rose-"] *,
+.theme-light [class*="bg-red-"] *,
+.theme-light [class*="bg-amber-"] *,
+.theme-light [class*="bg-sky-"] *,
+.theme-light [class*="bg-blue-"] * {
+  color: #ffffff !important;
+}
+
+.theme-light .bg-surface-container-highest .text-white {
+  color: #0f172a !important;
+}
+
+.theme-light [class*="bg-black\/"] {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* ========================================================
+   THEME: DEEP SEA (أعماق البحار - Coolors)
+   ======================================================== */
+.theme-deep-sea body,
+[data-theme="deep-sea"] body {
+  background-color: #031926;
+  color: #f4f9e9;
+}
+.theme-deep-sea .table-canvas-dark,
+[data-theme="deep-sea"] .table-canvas-dark {
+  background-color: #031926;
+  background-image: 
+    radial-gradient(at 20% 20%, rgba(70, 129, 137, 0.15) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(119, 172, 162, 0.1) 0px, transparent 55%),
+    radial-gradient(at 50% 50%, #062335 0px, #031926 100%);
+}
+.theme-deep-sea .mono-card,
+.theme-deep-sea .dark-monochrome-card,
+[data-theme="deep-sea"] .mono-card,
+[data-theme="deep-sea"] .dark-monochrome-card {
+  background-color: #0b2d42 !important;
+  border-color: #1e5270 !important;
+}
+.theme-deep-sea .bg-surface-container-low,
+[data-theme="deep-sea"] .bg-surface-container-low {
+  background-color: #0e354d !important;
+}
+.theme-deep-sea .bg-surface-container,
+[data-theme="deep-sea"] .bg-surface-container {
+  background-color: #123d59 !important;
+}
+.theme-deep-sea .bg-surface-container-high,
+[data-theme="deep-sea"] .bg-surface-container-high {
+  background-color: #164666 !important;
+}
+.theme-deep-sea .border-outline-variant\/40,
+.theme-deep-sea .border-outline-variant\/50,
+.theme-deep-sea .border-outline-variant\/60,
+.theme-deep-sea .border-outline-variant {
+  border-color: #1e5270 !important;
+}
+
+/* ========================================================
+   THEME: VIVID NIGHTFALL (شفق الليل الزاهي - Coolors)
+   ======================================================== */
+.theme-vivid-nightfall body,
+[data-theme="vivid-nightfall"] body {
+  background-color: #0b091a;
+  color: #f8f6fc;
+}
+.theme-vivid-nightfall .table-canvas-dark,
+[data-theme="vivid-nightfall"] .table-canvas-dark {
+  background-color: #0b091a;
+  background-image: 
+    radial-gradient(at 20% 20%, rgba(168, 85, 247, 0.18) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(236, 72, 153, 0.12) 0px, transparent 55%),
+    radial-gradient(at 50% 50%, #120e29 0px, #0b091a 100%);
+}
+.theme-vivid-nightfall .mono-card,
+.theme-vivid-nightfall .dark-monochrome-card,
+[data-theme="vivid-nightfall"] .mono-card,
+[data-theme="vivid-nightfall"] .dark-monochrome-card {
+  background-color: #171233 !important;
+  border-color: #3d2b78 !important;
+}
+.theme-vivid-nightfall .bg-surface-container-low,
+[data-theme="vivid-nightfall"] .bg-surface-container-low {
+  background-color: #1e1742 !important;
+}
+.theme-vivid-nightfall .bg-surface-container,
+[data-theme="vivid-nightfall"] .bg-surface-container {
+  background-color: #261d54 !important;
+}
+.theme-vivid-nightfall .bg-surface-container-high,
+[data-theme="vivid-nightfall"] .bg-surface-container-high {
+  background-color: #31256b !important;
+}
+.theme-vivid-nightfall .border-outline-variant\/40,
+.theme-vivid-nightfall .border-outline-variant\/50,
+.theme-vivid-nightfall .border-outline-variant\/60,
+.theme-vivid-nightfall .border-outline-variant {
+  border-color: #3d2b78 !important;
+}
+
+/* ========================================================
+   THEME: LIGHT STEEL (صلب فاتح - Coolors)
+   ======================================================== */
+.theme-light-steel body,
+[data-theme="light-steel"] body {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+.theme-light-steel .table-canvas-dark,
+[data-theme="light-steel"] .table-canvas-dark {
+  background-color: #e2e8f0;
+  background-image: 
+    radial-gradient(at 20% 20%, rgba(2, 132, 199, 0.05) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(100, 116, 139, 0.05) 0px, transparent 55%),
+    radial-gradient(at 50% 50%, #edf2f7 0px, #e2e8f0 100%);
+}
+.theme-light-steel .mono-card,
+.theme-light-steel .dark-monochrome-card,
+[data-theme="light-steel"] .mono-card,
+[data-theme="light-steel"] .dark-monochrome-card {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 4px 18px -2px rgba(15, 23, 42, 0.06);
+}
+.theme-light-steel .text-white,
+[data-theme="light-steel"] .text-white {
+  color: #0f172a !important;
+}
+.theme-light-steel .text-on-surface-variant,
+[data-theme="light-steel"] .text-on-surface-variant {
+  color: #475569 !important;
+}
+.theme-light-steel .bg-surface-container-lowest,
+[data-theme="light-steel"] .bg-surface-container-lowest {
+  background-color: #e2e8f0 !important;
+}
+.theme-light-steel .bg-surface-container-low,
+[data-theme="light-steel"] .bg-surface-container-low {
+  background-color: #ffffff !important;
+}
+.theme-light-steel .bg-surface-container,
+[data-theme="light-steel"] .bg-surface-container {
+  background-color: #f8fafc !important;
+}
+.theme-light-steel .bg-surface-container-high,
+[data-theme="light-steel"] .bg-surface-container-high {
+  background-color: #f1f5f9 !important;
+}
+.theme-light-steel .bg-surface-container-highest,
+[data-theme="light-steel"] .bg-surface-container-highest {
+  background-color: #cbd5e1 !important;
+}
+.theme-light-steel button.bg-white,
+.theme-light-steel [role="button"].bg-white,
+.theme-light-steel div.bg-white,
+.theme-light-steel .bg-white.text-surface-container-lowest,
+[data-theme="light-steel"] button.bg-white,
+[data-theme="light-steel"] [role="button"].bg-white,
+[data-theme="light-steel"] div.bg-white,
+[data-theme="light-steel"] .bg-white.text-surface-container-lowest {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+.theme-light-steel button.bg-white *,
+.theme-light-steel [role="button"].bg-white *,
+.theme-light-steel div.bg-white *,
+.theme-light-steel .bg-white.text-surface-container-lowest *,
+[data-theme="light-steel"] button.bg-white *,
+[data-theme="light-steel"] [role="button"].bg-white *,
+[data-theme="light-steel"] div.bg-white *,
+[data-theme="light-steel"] .bg-white.text-surface-container-lowest * {
+  color: #ffffff !important;
+}
+.theme-light-steel .border-outline-variant\/40,
+.theme-light-steel .border-outline-variant\/50,
+.theme-light-steel .border-outline-variant\/60,
+.theme-light-steel .border-outline-variant {
+  border-color: #cbd5e1 !important;
+}
+.theme-light-steel [class*="border-white/"],
+.theme-light-steel [class*="border-white"],
+[data-theme="light-steel"] [class*="border-white/"],
+[data-theme="light-steel"] [class*="border-white"] {
+  border-color: #cbd5e1 !important;
+}
+.theme-light-steel [class*="bg-emerald-"] *,
+.theme-light-steel [class*="bg-rose-"] *,
+.theme-light-steel [class*="bg-red-"] *,
+.theme-light-steel [class*="bg-amber-"] *,
+.theme-light-steel [class*="bg-sky-"] *,
+[data-theme="light-steel"] [class*="bg-emerald-"] *,
+[data-theme="light-steel"] [class*="bg-rose-"] *,
+[data-theme="light-steel"] [class*="bg-red-"] *,
+[data-theme="light-steel"] [class*="bg-amber-"] *,
+[data-theme="light-steel"] [class*="bg-sky-"] * {
+  color: #ffffff !important;
+}
+
+/* ========================================================
+   THEME: GRADIENT BLUES (تدرجات الأزرق - Coolors)
+   ======================================================== */
+.theme-gradient-blues body,
+[data-theme="gradient-blues"] body {
+  background-color: #061226;
+  color: #f0f9ff;
+}
+.theme-gradient-blues .table-canvas-dark,
+[data-theme="gradient-blues"] .table-canvas-dark {
+  background-color: #061226;
+  background-image: 
+    radial-gradient(at 20% 20%, rgba(14, 165, 233, 0.18) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(56, 189, 248, 0.12) 0px, transparent 55%),
+    radial-gradient(at 50% 50%, #0a1b38 0px, #061226 100%);
+}
+.theme-gradient-blues .mono-card,
+.theme-gradient-blues .dark-monochrome-card,
+[data-theme="gradient-blues"] .mono-card,
+[data-theme="gradient-blues"] .dark-monochrome-card {
+  background-color: #0d2146 !important;
+  border-color: #1e4a94 !important;
+}
+.theme-gradient-blues .bg-surface-container-low,
+[data-theme="gradient-blues"] .bg-surface-container-low {
+  background-color: #112957 !important;
+}
+.theme-gradient-blues .bg-surface-container,
+[data-theme="gradient-blues"] .bg-surface-container {
+  background-color: #15336c !important;
+}
+.theme-gradient-blues .bg-surface-container-high,
+[data-theme="gradient-blues"] .bg-surface-container-high {
+  background-color: #1b4085 !important;
+}
+.theme-gradient-blues .border-outline-variant\/40,
+.theme-gradient-blues .border-outline-variant\/50,
+.theme-gradient-blues .border-outline-variant\/60,
+.theme-gradient-blues .border-outline-variant {
+  border-color: #1e4a94 !important;
+}
+
+/* ========================================================
+   THEME: PALETTE (لوحة الألوان الزاهية - Coolors)
+   ======================================================== */
+.theme-palette body,
+[data-theme="palette"] body {
+  background-color: #161623;
+  color: #ffffff;
+}
+.theme-palette .table-canvas-dark,
+[data-theme="palette"] .table-canvas-dark {
+  background-color: #161623;
+  background-image: 
+    radial-gradient(at 15% 15%, rgba(255, 89, 100, 0.15) 0px, transparent 45%),
+    radial-gradient(at 85% 20%, rgba(254, 198, 1, 0.12) 0px, transparent 50%),
+    radial-gradient(at 50% 85%, rgba(53, 167, 255, 0.15) 0px, transparent 55%),
+    radial-gradient(at 50% 50%, #1c1c2e 0px, #161623 100%);
+}
+.theme-palette .mono-card,
+.theme-palette .dark-monochrome-card,
+[data-theme="palette"] .mono-card,
+[data-theme="palette"] .dark-monochrome-card {
+  background-color: #202033 !important;
+  border-color: #3e3e60 !important;
+}
+.theme-palette .bg-surface-container-low,
+[data-theme="palette"] .bg-surface-container-low {
+  background-color: #26263d !important;
+}
+.theme-palette .bg-surface-container,
+[data-theme="palette"] .bg-surface-container {
+  background-color: #2d2d47 !important;
+}
+.theme-palette .bg-surface-container-high,
+[data-theme="palette"] .bg-surface-container-high {
+  background-color: #363654 !important;
+}
+.theme-palette .border-outline-variant\/40,
+.theme-palette .border-outline-variant\/50,
+.theme-palette .border-outline-variant\/60,
+.theme-palette .border-outline-variant {
+  border-color: #3e3e60 !important;
 }

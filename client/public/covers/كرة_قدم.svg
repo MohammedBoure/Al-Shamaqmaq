@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 190" width="100%" height="100%">
+  <defs>
+    <linearGradient id="grad_d983d8b1d8a9" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#451a03" />
+      <stop offset="60%" stop-color="#92400e" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <radialGradient id="glow_grad_d983d8b1d8a9" cx="50%" cy="35%" r="55%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="150" height="190" rx="18" fill="url(#grad_d983d8b1d8a9)" />
+  <rect width="150" height="190" rx="18" fill="url(#glow_grad_d983d8b1d8a9)" />
+  <g>
+      <circle cx="75" cy="62" r="28" fill="#fbbf24" stroke="#d97706" stroke-width="3"/>
+      <polygon points="75,45 83,55 79,65 71,65 67,55" fill="#1e293b"/>
+      <polygon points="75,80 83,70 79,65 71,65 67,70" fill="#1e293b"/>
+      <polygon points="50,62 60,56 67,65 60,70" fill="#1e293b"/>
+      <polygon points="100,62 90,56 83,65 90,70" fill="#1e293b"/>
+    </g>
+  <rect x="0" y="130" width="150" height="60" fill="#000000" fill-opacity="0.75" />
+  <text x="75" y="162" font-family="'Cairo', 'Readex Pro', sans-serif" font-weight="900" font-size="13" fill="#ffffff" text-anchor="middle" stroke="#000000" stroke-width="2" paint-order="stroke fill">كرة قدم</text>
+</svg>

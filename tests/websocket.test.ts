@@ -148,7 +148,7 @@ describe('WebSocket Real-time Flow & Reconnection', () => {
       body: JSON.stringify({
         hostNickname: 'حسام',
         hostAvatar: '👑',
-        allowedTopicIds: ['islamic_history'],
+        allowedTopicIds: ['رياضة'],
       }),
     });
     const roomData = await roomRes.json();
@@ -170,7 +170,7 @@ describe('WebSocket Real-time Flow & Reconnection', () => {
     expect(topicMsg.type).toBe('TOPIC_SELECTION_STARTED');
 
     // 4. اختيار الموضوع
-    hostClient.send({ type: 'SELECT_TOPIC', payload: { topicId: 'islamic_history' } });
+    hostClient.send({ type: 'SELECT_TOPIC', payload: { topicId: 'رياضة' } });
     const roundStartedHost = await hostClient.waitFor('ROUND_STARTED');
     const roundStartedP2 = await p2Client.waitFor('ROUND_STARTED');
     expect(roundStartedHost.type).toBe('ROUND_STARTED');

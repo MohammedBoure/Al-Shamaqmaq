@@ -21,7 +21,7 @@ describe('Room State Machine & Deception Game Loop', () => {
       isHost: false,
     });
 
-    const room = new Room('TEST', host, ['science_nature']);
+    const room = new Room('TEST', host, ['الفيزياء']);
     room.addPlayer(player2);
 
     expect(room.phase).toBe('LOBBY');
@@ -40,7 +40,7 @@ describe('Room State Machine & Deception Game Loop', () => {
     expect(room.currentPickerId).toBe('player-1');
 
     // 3. اختيار الموضوع
-    const selectTopicResult = room.selectTopic('science_nature', 'player-1');
+    const selectTopicResult = room.selectTopic('الفيزياء', 'player-1');
     expect(selectTopicResult.success).toBe(true);
     expect(room.phase).toBe('ANSWERING');
     expect(room.currentPuzzle).not.toBeNull();
@@ -117,10 +117,10 @@ describe('Room State Machine & Deception Game Loop', () => {
     expect(room.lastRoundResult).not.toBeNull();
 
     // سارة حصلت على:
-    // +1 نقطة لأنها صوتت للإجابة الصحيحة.
+    // +2 نقطة لأنها صوتت للإجابة الصحيحة.
     // +1 نقطة لأنها خدعت طارق وصوت لإجابتها المزيفة.
-    // المجموع = 2 نقطة.
-    expect(player2.score).toBe(2);
+    // المجموع = 3 نقطة.
+    expect(player2.score).toBe(3);
 
     // طارق حصل على:
     // 0 نقطة لأنه صوت لإجابة مزيفة، ولم يصوت أحد لإجابته المزيفة.
@@ -129,7 +129,7 @@ describe('Room State Machine & Deception Game Loop', () => {
     // التحقق من لوحة الصدارة
     const leaderboard = room.getLeaderboard();
     expect(leaderboard[0].id).toBe('player-2');
-    expect(leaderboard[0].score).toBe(2);
+    expect(leaderboard[0].score).toBe(3);
     expect(leaderboard[1].id).toBe('player-1');
     expect(leaderboard[1].score).toBe(0);
 

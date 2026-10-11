@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Upload, Check, Crown } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
 
 interface GameTopHeaderProps {
   currentRound: number;
@@ -18,85 +18,80 @@ export const GameTopHeader: React.FC<GameTopHeaderProps> = ({
   onMenuClick,
   onShareClick,
 }) => {
-  // تنسيق الثواني على شكل دقيقة:ثواني (0:50)
   const minutes = Math.floor(timeRemaining / 60);
   const seconds = timeRemaining % 60;
   const formattedTime = `${minutes}:${String(seconds).padStart(2, '0')}`;
 
+  const isUrgent = centerType === 'timer' && timeRemaining <= 10 && timeRemaining > 0;
+
   return (
-    <header className="flex items-center justify-between mb-4 w-full select-none">
-      {/* زر القائمة الأيسر ☰ */}
+    <header className="flex items-center justify-between mb-4 sm:mb-6 w-full select-none">
+      {/* زر القائمة أو الخروج */}
       <button
         type="button"
         onClick={onMenuClick}
-        className="w-11 h-11 bg-[#1e2337] hover:bg-[#282f49] text-white border-2 border-black rounded-2xl flex items-center justify-center shadow-[0_3px_0_#000] active:translate-y-0.5 transition-all"
+        className="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-white border border-outline-variant/40 flex items-center justify-center transition-all active:scale-95 shadow-sm"
         title="القائمة"
       >
-        <Menu className="w-5 h-5 stroke-[2.5]" />
+        <span className="material-symbols-outlined text-[20px]">menu</span>
       </button>
 
-      {/* العداد والمؤشر الأوسط المجنح المطابق للصور 1/10 [أيقونة] 0:50 */}
-      <div className="relative flex items-center justify-center">
-        {/* الجناح الأيمن والأيسر للحاوية */}
-        <div className="flex items-center bg-[#2d354b] border-2 border-black rounded-xl overflow-hidden shadow-[0_3px_0_#000]">
-          {/* رقم الجولة (يسار) */}
-          <div className="px-3.5 py-1 text-xs font-black text-white tracking-wider border-l border-black/40 min-w-[50px] text-center">
-            {currentRound}/{totalRounds}
-          </div>
+      {/* شارة الجولة والمؤقت في المنتصف */}
+      <div
+        className={`flex items-center rounded-full px-3.5 sm:px-5 py-1.5 sm:py-2 gap-2.5 sm:gap-3.5 shadow-md border transition-all ${
+          isUrgent
+            ? 'bg-rose-500/20 border-rose-500/80 ring-2 ring-rose-500/40 animate-pulse text-rose-300'
+            : 'bg-surface-container-low border-outline-variant/60 text-white'
+        }`}
+      >
+        {/* رقم الجولة */}
+        <span className="text-xs sm:text-sm font-bold tracking-wide">
+          الجولة {currentRound}/{totalRounds}
+        </span>
 
-          {/* مسافة فارغة للأيقونة الدائرية في المنتصف */}
-          <div className="w-12 h-6" />
+        <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-outline-variant" />
 
-          {/* الوقت المتبقي (يمين) */}
-          <div className="px-3.5 py-1 text-xs font-mono font-black text-white tracking-wider border-r border-black/40 min-w-[50px] text-center">
-            {centerType === 'timer' ? formattedTime : centerType === 'crown' ? 'متصدر' : 'صحيح'}
-          </div>
-        </div>
-
-        {/* الأيقونة الدائرية البارزة في المنتصف */}
-        <div className="absolute left-1/2 -translate-x-1/2 -top-2.5 z-10">
+        {/* المؤقت / الحالة */}
+        <div className="flex items-center gap-1.5 font-mono text-sm sm:text-base font-extrabold">
           {centerType === 'timer' && (
-            <div className="w-13 h-13 rounded-full bg-[#0070f3] border-3 border-black shadow-[0_3px_0_#0047a5] flex items-center justify-center relative animate-pulse-subtle">
-              {/* عجلة المؤقت الزمني ذات الفتحات الزرقاء المطابقة للصورة */}
-              <div className="w-9 h-9 rounded-full bg-[#0284c7] border-2 border-white/60 flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-full h-0.5 bg-white/70" />
-                  <div className="h-full w-0.5 bg-white/70 absolute" />
-                  <div className="w-full h-0.5 bg-white/70 transform rotate-45 absolute" />
-                  <div className="w-full h-0.5 bg-white/70 transform -rotate-45 absolute" />
-                </div>
-                <div className="w-3.5 h-3.5 rounded-full bg-cyan-200 border border-white z-10 shadow-[0_0_6px_#38bdf8]" />
-              </div>
-            </div>
+            <>
+              <span className={`material-symbols-outlined text-[18px] sm:text-[20px] ${isUrgent ? 'text-rose-400' : 'text-white'}`}>
+                timer
+              </span>
+              <span className={isUrgent ? 'text-rose-400 font-black' : 'text-white'}>
+                {formattedTime}
+              </span>
+            </>
           )}
-
           {centerType === 'correct' && (
-            <div className="w-13 h-13 rounded-full bg-[#10b981] border-3 border-black shadow-[0_3px_0_#047857] flex items-center justify-center">
-              <div className="w-9 h-9 rounded-full bg-[#059669] border-2 border-emerald-200 flex items-center justify-center text-white">
-                <Check className="w-6 h-6 stroke-[3.5]" />
-              </div>
-            </div>
+            <>
+              <span className="material-symbols-outlined text-[18px] sm:text-[20px] text-emerald-400">check_circle</span>
+              <span className="text-xs sm:text-sm text-emerald-300">إجابة صحيحة</span>
+            </>
           )}
-
           {centerType === 'crown' && (
-            <div className="w-13 h-13 rounded-full bg-[#f59e0b] border-3 border-black shadow-[0_3px_0_#b45309] flex items-center justify-center">
-              <div className="w-9 h-9 rounded-full bg-[#d97706] border-2 border-amber-200 flex items-center justify-center text-white">
-                <Crown className="w-5 h-5 fill-white stroke-[2.5]" />
-              </div>
-            </div>
+            <>
+              <span className="material-symbols-outlined text-[18px] sm:text-[20px] text-amber-400">trophy</span>
+              <span className="text-xs sm:text-sm text-amber-300">المتصدر</span>
+            </>
           )}
         </div>
       </div>
 
-      {/* زر المشاركة الأيمن [↑] */}
-      <button
-        type="button"
-        onClick={onShareClick}
-        className="w-11 h-11 bg-[#1e2337] hover:bg-[#282f49] text-white border-2 border-black rounded-2xl flex items-center justify-center shadow-[0_3px_0_#000] active:translate-y-0.5 transition-all"
-        title="مشاركة"
-      >
-        <Upload className="w-5 h-5 stroke-[2.5]" />
-      </button>
+      {/* أدوات الرأس: زر تبديل النمط والمشاركة */}
+      <div className="flex items-center gap-1.5">
+        <ThemeToggle />
+        {onShareClick && (
+          <button
+            type="button"
+            onClick={onShareClick}
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-white border border-outline-variant/40 flex items-center justify-center transition-all active:scale-95 shadow-sm"
+            title="مشاركة"
+          >
+            <span className="material-symbols-outlined text-[18px] sm:text-[20px]">share</span>
+          </button>
+        )}
+      </div>
     </header>
   );
 };

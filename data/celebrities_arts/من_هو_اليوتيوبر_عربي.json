@@ -15,52 +15,25 @@
         "سيا كيت ايزوبيل فورلر",
         "السيا كيت إيزوبيل فورلر",
         "سيا كيت إيزوبيل فورلر",
-        "Sia Kate Isobelle Furler",
-        "السيا كيت ايزوبيل فورلر",
-        "الSia Kate Isobelle Furler"
+        "السيا كيت ايزوبيل فورلر"
       ],
-      "wrong_answers": [
-        "Adele Laurie Blue",
-        "Taylor Alison Swift",
-        "Rihanna Fenty",
-        "Katy Hudson",
-        "Lady Germanotta",
-        "Ariana Grande-Butera",
-        "Selena Gomez",
-        "Miley Cyrus"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_002",
       "prompt": "ما هو اسم المغني والمنتج الموسيقي الكندي الذي حقق نجاحاً هائلاً بأغنيته بيليندرز عام 2019؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawn Mendes",
         "شون مينديز",
-        "الShawn Mendes",
         "الشون مينديز"
       ],
-      "wrong_answers": [
-        "Justin Bieber",
-        "Drake",
-        "The Weeknd",
-        "Charlie Puth",
-        "Ed Sheeran",
-        "Niall Horan",
-        "Harry Styles",
-        "Sam Smith"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_003",
       "prompt": "في أي سنة صدر الألبوم الشهير بات لأمير البوب مايكل جاكسون والذي حطم الأرقام القياسية بخمس أغلبيت متتالية في المركز الأول؟",
       "answer_type": "number",
       "correct_answers": [
-        "العام 1987",
-        "عام 1987",
-        "ال1987",
-        "عام ١٩٨٧",
-        "١٩٨٧",
         "1987"
       ],
       "wrong_answers": [
@@ -79,34 +52,17 @@
       "prompt": "ما هي فرقة الروك الأمريكية التي قدمت الأغنية الشهيرة إند ذا إند واشتهرت بكونها رمزا لموسيقى النيو ميتال؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Linkin Park",
         "لينكين بارك",
-        "اللينكين بارك",
-        "الLinkin Park"
+        "اللينكين بارك"
       ],
-      "wrong_answers": [
-        "Green Day",
-        "Blink 182",
-        "System of a Down",
-        "My Chemical Romance",
-        "Fall Out Boy",
-        "Paramore",
-        "Evanescence",
-        "Slipknot"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_005",
       "prompt": "كم يبلغ عدد أعضاء الفرقة البريطانية الشهيرة ون دايركشن (One Direction) في تشكيلتهم الرسمية الأساسية؟",
       "answer_type": "number",
       "correct_answers": [
-        "٥",
-        "خمسة",
-        "5",
-        "ال5",
-        "خمسه",
-        "الخمسة",
-        "الخمسه"
+        "5"
       ],
       "wrong_answers": [
         "3",
@@ -127,43 +83,21 @@
         "اوستن ريتشارد بوست",
         "الأوستن ريتشارد بوست",
         "أوستن ريتشارد بوست",
-        "الAustin Richard Post",
-        "Austin Richard Post",
         "الاوستن ريتشارد بوست"
       ],
-      "wrong_answers": [
-        "Marshall Mathers",
-        "Aubrey Graham",
-        "Belcalis Almánzar",
-        "Onika Maraj",
-        "Jacques Webster",
-        "Dwayne Carter",
-        "Kendrick Duckworth",
-        "Colson Baker"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_007",
       "prompt": "أي فرقة بوب كورية جنوبية أصدرت ألبوم (Map of the Soul: 7) وحطمت به الأرقام القياسية العالمية؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "BTS",
-        "الBTS",
         "بي تي إس",
         "البي تي إس",
         "البي تي اس",
         "بي تي اس"
       ],
-      "wrong_answers": [
-        "EXO",
-        "BLACKPINK",
-        "Stray Kids",
-        "TWICE",
-        "SEVENTEEN",
-        "NCT",
-        "TXT",
-        "Red Velvet"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_008",
@@ -172,20 +106,11 @@
       "correct_answers": [
         "الدنجرسلي إن لوف",
         "دنجرسلي ان لوف",
-        "الDangerously in Love",
         "دنجرسلي إن لوف",
-        "الدنجرسلي ان لوف",
-        "Dangerously in Love"
+        "الدنجرسلي ان لوف"
       ],
       "wrong_answers": [
-        "B'Day",
-        "I Am... Sasha Fierce",
-        "4",
-        "Lemonade",
-        "Renaissance",
-        "Beyonce",
-        "Cowboy Carter",
-        "The Empowerment"
+        "4"
       ]
     },
     {
@@ -193,11 +118,7 @@
       "prompt": "في أي عقد زمني تأسست فرقة الروك البريطانية الأسطورية (The Rolling Stones) المنافسة للبيتلز؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال1960",
-        "عقد الستينيات",
-        "1960",
-        "العقد الستينيات",
-        "١٩٦٠"
+        "1960"
       ],
       "wrong_answers": [
         "1950",
@@ -215,36 +136,19 @@
       "prompt": "ما هو اسم المغني الإسباني العالمي الذي اشتهر بأغنيته اللاتينية الشهيرة (Bailando) عام 2014؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Enrique Iglesias",
         "انريكي اغليزياس",
         "إنريكي إغليزياس",
         "الإنريكي إغليزياس",
-        "الEnrique Iglesias",
         "الانريكي اغليزياس"
       ],
-      "wrong_answers": [
-        "Ricky Martin",
-        "Luis Fonsi",
-        "Marc Anthony",
-        "Shakira",
-        "J Balvin",
-        "Bad Bunny",
-        "Maluma",
-        "Daddy Yankee"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_011",
       "prompt": "كم عدد الأغاني التي تتضمنها الأسطوانة الشهيرة (The Fame Monster) لليدي غاغا؟",
       "answer_type": "number",
       "correct_answers": [
-        "ثمانية",
-        "الثمانيه",
-        "ال8",
-        "٨",
-        "8",
-        "الثمانية",
-        "ثمانيه"
+        "8"
       ],
       "wrong_answers": [
         "5",
@@ -263,20 +167,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الذا ويكند",
-        "The Weeknd",
-        "ذا ويكند",
-        "الThe Weeknd"
+        "ذا ويكند"
       ],
-      "wrong_answers": [
-        "Bruno Mars",
-        "Frank Ocean",
-        "Khalid",
-        "John Legend",
-        "Usher",
-        "Justin Timberlake",
-        "Miguel",
-        "Anderson Paak"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_013",
@@ -284,20 +177,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البلانك سبايس",
-        "Blank Space",
-        "الBlank Space",
         "بلانك سبايس"
       ],
-      "wrong_answers": [
-        "Shake It Off",
-        "Bad Blood",
-        "Style",
-        "Wildest Dreams",
-        "Out of the Woods",
-        "All Too Well",
-        "Cruel Summer",
-        "Anti-Hero"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_014",
@@ -305,32 +187,16 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سويدي",
-        "السويدي",
-        "الSwedish",
-        "Swedish"
+        "السويدي"
       ],
-      "wrong_answers": [
-        "Norwegian",
-        "Dutch",
-        "Finnish",
-        "Danish",
-        "German",
-        "French",
-        "British",
-        "American"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_015",
       "prompt": "في أي عام تم إطلاق الأغنية المنفردة الشهيرة (Rolling in the Deep) للفنانة أديل والتي جعلت منها نجمة عالمية؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال2010",
-        "٢٠١٠",
-        "2010",
-        "العام 2010",
-        "عام 2010",
-        "عام ٢٠١٠"
+        "2010"
       ],
       "wrong_answers": [
         "2008",
@@ -348,57 +214,29 @@
       "prompt": "ما هو اسم ألبوم فرقة الروك الأمريكية (Imagine Dragons) الصادر عام 2017 والذي ضم أغنيات مثل (Thunder)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الEvolve",
         "الايفولف",
         "ايفولف",
-        "Evolve",
         "إيفولف",
         "الإيفولف"
       ],
-      "wrong_answers": [
-        "Night Visions",
-        "Smoke and Mirrors",
-        "Origins",
-        "Mercury",
-        "Loom",
-        "Believer",
-        "Act 1",
-        "Act 2"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_017",
       "prompt": "ما هو الاسم الحقيقي للمغنية الباربادوسية الشهيرة ريانا (Rihanna)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الRobyn Rihanna Fenty",
         "روبين ريانا فنتي",
-        "الروبين ريانا فنتي",
-        "Robyn Rihanna Fenty"
+        "الروبين ريانا فنتي"
       ],
-      "wrong_answers": [
-        "Nicki Minaj",
-        "Cardi B",
-        "Beyonce Knowles",
-        "Alicia Keys",
-        "Ciara Princess",
-        "Katy Perry",
-        "Taylor Swift",
-        "Ariana Grande"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_018",
       "prompt": "كم يبلغ عدد أعضاء الفرقة الكورية الجنوبية الشهيرة (BLACKPINK) في تشكيلتها الرسمية؟",
       "answer_type": "number",
       "correct_answers": [
-        "أربعة",
-        "الأربعة",
-        "٤",
-        "4",
-        "اربعه",
-        "ال4",
-        "الاربعه"
+        "4"
       ],
       "wrong_answers": [
         "3",
@@ -417,20 +255,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "فلاورز",
-        "الفلاورز",
-        "Flowers",
-        "الFlowers"
+        "الفلاورز"
       ],
-      "wrong_answers": [
-        "Wrecking Ball",
-        "Malibu",
-        "Party in the USA",
-        "Midnight Sky",
-        "Slide Away",
-        "Mother's Daughter",
-        "Used to Be Young",
-        "Adore You"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_020",
@@ -438,22 +265,11 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "اد شيران",
-        "الEd Sheeran",
         "إد شيران",
         "الاد شيران",
-        "الإد شيران",
-        "Ed Sheeran"
+        "الإد شيران"
       ],
-      "wrong_answers": [
-        "Harry Styles",
-        "James Arthur",
-        "Lewis Capaldi",
-        "Calum Scott",
-        "Sam Smith",
-        "Tom Walker",
-        "George Ezra",
-        "Robbie Williams"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_021",
@@ -461,34 +277,18 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "اريانا غراندي بوتيرا",
-        "Ariana Grande-Butera",
         "الأريانا غراندي بوتيرا",
         "الاريانا غراندي بوتيرا",
-        "الAriana Grande-Butera",
         "أريانا غراندي بوتيرا"
       ],
-      "wrong_answers": [
-        "Selena Marie Gomez",
-        "Miley Ray Cyrus",
-        "Demi Lovato",
-        "Taylor Alison Swift",
-        "Katy Elizabeth Hudson",
-        "Billie Eilish Pirate",
-        "Olivia Isabel Rodrigo",
-        "Sabrina Annlynn Carpenter"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_022",
       "prompt": "في أي عام تم إصدار أغنية (Gangnam Style) للنجم الكوري الجنوبي ساي والتي حققت أول رقم خيالي على يوتيوب؟",
       "answer_type": "number",
       "correct_answers": [
-        "عام 2012",
-        "العام 2012",
-        "ال2012",
-        "2012",
-        "٢٠١٢",
-        "عام ٢٠١٢"
+        "2012"
       ],
       "wrong_answers": [
         "2010",
@@ -507,54 +307,26 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "جيه بالفين",
-        "الجيه بالفين",
-        "الJ Balvin",
-        "J Balvin"
+        "الجيه بالفين"
       ],
-      "wrong_answers": [
-        "Maluma",
-        "Bad Bunny",
-        "Ozuna",
-        "Daddy Yankee",
-        "Nicky Jam",
-        "Rauw Alejandro",
-        "Anuel AA",
-        "Farruko"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_024",
       "prompt": "ما هي الفرقة البريطانية الأسطورية التي قدمت أغنية (Bohemian Rhapsody) عام 1975 بقيادة فريدي ميركوري؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الQueen",
         "الكوين",
-        "Queen",
         "كوين"
       ],
-      "wrong_answers": [
-        "The Beatles",
-        "The Rolling Stones",
-        "Led Zeppelin",
-        "Pink Floyd",
-        "AC/DC",
-        "Metallica",
-        "Nirvana",
-        "U2"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_025",
       "prompt": "كم يبلغ عدد أعضاء الفرقة الكورية الجنوبية الشهيرة (Stray Kids) بعد المغادرين؟",
       "answer_type": "number",
       "correct_answers": [
-        "ثمانية",
-        "الثمانيه",
-        "ال8",
-        "٨",
-        "8",
-        "الثمانية",
-        "ثمانيه"
+        "8"
       ],
       "wrong_answers": [
         "5",
@@ -575,52 +347,25 @@
         "سيا كيت ايزوبيل فورلر",
         "السيا كيت إيزوبيل فورلر",
         "سيا كيت إيزوبيل فورلر",
-        "Sia Kate Isobelle Furler",
-        "السيا كيت ايزوبيل فورلر",
-        "الSia Kate Isobelle Furler"
+        "السيا كيت ايزوبيل فورلر"
       ],
-      "wrong_answers": [
-        "Adele Laurie Blue",
-        "Taylor Alison Swift",
-        "Rihanna Fenty",
-        "Katy Hudson",
-        "Lady Germanotta",
-        "Ariana Grande-Butera",
-        "Selena Gomez",
-        "Miley Cyrus"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_027",
       "prompt": "ما هو اسم المغني والمنتج الموسيقي الكندي الذي حقق نجاحاً هائلاً بأغنيته بيليندرز عام 2019؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawn Mendes",
         "شون مينديز",
-        "الShawn Mendes",
         "الشون مينديز"
       ],
-      "wrong_answers": [
-        "Justin Bieber",
-        "Drake",
-        "The Weeknd",
-        "Charlie Puth",
-        "Ed Sheeran",
-        "Niall Horan",
-        "Harry Styles",
-        "Sam Smith"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_028",
       "prompt": "في أي سنة صدر الألبوم الشهير بات لأمير البوب مايكل جاكسون والذي حطم الأرقام القياسية بخمس أغلبيت متتالية في المركز الأول؟",
       "answer_type": "number",
       "correct_answers": [
-        "العام 1987",
-        "عام 1987",
-        "ال1987",
-        "عام ١٩٨٧",
-        "١٩٨٧",
         "1987"
       ],
       "wrong_answers": [
@@ -639,34 +384,17 @@
       "prompt": "ما هي فرقة الروك الأمريكية التي قدمت الأغنية الشهيرة إند ذا إند واشتهرت بكونها رمزا لموسيقى النيو ميتال؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Linkin Park",
         "لينكين بارك",
-        "اللينكين بارك",
-        "الLinkin Park"
+        "اللينكين بارك"
       ],
-      "wrong_answers": [
-        "Green Day",
-        "Blink 182",
-        "System of a Down",
-        "My Chemical Romance",
-        "Fall Out Boy",
-        "Paramore",
-        "Evanescence",
-        "Slipknot"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_030",
       "prompt": "كم يبلغ عدد أعضاء الفرقة البريطانية الشهيرة ون دايركشن (One Direction) في تشكيلتهم الرسمية الأساسية؟",
       "answer_type": "number",
       "correct_answers": [
-        "٥",
-        "خمسة",
-        "5",
-        "ال5",
-        "خمسه",
-        "الخمسة",
-        "الخمسه"
+        "5"
       ],
       "wrong_answers": [
         "3",
@@ -687,43 +415,21 @@
         "اوستن ريتشارد بوست",
         "الأوستن ريتشارد بوست",
         "أوستن ريتشارد بوست",
-        "الAustin Richard Post",
-        "Austin Richard Post",
         "الاوستن ريتشارد بوست"
       ],
-      "wrong_answers": [
-        "Marshall Mathers",
-        "Aubrey Graham",
-        "Belcalis Almánzar",
-        "Onika Maraj",
-        "Jacques Webster",
-        "Dwayne Carter",
-        "Kendrick Duckworth",
-        "Colson Baker"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_032",
       "prompt": "أي فرقة بوب كورية جنوبية أصدرت ألبوم (Map of the Soul: 7) وحطمت به الأرقام القياسية العالمية؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "BTS",
-        "الBTS",
         "بي تي إس",
         "البي تي إس",
         "البي تي اس",
         "بي تي اس"
       ],
-      "wrong_answers": [
-        "EXO",
-        "BLACKPINK",
-        "Stray Kids",
-        "TWICE",
-        "SEVENTEEN",
-        "NCT",
-        "TXT",
-        "Red Velvet"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_033",
@@ -732,20 +438,11 @@
       "correct_answers": [
         "الدنجرسلي إن لوف",
         "دنجرسلي ان لوف",
-        "الDangerously in Love",
         "دنجرسلي إن لوف",
-        "الدنجرسلي ان لوف",
-        "Dangerously in Love"
+        "الدنجرسلي ان لوف"
       ],
       "wrong_answers": [
-        "B'Day",
-        "I Am... Sasha Fierce",
-        "4",
-        "Lemonade",
-        "Renaissance",
-        "Beyonce",
-        "Cowboy Carter",
-        "The Empowerment"
+        "4"
       ]
     },
     {
@@ -753,11 +450,7 @@
       "prompt": "في أي عقد زمني تأسست فرقة الروك البريطانية الأسطورية (The Rolling Stones) المنافسة للبيتلز؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال1960",
-        "عقد الستينيات",
-        "1960",
-        "العقد الستينيات",
-        "١٩٦٠"
+        "1960"
       ],
       "wrong_answers": [
         "1950",
@@ -775,36 +468,19 @@
       "prompt": "ما هو اسم المغني الإسباني العالمي الذي اشتهر بأغنيته اللاتينية الشهيرة (Bailando) عام 2014؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Enrique Iglesias",
         "انريكي اغليزياس",
         "إنريكي إغليزياس",
         "الإنريكي إغليزياس",
-        "الEnrique Iglesias",
         "الانريكي اغليزياس"
       ],
-      "wrong_answers": [
-        "Ricky Martin",
-        "Luis Fonsi",
-        "Marc Anthony",
-        "Shakira",
-        "J Balvin",
-        "Bad Bunny",
-        "Maluma",
-        "Daddy Yankee"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_036",
       "prompt": "كم عدد الأغاني التي تتضمنها الأسطوانة الشهيرة (The Fame Monster) لليدي غاغا؟",
       "answer_type": "number",
       "correct_answers": [
-        "ثمانية",
-        "الثمانيه",
-        "ال8",
-        "٨",
-        "8",
-        "الثمانية",
-        "ثمانيه"
+        "8"
       ],
       "wrong_answers": [
         "5",
@@ -823,20 +499,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الذا ويكند",
-        "The Weeknd",
-        "ذا ويكند",
-        "الThe Weeknd"
+        "ذا ويكند"
       ],
-      "wrong_answers": [
-        "Bruno Mars",
-        "Frank Ocean",
-        "Khalid",
-        "John Legend",
-        "Usher",
-        "Justin Timberlake",
-        "Miguel",
-        "Anderson Paak"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_038",
@@ -844,20 +509,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البلانك سبايس",
-        "Blank Space",
-        "الBlank Space",
         "بلانك سبايس"
       ],
-      "wrong_answers": [
-        "Shake It Off",
-        "Bad Blood",
-        "Style",
-        "Wildest Dreams",
-        "Out of the Woods",
-        "All Too Well",
-        "Cruel Summer",
-        "Anti-Hero"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_039",
@@ -865,32 +519,16 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سويدي",
-        "السويدي",
-        "الSwedish",
-        "Swedish"
+        "السويدي"
       ],
-      "wrong_answers": [
-        "Norwegian",
-        "Dutch",
-        "Finnish",
-        "Danish",
-        "German",
-        "French",
-        "British",
-        "American"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_040",
       "prompt": "في أي عام تم إطلاق الأغنية المنفردة الشهيرة (Rolling in the Deep) للفنانة أديل والتي جعلت منها نجمة عالمية؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال2010",
-        "٢٠١٠",
-        "2010",
-        "العام 2010",
-        "عام 2010",
-        "عام ٢٠١٠"
+        "2010"
       ],
       "wrong_answers": [
         "2008",
@@ -908,57 +546,29 @@
       "prompt": "ما هو اسم ألبوم فرقة الروك الأمريكية (Imagine Dragons) الصادر عام 2017 والذي ضم أغنيات مثل (Thunder)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الEvolve",
         "الايفولف",
         "ايفولف",
-        "Evolve",
         "إيفولف",
         "الإيفولف"
       ],
-      "wrong_answers": [
-        "Night Visions",
-        "Smoke and Mirrors",
-        "Origins",
-        "Mercury",
-        "Loom",
-        "Believer",
-        "Act 1",
-        "Act 2"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_042",
       "prompt": "ما هو الاسم الحقيقي للمغنية الباربادوسية الشهيرة ريانا (Rihanna)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الRobyn Rihanna Fenty",
         "روبين ريانا فنتي",
-        "الروبين ريانا فنتي",
-        "Robyn Rihanna Fenty"
+        "الروبين ريانا فنتي"
       ],
-      "wrong_answers": [
-        "Nicki Minaj",
-        "Cardi B",
-        "Beyonce Knowles",
-        "Alicia Keys",
-        "Ciara Princess",
-        "Katy Perry",
-        "Taylor Swift",
-        "Ariana Grande"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_043",
       "prompt": "كم يبلغ عدد أعضاء الفرقة الكورية الجنوبية الشهيرة (BLACKPINK) في تشكيلتها الرسمية؟",
       "answer_type": "number",
       "correct_answers": [
-        "أربعة",
-        "الأربعة",
-        "٤",
-        "4",
-        "اربعه",
-        "ال4",
-        "الاربعه"
+        "4"
       ],
       "wrong_answers": [
         "3",
@@ -977,20 +587,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "فلاورز",
-        "الفلاورز",
-        "Flowers",
-        "الFlowers"
+        "الفلاورز"
       ],
-      "wrong_answers": [
-        "Wrecking Ball",
-        "Malibu",
-        "Party in the USA",
-        "Midnight Sky",
-        "Slide Away",
-        "Mother's Daughter",
-        "Used to Be Young",
-        "Adore You"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_045",
@@ -998,22 +597,11 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "اد شيران",
-        "الEd Sheeran",
         "إد شيران",
         "الاد شيران",
-        "الإد شيران",
-        "Ed Sheeran"
+        "الإد شيران"
       ],
-      "wrong_answers": [
-        "Harry Styles",
-        "James Arthur",
-        "Lewis Capaldi",
-        "Calum Scott",
-        "Sam Smith",
-        "Tom Walker",
-        "George Ezra",
-        "Robbie Williams"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_046",
@@ -1021,34 +609,18 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "اريانا غراندي بوتيرا",
-        "Ariana Grande-Butera",
         "الأريانا غراندي بوتيرا",
         "الاريانا غراندي بوتيرا",
-        "الAriana Grande-Butera",
         "أريانا غراندي بوتيرا"
       ],
-      "wrong_answers": [
-        "Selena Marie Gomez",
-        "Miley Ray Cyrus",
-        "Demi Lovato",
-        "Taylor Alison Swift",
-        "Katy Elizabeth Hudson",
-        "Billie Eilish Pirate",
-        "Olivia Isabel Rodrigo",
-        "Sabrina Annlynn Carpenter"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_047",
       "prompt": "في أي عام تم إصدار أغنية (Gangnam Style) للنجم الكوري الجنوبي ساي والتي حققت أول رقم خيالي على يوتيوب؟",
       "answer_type": "number",
       "correct_answers": [
-        "عام 2012",
-        "العام 2012",
-        "ال2012",
-        "2012",
-        "٢٠١٢",
-        "عام ٢٠١٢"
+        "2012"
       ],
       "wrong_answers": [
         "2010",
@@ -1067,54 +639,26 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "جيه بالفين",
-        "الجيه بالفين",
-        "الJ Balvin",
-        "J Balvin"
+        "الجيه بالفين"
       ],
-      "wrong_answers": [
-        "Maluma",
-        "Bad Bunny",
-        "Ozuna",
-        "Daddy Yankee",
-        "Nicky Jam",
-        "Rauw Alejandro",
-        "Anuel AA",
-        "Farruko"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_049",
       "prompt": "ما هي الفرقة البريطانية الأسطورية التي قدمت أغنية (Bohemian Rhapsody) عام 1975 بقيادة فريدي ميركوري؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الQueen",
         "الكوين",
-        "Queen",
         "كوين"
       ],
-      "wrong_answers": [
-        "The Beatles",
-        "The Rolling Stones",
-        "Led Zeppelin",
-        "Pink Floyd",
-        "AC/DC",
-        "Metallica",
-        "Nirvana",
-        "U2"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_050",
       "prompt": "كم يبلغ عدد أعضاء الفرقة الكورية الجنوبية الشهيرة (Stray Kids) بعد المغادرين؟",
       "answer_type": "number",
       "correct_answers": [
-        "ثمانية",
-        "الثمانيه",
-        "ال8",
-        "٨",
-        "8",
-        "الثمانية",
-        "ثمانيه"
+        "8"
       ],
       "wrong_answers": [
         "5",
@@ -1135,52 +679,25 @@
         "سيا كيت ايزوبيل فورلر",
         "السيا كيت إيزوبيل فورلر",
         "سيا كيت إيزوبيل فورلر",
-        "Sia Kate Isobelle Furler",
-        "السيا كيت ايزوبيل فورلر",
-        "الSia Kate Isobelle Furler"
+        "السيا كيت ايزوبيل فورلر"
       ],
-      "wrong_answers": [
-        "Adele Laurie Blue",
-        "Taylor Alison Swift",
-        "Rihanna Fenty",
-        "Katy Hudson",
-        "Lady Germanotta",
-        "Ariana Grande-Butera",
-        "Selena Gomez",
-        "Miley Cyrus"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_052",
       "prompt": "ما هو اسم المغني والمنتج الموسيقي الكندي الذي حقق نجاحاً هائلاً بأغنيته بيليندرز عام 2019؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawn Mendes",
         "شون مينديز",
-        "الShawn Mendes",
         "الشون مينديز"
       ],
-      "wrong_answers": [
-        "Justin Bieber",
-        "Drake",
-        "The Weeknd",
-        "Charlie Puth",
-        "Ed Sheeran",
-        "Niall Horan",
-        "Harry Styles",
-        "Sam Smith"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_053",
       "prompt": "في أي سنة صدر الألبوم الشهير بات لأمير البوب مايكل جاكسون والذي حطم الأرقام القياسية بخمس أغلبيت متتالية في المركز الأول؟",
       "answer_type": "number",
       "correct_answers": [
-        "العام 1987",
-        "عام 1987",
-        "ال1987",
-        "عام ١٩٨٧",
-        "١٩٨٧",
         "1987"
       ],
       "wrong_answers": [
@@ -1199,34 +716,17 @@
       "prompt": "ما هي فرقة الروك الأمريكية التي قدمت الأغنية الشهيرة إند ذا إند واشتهرت بكونها رمزا لموسيقى النيو ميتال؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Linkin Park",
         "لينكين بارك",
-        "اللينكين بارك",
-        "الLinkin Park"
+        "اللينكين بارك"
       ],
-      "wrong_answers": [
-        "Green Day",
-        "Blink 182",
-        "System of a Down",
-        "My Chemical Romance",
-        "Fall Out Boy",
-        "Paramore",
-        "Evanescence",
-        "Slipknot"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_055",
       "prompt": "كم يبلغ عدد أعضاء الفرقة البريطانية الشهيرة ون دايركشن (One Direction) في تشكيلتهم الرسمية الأساسية؟",
       "answer_type": "number",
       "correct_answers": [
-        "٥",
-        "خمسة",
-        "5",
-        "ال5",
-        "خمسه",
-        "الخمسة",
-        "الخمسه"
+        "5"
       ],
       "wrong_answers": [
         "3",
@@ -1247,43 +747,21 @@
         "اوستن ريتشارد بوست",
         "الأوستن ريتشارد بوست",
         "أوستن ريتشارد بوست",
-        "الAustin Richard Post",
-        "Austin Richard Post",
         "الاوستن ريتشارد بوست"
       ],
-      "wrong_answers": [
-        "Marshall Mathers",
-        "Aubrey Graham",
-        "Belcalis Almánzar",
-        "Onika Maraj",
-        "Jacques Webster",
-        "Dwayne Carter",
-        "Kendrick Duckworth",
-        "Colson Baker"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_057",
       "prompt": "أي فرقة بوب كورية جنوبية أصدرت ألبوم (Map of the Soul: 7) وحطمت به الأرقام القياسية العالمية؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "BTS",
-        "الBTS",
         "بي تي إس",
         "البي تي إس",
         "البي تي اس",
         "بي تي اس"
       ],
-      "wrong_answers": [
-        "EXO",
-        "BLACKPINK",
-        "Stray Kids",
-        "TWICE",
-        "SEVENTEEN",
-        "NCT",
-        "TXT",
-        "Red Velvet"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_058",
@@ -1292,20 +770,11 @@
       "correct_answers": [
         "الدنجرسلي إن لوف",
         "دنجرسلي ان لوف",
-        "الDangerously in Love",
         "دنجرسلي إن لوف",
-        "الدنجرسلي ان لوف",
-        "Dangerously in Love"
+        "الدنجرسلي ان لوف"
       ],
       "wrong_answers": [
-        "B'Day",
-        "I Am... Sasha Fierce",
-        "4",
-        "Lemonade",
-        "Renaissance",
-        "Beyonce",
-        "Cowboy Carter",
-        "The Empowerment"
+        "4"
       ]
     },
     {
@@ -1313,11 +782,7 @@
       "prompt": "في أي عقد زمني تأسست فرقة الروك البريطانية الأسطورية (The Rolling Stones) المنافسة للبيتلز؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال1960",
-        "عقد الستينيات",
-        "1960",
-        "العقد الستينيات",
-        "١٩٦٠"
+        "1960"
       ],
       "wrong_answers": [
         "1950",
@@ -1335,36 +800,19 @@
       "prompt": "ما هو اسم المغني الإسباني العالمي الذي اشتهر بأغنيته اللاتينية الشهيرة (Bailando) عام 2014؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Enrique Iglesias",
         "انريكي اغليزياس",
         "إنريكي إغليزياس",
         "الإنريكي إغليزياس",
-        "الEnrique Iglesias",
         "الانريكي اغليزياس"
       ],
-      "wrong_answers": [
-        "Ricky Martin",
-        "Luis Fonsi",
-        "Marc Anthony",
-        "Shakira",
-        "J Balvin",
-        "Bad Bunny",
-        "Maluma",
-        "Daddy Yankee"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_061",
       "prompt": "كم عدد الأغاني التي تتضمنها الأسطوانة الشهيرة (The Fame Monster) لليدي غاغا؟",
       "answer_type": "number",
       "correct_answers": [
-        "ثمانية",
-        "الثمانيه",
-        "ال8",
-        "٨",
-        "8",
-        "الثمانية",
-        "ثمانيه"
+        "8"
       ],
       "wrong_answers": [
         "5",
@@ -1383,20 +831,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الذا ويكند",
-        "The Weeknd",
-        "ذا ويكند",
-        "الThe Weeknd"
+        "ذا ويكند"
       ],
-      "wrong_answers": [
-        "Bruno Mars",
-        "Frank Ocean",
-        "Khalid",
-        "John Legend",
-        "Usher",
-        "Justin Timberlake",
-        "Miguel",
-        "Anderson Paak"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_063",
@@ -1404,20 +841,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البلانك سبايس",
-        "Blank Space",
-        "الBlank Space",
         "بلانك سبايس"
       ],
-      "wrong_answers": [
-        "Shake It Off",
-        "Bad Blood",
-        "Style",
-        "Wildest Dreams",
-        "Out of the Woods",
-        "All Too Well",
-        "Cruel Summer",
-        "Anti-Hero"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_064",
@@ -1425,32 +851,16 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سويدي",
-        "السويدي",
-        "الSwedish",
-        "Swedish"
+        "السويدي"
       ],
-      "wrong_answers": [
-        "Norwegian",
-        "Dutch",
-        "Finnish",
-        "Danish",
-        "German",
-        "French",
-        "British",
-        "American"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_065",
       "prompt": "في أي عام تم إطلاق الأغنية المنفردة الشهيرة (Rolling in the Deep) للفنانة أديل والتي جعلت منها نجمة عالمية؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال2010",
-        "٢٠١٠",
-        "2010",
-        "العام 2010",
-        "عام 2010",
-        "عام ٢٠١٠"
+        "2010"
       ],
       "wrong_answers": [
         "2008",
@@ -1468,57 +878,29 @@
       "prompt": "ما هو اسم ألبوم فرقة الروك الأمريكية (Imagine Dragons) الصادر عام 2017 والذي ضم أغنيات مثل (Thunder)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الEvolve",
         "الايفولف",
         "ايفولف",
-        "Evolve",
         "إيفولف",
         "الإيفولف"
       ],
-      "wrong_answers": [
-        "Night Visions",
-        "Smoke and Mirrors",
-        "Origins",
-        "Mercury",
-        "Loom",
-        "Believer",
-        "Act 1",
-        "Act 2"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_067",
       "prompt": "ما هو الاسم الحقيقي للمغنية الباربادوسية الشهيرة ريانا (Rihanna)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الRobyn Rihanna Fenty",
         "روبين ريانا فنتي",
-        "الروبين ريانا فنتي",
-        "Robyn Rihanna Fenty"
+        "الروبين ريانا فنتي"
       ],
-      "wrong_answers": [
-        "Nicki Minaj",
-        "Cardi B",
-        "Beyonce Knowles",
-        "Alicia Keys",
-        "Ciara Princess",
-        "Katy Perry",
-        "Taylor Swift",
-        "Ariana Grande"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_068",
       "prompt": "كم يبلغ عدد أعضاء الفرقة الكورية الجنوبية الشهيرة (BLACKPINK) في تشكيلتها الرسمية؟",
       "answer_type": "number",
       "correct_answers": [
-        "أربعة",
-        "الأربعة",
-        "٤",
-        "4",
-        "اربعه",
-        "ال4",
-        "الاربعه"
+        "4"
       ],
       "wrong_answers": [
         "3",
@@ -1537,20 +919,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "فلاورز",
-        "الفلاورز",
-        "Flowers",
-        "الFlowers"
+        "الفلاورز"
       ],
-      "wrong_answers": [
-        "Wrecking Ball",
-        "Malibu",
-        "Party in the USA",
-        "Midnight Sky",
-        "Slide Away",
-        "Mother's Daughter",
-        "Used to Be Young",
-        "Adore You"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_070",
@@ -1558,22 +929,11 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "اد شيران",
-        "الEd Sheeran",
         "إد شيران",
         "الاد شيران",
-        "الإد شيران",
-        "Ed Sheeran"
+        "الإد شيران"
       ],
-      "wrong_answers": [
-        "Harry Styles",
-        "James Arthur",
-        "Lewis Capaldi",
-        "Calum Scott",
-        "Sam Smith",
-        "Tom Walker",
-        "George Ezra",
-        "Robbie Williams"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_071",
@@ -1581,34 +941,18 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "اريانا غراندي بوتيرا",
-        "Ariana Grande-Butera",
         "الأريانا غراندي بوتيرا",
         "الاريانا غراندي بوتيرا",
-        "الAriana Grande-Butera",
         "أريانا غراندي بوتيرا"
       ],
-      "wrong_answers": [
-        "Selena Marie Gomez",
-        "Miley Ray Cyrus",
-        "Demi Lovato",
-        "Taylor Alison Swift",
-        "Katy Elizabeth Hudson",
-        "Billie Eilish Pirate",
-        "Olivia Isabel Rodrigo",
-        "Sabrina Annlynn Carpenter"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_072",
       "prompt": "في أي عام تم إصدار أغنية (Gangnam Style) للنجم الكوري الجنوبي ساي والتي حققت أول رقم خيالي على يوتيوب؟",
       "answer_type": "number",
       "correct_answers": [
-        "عام 2012",
-        "العام 2012",
-        "ال2012",
-        "2012",
-        "٢٠١٢",
-        "عام ٢٠١٢"
+        "2012"
       ],
       "wrong_answers": [
         "2010",
@@ -1627,54 +971,26 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "جيه بالفين",
-        "الجيه بالفين",
-        "الJ Balvin",
-        "J Balvin"
+        "الجيه بالفين"
       ],
-      "wrong_answers": [
-        "Maluma",
-        "Bad Bunny",
-        "Ozuna",
-        "Daddy Yankee",
-        "Nicky Jam",
-        "Rauw Alejandro",
-        "Anuel AA",
-        "Farruko"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_074",
       "prompt": "ما هي الفرقة البريطانية الأسطورية التي قدمت أغنية (Bohemian Rhapsody) عام 1975 بقيادة فريدي ميركوري؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الQueen",
         "الكوين",
-        "Queen",
         "كوين"
       ],
-      "wrong_answers": [
-        "The Beatles",
-        "The Rolling Stones",
-        "Led Zeppelin",
-        "Pink Floyd",
-        "AC/DC",
-        "Metallica",
-        "Nirvana",
-        "U2"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_075",
       "prompt": "كم يبلغ عدد أعضاء الفرقة الكورية الجنوبية الشهيرة (Stray Kids) بعد المغادرين؟",
       "answer_type": "number",
       "correct_answers": [
-        "ثمانية",
-        "الثمانيه",
-        "ال8",
-        "٨",
-        "8",
-        "الثمانية",
-        "ثمانيه"
+        "8"
       ],
       "wrong_answers": [
         "5",
@@ -1695,52 +1011,25 @@
         "سيا كيت ايزوبيل فورلر",
         "السيا كيت إيزوبيل فورلر",
         "سيا كيت إيزوبيل فورلر",
-        "Sia Kate Isobelle Furler",
-        "السيا كيت ايزوبيل فورلر",
-        "الSia Kate Isobelle Furler"
+        "السيا كيت ايزوبيل فورلر"
       ],
-      "wrong_answers": [
-        "Adele Laurie Blue",
-        "Taylor Alison Swift",
-        "Rihanna Fenty",
-        "Katy Hudson",
-        "Lady Germanotta",
-        "Ariana Grande-Butera",
-        "Selena Gomez",
-        "Miley Cyrus"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_077",
       "prompt": "ما هو اسم المغني والمنتج الموسيقي الكندي الذي حقق نجاحاً هائلاً بأغنيته بيليندرز عام 2019؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawn Mendes",
         "شون مينديز",
-        "الShawn Mendes",
         "الشون مينديز"
       ],
-      "wrong_answers": [
-        "Justin Bieber",
-        "Drake",
-        "The Weeknd",
-        "Charlie Puth",
-        "Ed Sheeran",
-        "Niall Horan",
-        "Harry Styles",
-        "Sam Smith"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_078",
       "prompt": "في أي سنة صدر الألبوم الشهير بات لأمير البوب مايكل جاكسون والذي حطم الأرقام القياسية بخمس أغلبيت متتالية في المركز الأول؟",
       "answer_type": "number",
       "correct_answers": [
-        "العام 1987",
-        "عام 1987",
-        "ال1987",
-        "عام ١٩٨٧",
-        "١٩٨٧",
         "1987"
       ],
       "wrong_answers": [
@@ -1759,34 +1048,17 @@
       "prompt": "ما هي فرقة الروك الأمريكية التي قدمت الأغنية الشهيرة إند ذا إند واشتهرت بكونها رمزا لموسيقى النيو ميتال؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Linkin Park",
         "لينكين بارك",
-        "اللينكين بارك",
-        "الLinkin Park"
+        "اللينكين بارك"
       ],
-      "wrong_answers": [
-        "Green Day",
-        "Blink 182",
-        "System of a Down",
-        "My Chemical Romance",
-        "Fall Out Boy",
-        "Paramore",
-        "Evanescence",
-        "Slipknot"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_080",
       "prompt": "كم يبلغ عدد أعضاء الفرقة البريطانية الشهيرة ون دايركشن (One Direction) في تشكيلتهم الرسمية الأساسية؟",
       "answer_type": "number",
       "correct_answers": [
-        "٥",
-        "خمسة",
-        "5",
-        "ال5",
-        "خمسه",
-        "الخمسة",
-        "الخمسه"
+        "5"
       ],
       "wrong_answers": [
         "3",
@@ -1807,43 +1079,21 @@
         "اوستن ريتشارد بوست",
         "الأوستن ريتشارد بوست",
         "أوستن ريتشارد بوست",
-        "الAustin Richard Post",
-        "Austin Richard Post",
         "الاوستن ريتشارد بوست"
       ],
-      "wrong_answers": [
-        "Marshall Mathers",
-        "Aubrey Graham",
-        "Belcalis Almánzar",
-        "Onika Maraj",
-        "Jacques Webster",
-        "Dwayne Carter",
-        "Kendrick Duckworth",
-        "Colson Baker"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_082",
       "prompt": "أي فرقة بوب كورية جنوبية أصدرت ألبوم (Map of the Soul: 7) وحطمت به الأرقام القياسية العالمية؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "BTS",
-        "الBTS",
         "بي تي إس",
         "البي تي إس",
         "البي تي اس",
         "بي تي اس"
       ],
-      "wrong_answers": [
-        "EXO",
-        "BLACKPINK",
-        "Stray Kids",
-        "TWICE",
-        "SEVENTEEN",
-        "NCT",
-        "TXT",
-        "Red Velvet"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_083",
@@ -1852,20 +1102,11 @@
       "correct_answers": [
         "الدنجرسلي إن لوف",
         "دنجرسلي ان لوف",
-        "الDangerously in Love",
         "دنجرسلي إن لوف",
-        "الدنجرسلي ان لوف",
-        "Dangerously in Love"
+        "الدنجرسلي ان لوف"
       ],
       "wrong_answers": [
-        "B'Day",
-        "I Am... Sasha Fierce",
-        "4",
-        "Lemonade",
-        "Renaissance",
-        "Beyonce",
-        "Cowboy Carter",
-        "The Empowerment"
+        "4"
       ]
     },
     {
@@ -1873,11 +1114,7 @@
       "prompt": "في أي عقد زمني تأسست فرقة الروك البريطانية الأسطورية (The Rolling Stones) المنافسة للبيتلز؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال1960",
-        "عقد الستينيات",
-        "1960",
-        "العقد الستينيات",
-        "١٩٦٠"
+        "1960"
       ],
       "wrong_answers": [
         "1950",
@@ -1895,36 +1132,19 @@
       "prompt": "ما هو اسم المغني الإسباني العالمي الذي اشتهر بأغنيته اللاتينية الشهيرة (Bailando) عام 2014؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Enrique Iglesias",
         "انريكي اغليزياس",
         "إنريكي إغليزياس",
         "الإنريكي إغليزياس",
-        "الEnrique Iglesias",
         "الانريكي اغليزياس"
       ],
-      "wrong_answers": [
-        "Ricky Martin",
-        "Luis Fonsi",
-        "Marc Anthony",
-        "Shakira",
-        "J Balvin",
-        "Bad Bunny",
-        "Maluma",
-        "Daddy Yankee"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_086",
       "prompt": "كم عدد الأغاني التي تتضمنها الأسطوانة الشهيرة (The Fame Monster) لليدي غاغا؟",
       "answer_type": "number",
       "correct_answers": [
-        "ثمانية",
-        "الثمانيه",
-        "ال8",
-        "٨",
-        "8",
-        "الثمانية",
-        "ثمانيه"
+        "8"
       ],
       "wrong_answers": [
         "5",
@@ -1943,20 +1163,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الذا ويكند",
-        "The Weeknd",
-        "ذا ويكند",
-        "الThe Weeknd"
+        "ذا ويكند"
       ],
-      "wrong_answers": [
-        "Bruno Mars",
-        "Frank Ocean",
-        "Khalid",
-        "John Legend",
-        "Usher",
-        "Justin Timberlake",
-        "Miguel",
-        "Anderson Paak"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_088",
@@ -1964,20 +1173,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البلانك سبايس",
-        "Blank Space",
-        "الBlank Space",
         "بلانك سبايس"
       ],
-      "wrong_answers": [
-        "Shake It Off",
-        "Bad Blood",
-        "Style",
-        "Wildest Dreams",
-        "Out of the Woods",
-        "All Too Well",
-        "Cruel Summer",
-        "Anti-Hero"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_089",
@@ -1985,32 +1183,16 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سويدي",
-        "السويدي",
-        "الSwedish",
-        "Swedish"
+        "السويدي"
       ],
-      "wrong_answers": [
-        "Norwegian",
-        "Dutch",
-        "Finnish",
-        "Danish",
-        "German",
-        "French",
-        "British",
-        "American"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_090",
       "prompt": "في أي عام تم إطلاق الأغنية المنفردة الشهيرة (Rolling in the Deep) للفنانة أديل والتي جعلت منها نجمة عالمية؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال2010",
-        "٢٠١٠",
-        "2010",
-        "العام 2010",
-        "عام 2010",
-        "عام ٢٠١٠"
+        "2010"
       ],
       "wrong_answers": [
         "2008",
@@ -2028,57 +1210,29 @@
       "prompt": "ما هو اسم ألبوم فرقة الروك الأمريكية (Imagine Dragons) الصادر عام 2017 والذي ضم أغنيات مثل (Thunder)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الEvolve",
         "الايفولف",
         "ايفولف",
-        "Evolve",
         "إيفولف",
         "الإيفولف"
       ],
-      "wrong_answers": [
-        "Night Visions",
-        "Smoke and Mirrors",
-        "Origins",
-        "Mercury",
-        "Loom",
-        "Believer",
-        "Act 1",
-        "Act 2"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_092",
       "prompt": "ما هو الاسم الحقيقي للمغنية الباربادوسية الشهيرة ريانا (Rihanna)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الRobyn Rihanna Fenty",
         "روبين ريانا فنتي",
-        "الروبين ريانا فنتي",
-        "Robyn Rihanna Fenty"
+        "الروبين ريانا فنتي"
       ],
-      "wrong_answers": [
-        "Nicki Minaj",
-        "Cardi B",
-        "Beyonce Knowles",
-        "Alicia Keys",
-        "Ciara Princess",
-        "Katy Perry",
-        "Taylor Swift",
-        "Ariana Grande"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_093",
       "prompt": "كم يبلغ عدد أعضاء الفرقة الكورية الجنوبية الشهيرة (BLACKPINK) في تشكيلتها الرسمية؟",
       "answer_type": "number",
       "correct_answers": [
-        "أربعة",
-        "الأربعة",
-        "٤",
-        "4",
-        "اربعه",
-        "ال4",
-        "الاربعه"
+        "4"
       ],
       "wrong_answers": [
         "3",
@@ -2097,20 +1251,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "فلاورز",
-        "الفلاورز",
-        "Flowers",
-        "الFlowers"
+        "الفلاورز"
       ],
-      "wrong_answers": [
-        "Wrecking Ball",
-        "Malibu",
-        "Party in the USA",
-        "Midnight Sky",
-        "Slide Away",
-        "Mother's Daughter",
-        "Used to Be Young",
-        "Adore You"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_095",
@@ -2118,22 +1261,11 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "اد شيران",
-        "الEd Sheeran",
         "إد شيران",
         "الاد شيران",
-        "الإد شيران",
-        "Ed Sheeran"
+        "الإد شيران"
       ],
-      "wrong_answers": [
-        "Harry Styles",
-        "James Arthur",
-        "Lewis Capaldi",
-        "Calum Scott",
-        "Sam Smith",
-        "Tom Walker",
-        "George Ezra",
-        "Robbie Williams"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_096",
@@ -2141,34 +1273,18 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "اريانا غراندي بوتيرا",
-        "Ariana Grande-Butera",
         "الأريانا غراندي بوتيرا",
         "الاريانا غراندي بوتيرا",
-        "الAriana Grande-Butera",
         "أريانا غراندي بوتيرا"
       ],
-      "wrong_answers": [
-        "Selena Marie Gomez",
-        "Miley Ray Cyrus",
-        "Demi Lovato",
-        "Taylor Alison Swift",
-        "Katy Elizabeth Hudson",
-        "Billie Eilish Pirate",
-        "Olivia Isabel Rodrigo",
-        "Sabrina Annlynn Carpenter"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_097",
       "prompt": "في أي عام تم إصدار أغنية (Gangnam Style) للنجم الكوري الجنوبي ساي والتي حققت أول رقم خيالي على يوتيوب؟",
       "answer_type": "number",
       "correct_answers": [
-        "عام 2012",
-        "العام 2012",
-        "ال2012",
-        "2012",
-        "٢٠١٢",
-        "عام ٢٠١٢"
+        "2012"
       ],
       "wrong_answers": [
         "2010",
@@ -2187,54 +1303,26 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "جيه بالفين",
-        "الجيه بالفين",
-        "الJ Balvin",
-        "J Balvin"
+        "الجيه بالفين"
       ],
-      "wrong_answers": [
-        "Maluma",
-        "Bad Bunny",
-        "Ozuna",
-        "Daddy Yankee",
-        "Nicky Jam",
-        "Rauw Alejandro",
-        "Anuel AA",
-        "Farruko"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_099",
       "prompt": "ما هي الفرقة البريطانية الأسطورية التي قدمت أغنية (Bohemian Rhapsody) عام 1975 بقيادة فريدي ميركوري؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الQueen",
         "الكوين",
-        "Queen",
         "كوين"
       ],
-      "wrong_answers": [
-        "The Beatles",
-        "The Rolling Stones",
-        "Led Zeppelin",
-        "Pink Floyd",
-        "AC/DC",
-        "Metallica",
-        "Nirvana",
-        "U2"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_100",
       "prompt": "كم يبلغ عدد أعضاء الفرقة الكورية الجنوبية الشهيرة (Stray Kids) بعد المغادرين؟",
       "answer_type": "number",
       "correct_answers": [
-        "ثمانية",
-        "الثمانيه",
-        "ال8",
-        "٨",
-        "8",
-        "الثمانية",
-        "ثمانيه"
+        "8"
       ],
       "wrong_answers": [
         "5",
@@ -2255,52 +1343,25 @@
         "سيا كيت ايزوبيل فورلر",
         "السيا كيت إيزوبيل فورلر",
         "سيا كيت إيزوبيل فورلر",
-        "Sia Kate Isobelle Furler",
-        "السيا كيت ايزوبيل فورلر",
-        "الSia Kate Isobelle Furler"
+        "السيا كيت ايزوبيل فورلر"
       ],
-      "wrong_answers": [
-        "Adele Laurie Blue",
-        "Taylor Alison Swift",
-        "Rihanna Fenty",
-        "Katy Hudson",
-        "Lady Germanotta",
-        "Ariana Grande-Butera",
-        "Selena Gomez",
-        "Miley Cyrus"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_102",
       "prompt": "ما هو اسم المغني والمنتج الموسيقي الكندي الذي حقق نجاحاً هائلاً بأغنيته بيليندرز عام 2019؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Shawn Mendes",
         "شون مينديز",
-        "الShawn Mendes",
         "الشون مينديز"
       ],
-      "wrong_answers": [
-        "Justin Bieber",
-        "Drake",
-        "The Weeknd",
-        "Charlie Puth",
-        "Ed Sheeran",
-        "Niall Horan",
-        "Harry Styles",
-        "Sam Smith"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_103",
       "prompt": "في أي سنة صدر الألبوم الشهير بات لأمير البوب مايكل جاكسون والذي حطم الأرقام القياسية بخمس أغلبيت متتالية في المركز الأول؟",
       "answer_type": "number",
       "correct_answers": [
-        "العام 1987",
-        "عام 1987",
-        "ال1987",
-        "عام ١٩٨٧",
-        "١٩٨٧",
         "1987"
       ],
       "wrong_answers": [
@@ -2319,34 +1380,17 @@
       "prompt": "ما هي فرقة الروك الأمريكية التي قدمت الأغنية الشهيرة إند ذا إند واشتهرت بكونها رمزا لموسيقى النيو ميتال؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Linkin Park",
         "لينكين بارك",
-        "اللينكين بارك",
-        "الLinkin Park"
+        "اللينكين بارك"
       ],
-      "wrong_answers": [
-        "Green Day",
-        "Blink 182",
-        "System of a Down",
-        "My Chemical Romance",
-        "Fall Out Boy",
-        "Paramore",
-        "Evanescence",
-        "Slipknot"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_105",
       "prompt": "كم يبلغ عدد أعضاء الفرقة البريطانية الشهيرة ون دايركشن (One Direction) في تشكيلتهم الرسمية الأساسية؟",
       "answer_type": "number",
       "correct_answers": [
-        "٥",
-        "خمسة",
-        "5",
-        "ال5",
-        "خمسه",
-        "الخمسة",
-        "الخمسه"
+        "5"
       ],
       "wrong_answers": [
         "3",
@@ -2367,43 +1411,21 @@
         "اوستن ريتشارد بوست",
         "الأوستن ريتشارد بوست",
         "أوستن ريتشارد بوست",
-        "الAustin Richard Post",
-        "Austin Richard Post",
         "الاوستن ريتشارد بوست"
       ],
-      "wrong_answers": [
-        "Marshall Mathers",
-        "Aubrey Graham",
-        "Belcalis Almánzar",
-        "Onika Maraj",
-        "Jacques Webster",
-        "Dwayne Carter",
-        "Kendrick Duckworth",
-        "Colson Baker"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_107",
       "prompt": "أي فرقة بوب كورية جنوبية أصدرت ألبوم (Map of the Soul: 7) وحطمت به الأرقام القياسية العالمية؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "BTS",
-        "الBTS",
         "بي تي إس",
         "البي تي إس",
         "البي تي اس",
         "بي تي اس"
       ],
-      "wrong_answers": [
-        "EXO",
-        "BLACKPINK",
-        "Stray Kids",
-        "TWICE",
-        "SEVENTEEN",
-        "NCT",
-        "TXT",
-        "Red Velvet"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_108",
@@ -2412,20 +1434,11 @@
       "correct_answers": [
         "الدنجرسلي إن لوف",
         "دنجرسلي ان لوف",
-        "الDangerously in Love",
         "دنجرسلي إن لوف",
-        "الدنجرسلي ان لوف",
-        "Dangerously in Love"
+        "الدنجرسلي ان لوف"
       ],
       "wrong_answers": [
-        "B'Day",
-        "I Am... Sasha Fierce",
-        "4",
-        "Lemonade",
-        "Renaissance",
-        "Beyonce",
-        "Cowboy Carter",
-        "The Empowerment"
+        "4"
       ]
     },
     {
@@ -2433,11 +1446,7 @@
       "prompt": "في أي عقد زمني تأسست فرقة الروك البريطانية الأسطورية (The Rolling Stones) المنافسة للبيتلز؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال1960",
-        "عقد الستينيات",
-        "1960",
-        "العقد الستينيات",
-        "١٩٦٠"
+        "1960"
       ],
       "wrong_answers": [
         "1950",
@@ -2455,36 +1464,19 @@
       "prompt": "ما هو اسم المغني الإسباني العالمي الذي اشتهر بأغنيته اللاتينية الشهيرة (Bailando) عام 2014؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Enrique Iglesias",
         "انريكي اغليزياس",
         "إنريكي إغليزياس",
         "الإنريكي إغليزياس",
-        "الEnrique Iglesias",
         "الانريكي اغليزياس"
       ],
-      "wrong_answers": [
-        "Ricky Martin",
-        "Luis Fonsi",
-        "Marc Anthony",
-        "Shakira",
-        "J Balvin",
-        "Bad Bunny",
-        "Maluma",
-        "Daddy Yankee"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_111",
       "prompt": "كم عدد الأغاني التي تتضمنها الأسطوانة الشهيرة (The Fame Monster) لليدي غاغا؟",
       "answer_type": "number",
       "correct_answers": [
-        "ثمانية",
-        "الثمانيه",
-        "ال8",
-        "٨",
-        "8",
-        "الثمانية",
-        "ثمانيه"
+        "8"
       ],
       "wrong_answers": [
         "5",
@@ -2503,20 +1495,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الذا ويكند",
-        "The Weeknd",
-        "ذا ويكند",
-        "الThe Weeknd"
+        "ذا ويكند"
       ],
-      "wrong_answers": [
-        "Bruno Mars",
-        "Frank Ocean",
-        "Khalid",
-        "John Legend",
-        "Usher",
-        "Justin Timberlake",
-        "Miguel",
-        "Anderson Paak"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_113",
@@ -2524,20 +1505,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "البلانك سبايس",
-        "Blank Space",
-        "الBlank Space",
         "بلانك سبايس"
       ],
-      "wrong_answers": [
-        "Shake It Off",
-        "Bad Blood",
-        "Style",
-        "Wildest Dreams",
-        "Out of the Woods",
-        "All Too Well",
-        "Cruel Summer",
-        "Anti-Hero"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_114",
@@ -2545,32 +1515,16 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سويدي",
-        "السويدي",
-        "الSwedish",
-        "Swedish"
+        "السويدي"
       ],
-      "wrong_answers": [
-        "Norwegian",
-        "Dutch",
-        "Finnish",
-        "Danish",
-        "German",
-        "French",
-        "British",
-        "American"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_115",
       "prompt": "في أي عام تم إطلاق الأغنية المنفردة الشهيرة (Rolling in the Deep) للفنانة أديل والتي جعلت منها نجمة عالمية؟",
       "answer_type": "number",
       "correct_answers": [
-        "ال2010",
-        "٢٠١٠",
-        "2010",
-        "العام 2010",
-        "عام 2010",
-        "عام ٢٠١٠"
+        "2010"
       ],
       "wrong_answers": [
         "2008",
@@ -2588,57 +1542,29 @@
       "prompt": "ما هو اسم ألبوم فرقة الروك الأمريكية (Imagine Dragons) الصادر عام 2017 والذي ضم أغنيات مثل (Thunder)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الEvolve",
         "الايفولف",
         "ايفولف",
-        "Evolve",
         "إيفولف",
         "الإيفولف"
       ],
-      "wrong_answers": [
-        "Night Visions",
-        "Smoke and Mirrors",
-        "Origins",
-        "Mercury",
-        "Loom",
-        "Believer",
-        "Act 1",
-        "Act 2"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_117",
       "prompt": "ما هو الاسم الحقيقي للمغنية الباربادوسية الشهيرة ريانا (Rihanna)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الRobyn Rihanna Fenty",
         "روبين ريانا فنتي",
-        "الروبين ريانا فنتي",
-        "Robyn Rihanna Fenty"
+        "الروبين ريانا فنتي"
       ],
-      "wrong_answers": [
-        "Nicki Minaj",
-        "Cardi B",
-        "Beyonce Knowles",
-        "Alicia Keys",
-        "Ciara Princess",
-        "Katy Perry",
-        "Taylor Swift",
-        "Ariana Grande"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_118",
       "prompt": "كم يبلغ عدد أعضاء الفرقة الكورية الجنوبية الشهيرة (BLACKPINK) في تشكيلتها الرسمية؟",
       "answer_type": "number",
       "correct_answers": [
-        "أربعة",
-        "الأربعة",
-        "٤",
-        "4",
-        "اربعه",
-        "ال4",
-        "الاربعه"
+        "4"
       ],
       "wrong_answers": [
         "3",
@@ -2657,20 +1583,9 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "فلاورز",
-        "الفلاورز",
-        "Flowers",
-        "الFlowers"
+        "الفلاورز"
       ],
-      "wrong_answers": [
-        "Wrecking Ball",
-        "Malibu",
-        "Party in the USA",
-        "Midnight Sky",
-        "Slide Away",
-        "Mother's Daughter",
-        "Used to Be Young",
-        "Adore You"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_120",
@@ -2678,22 +1593,11 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "اد شيران",
-        "الEd Sheeran",
         "إد شيران",
         "الاد شيران",
-        "الإد شيران",
-        "Ed Sheeran"
+        "الإد شيران"
       ],
-      "wrong_answers": [
-        "Harry Styles",
-        "James Arthur",
-        "Lewis Capaldi",
-        "Calum Scott",
-        "Sam Smith",
-        "Tom Walker",
-        "George Ezra",
-        "Robbie Williams"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_121",
@@ -2701,34 +1605,18 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "اريانا غراندي بوتيرا",
-        "Ariana Grande-Butera",
         "الأريانا غراندي بوتيرا",
         "الاريانا غراندي بوتيرا",
-        "الAriana Grande-Butera",
         "أريانا غراندي بوتيرا"
       ],
-      "wrong_answers": [
-        "Selena Marie Gomez",
-        "Miley Ray Cyrus",
-        "Demi Lovato",
-        "Taylor Alison Swift",
-        "Katy Elizabeth Hudson",
-        "Billie Eilish Pirate",
-        "Olivia Isabel Rodrigo",
-        "Sabrina Annlynn Carpenter"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_122",
       "prompt": "في أي عام تم إصدار أغنية (Gangnam Style) للنجم الكوري الجنوبي ساي والتي حققت أول رقم خيالي على يوتيوب؟",
       "answer_type": "number",
       "correct_answers": [
-        "عام 2012",
-        "العام 2012",
-        "ال2012",
-        "2012",
-        "٢٠١٢",
-        "عام ٢٠١٢"
+        "2012"
       ],
       "wrong_answers": [
         "2010",
@@ -2747,54 +1635,26 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "جيه بالفين",
-        "الجيه بالفين",
-        "الJ Balvin",
-        "J Balvin"
+        "الجيه بالفين"
       ],
-      "wrong_answers": [
-        "Maluma",
-        "Bad Bunny",
-        "Ozuna",
-        "Daddy Yankee",
-        "Nicky Jam",
-        "Rauw Alejandro",
-        "Anuel AA",
-        "Farruko"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_124",
       "prompt": "ما هي الفرقة البريطانية الأسطورية التي قدمت أغنية (Bohemian Rhapsody) عام 1975 بقيادة فريدي ميركوري؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الQueen",
         "الكوين",
-        "Queen",
         "كوين"
       ],
-      "wrong_answers": [
-        "The Beatles",
-        "The Rolling Stones",
-        "Led Zeppelin",
-        "Pink Floyd",
-        "AC/DC",
-        "Metallica",
-        "Nirvana",
-        "U2"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_125",
       "prompt": "كم يبلغ عدد أعضاء الفرقة الكورية الجنوبية الشهيرة (Stray Kids) بعد المغادرين؟",
       "answer_type": "number",
       "correct_answers": [
-        "ثمانية",
-        "الثمانيه",
-        "ال8",
-        "٨",
-        "8",
-        "الثمانية",
-        "ثمانيه"
+        "8"
       ],
       "wrong_answers": [
         "5",
@@ -2812,96 +1672,50 @@
       "prompt": "ما هو اسم اليوتيوبر الجزائري الشهير بمحتوى الألعاب والتعليق الساخر وصاحب قناة (Anes B) أو الأسلوب الكوميدي المميز؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الAnes B",
-        "الAnes",
         "أنس",
         "انس",
-        "Anes",
-        "Anes B",
         "الأنس",
         "الانس"
       ],
-      "wrong_answers": [
-        "DzJoker",
-        "Kais",
-        "Chemsou FreeFire",
-        "Ridha MC",
-        "Mounir Sanad",
-        "Amine Mekki",
-        "Kamel Lababidi",
-        "Hicham Smati"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_127",
       "prompt": "من هو اليوتيوبر السعودي الذي يُعتبر من أوائل صناع محتوى الألعاب والفلترات الساخرة في الوطن العربي واشتهر بقناته (Dyler TV) سابقاً؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الDyler",
         "الدايلر",
         "العبد العزيز الدليجان",
         "دايلر",
-        "عبد العزيز الدليجان",
-        "Dyler"
+        "عبد العزيز الدليجان"
       ],
-      "wrong_answers": [
-        "BanderitaX",
-        "ShongxBoShong",
-        "Sa3d",
-        "Faris",
-        "Moshmosh",
-        "Badr",
-        "Faisal",
-        "Sultan"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_128",
       "prompt": "ما هو اسم اليوتيوبر العراقي الشهير بمحتوى الرعب والقصص الغامضة وتحليلات الجرائم عبر قناته الواسعة الانتشار؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Ahmed Al Basheer",
         "بشير شو",
         "أحمد البشير",
         "الاحمد البشير",
-        "الAhmed Al Basheer",
         "الأحمد البشير",
         "البشير شو",
         "احمد البشير"
       ],
-      "wrong_answers": [
-        "Noor Stars",
-        "Ali Al Jizani",
-        "Qusai Fadel",
-        "Mustafa Al Saadi",
-        "Mahmoud Al Marsoumi",
-        "Zaid Al Husseini",
-        "Karim Obeid",
-        "Saif Amer"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_129",
       "prompt": "من هو صانع المحتوى السعودي الذي يمتلك إحدى أكبر قنوات الألعاب في العالم العربي والمعروف بلقب (بندرليتا) أو (BanderitaX)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الBanderitaX",
         "البندر المدخلي",
         "البندرليتا",
         "بندرليتا",
-        "BanderitaX",
         "بندر المدخلي"
       ],
-      "wrong_answers": [
-        "Aboflah",
-        "Mbc3",
-        "Osama",
-        "Rayan",
-        "Faisal",
-        "Anas",
-        "Sultan",
-        "Turki"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_130",
@@ -2911,20 +1725,9 @@
         "عالم السيارات",
         "العالم السيارات",
         "حسن كراكي",
-        "الHassan Karaki",
-        "Hassan Karaki",
         "الحسن كراكي"
       ],
-      "wrong_answers": [
-        "Shoong",
-        "Abdullah Al Othman",
-        "Bader Al Motawa",
-        "Yousef Al Salem",
-        "Fahad Al Enezi",
-        "Nasser Al Khelaifi",
-        "Mohammed Al Buainain",
-        "Hamad Al Mutawa"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_131",
@@ -2933,22 +1736,13 @@
       "correct_answers": [
         "أبو فلة",
         "الأبو فلة",
-        "الAboflah",
         "الابو فله",
-        "Aboflah",
         "الحسن سليمان",
         "حسن سليمان",
         "ابو فله"
       ],
       "wrong_answers": [
-        "Omar Farooq",
-        "Mo Vlogs",
-        "नूर ستارز",
-        "Anas Marwah",
-        "Asala Maleh",
-        "Karim Serageldin",
-        "Sherif Gaber",
-        "Ahmed Hassan"
+        "नूर ستارز"
       ]
     },
     {
@@ -2963,12 +1757,9 @@
         "الداره",
         "دارة",
         "داره",
-        "الأحمد السويدي",
-        "الAhmed El Sewedy",
-        "Ahmed El Sewedy"
+        "الأحمد السويدي"
       ],
       "wrong_answers": [
-        "Ahmed Ghandour",
         "إسماعيل الألفي",
         "محمد الدسوقي رشدي",
         "شريف رأفت",
@@ -2986,56 +1777,30 @@
         "دحيح",
         "أحمد الغندور",
         "الدحيح",
-        "الAhmed El Ghandour",
         "الاحمد الغندور",
         "احمد الغندور",
-        "الأحمد الغندور",
-        "Ahmed El Ghandour"
+        "الأحمد الغندور"
       ],
-      "wrong_answers": [
-        "Karam Mohamed",
-        "Tarek Al Shamy",
-        "Hossam Yahia",
-        "Khaled Al Nabawi",
-        "Amr Khaled",
-        "Mostafa Hosny",
-        "Hazem Shoman",
-        "Wagdy Ghoneim"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_134",
       "prompt": "ما هو اسم اليوتيوبر الجزائري المعروف بتقديم محتوى السفر والمغامرات واستكشاف البلدان والثقافات المختلفة حول العالم؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الDzJoker",
         "هشام بمداح",
-        "DzJoker",
         "الهشام بمداح",
         "جوكر",
         "الجوكر"
       ],
-      "wrong_answers": [
-        "Anes",
-        "Chemsou",
-        "Farid Benmessaoud",
-        "Sofiane Bouteldja",
-        "Nour Eddine",
-        "Redouane Derradji",
-        "Amine Radi",
-        "Kamel Kaci"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_135",
       "prompt": "كم يبلغ تقريبا عدد المشتركين بالملايين في قناة اليوتيوبر الكويتي الشهير (بوخالد) أو القنوات الكبرى مثل نور ستارز المتجاوزة حاجز العشرين مليون؟",
       "answer_type": "number",
       "correct_answers": [
-        "العشرون",
-        "ال20",
-        "20",
-        "٢٠",
-        "عشرون"
+        "20"
       ],
       "wrong_answers": [
         "5",
@@ -3053,25 +1818,12 @@
       "prompt": "من هو اليوتيوبر المغربي المقيم في فرنسا الذي اشتهر بمقالب الكاميرا الخفية ومقاطع الكوميديا اليومية مع والدته؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Amine",
-        "الAmine Radi",
         "الامين رادي",
-        "الAmine",
         "الأمين رادي",
-        "Amine Radi",
         "أمين رادي",
         "امين رادي"
       ],
-      "wrong_answers": [
-        "Tbarkellah",
-        "Zouhair Bahaoui",
-        "Saad Lamjarred",
-        "Ihab Amir",
-        "Mehdi Mozayine",
-        "Hatim Ammor",
-        "Douzi",
-        "Muslim"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_137",
@@ -3081,20 +1833,9 @@
         "الموفي فلوقز",
         "موفي فلوقز",
         "محمد بيجي",
-        "Mo Vlogs",
-        "الMo Vlogs",
         "المحمد بيجي"
       ],
-      "wrong_answers": [
-        "Anas Marwah",
-        "Ahmed Al-Nasheet",
-        "Omar Farooq",
-        "Ali Kattan",
-        "Zaid Tarek",
-        "Mustafa Shaker",
-        "Saif Shawaf",
-        "Tariq Al Harbi"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_138",
@@ -3104,55 +1845,28 @@
         "العمر فاروق",
         "عمر",
         "العمر",
-        "الOmar Farooq",
-        "عمر فاروق",
-        "Omar Farooq"
+        "عمر فاروق"
       ],
-      "wrong_answers": [
-        "Ali Al Ansari",
-        "Rashid Al Khalifa",
-        "Fahad Al Kubaisi",
-        "Mohammed Al Mohannadi",
-        "Ahmed Al Baker",
-        "Khalifa Al Jasmi",
-        "Yousef Al Hammadi",
-        "Hassan Al Thawadi"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_139",
       "prompt": "ما هو اسم اليوتيوبر السعودي الذي يقدم محتوى تقنياً عميقاً ومراجعات للهواتف الذكية والأجهزة عبر قناته الواسعة الشهرة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Faisal Al Saif",
         "فيصل السيف",
-        "الFaisal Al Saif",
         "تك بلاي",
         "الفيصل السيف",
         "التك بلاي"
       ],
-      "wrong_answers": [
-        "Abdulrahman Al Olayan",
-        "Sultan Al Otaibi",
-        "Mohammed Al Humaidan",
-        "Saud Al Kahtani",
-        "Turki Al Shahrani",
-        "Nasser Al Dossary",
-        "Bandar Al Qحطاني",
-        "Khaled Al Mutairi"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_140",
       "prompt": "ما هو العدد التقريبي لسنوات نشأة اليوتيوب الذي انطلق منه هؤلاء النجوم الأوائل عالمياً وعربياً منذ عام 2005؟",
       "answer_type": "number",
       "correct_answers": [
-        "عام 2005",
-        "العام 2005",
-        "2005",
-        "عام ٢٠٠٥",
-        "٢٠٠٥",
-        "ال2005"
+        "2005"
       ],
       "wrong_answers": [
         "2001",
@@ -3172,21 +1886,10 @@
       "correct_answers": [
         "نور نعيم",
         "نور ستارز",
-        "Noor Stars",
         "النور ستارز",
-        "الNoor Stars",
         "النور نعيم"
       ],
-      "wrong_answers": [
-        "Asala Maleh",
-        "SuperSisters",
-        "Bana Al Abed",
-        "Farah El Hadi",
-        "Lojain Omran",
-        "Joelle Mardinian",
-        "Hissa Al Failakawi",
-        "Alanoud Badr"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_142",
@@ -3200,20 +1903,9 @@
         "أنس و أصالة",
         "الأنس مروة",
         "الانس مروه",
-        "الAnas Marwah",
-        "الأنس و أصالة",
-        "Anas Marwah"
+        "الأنس و أصالة"
       ],
-      "wrong_answers": [
-        "Osama Marwah",
-        "Laith Marwah",
-        "Ammar Al Darubi",
-        "Taim Hasan",
-        "Qusai Khouli",
-        "Mahmoud Nasr",
-        "Basel Khayat",
-        "Maxim Khalil"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_143",
@@ -3221,60 +1913,28 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الأحمد النشيط",
-        "الDurgerKing",
-        "DurgerKing",
-        "الAhmed Al Nasheet",
         "أحمد النشيط",
         "الاحمد النشيط",
-        "احمد النشيط",
-        "Ahmed Al Nasheet"
+        "احمد النشيط"
       ],
-      "wrong_answers": [
-        "Ali Al Jallabi",
-        "Hussain Al Mahdi",
-        "Mohammed Al Kooheji",
-        "Sayed Ahmed",
-        "Mahmoud Al Bahrani",
-        "Yousef Al Saffar",
-        "Khalil Al Ghanim",
-        "Ebrahim Al Tamimi"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_144",
       "prompt": "ما هو اسم اليوتيوبر المصري الشهير بمحتوى مراجعة الأفلام والمسلسلات بأسلوب نقدي ساخر ولغة جسد مميزة (مستر آي كيو سابقاً أو طاهر ميمز)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الTaher Mohamed",
-        "Taher",
         "طاهر",
-        "الطاهر",
-        "الTaher",
-        "Taher Mohamed"
+        "الطاهر"
       ],
-      "wrong_answers": [
-        "Mohamed Farouk",
-        "Ibrahim Fayek",
-        "Ahmed Hossam",
-        "Amir Eid",
-        "Wegz",
-        "Marwan Pablo",
-        "CairoKee",
-        "Mennad"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_145",
       "prompt": "كم يبلغ عدد حروف اسم قناة (دحيح) الشهيرة للعلوم باللغة العربية للباحث أحمد الغندور؟",
       "answer_type": "number",
       "correct_answers": [
-        "سته حروف",
-        "ال6",
-        "6",
-        "٦",
-        "الستة حروف",
-        "السته حروف",
-        "ستة حروف"
+        "6"
       ],
       "wrong_answers": [
         "4",
@@ -3295,20 +1955,9 @@
         "عبدالله العقيل",
         "العبدالله العقيل",
         "سعودي ريبورترز",
-        "الSaudi Reporters",
-        "السعودي ريبورترز",
-        "Saudi Reporters"
+        "السعودي ريبورترز"
       ],
-      "wrong_answers": [
-        "Ibrahim Al Bakir",
-        "Abdulaziz Al Bakir",
-        "Fahad Al Salhi",
-        "Rayan Al Jeraisy",
-        "Nawaf Al Shammari",
-        "Bandar Al Harbi",
-        "Sultan Al Otaibi",
-        "Faisal Al Zahrani"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_147",
@@ -3316,83 +1965,38 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "نور الدين",
-        "الNoor Aldeen HD",
-        "الNoor Aldeen",
-        "Noor Aldeen",
-        "Noor Aldeen HD",
         "النور الدين"
       ],
-      "wrong_answers": [
-        "Ali Adnan",
-        "Humam Tariq",
-        "Bashar Resan",
-        "Mohanad Ali",
-        "Alaa Abdul Zhra",
-        "Younis Mahmoud",
-        "Nashat Akram",
-        "Ahmed Yasin"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_148",
       "prompt": "من هو صانع المحتوى الجزائري المعروف بمحتوى الطبخ والوصفات الشعبية السريعة والناجحة عبر منصة يوتيوب (أم عبد النور أو الشاف فارس)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الChef Fares",
-        "الFares",
-        "Fares",
-        "Chef Fares",
         "شاف فارس",
         "الشاف فارس"
       ],
-      "wrong_answers": [
-        "Oum Walid",
-        "Hicham Cook",
-        "Samira DZ",
-        "Walid Cuisine",
-        "Chemsou",
-        "Amine",
-        "Mounir",
-        "Karim"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_149",
       "prompt": "ما هو اسم اليوتيوبر الجزائري الأبرز عالمياً في مجال الطبخ والحلويات والذي تملك قناته الملايين من المتابعين وثقة الأسر (أم وليد)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "oumwalid",
         "أم وليد",
-        "Oum Walid",
-        "الoumwalid",
         "الام وليد",
-        "الOum Walid",
         "الأم وليد",
         "ام وليد"
       ],
-      "wrong_answers": [
-        "Chef Fares",
-        "Hicham Cook",
-        "Samira TV",
-        "Cuisine Laila",
-        "Dahmane",
-        "Kamel",
-        "Zineb",
-        "Fatima Chef"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_150",
       "prompt": "كم يبلغ عدد الحروف في اسم اليوتيوبر السعودي الشهير (أبو فلة) المكون من كلمتين مع احتساب المسافة أو بدونها؟",
       "answer_type": "number",
       "correct_answers": [
-        "الستة",
-        "السته",
-        "ال6",
-        "6",
-        "٦",
-        "سته",
-        "ستة"
+        "6"
       ],
       "wrong_answers": [
         "4",
@@ -3410,96 +2014,50 @@
       "prompt": "ما هو اسم اليوتيوبر الجزائري الشهير بمحتوى الألعاب والتعليق الساخر وصاحب قناة (Anes B) أو الأسلوب الكوميدي المميز؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الAnes B",
-        "الAnes",
         "أنس",
         "انس",
-        "Anes",
-        "Anes B",
         "الأنس",
         "الانس"
       ],
-      "wrong_answers": [
-        "DzJoker",
-        "Kais",
-        "Chemsou FreeFire",
-        "Ridha MC",
-        "Mounir Sanad",
-        "Amine Mekki",
-        "Kamel Lababidi",
-        "Hicham Smati"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_152",
       "prompt": "من هو اليوتيوبر السعودي الذي يُعتبر من أوائل صناع محتوى الألعاب والفلترات الساخرة في الوطن العربي واشتهر بقناته (Dyler TV) سابقاً؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الDyler",
         "الدايلر",
         "العبد العزيز الدليجان",
         "دايلر",
-        "عبد العزيز الدليجان",
-        "Dyler"
+        "عبد العزيز الدليجان"
       ],
-      "wrong_answers": [
-        "BanderitaX",
-        "ShongxBoShong",
-        "Sa3d",
-        "Faris",
-        "Moshmosh",
-        "Badr",
-        "Faisal",
-        "Sultan"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_153",
       "prompt": "ما هو اسم اليوتيوبر العراقي الشهير بمحتوى الرعب والقصص الغامضة وتحليلات الجرائم عبر قناته الواسعة الانتشار؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Ahmed Al Basheer",
         "بشير شو",
         "أحمد البشير",
         "الاحمد البشير",
-        "الAhmed Al Basheer",
         "الأحمد البشير",
         "البشير شو",
         "احمد البشير"
       ],
-      "wrong_answers": [
-        "Noor Stars",
-        "Ali Al Jizani",
-        "Qusai Fadel",
-        "Mustafa Al Saadi",
-        "Mahmoud Al Marsoumi",
-        "Zaid Al Husseini",
-        "Karim Obeid",
-        "Saif Amer"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_154",
       "prompt": "من هو صانع المحتوى السعودي الذي يمتلك إحدى أكبر قنوات الألعاب في العالم العربي والمعروف بلقب (بندرليتا) أو (BanderitaX)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الBanderitaX",
         "البندر المدخلي",
         "البندرليتا",
         "بندرليتا",
-        "BanderitaX",
         "بندر المدخلي"
       ],
-      "wrong_answers": [
-        "Aboflah",
-        "Mbc3",
-        "Osama",
-        "Rayan",
-        "Faisal",
-        "Anas",
-        "Sultan",
-        "Turki"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_155",
@@ -3509,20 +2067,9 @@
         "عالم السيارات",
         "العالم السيارات",
         "حسن كراكي",
-        "الHassan Karaki",
-        "Hassan Karaki",
         "الحسن كراكي"
       ],
-      "wrong_answers": [
-        "Shoong",
-        "Abdullah Al Othman",
-        "Bader Al Motawa",
-        "Yousef Al Salem",
-        "Fahad Al Enezi",
-        "Nasser Al Khelaifi",
-        "Mohammed Al Buainain",
-        "Hamad Al Mutawa"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_156",
@@ -3531,22 +2078,13 @@
       "correct_answers": [
         "أبو فلة",
         "الأبو فلة",
-        "الAboflah",
         "الابو فله",
-        "Aboflah",
         "الحسن سليمان",
         "حسن سليمان",
         "ابو فله"
       ],
       "wrong_answers": [
-        "Omar Farooq",
-        "Mo Vlogs",
-        "नूर ستارز",
-        "Anas Marwah",
-        "Asala Maleh",
-        "Karim Serageldin",
-        "Sherif Gaber",
-        "Ahmed Hassan"
+        "नूर ستارز"
       ]
     },
     {
@@ -3561,12 +2099,9 @@
         "الداره",
         "دارة",
         "داره",
-        "الأحمد السويدي",
-        "الAhmed El Sewedy",
-        "Ahmed El Sewedy"
+        "الأحمد السويدي"
       ],
       "wrong_answers": [
-        "Ahmed Ghandour",
         "إسماعيل الألفي",
         "محمد الدسوقي رشدي",
         "شريف رأفت",
@@ -3584,56 +2119,30 @@
         "دحيح",
         "أحمد الغندور",
         "الدحيح",
-        "الAhmed El Ghandour",
         "الاحمد الغندور",
         "احمد الغندور",
-        "الأحمد الغندور",
-        "Ahmed El Ghandour"
+        "الأحمد الغندور"
       ],
-      "wrong_answers": [
-        "Karam Mohamed",
-        "Tarek Al Shamy",
-        "Hossam Yahia",
-        "Khaled Al Nabawi",
-        "Amr Khaled",
-        "Mostafa Hosny",
-        "Hazem Shoman",
-        "Wagdy Ghoneim"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_159",
       "prompt": "ما هو اسم اليوتيوبر الجزائري المعروف بتقديم محتوى السفر والمغامرات واستكشاف البلدان والثقافات المختلفة حول العالم؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الDzJoker",
         "هشام بمداح",
-        "DzJoker",
         "الهشام بمداح",
         "جوكر",
         "الجوكر"
       ],
-      "wrong_answers": [
-        "Anes",
-        "Chemsou",
-        "Farid Benmessaoud",
-        "Sofiane Bouteldja",
-        "Nour Eddine",
-        "Redouane Derradji",
-        "Amine Radi",
-        "Kamel Kaci"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_160",
       "prompt": "كم يبلغ تقريبا عدد المشتركين بالملايين في قناة اليوتيوبر الكويتي الشهير (بوخالد) أو القنوات الكبرى مثل نور ستارز المتجاوزة حاجز العشرين مليون؟",
       "answer_type": "number",
       "correct_answers": [
-        "العشرون",
-        "ال20",
-        "20",
-        "٢٠",
-        "عشرون"
+        "20"
       ],
       "wrong_answers": [
         "5",
@@ -3651,25 +2160,12 @@
       "prompt": "من هو اليوتيوبر المغربي المقيم في فرنسا الذي اشتهر بمقالب الكاميرا الخفية ومقاطع الكوميديا اليومية مع والدته؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Amine",
-        "الAmine Radi",
         "الامين رادي",
-        "الAmine",
         "الأمين رادي",
-        "Amine Radi",
         "أمين رادي",
         "امين رادي"
       ],
-      "wrong_answers": [
-        "Tbarkellah",
-        "Zouhair Bahaoui",
-        "Saad Lamjarred",
-        "Ihab Amir",
-        "Mehdi Mozayine",
-        "Hatim Ammor",
-        "Douzi",
-        "Muslim"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_162",
@@ -3679,20 +2175,9 @@
         "الموفي فلوقز",
         "موفي فلوقز",
         "محمد بيجي",
-        "Mo Vlogs",
-        "الMo Vlogs",
         "المحمد بيجي"
       ],
-      "wrong_answers": [
-        "Anas Marwah",
-        "Ahmed Al-Nasheet",
-        "Omar Farooq",
-        "Ali Kattan",
-        "Zaid Tarek",
-        "Mustafa Shaker",
-        "Saif Shawaf",
-        "Tariq Al Harbi"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_163",
@@ -3702,55 +2187,28 @@
         "العمر فاروق",
         "عمر",
         "العمر",
-        "الOmar Farooq",
-        "عمر فاروق",
-        "Omar Farooq"
+        "عمر فاروق"
       ],
-      "wrong_answers": [
-        "Ali Al Ansari",
-        "Rashid Al Khalifa",
-        "Fahad Al Kubaisi",
-        "Mohammed Al Mohannadi",
-        "Ahmed Al Baker",
-        "Khalifa Al Jasmi",
-        "Yousef Al Hammadi",
-        "Hassan Al Thawadi"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_164",
       "prompt": "ما هو اسم اليوتيوبر السعودي الذي يقدم محتوى تقنياً عميقاً ومراجعات للهواتف الذكية والأجهزة عبر قناته الواسعة الشهرة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Faisal Al Saif",
         "فيصل السيف",
-        "الFaisal Al Saif",
         "تك بلاي",
         "الفيصل السيف",
         "التك بلاي"
       ],
-      "wrong_answers": [
-        "Abdulrahman Al Olayan",
-        "Sultan Al Otaibi",
-        "Mohammed Al Humaidan",
-        "Saud Al Kahtani",
-        "Turki Al Shahrani",
-        "Nasser Al Dossary",
-        "Bandar Al Qحطاني",
-        "Khaled Al Mutairi"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_165",
       "prompt": "ما هو العدد التقريبي لسنوات نشأة اليوتيوب الذي انطلق منه هؤلاء النجوم الأوائل عالمياً وعربياً منذ عام 2005؟",
       "answer_type": "number",
       "correct_answers": [
-        "عام 2005",
-        "العام 2005",
-        "2005",
-        "عام ٢٠٠٥",
-        "٢٠٠٥",
-        "ال2005"
+        "2005"
       ],
       "wrong_answers": [
         "2001",
@@ -3770,21 +2228,10 @@
       "correct_answers": [
         "نور نعيم",
         "نور ستارز",
-        "Noor Stars",
         "النور ستارز",
-        "الNoor Stars",
         "النور نعيم"
       ],
-      "wrong_answers": [
-        "Asala Maleh",
-        "SuperSisters",
-        "Bana Al Abed",
-        "Farah El Hadi",
-        "Lojain Omran",
-        "Joelle Mardinian",
-        "Hissa Al Failakawi",
-        "Alanoud Badr"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_167",
@@ -3798,20 +2245,9 @@
         "أنس و أصالة",
         "الأنس مروة",
         "الانس مروه",
-        "الAnas Marwah",
-        "الأنس و أصالة",
-        "Anas Marwah"
+        "الأنس و أصالة"
       ],
-      "wrong_answers": [
-        "Osama Marwah",
-        "Laith Marwah",
-        "Ammar Al Darubi",
-        "Taim Hasan",
-        "Qusai Khouli",
-        "Mahmoud Nasr",
-        "Basel Khayat",
-        "Maxim Khalil"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_168",
@@ -3819,60 +2255,28 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الأحمد النشيط",
-        "الDurgerKing",
-        "DurgerKing",
-        "الAhmed Al Nasheet",
         "أحمد النشيط",
         "الاحمد النشيط",
-        "احمد النشيط",
-        "Ahmed Al Nasheet"
+        "احمد النشيط"
       ],
-      "wrong_answers": [
-        "Ali Al Jallabi",
-        "Hussain Al Mahdi",
-        "Mohammed Al Kooheji",
-        "Sayed Ahmed",
-        "Mahmoud Al Bahrani",
-        "Yousef Al Saffar",
-        "Khalil Al Ghanim",
-        "Ebrahim Al Tamimi"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_169",
       "prompt": "ما هو اسم اليوتيوبر المصري الشهير بمحتوى مراجعة الأفلام والمسلسلات بأسلوب نقدي ساخر ولغة جسد مميزة (مستر آي كيو سابقاً أو طاهر ميمز)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الTaher Mohamed",
-        "Taher",
         "طاهر",
-        "الطاهر",
-        "الTaher",
-        "Taher Mohamed"
+        "الطاهر"
       ],
-      "wrong_answers": [
-        "Mohamed Farouk",
-        "Ibrahim Fayek",
-        "Ahmed Hossam",
-        "Amir Eid",
-        "Wegz",
-        "Marwan Pablo",
-        "CairoKee",
-        "Mennad"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_170",
       "prompt": "كم يبلغ عدد حروف اسم قناة (دحيح) الشهيرة للعلوم باللغة العربية للباحث أحمد الغندور؟",
       "answer_type": "number",
       "correct_answers": [
-        "سته حروف",
-        "ال6",
-        "6",
-        "٦",
-        "الستة حروف",
-        "السته حروف",
-        "ستة حروف"
+        "6"
       ],
       "wrong_answers": [
         "4",
@@ -3893,20 +2297,9 @@
         "عبدالله العقيل",
         "العبدالله العقيل",
         "سعودي ريبورترز",
-        "الSaudi Reporters",
-        "السعودي ريبورترز",
-        "Saudi Reporters"
+        "السعودي ريبورترز"
       ],
-      "wrong_answers": [
-        "Ibrahim Al Bakir",
-        "Abdulaziz Al Bakir",
-        "Fahad Al Salhi",
-        "Rayan Al Jeraisy",
-        "Nawaf Al Shammari",
-        "Bandar Al Harbi",
-        "Sultan Al Otaibi",
-        "Faisal Al Zahrani"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_172",
@@ -3914,83 +2307,38 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "نور الدين",
-        "الNoor Aldeen HD",
-        "الNoor Aldeen",
-        "Noor Aldeen",
-        "Noor Aldeen HD",
         "النور الدين"
       ],
-      "wrong_answers": [
-        "Ali Adnan",
-        "Humam Tariq",
-        "Bashar Resan",
-        "Mohanad Ali",
-        "Alaa Abdul Zhra",
-        "Younis Mahmoud",
-        "Nashat Akram",
-        "Ahmed Yasin"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_173",
       "prompt": "من هو صانع المحتوى الجزائري المعروف بمحتوى الطبخ والوصفات الشعبية السريعة والناجحة عبر منصة يوتيوب (أم عبد النور أو الشاف فارس)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الChef Fares",
-        "الFares",
-        "Fares",
-        "Chef Fares",
         "شاف فارس",
         "الشاف فارس"
       ],
-      "wrong_answers": [
-        "Oum Walid",
-        "Hicham Cook",
-        "Samira DZ",
-        "Walid Cuisine",
-        "Chemsou",
-        "Amine",
-        "Mounir",
-        "Karim"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_174",
       "prompt": "ما هو اسم اليوتيوبر الجزائري الأبرز عالمياً في مجال الطبخ والحلويات والذي تملك قناته الملايين من المتابعين وثقة الأسر (أم وليد)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "oumwalid",
         "أم وليد",
-        "Oum Walid",
-        "الoumwalid",
         "الام وليد",
-        "الOum Walid",
         "الأم وليد",
         "ام وليد"
       ],
-      "wrong_answers": [
-        "Chef Fares",
-        "Hicham Cook",
-        "Samira TV",
-        "Cuisine Laila",
-        "Dahmane",
-        "Kamel",
-        "Zineb",
-        "Fatima Chef"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_175",
       "prompt": "كم يبلغ عدد الحروف في اسم اليوتيوبر السعودي الشهير (أبو فلة) المكون من كلمتين مع احتساب المسافة أو بدونها؟",
       "answer_type": "number",
       "correct_answers": [
-        "الستة",
-        "السته",
-        "ال6",
-        "6",
-        "٦",
-        "سته",
-        "ستة"
+        "6"
       ],
       "wrong_answers": [
         "4",
@@ -4011,20 +2359,9 @@
         "السعد العنزي",
         "البروكس",
         "سعد العنزي",
-        "بروكس",
-        "Saad Al Enezi",
-        "الSaad Al Enezi"
+        "بروكس"
       ],
-      "wrong_answers": [
-        "BanderitaX",
-        "Aboflah",
-        "Dyler",
-        "ShongxBoShong",
-        "Faisal Al Saif",
-        "Ahmed Al Nasheet",
-        "Omar Farooq",
-        "Mo Vlogs"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_177",
@@ -4032,45 +2369,21 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "سيمو ميمز",
-        "الSimo Mhd",
         "السيمو ميمز",
         "المحمد السيمو",
-        "Simo Mhd",
         "محمد السيمو"
       ],
-      "wrong_answers": [
-        "Amine Radi",
-        "Zouhair Bahaoui",
-        "Redouane Belyamine",
-        "Mehdi Benkirane",
-        "Youssef Akdim",
-        "Ilyas El Maliki",
-        "Ayoub Idelcaid",
-        "Hamza Montiti"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_178",
       "prompt": "من هو اليوتيوبر التونسي الشهير الذي يقدم محتوى نقدي ساخر وتحليلات للأحداث بأسلوب فكاهي وقوي عبر قناته؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الLatif",
-        "Latif Show",
         "لطيف",
-        "Latif",
-        "اللطيف",
-        "الLatif Show"
+        "اللطيف"
       ],
-      "wrong_answers": [
-        "Karim Gharbi",
-        "Wassim Herissi",
-        "Jaafar Guesmi",
-        "Ala Chebbi",
-        "Nizar Chaari",
-        "Samir El Wafi",
-        "Lotfi Abdelli",
-        "Moez Ben Gharbia"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_179",
@@ -4078,80 +2391,39 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الميدو",
-        "Mido",
-        "الMidov",
-        "Midov",
-        "الMido",
         "ميدو"
       ],
-      "wrong_answers": [
-        "BanderitaX",
-        "ShongxBoShong",
-        "Rayan",
-        "Faisal",
-        "Sultan",
-        "Turki",
-        "Nawaf",
-        "Muhannad"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_180",
       "prompt": "من هو صانع المحتوى السوري المقيم في تركيا الذي يقدم فيديوهات توعوية وقصصية وتجارب اجتماعية مؤثرة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Ghaith Marwan",
         "الغيث مروان",
         "غيث",
         "غيث مروان",
-        "الGhaith Marwan",
         "الغيث"
       ],
-      "wrong_answers": [
-        "Anas Marwah",
-        "Osama Marwah",
-        "Mo Vlogs",
-        "Omar Farooq",
-        "Ahmed Al Nasheet",
-        "Sharif Gaber",
-        "Karim Serageldin",
-        "Ahmed Ghandour"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_181",
       "prompt": "ما هو اسم اليوتيوبر العراقي الذي اشتهر بتقديم مقالب كوميدية وتحديات شارع جريئة مع المواطنين في بغداد؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الAli Jaleel",
-        "Ali Jaleel",
         "علي جليل",
         "العلي",
         "العلي جليل",
         "علي"
       ],
-      "wrong_answers": [
-        "Noor Aldeen",
-        "Ahmed Al Basheer",
-        "Qusai Fadel",
-        "Mustafa Al Saadi",
-        "Zaid Al Husseini",
-        "Saif Amer",
-        "Mahmoud Al Marsoumi",
-        "Karim Obeid"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_182",
       "prompt": "كم يبلغ تقريبا عدد الحروف في اسم اليوتيوبر الأردني أو العربي الشهير بمحتوى الألعاب (شونق بوشونغ) بدون مسافات؟",
       "answer_type": "number",
       "correct_answers": [
-        "١٢",
-        "ال12",
-        "اثنا عشر حرفا",
-        "الاثنا عشر حرفا",
-        "اثنا عشر حرفاً",
-        "الاثنا عشر حرفاً",
         "12"
       ],
       "wrong_answers": [
@@ -4172,23 +2444,12 @@
       "correct_answers": [
         "الاماراتي",
         "إماراتي",
-        "الBader Al Humaid",
         "الإماراتي",
         "البدر الحميد",
         "اماراتي",
-        "Bader Al Humaid",
         "بدر الحميد"
       ],
-      "wrong_answers": [
-        "Mo Vlogs",
-        "Anas Marwah",
-        "Ahmed Al Nasheet",
-        "Rashid Al Habtoor",
-        "Sultan Al Neyadi",
-        "Khalifa Al Mheiri",
-        "Mohammed Al Banna",
-        "Hamdan Al Maktoum"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_184",
@@ -4196,47 +2457,23 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "مصطفي حلمي",
-        "الMostafa Helmy",
         "المصطفي حلمي",
         "الهيلمي تيك",
         "مصطفى حلمي",
         "هيلمي تيك",
-        "المصطفى حلمي",
-        "Mostafa Helmy"
+        "المصطفى حلمي"
       ],
-      "wrong_answers": [
-        "Ahmed El Sewedy",
-        "Faisal Al Saif",
-        "Abdulrahman Al Olayan",
-        "Mohamed Henedy",
-        "Ibrahim Fayek",
-        "Ahmed Ghandour",
-        "Sherif Raafat",
-        "Mahmoud Ragab"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_185",
       "prompt": "من هو صانع المحتوى الجزائري المعروف بتقديم سلاسل ألعاب البقاء (ميكروكرافت وغيرها) وتحديات ماين كرافت الممتعة؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الChemsou",
-        "الChemsou FreeFire",
-        "Chemsou FreeFire",
         "الشمسو",
-        "شمسو",
-        "Chemsou"
+        "شمسو"
       ],
-      "wrong_answers": [
-        "Anes",
-        "DzJoker",
-        "Farid",
-        "Sofiane",
-        "Mounir",
-        "Kamel",
-        "Redouane",
-        "Amine"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_186",
@@ -4244,35 +2481,18 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "مشهور الدبيان",
-        "الMashhor Al Dakheel",
         "السعودي غيمر",
         "المشهور الدبيان",
-        "Mashhor Al Dakheel",
         "سعودي غيمر"
       ],
-      "wrong_answers": [
-        "BanderitaX",
-        "ShongxBoShong",
-        "Faisal Al Saif",
-        "Aboflah",
-        "Dyler",
-        "Sultan Al Otaibi",
-        "Turki Al Shahrani",
-        "Nasser Al Dossary"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_187",
       "prompt": "كم عدد حروف اسم اليوتيوبر المصري الشهير مقدم برنامج الدحيح (أحمد الغندور) بالكامل بدون أل التعريف واللقب؟",
       "answer_type": "number",
       "correct_answers": [
-        "تسعه",
-        "التسعة",
-        "تسعة",
-        "التسعه",
-        "9",
-        "ال9",
-        "٩"
+        "9"
       ],
       "wrong_answers": [
         "6",
@@ -4290,69 +2510,32 @@
       "prompt": "من هو اليوتيوبر الجزائري الذي اشتهر بتقديم فيديوهات تفاعلية وتجارب طريفة في شوارع المدن الجزائرية بأسلوب قريب للقلب؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Kais",
-        "الKais",
         "قايس",
-        "الKais Vlogs",
-        "القايس",
-        "Kais Vlogs"
+        "القايس"
       ],
-      "wrong_answers": [
-        "Anes",
-        "DzJoker",
-        "Chemsou",
-        "Farid",
-        "Sofiane",
-        "Redouane",
-        "Amine",
-        "Kamel"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_189",
       "prompt": "ما هو اسم اليوتيوبر اللبناني الذي يقدم محتوى مقالب كوميدية ومقاطع تفاعلية مع السياح والأجانب في بيروت؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الWess",
         "الويس",
-        "ويس",
-        "Wess",
-        "Wess Channels",
-        "الWess Channels"
+        "ويس"
       ],
-      "wrong_answers": [
-        "Nour Stars",
-        "Mo Vlogs",
-        "Anas Marwah",
-        "Ziad Rahbani",
-        "Mario Bassil",
-        "Adel Karam",
-        "Tony Abou Jaoude",
-        "Naim Halawi"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_190",
       "prompt": "من هو اليوتيوبر السعودي صاحب قناة (طشق) ومحتوى الرعب والقصص التاريخية الغامضة بأسلوب سردي متميز؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Tashg",
         "العمر طشق",
         "عمر طشق",
         "طشق",
-        "الطشق",
-        "الTashg"
+        "الطشق"
       ],
-      "wrong_answers": [
-        "BanderitaX",
-        "Aboflah",
-        "Dyler",
-        "Faisal Al Saif",
-        "Ahmed Al Nasheet",
-        "Omar Farooq",
-        "Saudi Reporters",
-        "ShongxBoShong"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_191",
@@ -4360,35 +2543,18 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "فاسي فيتنس",
-        "الYoussef Fassi",
         "اليوسف الفاسي",
-        "Youssef Fassi",
         "الفاسي فيتنس",
         "يوسف الفاسي"
       ],
-      "wrong_answers": [
-        "Amine Radi",
-        "Simo Mhd",
-        "Zouhair Bahaoui",
-        "Saad Lamjarred",
-        "Mehdi Mozayine",
-        "Hatim Ammor",
-        "Douzi",
-        "Muslim"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_192",
       "prompt": "كم يبلغ عدد أجزاء اسم اليوتيوبر السعودي الشهير بندرليتا (بندر المدخلي) في كنيته الثنائية الشهيرة؟",
       "answer_type": "number",
       "correct_answers": [
-        "جزاين",
-        "ال2",
-        "٢",
-        "جزأين",
-        "2",
-        "الجزأين",
-        "الجزاين"
+        "2"
       ],
       "wrong_answers": [
         "1",
@@ -4406,25 +2572,14 @@
       "prompt": "من هو اليوتيوبر العراقي الذي يقدم برامج حوارية جريئة ومحتوى ساخر يستقطب ملايين المتابعين مثل (البشير شو)؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Ahmed Al Basheer",
         "أحمد البشير",
         "الاحمد البشير",
-        "الAhmed Al Basheer",
         "الأحمد البشير",
         "احمد البشير",
         "البشير",
         "بشير"
       ],
-      "wrong_answers": [
-        "Noor Stars",
-        "Ali Al Jizani",
-        "Qusai Fadel",
-        "Mustafa Al Saadi",
-        "Zaid Al Husseini",
-        "Saif Amer",
-        "Mahmoud Al Marsoumi",
-        "Karim Obeid"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_194",
@@ -4432,22 +2587,11 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "الشونق بوشونغ",
-        "الShongxBoShong",
         "شونق بوشونغ",
         "المحمد الدوسري",
-        "ShongxBoShong",
         "محمد الدوسري"
       ],
-      "wrong_answers": [
-        "BanderitaX",
-        "Aboflah",
-        "Dyler",
-        "Faisal Al Saif",
-        "Ahmed Al Nasheet",
-        "Omar Farooq",
-        "Mo Vlogs",
-        "Saudi Reporters"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_195",
@@ -4457,35 +2601,18 @@
         "العبدالله",
         "عبد الله الجمعة",
         "عبدالله",
-        "الAbdullah Al Juma",
-        "Abdullah Al Juma",
         "عبد الله الجمعه",
         "العبد الله الجمعه",
         "العبد الله الجمعة"
       ],
-      "wrong_answers": [
-        "BanderitaX",
-        "Aboflah",
-        "Faisal Al Saif",
-        "Omar Farooq",
-        "Ahmed Al Nasheet",
-        "Dyler",
-        "ShongxBoShong",
-        "Mo Vlogs"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_196",
       "prompt": "كم يبلغ عدد الحروف في كلمة (أبو فلة) المكونة للاسم الشهير لصانع المحتوى الخيري بدون مسافات؟",
       "answer_type": "number",
       "correct_answers": [
-        "خمسه حروف",
-        "٥",
-        "5",
-        "ال5",
-        "خمسة حروف",
-        "الخمسة حروف",
-        "الخمسه حروف"
+        "5"
       ],
       "wrong_answers": [
         "3",
@@ -4503,25 +2630,12 @@
       "prompt": "من هو اليوتيوبر الجزائري الشاب الذي يبدع في محتوى الرسوم المتحركة والقصص الكرتونية الساخرة عن الواقع الاجتماعي؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "الAnes",
         "أنس",
         "انس",
-        "الAnes Animation",
-        "Anes",
-        "Anes Animation",
         "الأنس",
         "الانس"
       ],
-      "wrong_answers": [
-        "DzJoker",
-        "Chemsou",
-        "Kais",
-        "Farid",
-        "Sofiane",
-        "Mounir",
-        "Redouane",
-        "Amine"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_198",
@@ -4529,58 +2643,28 @@
       "answer_type": "text_normalized",
       "correct_answers": [
         "وصال",
-        "Wissal",
-        "Wissal Vlogs",
-        "الWissal Vlogs",
-        "الوصال",
-        "الWissal"
+        "الوصال"
       ],
-      "wrong_answers": [
-        "Mo Vlogs",
-        "Anas Marwah",
-        "Omar Farooq",
-        "Ahmed Al Nasheet",
-        "Nour Stars",
-        "Dyler",
-        "Aboflah",
-        "BanderitaX"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_199",
       "prompt": "من هو صانع المحتوى السعودي الذي يقدم تجارب علمية مبسطة وتحديات فيزيائية في قناته الشهيرة على يوتيوب؟",
       "answer_type": "text_normalized",
       "correct_answers": [
-        "Malek",
-        "الMalek",
         "المالك",
         "الملك تيك",
         "ملك تيك",
         "مالك"
       ],
-      "wrong_answers": [
-        "Ahmed Ghandour",
-        "Faisal Al Saif",
-        "Abdulrahman Al Olayan",
-        "BanderitaX",
-        "Aboflah",
-        "Dyler",
-        "ShongxBoShong",
-        "Omar Farooq"
-      ]
+      "wrong_answers": []
     },
     {
       "id": "من_ه_200",
       "prompt": "كم يبلغ مجموع أرقام سنة إطلاق منصة يوتيوب رسمياً (2005) والتي انطلق منها نجوم العرب والعالم؟",
       "answer_type": "number",
       "correct_answers": [
-        "السبعة",
-        "ال7",
-        "7",
-        "٧",
-        "سبعه",
-        "سبعة",
-        "السبعه"
+        "7"
       ],
       "wrong_answers": [
         "5",

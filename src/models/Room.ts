@@ -113,6 +113,150 @@ export class Room {
   }
 
   /**
+   * مغادرة لاعب للغرفة وتحديث البقية
+   */
+  public leavePlayer(playerId: string): { success: boolean; shouldDestroy: boolean; nextHostId?: string } {
+    const player = this.players.get(playerId);
+    if (!player) return { success: false, shouldDestroy: false };
+
+    const wasHost = this.hostId === playerId;
+    this.removePlayer(playerId, true);
+
+    if (this.players.size === 0) {
+      return { success: true, shouldDestroy: true };
+    }
+
+    let nextHostId: string | undefined;
+    if (wasHost) {
+      const nextHost = this.players.values().next().value;
+      if (nextHost) {
+        nextHost.isHost = true;
+        this.hostId = nextHost.id;
+        nextHostId = nextHost.id;
+      }
+    }
+
+    this.broadcast({
+      type: 'PLAYER_LEFT',
+      payload: { playerId },
+    });
+
+    this.broadcast({
+      type: 'ROOM_UPDATED',
+      payload: { room: this.getPublicState() },
+    });
+
+    return { success: true, shouldDestroy: false, nextHostId };
+  }
+
+  /**
+   * طرد لاعب بواسطة المضيف
+   */
+  public kickPlayer(hostPlayerId: string, targetPlayerId: string): { success: boolean; error?: string } {
+    if (this.hostId !== hostPlayerId) {
+      return { success: false, error: 'المضيف فقط يملك صلاحية طرد اللاعبين' };
+    }
+
+    if (hostPlayerId === targetPlayerId) {
+      return { success: false, error: 'لا يمكن للمضيف طرد نفسه' };
+    }
+
+    const target = this.players.get(targetPlayerId);
+    if (!target) {
+      return { success: false, error: 'اللاعب المراد طرده غير موجود في الغرفة' };
+    }
+
+    target.send({
+      type: 'KICKED',
+      payload: { reason: 'تم طردك من الجلسة بواسطة المضيف' },
+    });
+
+    this.removePlayer(targetPlayerId, true);
+
+    this.broadcast({
+      type: 'PLAYER_LEFT',
+      payload: { playerId: targetPlayerId },
+    });
+
+    this.broadcast({
+      type: 'ROOM_UPDATED',
+      payload: { room: this.getPublicState() },
+    });
+
+    return { success: true };
+  }
+
+  /**
+   * إنهاء المباراة الجارية والعودة لغرفة الانتظار بواسطة المضيف
+   */
+  public abortGame(hostPlayerId: string): { success: boolean; error?: string } {
+    if (this.hostId !== hostPlayerId) {
+      return { success: false, error: 'المضيف فقط يملك صلاحية إنهاء المباراة' };
+    }
+
+    this.clearTimer();
+    this.phase = 'LOBBY';
+    this.currentRound = 0;
+    this.currentTopicId = null;
+    this.currentTopicTitle = null;
+    this.currentPuzzle = null;
+    this.roundOptions = [];
+    this.usedPuzzleIds.clear();
+
+    for (const player of this.players.values()) {
+      player.resetRoundState();
+    }
+
+    this.broadcast({
+      type: 'MATCH_ABORTED',
+      payload: { reason: 'قام المضيف بإنهاء المباراة الحالية وإعادة الجميع إلى غرفة الانتظار' },
+    });
+
+    this.broadcast({
+      type: 'ROOM_UPDATED',
+      payload: { room: this.getPublicState() },
+    });
+
+    return { success: true };
+  }
+
+  /**
+   * إعادة التحدي (Rematch) بعد انتهاء اللعبة
+   */
+  public rematch(hostPlayerId: string): { success: boolean; error?: string } {
+    if (this.hostId !== hostPlayerId) {
+      return { success: false, error: 'المضيف فقط يملك صلاحية بدء إعادة المباراة' };
+    }
+
+    this.clearTimer();
+    this.phase = 'LOBBY';
+    this.currentRound = 0;
+    this.currentTopicId = null;
+    this.currentTopicTitle = null;
+    this.currentPuzzle = null;
+    this.roundOptions = [];
+    this.usedPuzzleIds.clear();
+
+    // تصفير النقاط وحالات الجولة لجميع اللاعبين لبدء مباراة نظيفة
+    for (const player of this.players.values()) {
+      player.score = 0;
+      player.resetRoundState();
+    }
+
+    this.broadcast({
+      type: 'REMATCH_STARTED',
+      payload: { message: 'تم تصفير النقاط وبدء مباراة جديدة! استعدوا للانطلاق 🎭' },
+    });
+
+    this.broadcast({
+      type: 'ROOM_UPDATED',
+      payload: { room: this.getPublicState() },
+    });
+
+    return { success: true };
+  }
+
+  /**
    * جلب لاعب بواسطة معرفه
    */
   public getPlayer(playerId: string): Player | undefined {
@@ -139,8 +283,12 @@ export class Room {
   public updateSettings(newSettings: Partial<RoomSettings>): boolean {
     if (this.phase !== 'LOBBY') return false;
 
-    if (newSettings.allowedTopicIds && topicService.validateTopicIds(newSettings.allowedTopicIds)) {
-      this.settings.allowedTopicIds = newSettings.allowedTopicIds;
+    if (newSettings.allowedTopicIds !== undefined) {
+      if (newSettings.allowedTopicIds.length === 0) {
+        this.settings.allowedTopicIds = [];
+      } else if (topicService.validateTopicIds(newSettings.allowedTopicIds)) {
+        this.settings.allowedTopicIds = newSettings.allowedTopicIds;
+      }
     }
     if (newSettings.totalRounds && newSettings.totalRounds > 0) {
       this.settings.totalRounds = Math.min(Math.max(1, newSettings.totalRounds), 20);
@@ -300,9 +448,13 @@ export class Room {
     this.currentPuzzle = null;
     this.roundOptions = [];
 
-    const allowedTopics = topicService
+    const filteredTopics = topicService
       .getTopicSummaries()
       .filter((t) => this.settings.allowedTopicIds.includes(t.id));
+
+    // اختيار ٦ مواضيع عشوائية كحد أقصى من بين المواضيع المحددة
+    const shuffled = [...filteredTopics].sort(() => 0.5 - Math.random());
+    const allowedTopics = shuffled.slice(0, Math.min(6, shuffled.length));
 
     this.broadcast({
       type: 'TOPIC_SELECTION_STARTED',
@@ -311,6 +463,7 @@ export class Room {
         pickerNickname: currentPicker ? currentPicker.nickname : 'اللاعب',
         allowedTopics,
         timeRemaining: this.settings.topicPickDuration,
+        players: this.getPlayerList().map((p) => p.toProfile()),
       },
     });
 
@@ -670,6 +823,56 @@ export class Room {
       }
     }
 
+    // 3. إضافة خيارات مضللة من بنك الأسئلة (Decoys) بحيث يكون إجمالي الخيارات = عدد اللاعبين + ١ (إجابة صحيحة واحدة + إجابات خاطئة بعدد اللاعبين)
+    if (this.currentPuzzle.wrong_answers && Array.isArray(this.currentPuzzle.wrong_answers)) {
+      const targetTotalOptions = Math.max(2, this.players.size + 1);
+      for (const decoy of this.currentPuzzle.wrong_answers) {
+        if (options.length >= targetTotalOptions) break;
+        if (!decoy || !decoy.trim()) continue;
+        const trimmedDecoy = decoy.trim();
+        const isTrueMatch = checkAnswerMatch(
+          trimmedDecoy,
+          this.currentPuzzle.correct_answers,
+          this.currentPuzzle.answer_type
+        );
+        const isExistingMatch = options.some((opt) => areAnswersDuplicate(opt.text, trimmedDecoy));
+        if (!isTrueMatch && !isExistingMatch) {
+          options.push({
+            id: generateId(),
+            text: trimmedDecoy,
+            authorPlayerIds: [],
+            isCorrect: false,
+          });
+        }
+      }
+
+      // إذا لم تكتمل الخيارات المطلوبة، نستعين بإجابات مضللة من ألغاز أخرى لنفس الموضوع
+      if (options.length < targetTotalOptions && this.currentTopic?.puzzles) {
+        for (const p of this.currentTopic.puzzles) {
+          if (options.length >= targetTotalOptions) break;
+          for (const decoy of p.wrong_answers || []) {
+            if (options.length >= targetTotalOptions) break;
+            const trimmedDecoy = decoy?.trim();
+            if (!trimmedDecoy) continue;
+            const isTrueMatch = checkAnswerMatch(
+              trimmedDecoy,
+              this.currentPuzzle.correct_answers,
+              this.currentPuzzle.answer_type
+            );
+            const isExistingMatch = options.some((opt) => areAnswersDuplicate(opt.text, trimmedDecoy));
+            if (!isTrueMatch && !isExistingMatch) {
+              options.push({
+                id: generateId(),
+                text: trimmedDecoy,
+                authorPlayerIds: [],
+                isCorrect: false,
+              });
+            }
+          }
+        }
+      }
+    }
+
     // خلط الخيارات عشوائياً (Fisher-Yates Shuffle)
     for (let i = options.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -809,21 +1012,21 @@ export class Room {
     });
 
     // احتساب النقاط لكل لاعب
-    // - نقطة واحدة إذا صوّت للإجابة الصحيحة الأصلية
-    // - نقطة واحدة لصاحب الإجابة المزيفة عن كل لاعب خدعه وصوّت لإجابته
+    // - نقطتان (2) إذا صوّت للإجابة الصحيحة الأصلية
+    // - نقطة واحدة (1) لصاحب الإجابة المزيفة عن كل لاعب خدعه وصوّت لإجابته
     const scoreBreakdown: RoundScoreDetail[] = [];
 
     for (const player of this.players.values()) {
       let correctPoints = 0;
       let votedForCorrect = false;
 
-      // 1. فحص تصويت اللاعب للإجابة الصحيحة
+      // 1. فحص تصويت اللاعب للإجابة الصحيحة (+2 نقاط)
       if (player.currentVote && player.currentVote.optionId === correctOptionId) {
-        correctPoints = 1;
+        correctPoints = 2;
         votedForCorrect = true;
       }
 
-      // 2. فحص اللاعبين المخدوعين بإجابة هذا اللاعب
+      // 2. فحص اللاعبين المخدوعين بإجابة هذا اللاعب (+1 نقطة عن كل مخدوع)
       const fooledPlayerNames: string[] = [];
       for (const otherPlayer of this.players.values()) {
         if (otherPlayer.id === player.id) continue;
@@ -998,15 +1201,14 @@ export class Room {
     this.timerInterval = setInterval(() => {
       this.timeRemaining -= 1;
 
-      if (this.timeRemaining % 5 === 0 || this.timeRemaining <= 5) {
-        this.broadcast({
-          type: 'TIMER_TICK',
-          payload: {
-            phase: this.phase,
-            timeRemaining: this.timeRemaining,
-          },
-        });
-      }
+      // إرسال تحديث الثواني في كل ثانية ليظهر العد التنازلي الحقيقي
+      this.broadcast({
+        type: 'TIMER_TICK',
+        payload: {
+          phase: this.phase,
+          timeRemaining: this.timeRemaining,
+        },
+      });
 
       if (this.timeRemaining <= 0) {
         this.clearTimer();

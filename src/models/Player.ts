@@ -77,6 +77,10 @@ export class Player {
     };
   }
 
+  public toPublicJSON(): PlayerProfile {
+    return this.toProfile();
+  }
+
   /**
    * إرسال رسالة WebSocket مباشرة للاعب
    */

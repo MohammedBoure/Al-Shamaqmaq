@@ -1,5 +1,4 @@
 import React from 'react';
-import { Volume2, VolumeX } from 'lucide-react';
 import { useGame } from '../../context/GameContext';
 
 export const AudioToggle: React.FC = () => {
@@ -9,13 +8,18 @@ export const AudioToggle: React.FC = () => {
     <button
       type="button"
       onClick={audio.toggleMute}
-      aria-label={audio.isMuted ? 'تفعيل الصوت' : 'كتم الصوت'}
-      className="p-2.5 rounded-xl bg-arcade-card/80 hover:bg-arcade-cardHover border border-arcade-border text-gray-300 hover:text-white transition-all transform active:scale-95 shadow-md flex items-center justify-center"
+      aria-label={audio.isMuted ? 'تشغيل المؤثرات الصوتية' : 'كتم المؤثرات الصوتية'}
+      title={audio.isMuted ? 'تشغيل المؤثرات الصوتية' : 'كتم المؤثرات الصوتية'}
+      className="relative flex items-center justify-center w-10 h-10 text-on-surface-variant hover:text-white hover:bg-surface-container transition-colors duration-150 rounded-full active:scale-95 border border-outline-variant/30"
     >
-      {audio.isMuted ? (
-        <VolumeX className="w-5 h-5 text-gray-400" />
-      ) : (
-        <Volume2 className="w-5 h-5 text-arcade-cyan animate-pulse" />
+      <span className="material-symbols-outlined text-[20px]">
+        {audio.isMuted ? 'volume_off' : 'volume_up'}
+      </span>
+      {!audio.isMuted && (
+        <span className="absolute top-2 left-2 flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-40" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+        </span>
       )}
     </button>
   );

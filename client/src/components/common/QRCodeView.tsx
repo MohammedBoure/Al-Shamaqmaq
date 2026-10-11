@@ -22,10 +22,10 @@ export const QRCodeView: React.FC<QRCodeViewProps> = ({
     setHasError(false);
 
     QRCode.toDataURL(value, {
-      width: size * 2, // 2x for sharp rendering on retina screens
+      width: size * 2,
       margin: 1,
       color: {
-        dark: '#000000',
+        dark: '#121414',
         light: '#ffffff',
       },
       errorCorrectionLevel: 'M',
@@ -47,7 +47,7 @@ export const QRCodeView: React.FC<QRCodeViewProps> = ({
     return (
       <div
         style={{ width: size, height: size }}
-        className={`bg-white rounded-2xl flex items-center justify-center p-4 text-center text-xs text-gray-600 font-bold ${className}`}
+        className={`bg-white rounded-2xl flex items-center justify-center p-4 text-center text-xs text-surface-container font-bold ${className}`}
       >
         تعذر توليد الرمز
       </div>
@@ -58,9 +58,9 @@ export const QRCodeView: React.FC<QRCodeViewProps> = ({
     return (
       <div
         style={{ width: size, height: size }}
-        className={`bg-white/80 rounded-2xl flex items-center justify-center animate-pulse ${className}`}
+        className={`bg-white/90 rounded-2xl flex items-center justify-center animate-pulse ${className}`}
       >
-        <span className="text-xs text-gray-500 font-bold">جارٍ التوليد...</span>
+        <span className="text-xs text-on-surface-variant font-medium">جارٍ التوليد...</span>
       </div>
     );
   }
@@ -68,12 +68,12 @@ export const QRCodeView: React.FC<QRCodeViewProps> = ({
   return (
     <div
       style={{ width: size, height: size }}
-      className={`bg-white rounded-2xl p-2 border-2 border-black flex items-center justify-center shadow-md overflow-hidden ${className}`}
+      className={`bg-white rounded-2xl p-2.5 border border-outline-variant/60 flex items-center justify-center shadow-md overflow-hidden ${className}`}
     >
       <img
         src={dataUrl}
         alt="رمز QR للانضمام للغرفة"
-        className="w-full h-full object-contain pointer-events-none select-none"
+        className="w-full h-full object-contain pointer-events-none select-none rounded-xl"
       />
     </div>
   );

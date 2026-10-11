@@ -90,6 +90,9 @@ interface GameContextType {
   submitVote: (optionId: string) => void;
   nextRound: () => void;
   leaveRoom: () => void;
+  kickPlayer: (targetPlayerId: string) => void;
+  abortGame: () => void;
+  rematch: () => void;
   toggleAllowedTopic: (topicId: string) => void;
   setAllowedTopicIdsList: (topicIds: string[]) => void;
 }
@@ -220,6 +223,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setAllowedTopics(payload.allowedTopics);
         setTimeRemaining(payload.timeRemaining);
 
+        // مزامنة قائمة اللاعبين ونقاطهم للجولة الجديدة إن وجدت
+        if (payload.players && Array.isArray(payload.players)) {
+          setRoom((prev) => prev ? { ...prev, players: payload.players } : null);
+        }
+
         // تصفير حالات الجولة
         setAnswerFeedback(null);
         setRequiresBluff(false);
@@ -296,6 +304,25 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsLastRound(payload.isLastRound);
         setTimeRemaining(payload.timeRemaining);
 
+        // مزامنة نقاط اللاعبين داخل الغرفة لمطابقة شريط النقاط فورياً
+        if (payload.leaderboard && Array.isArray(payload.leaderboard)) {
+          const scoreMap = new Map<string, number>(payload.leaderboard.map((l: any) => [l.id, l.score]));
+          setRoom((prev) => {
+            if (!prev) return null;
+            return {
+              ...prev,
+              players: prev.players.map((p) => ({
+                ...p,
+                score: scoreMap.has(p.id) ? (scoreMap.get(p.id) ?? p.score) : p.score,
+              })),
+            };
+          });
+          setPlayer((prev) => {
+            if (!prev || !scoreMap.has(prev.id)) return prev;
+            return { ...prev, score: scoreMap.get(prev.id)! };
+          });
+        }
+
         // تشغيل صوت النصر والتصفيق
         audio.playVictoryFanfare();
         haptic.triggerHaptic('success');
@@ -314,12 +341,63 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       case 'TIMER_TICK': {
         setTimeRemaining(payload.timeRemaining);
-        if (payload.timeRemaining <= 5 && payload.timeRemaining > 0) {
+        if (payload.timeRemaining <= 10 && payload.timeRemaining > 0) {
           audio.playTimerTick(true);
           haptic.triggerHaptic('warning');
         } else if (payload.timeRemaining % 10 === 0 && payload.timeRemaining > 0) {
           audio.playTimerTick(false);
         }
+        break;
+      }
+
+      case 'KICKED': {
+        triggerToast(payload.reason || 'تم طردك من الجلسة بواسطة المضيف', true);
+        localStorage.removeItem('deception_session_token');
+        localStorage.removeItem('deception_room_code');
+        setSessionToken(null);
+        setRoomCode(null);
+        setPlayer(null);
+        setRoom(null);
+        setPhase('LOBBY');
+        break;
+      }
+
+      case 'MATCH_ABORTED': {
+        triggerToast(payload.reason || 'قام المضيف بإنهاء المباراة الحالية والعودة لغرفة الانتظار', false);
+        setPhase('LOBBY');
+        setAnswerFeedback(null);
+        setRequiresBluff(false);
+        setHasSubmittedInitial(false);
+        setHasSubmittedBluff(false);
+        setHasVoted(false);
+        setVotedOptionId(null);
+        setRoundResult(null);
+        break;
+      }
+
+      case 'REMATCH_STARTED': {
+        triggerToast(payload.message || 'تم بدء إعادة المباراة! استعدوا للجولة الأولى 🎭', false);
+        setPhase('LOBBY');
+        setAnswerFeedback(null);
+        setRequiresBluff(false);
+        setHasSubmittedInitial(false);
+        setHasSubmittedBluff(false);
+        setHasVoted(false);
+        setVotedOptionId(null);
+        setRoundResult(null);
+        setLeaderboard([]);
+        setWinner(null);
+        break;
+      }
+
+      case 'LEFT_ROOM': {
+        localStorage.removeItem('deception_session_token');
+        localStorage.removeItem('deception_room_code');
+        setSessionToken(null);
+        setRoomCode(null);
+        setPlayer(null);
+        setRoom(null);
+        setPhase('LOBBY');
         break;
       }
 
@@ -524,11 +602,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // الانتقال للجولة التالية
   const nextRound = useCallback(() => {
     audio.playClick();
-    send({ type: 'NEXT_ROUND' });
+    send({ type: 'NEXT_ROUND', payload: {} });
   }, [audio, send]);
 
   // مغادرة الغرفة
   const leaveRoom = useCallback(() => {
+    audio.playClick();
+    send({ type: 'LEAVE_ROOM', payload: {} });
     localStorage.removeItem('deception_session_token');
     localStorage.removeItem('deception_room_code');
     setSessionToken(null);
@@ -536,23 +616,47 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setPlayer(null);
     setRoom(null);
     setPhase('LOBBY');
-  }, []);
+  }, [audio, send]);
+
+  // طرد لاعب بواسطة المضيف
+  const kickPlayer = useCallback(
+    (targetPlayerId: string) => {
+      audio.playClick();
+      haptic.triggerHaptic('medium');
+      send({
+        type: 'KICK_PLAYER',
+        payload: { targetPlayerId },
+      });
+    },
+    [audio, haptic, send]
+  );
+
+  // إنهاء المباراة الحالية والعودة لغرفة الانتظار
+  const abortGame = useCallback(() => {
+    audio.playClick();
+    haptic.triggerHaptic('heavy');
+    send({ type: 'ABORT_GAME', payload: {} });
+  }, [audio, haptic, send]);
+
+  // إعادة التحدي وبدء مباراة جديدة
+  const rematch = useCallback(() => {
+    audio.playClick();
+    haptic.triggerHaptic('success');
+    send({ type: 'REMATCH', payload: {} });
+  }, [audio, haptic, send]);
 
   // تبديل اختيار موضوع مسموح به
   const toggleAllowedTopic = useCallback(
     (topicId: string) => {
       audio.playClick();
-      const current = room?.allowedTopicIds && room.allowedTopicIds.length > 0
+      // إذا كانت المصفوفة معرفة (حتى وإن كانت فارغة []) نعتمد عليها
+      const current = Array.isArray(room?.allowedTopicIds)
         ? room.allowedTopicIds
         : topics.map((t) => t.id);
 
       const exists = current.includes(topicId);
       let updated: string[];
       if (exists) {
-        if (current.length <= 1) {
-          triggerToast('يجب اختيار فئة واحدة على الأقل!', true);
-          return;
-        }
         updated = current.filter((id) => id !== topicId);
       } else {
         updated = [...current, topicId];
@@ -561,16 +665,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       updateSettings({ allowedTopicIds: updated });
       haptic.triggerHaptic('light');
     },
-    [audio, room?.allowedTopicIds, topics, triggerToast, updateSettings, haptic]
+    [audio, room?.allowedTopicIds, topics, updateSettings, haptic]
   );
 
   // تعيين قائمة المعرفات المسموحة دفعة واحدة
   const setAllowedTopicIdsList = useCallback(
     (topicIds: string[]) => {
-      if (topicIds.length === 0) return;
       audio.playClick();
       updateSettings({ allowedTopicIds: topicIds });
-      haptic.triggerHaptic('success');
+      haptic.triggerHaptic(topicIds.length > 0 ? 'success' : 'medium');
     },
     [audio, updateSettings, haptic]
   );
@@ -622,6 +725,9 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         submitVote,
         nextRound,
         leaveRoom,
+        kickPlayer,
+        abortGame,
+        rematch,
         toggleAllowedTopic,
         setAllowedTopicIdsList,
       }}

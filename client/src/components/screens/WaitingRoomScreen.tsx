@@ -1,36 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Copy,
-  Check,
-  Play,
-  LogOut,
-  Edit3,
-  Share2,
-  Camera,
-  Volume2,
-  VolumeX,
-  ChevronUp,
-  ChevronDown,
-  Menu,
-  Plus,
-  Radio,
-  Users,
-  Swords,
-  Clock,
-  Hash,
-  Scale,
-  BookOpen,
-  Layers,
-} from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useGame } from '../../context/GameContext';
-import { ConnectionBadge } from '../common/ConnectionBadge';
 import { AudioToggle } from '../common/AudioToggle';
-import { ConsolePet } from '../common/ConsolePet';
-import { QRCodeView } from '../common/QRCodeView';
-import { CameraQRScanner } from '../common/CameraQRScanner';
 import { ThemeToggle } from '../common/ThemeToggle';
+import { QRCodeView } from '../common/QRCodeView';
+import { ConsolePet } from '../common/ConsolePet';
 import { CharacterSelectScreen } from './CharacterSelectScreen';
-import { CategoryBrowserScreen } from './CategoryBrowserScreen';
+import { TopicSummary } from '../../types';
 import { useCodeDictation } from '../../hooks/useCodeDictation';
 
 export const WaitingRoomScreen: React.FC = () => {
@@ -39,33 +14,38 @@ export const WaitingRoomScreen: React.FC = () => {
     player,
     startGame,
     leaveRoom,
-    updateProfile,
+    kickPlayer,
     updateSettings,
+    updateProfile,
+    topics,
+    categoryGroups,
+    toggleAllowedTopic,
+    setAllowedTopicIdsList,
     haptic,
     audio,
-    topics,
-    joinRoom,
   } = useGame();
 
   const [copiedCode, setCopiedCode] = useState<boolean>(false);
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
-  const [isEditingProfile, setIsEditingProfile] = useState<boolean>(false);
-  const [isScannerOpen, setIsScannerOpen] = useState<boolean>(false);
-  const [isCategoryBrowserOpen, setIsCategoryBrowserOpen] = useState<boolean>(false);
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isQRModalOpen, setIsQRModalOpen] = useState<boolean>(false);
+  const [isCharacterModalOpen, setIsCharacterModalOpen] = useState<boolean>(false);
+  const [preset, setPreset] = useState<'classic' | 'custom'>('classic');
 
-  // أقسام قابلة للطي (Accordions)
-  const [isSharingOpen, setIsSharingOpen] = useState<boolean>(true);
-  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(true);
-
-  // إعدادات اللعبة المحلية والمزامنة مع الغرفة
-  const [roundSeconds, setRoundSeconds] = useState<number>(() => room?.roundDuration || 60);
+  // إعدادات اللعبة
+  const [roundSeconds, setRoundSeconds] = useState<number>(() => room?.roundDuration || 45);
   const [maxPlayers, setMaxPlayers] = useState<number>(() => room?.maxPlayers || 8);
-  const [totalRounds, setTotalRounds] = useState<number>(() => room?.totalRounds || 5);
+  const [totalRounds, setTotalRounds] = useState<number>(() => room?.totalRounds || 10);
   const [gameMode, setGameMode] = useState<'individual' | 'teams'>(() => room?.gameMode || 'individual');
-  const [activeBottomTab, setActiveBottomTab] = useState<'game' | 'chat'>('game');
 
-  // مزامنة الحالات عند وصول تحديثات الغرفة من الخادم
+  // التحكم في طي/فتح أقسام التصنيفات
+  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
+    general: true,
+    science: false,
+    culture: false,
+    custom: false,
+  });
+
+  // مزامنة الإعدادات من الغرفة
   useEffect(() => {
     if (room?.roundDuration) setRoundSeconds(room.roundDuration);
     if (room?.maxPlayers) setMaxPlayers(room.maxPlayers);
@@ -74,47 +54,65 @@ export const WaitingRoomScreen: React.FC = () => {
   }, [room?.roundDuration, room?.maxPlayers, room?.totalRounds, room?.gameMode]);
 
   // خطاف إملاء الرقم صوتياً
-  const { isSpeaking, isSupported: isTtsSupported, dictateCode, stopDictation } =
-    useCodeDictation();
+  const { isSpeaking, isSupported: isTtsSupported, dictateCode, stopDictation } = useCodeDictation();
 
   const roomCode = room?.code || '';
   const players = room?.players || [];
   const isHost = player?.isHost;
   const canStart = players.length >= 2;
-  const isTeamMode = gameMode === 'teams';
 
   const joinUrl = typeof window !== 'undefined'
     ? `${window.location.origin}${window.location.pathname}?join=${roomCode}`
     : `https://game/?join=${roomCode}`;
 
-  // مشاركة الرابط عبر Web Share API أو النسخ الاحتياطي
-  const handleShareLink = async () => {
-    audio.playClick();
-    haptic.triggerHaptic('light');
-
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'العب معي في لعبة كلك! (خداع الألغاز)',
-          text: `انضم إلى غرفتي برمز [${roomCode}] واستعد لأذكى جولات الخداع!`,
-          url: joinUrl,
-        });
-        return;
-      } catch (err: any) {
-        if (err.name === 'AbortError') return;
-      }
-    }
-
-    // fallback copy link
-    try {
-      await navigator.clipboard.writeText(joinUrl);
-      setCopiedLink(true);
-      haptic.triggerHaptic('success');
-      setTimeout(() => setCopiedLink(false), 2500);
-    } catch (_) {}
+  const arabicNumbers: Record<string, string> = {
+    '0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤',
+    '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩',
   };
 
-  // نسخ كود الغرفة فقط
+  const toArabic = (num: number | string) => {
+    return String(num).replace(/[0-9]/g, (w) => arabicNumbers[w] || w);
+  };
+
+  // المواضيع المسموحة
+  const allowedTopicIds = useMemo(() => {
+    if (Array.isArray(room?.allowedTopicIds)) {
+      return new Set(room.allowedTopicIds);
+    }
+    return new Set(topics.map((t) => t.id));
+  }, [room?.allowedTopicIds, topics]);
+
+  const handleSelectRandomTopics = () => {
+    if (!isHost || topics.length === 0) return;
+    audio.playClick();
+    const shuffled = [...topics].sort(() => 0.5 - Math.random());
+    const count = Math.min(8, shuffled.length);
+    const randomIds = shuffled.slice(0, count).map((t) => t.id);
+    setAllowedTopicIdsList(randomIds);
+  };
+
+  const handleSelectAllTopics = () => {
+    if (!isHost || topics.length === 0) return;
+    audio.playClick();
+    const allIds = topics.map((t) => t.id);
+    setAllowedTopicIdsList(allIds);
+  };
+
+  const handleDeselectAllTopics = () => {
+    if (!isHost) return;
+    audio.playClick();
+    setAllowedTopicIdsList([]);
+  };
+
+  const handleStartGame = () => {
+    if (!canStart || allowedTopicIds.size === 0) {
+      audio.playClick();
+      return;
+    }
+    audio.playClick();
+    startGame();
+  };
+
   const handleCopyCode = async () => {
     audio.playClick();
     try {
@@ -125,791 +123,830 @@ export const WaitingRoomScreen: React.FC = () => {
     } catch (_) {}
   };
 
-  // إملاء الرقم مباشرة صوتياً
-  const handleToggleDictation = () => {
+  const handleCopyLink = async () => {
     audio.playClick();
-    if (isSpeaking) {
-      stopDictation();
-    } else {
-      dictateCode(roomCode);
+    try {
+      await navigator.clipboard.readText();
+      await navigator.clipboard.writeText(joinUrl);
+      setCopiedLink(true);
+      haptic.triggerHaptic('success');
+      setTimeout(() => setCopiedLink(false), 2000);
+    } catch (_) {}
+  };
+
+  const toggleCategoryAccordion = (catId: string) => {
+    audio.playClick();
+    setExpandedCategories((prev) => ({
+      ...prev,
+      [catId]: !prev[catId],
+    }));
+  };
+
+  const handleUpdateRounds = (rounds: number) => {
+    setTotalRounds(rounds);
+    if (isHost) {
+      updateSettings({ totalRounds: rounds });
     }
   };
 
-  const handleSaveProfile = (newNickname: string, newAvatar: string) => {
-    updateProfile(newNickname, newAvatar, player?.teamId);
-    setIsEditingProfile(false);
-    haptic.triggerHaptic('success');
+  const handleUpdateTimer = (seconds: number) => {
+    setRoundSeconds(seconds);
+    if (isHost) {
+      updateSettings({ answerDuration: seconds });
+    }
   };
 
-  // تغيير الفريق للاعب الحالي
-  const handleSwitchTeam = (teamId: 'red' | 'blue') => {
-    audio.playClick();
-    haptic.triggerHaptic('medium');
-    updateProfile(undefined, undefined, teamId);
-  };
-
-  // تغيير نمط اللعبة (فردي / فرق)
-  const handleToggleGameMode = (newMode: 'individual' | 'teams') => {
-    if (!isHost) return;
-    audio.playClick();
-    haptic.triggerHaptic('medium');
-    setGameMode(newMode);
-    updateSettings({ gameMode: newMode });
-  };
-
-  // تغيير وقت الجولة (الثواني المسموحة لكل سؤال)
-  const handleUpdateDuration = (seconds: number) => {
-    if (!isHost) return;
-    const clamped = Math.max(10, Math.min(180, seconds));
-    setRoundSeconds(clamped);
-    updateSettings({ answerDuration: clamped });
-  };
-
-  // تغيير الحد الأقصى للاعبين
   const handleUpdateMaxPlayers = (count: number) => {
-    if (!isHost) return;
-    const clamped = Math.max(2, Math.min(30, count));
-    setMaxPlayers(clamped);
-    updateSettings({ maxPlayers: clamped });
-  };
-
-  // تغيير عدد الجولات
-  const handleUpdateTotalRounds = (rounds: number) => {
-    if (!isHost) return;
-    const clamped = Math.max(1, Math.min(20, rounds));
-    setTotalRounds(clamped);
-    updateSettings({ totalRounds: clamped });
-  };
-
-  // موازنة الفرق تلقائياً
-  const handleBalanceTeams = () => {
-    if (!isHost) return;
-    audio.playClick();
-    haptic.triggerHaptic('success');
-    updateSettings({ gameMode: 'teams' });
-  };
-
-  // عند مسح رمز غرفة أخرى عبر الكاميرا
-  const handleCameraScanResult = (scannedCode: string) => {
-    if (scannedCode && scannedCode !== roomCode) {
-      if (player?.nickname && player?.avatar) {
-        joinRoom(scannedCode, player.nickname, player.avatar);
-      }
+    setMaxPlayers(count);
+    if (isHost) {
+      updateSettings({ maxPlayers: count });
     }
   };
 
-  const categoriesCount = room?.allowedTopicIds?.length || topics.length || 6;
-  const playersCountFormatted = String(players.length).padStart(2, '0');
-  const maxPlayersFormatted = String(maxPlayers).padStart(2, '0');
-
-  const redPlayers = players.filter((p) => p.teamId === 'red');
-  const bluePlayers = players.filter((p) => p.teamId === 'blue');
+  const handleUpdateGameMode = (mode: 'individual' | 'teams') => {
+    setGameMode(mode);
+    if (isHost) {
+      updateSettings({ gameMode: mode });
+    }
+  };
 
   return (
-    <div className="flex flex-col min-h-screen px-3 py-4 md:px-6 md:py-8 max-w-md lg:max-w-6xl xl:max-w-7xl mx-auto w-full select-none pb-28 transition-all">
-      {/* نافذة التخصيص الكامل للشخصية */}
-      {isEditingProfile && (
-        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
-          <div className="w-full h-full max-w-md md:max-w-4xl mx-auto flex items-center justify-center">
+    <div className="bg-background text-on-surface antialiased h-full max-h-full overflow-y-auto flex flex-col selection:bg-surface-bright selection:text-white">
+      {/* Desktop Top App Bar */}
+      <header className="bg-surface/90 backdrop-blur-md sticky top-0 z-40 border-b border-outline-variant/40">
+        <div className="flex justify-between items-center w-full px-3.5 sm:px-6 md:px-8 max-w-5xl mx-auto h-14 sm:h-16">
+          {/* Brand Logo & Context */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <span className="text-xl sm:text-2xl font-black tracking-wider text-white flex items-center gap-2 font-mono">
+              <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white" />
+              ESC
+            </span>
+            <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-outline-variant" />
+            <span className="hidden sm:inline-block text-[11px] sm:text-xs text-on-surface-variant font-medium">
+              لعبة الخداع والبديهة
+            </span>
+          </div>
+
+          {/* Mode Indicator */}
+          <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-surface-container-low rounded-full border border-outline-variant/60">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            <span className="text-xs text-on-surface-variant font-semibold">
+              {isHost ? 'إعداد غرفة المضيف' : 'في انتظار بدء الجلسة'}
+            </span>
+          </div>
+
+          {/* Actions & Avatar */}
+          <div className="flex items-center gap-1.5 sm:gap-3">
+            <AudioToggle />
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setIsCharacterModalOpen(true)}
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-surface-container-high border border-outline-variant/60 hover:scale-105 active:scale-95 transition-all flex items-center justify-center overflow-hidden"
+              title="تخصيص شخصيتك"
+            >
+              <ConsolePet avatar={player?.avatar} size={36} />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Configuration Container */}
+      <main className="flex-1 w-full max-w-4xl mx-auto px-3.5 sm:px-6 md:px-8 pt-5 sm:pt-8 pb-32 sm:pb-36">
+        {/* Sub-Header / Back & Preset Bar */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
+          <div className="flex items-start sm:items-center gap-3 sm:gap-4">
+            {/* Back Navigation Button */}
+            <button
+              type="button"
+              onClick={leaveRoom}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest border border-outline-variant/50 text-white text-xs sm:text-sm font-semibold transition-all duration-150 active:scale-95"
+            >
+              <span className="material-symbols-outlined text-[16px] sm:text-[18px] rotate-180">arrow_back</span>
+              <span>الردهة</span>
+            </button>
+            <div>
+              <h1 className="text-xl sm:text-3xl font-extrabold text-white tracking-tight">إعدادات الغرفة</h1>
+              <p className="text-[11px] sm:text-sm text-on-surface-variant mt-0.5">تخصيص تجربة الخداع والمرح في ESC</p>
+            </div>
+          </div>
+
+          {/* Preset Badge Cluster */}
+          <div className="flex items-center self-start sm:self-auto gap-1 bg-surface-container-low p-1 rounded-xl border border-outline-variant/50">
+            <button
+              type="button"
+              onClick={() => setPreset('classic')}
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                preset === 'classic'
+                  ? 'bg-white text-surface-container-lowest shadow'
+                  : 'text-on-surface-variant hover:text-white'
+              }`}
+            >
+              جلسة كلاسيكية
+            </button>
+            <button
+              type="button"
+              onClick={() => setPreset('custom')}
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                preset === 'custom'
+                  ? 'bg-white text-surface-container-lowest shadow'
+                  : 'text-on-surface-variant hover:text-white'
+              }`}
+            >
+              مخصص
+            </button>
+          </div>
+        </div>
+
+        {/* ROOM CODE & INVITE BANNER */}
+        <section className="mono-card rounded-2xl p-4 sm:p-5 mb-5 sm:mb-6 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+          <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-surface-container-high border border-outline-variant/60 flex items-center justify-center text-white shrink-0">
+              <span className="material-symbols-outlined text-xl sm:text-2xl">qr_code_2</span>
+            </div>
+            <div>
+              <span className="text-[11px] sm:text-xs text-on-surface-variant font-medium">رمز الغرفة للمشاركين:</span>
+              <div className="flex items-center gap-2 mt-0.5">
+                <span className="text-xl sm:text-2xl font-mono font-black text-white tracking-widest">{roomCode}</span>
+                <button
+                  type="button"
+                  onClick={handleCopyCode}
+                  className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-surface-container text-xs font-bold text-white hover:bg-surface-container-high border border-outline-variant/40 transition-all flex items-center gap-1"
+                >
+                  <span className="material-symbols-outlined text-[14px] sm:text-[15px]">
+                    {copiedCode ? 'check' : 'content_copy'}
+                  </span>
+                  <span>{copiedCode ? 'تم' : 'نسخ'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-end">
+            {isTtsSupported && (
+              <button
+                type="button"
+                onClick={() => (isSpeaking ? stopDictation() : dictateCode(roomCode))}
+                className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-[11px] sm:text-xs font-bold text-white flex items-center gap-1"
+                title="إملاء الرمز صوتياً"
+              >
+                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">
+                  {isSpeaking ? 'volume_off' : 'record_voice_over'}
+                </span>
+                <span>{isSpeaking ? 'إيقاف' : 'إملاء'}</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={() => setIsQRModalOpen(true)}
+              className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-[11px] sm:text-xs font-bold text-white flex items-center gap-1"
+            >
+              <span className="material-symbols-outlined text-[16px] sm:text-[18px]">qr_code</span>
+              <span>QR</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-white text-surface-container-lowest text-[11px] sm:text-xs font-bold flex items-center gap-1 shadow-sm active:scale-95 transition-all"
+            >
+              <span className="material-symbols-outlined text-[16px] sm:text-[18px]">share</span>
+              <span>{copiedLink ? 'تم النسخ' : 'مشاركة الرابط'}</span>
+            </button>
+          </div>
+        </section>
+
+        {/* PLAYERS & CHARACTERS TABLE (KALAK ROSTER) */}
+        <section className="mono-card rounded-2xl p-4 sm:p-6 mb-5 sm:mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-white shrink-0">
+                <span className="material-symbols-outlined text-[18px] sm:text-[20px]">groups</span>
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-sm sm:text-base font-bold text-white">طاولة اللاعبين في الغرفة</h2>
+                  <span className="px-2 py-0.5 rounded-full bg-white text-surface-container-lowest text-[10px] sm:text-xs font-bold">
+                    {toArabic(players.length)} / {toArabic(maxPlayers)}
+                  </span>
+                </div>
+                <p className="text-[11px] sm:text-xs text-on-surface-variant">شخصيات المتنافسين الجالسين حول طاولة الخداع</p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setIsCharacterModalOpen(true)}
+              className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-white text-surface-container-lowest text-xs font-bold flex items-center gap-1.5 shadow-sm active:scale-95 hover:bg-neutral-200 transition-all"
+            >
+              <span className="material-symbols-outlined text-[16px]">palette</span>
+              <span>تخصيص شخصيتي</span>
+            </button>
+          </div>
+
+          {/* Players Grid with live Kalak characters */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 sm:gap-3.5">
+            {players.map((p) => {
+              const isMe = p.id === player?.id;
+              return (
+                <div
+                  key={p.id}
+                  className={`relative p-3 sm:p-4 rounded-xl sm:rounded-2xl border transition-all flex flex-col items-center text-center ${
+                    isMe
+                      ? 'bg-surface-container-high/90 border-white/70 shadow-md ring-1 ring-white/30'
+                      : 'bg-surface-container-low border-outline-variant/50'
+                  }`}
+                >
+                  {/* Badges */}
+                  <div className="w-full flex items-center justify-between mb-1">
+                    {p.isHost ? (
+                      <span className="px-1.5 py-0.5 rounded-md bg-white text-surface-container-lowest text-[9px] sm:text-[10px] font-black flex items-center gap-0.5">
+                        <span className="material-symbols-outlined text-[11px]">crown</span>
+                        <span>مضيف</span>
+                      </span>
+                    ) : (
+                      <span />
+                    )}
+                    {isMe && (
+                      <span className="px-1.5 py-0.5 rounded-md bg-surface-container-highest border border-outline-variant/60 text-white text-[9px] sm:text-[10px] font-bold">
+                        أنت
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Character Avatar Icon */}
+                  <div
+                    onClick={() => isMe && setIsCharacterModalOpen(true)}
+                    className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-surface-container border border-outline-variant/50 flex items-center justify-center overflow-hidden my-1 shadow-inner ${
+                      isMe ? 'cursor-pointer hover:scale-105 active:scale-95 transition-transform' : ''
+                    }`}
+                    title={isMe ? 'اضغط لتعديل شخصيتك' : p.nickname}
+                  >
+                    <ConsolePet avatar={p.avatar} size={62} />
+                  </div>
+
+                  {/* Nickname */}
+                  <h3 className="text-xs sm:text-sm font-bold text-white truncate max-w-full mt-1.5">
+                    {p.nickname}
+                  </h3>
+
+                  {/* Status Indicator */}
+                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-emerald-400 font-medium mt-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>متصل</span>
+                  </div>
+
+                  {/* Edit button if self */}
+                  {isMe && (
+                    <button
+                      type="button"
+                      onClick={() => setIsCharacterModalOpen(true)}
+                      className="mt-2.5 w-full py-1 px-2 rounded-lg bg-surface-container hover:bg-surface-container-highest border border-outline-variant/50 text-[10px] sm:text-[11px] font-bold text-white transition-all flex items-center justify-center gap-1"
+                    >
+                      <span className="material-symbols-outlined text-[13px]">edit</span>
+                      <span>تعديل الشخصية</span>
+                    </button>
+                  )}
+
+                  {/* زر طرد اللاعب (صلاحية خاصة بالمضيف) */}
+                  {isHost && !p.isHost && !isMe && (
+                    <button
+                      type="button"
+                      onClick={() => kickPlayer(p.id)}
+                      className="mt-2.5 w-full py-1 px-2 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-500/40 text-[10px] sm:text-[11px] font-bold text-rose-300 transition-all flex items-center justify-center gap-1 active:scale-95"
+                      title={`طرد ${p.nickname} من الغرفة`}
+                    >
+                      <span className="material-symbols-outlined text-[13px]">person_remove</span>
+                      <span>طرد اللاعب</span>
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+
+            {/* Empty Seats */}
+            {Array.from({ length: Math.max(0, maxPlayers - players.length) }).map((_, idx) => (
+              <div
+                key={`empty-${idx}`}
+                className="p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-dashed border-outline-variant/30 bg-surface-container-low/30 flex flex-col items-center justify-center text-center opacity-40 min-h-[140px]"
+              >
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-surface-container-low flex items-center justify-center text-outline-variant mb-2">
+                  <span className="material-symbols-outlined text-[20px] sm:text-[24px]">chair</span>
+                </div>
+                <span className="text-[11px] text-outline font-semibold">مقعد شاغر</span>
+                <span className="text-[9px] text-outline/60 mt-0.5">في انتظار انضمام لاعب</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Configuration Sections Stack */}
+        <div className="flex flex-col gap-4 sm:gap-6">
+          {/* SECTION 1: Room Privacy & Access */}
+          <section className="mono-card rounded-2xl p-4 sm:p-6 transition-all">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-white shrink-0">
+                  <span className="material-symbols-outlined text-[18px] sm:text-[20px]">lock</span>
+                </div>
+                <div>
+                  <h2 className="text-sm sm:text-base font-bold text-white">خصوصية الغرفة ونمط المنافسة</h2>
+                  <p className="text-[11px] sm:text-xs text-on-surface-variant">التحكم في طريقة توزيع النقاط والمواجهات</p>
+                </div>
+              </div>
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-surface-container-highest border border-outline-variant/60 text-white text-[10px] sm:text-xs font-medium">
+                <span className="material-symbols-outlined text-[12px] sm:text-[14px]">security</span>
+                مشفرة
+              </span>
+            </div>
+
+            {/* Segmented Minimalist Pill Switch */}
+            <div className="mono-well p-1 sm:p-1.5 rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 mt-3">
+              <button
+                type="button"
+                onClick={() => handleUpdateGameMode('individual')}
+                className={`py-2 sm:py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 text-xs sm:text-sm transition-all duration-150 ${
+                  gameMode === 'individual'
+                    ? 'font-bold bg-white text-surface-container-lowest shadow'
+                    : 'font-semibold text-on-surface-variant hover:text-white hover:bg-surface-container-high'
+                }`}
+              >
+                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">person</span>
+                <span>فردي (كل لاعب لنفسه)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleUpdateGameMode('teams')}
+                className={`py-2 sm:py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 text-xs sm:text-sm transition-all duration-150 ${
+                  gameMode === 'teams'
+                    ? 'font-bold bg-white text-surface-container-lowest shadow'
+                    : 'font-semibold text-on-surface-variant hover:text-white hover:bg-surface-container-high'
+                }`}
+              >
+                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">swords</span>
+                <span>قتال جماعي (فرق)</span>
+              </button>
+            </div>
+          </section>
+
+          {/* SECTION 2: Player Capacity */}
+          <section className="mono-card rounded-2xl p-4 sm:p-6">
+            <div className="flex items-center justify-between mb-4 sm:mb-5">
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-white shrink-0">
+                  <span className="material-symbols-outlined text-[18px] sm:text-[20px]">chair</span>
+                </div>
+                <div>
+                  <h2 className="text-sm sm:text-base font-bold text-white">سعة اللاعبين المتواجدين</h2>
+                  <p className="text-[11px] sm:text-xs text-on-surface-variant">الموصى به ٦–٨ لاعبين لأفضل توازن وخداع</p>
+                </div>
+              </div>
+              <div className="px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-xl bg-white text-surface-container-lowest font-bold text-xs sm:text-sm tracking-tight flex items-center gap-1">
+                <span>{toArabic(maxPlayers)}</span>
+                <span className="text-[10px] sm:text-xs font-semibold">لاعبين</span>
+              </div>
+            </div>
+
+            {/* Visual Table Seat Tokens Preview */}
+            <div className="mono-well rounded-xl p-3 sm:p-4 mb-4 sm:mb-5">
+              <div className="text-[11px] sm:text-xs text-on-surface-variant mb-2.5 flex justify-between items-center font-medium">
+                <span>مقاعد طاولة اللعب</span>
+                <span className="text-white font-bold">
+                  {toArabic(players.length)} متواجدين · {toArabic(Math.max(0, maxPlayers - players.length))} شاغر
+                </span>
+              </div>
+
+              {/* Seat Tokens Row (up to 12) */}
+              <div className="grid grid-cols-6 sm:grid-cols-12 gap-1.5 sm:gap-2 justify-items-center">
+                {Array.from({ length: 12 }).map((_, idx) => {
+                  const seatNumber = idx + 1;
+                  const isSeatEnabled = seatNumber <= maxPlayers;
+                  const connectedPlayer = players[idx];
+
+                  if (connectedPlayer) {
+                    return (
+                      <div
+                        key={idx}
+                        onClick={() => connectedPlayer.id === player?.id && setIsCharacterModalOpen(true)}
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-container-high border border-outline-variant/80 flex items-center justify-center overflow-hidden shadow-sm transition-all relative group cursor-pointer hover:scale-110"
+                        title={connectedPlayer.nickname}
+                      >
+                        <ConsolePet avatar={connectedPlayer.avatar} size={28} />
+                        {connectedPlayer.isHost && (
+                          <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-white border border-surface-container-lowest" />
+                        )}
+                      </div>
+                    );
+                  }
+
+                  if (isSeatEnabled) {
+                    return (
+                      <div
+                        key={idx}
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-container-high border border-outline-variant/60 text-white flex items-center justify-center text-[10px] sm:text-xs font-semibold opacity-60"
+                        title="مقعد متاح"
+                      >
+                        {toArabic(seatNumber)}
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div
+                      key={idx}
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-container border border-dashed border-outline-variant/30 text-outline-variant flex items-center justify-center text-[10px] sm:text-xs opacity-30"
+                    >
+                      {toArabic(seatNumber)}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Stepper / Range Slider Controls */}
+            {isHost && (
+              <div className="flex items-center gap-3 sm:gap-4">
+                <span className="text-xs text-on-surface-variant font-bold">٣</span>
+                <div className="flex-1 relative flex items-center">
+                  <input
+                    type="range"
+                    min={3}
+                    max={12}
+                    step={1}
+                    value={maxPlayers}
+                    onChange={(e) => handleUpdateMaxPlayers(parseInt(e.target.value, 10))}
+                    className="w-full"
+                  />
+                </div>
+                <span className="text-xs text-on-surface-variant font-bold">١٢</span>
+              </div>
+            )}
+          </section>
+
+          {/* SECTION 3: Round & Timer Settings */}
+          <section className="mono-card rounded-2xl p-4 sm:p-6">
+            <div className="flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-white shrink-0">
+                <span className="material-symbols-outlined text-[18px] sm:text-[20px]">timer</span>
+              </div>
+              <div>
+                <h2 className="text-sm sm:text-base font-bold text-white">إيقاع الجولات والتوقيت</h2>
+                <p className="text-[11px] sm:text-xs text-on-surface-variant">ضبط مدة المباراة وسرعة تقديم إجابات الخداع</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+              {/* Rounds Selector */}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[15px] sm:text-[16px] text-on-surface-variant">sports_score</span>
+                    <span>عدد الجولات</span>
+                  </label>
+                  <span className="text-[11px] sm:text-xs text-on-surface-variant">
+                    حوالي {toArabic(totalRounds * 3)} دقيقة
+                  </span>
+                </div>
+                <div className="mono-well p-1 rounded-xl grid grid-cols-4 gap-1 sm:gap-1.5">
+                  {[3, 5, 10, 15].map((r) => (
+                    <button
+                      key={r}
+                      type="button"
+                      onClick={() => handleUpdateRounds(r)}
+                      disabled={!isHost}
+                      className={`py-1.5 sm:py-2 rounded-lg text-xs transition-all ${
+                        totalRounds === r
+                          ? 'font-bold bg-white text-surface-container-lowest shadow'
+                          : 'font-semibold text-on-surface-variant hover:text-white'
+                      }`}
+                    >
+                      {toArabic(r)} جولات
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Answer Timer Selector */}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[15px] sm:text-[16px] text-on-surface-variant">hourglass_empty</span>
+                    <span>مهلة تقديم الخدعة</span>
+                  </label>
+                  <span className="text-xs text-white font-bold">{toArabic(roundSeconds)} ثانية</span>
+                </div>
+                <div className="mono-well p-1 rounded-xl grid grid-cols-3 gap-1 sm:gap-1.5">
+                  {[30, 45, 60].map((sec) => (
+                    <button
+                      key={sec}
+                      type="button"
+                      onClick={() => handleUpdateTimer(sec)}
+                      disabled={!isHost}
+                      className={`py-1.5 sm:py-2 rounded-lg text-xs transition-all ${
+                        roundSeconds === sec
+                          ? 'font-bold bg-white text-surface-container-lowest shadow'
+                          : 'font-semibold text-on-surface-variant hover:text-white'
+                      }`}
+                    >
+                      {toArabic(sec)} ثانية
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION 4: Categories & Card Decks */}
+          <section className="mono-card rounded-2xl p-4 sm:p-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 sm:mb-6">
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-white shrink-0">
+                  <span className="material-symbols-outlined text-[18px] sm:text-[20px]">layers</span>
+                </div>
+                <div>
+                  <h2 className="text-sm sm:text-base font-bold text-white">حزم البطاقات والتصنيفات</h2>
+                  <p className="text-[11px] sm:text-xs text-on-surface-variant">اختر التصنيفات العامة وفصّل الفئات الفرعية النشطة</p>
+                </div>
+              </div>
+
+              {/* Status and Action Buttons */}
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-highest border border-outline-variant/60">
+                  <span className="material-symbols-outlined text-[14px] text-white">done_all</span>
+                  <span className="text-xs font-bold text-white">
+                    {toArabic(allowedTopicIds.size)} تصنيفات نشطة
+                  </span>
+                </div>
+
+                {isHost && (
+                  <div className="inline-flex items-center gap-1.5 p-1 rounded-xl bg-surface-container-high border border-outline-variant/50">
+                    <button
+                      type="button"
+                      onClick={handleSelectRandomTopics}
+                      className="px-2.5 py-1 rounded-lg text-xs font-bold text-white hover:bg-white/10 transition-all flex items-center gap-1 active:scale-95"
+                      title="اختيار ٨ تصنيفات عشوائية متوازنة"
+                    >
+                      <span className="material-symbols-outlined text-[14px]">casino</span>
+                      <span>عشوائي 🎲</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSelectAllTopics}
+                      className="px-2.5 py-1 rounded-lg text-xs font-bold text-white hover:bg-white/10 transition-all flex items-center gap-1 active:scale-95"
+                      title="تحديد كافة التصنيفات المتاحة"
+                    >
+                      <span className="material-symbols-outlined text-[14px]">select_all</span>
+                      <span>تحديد الكل</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleDeselectAllTopics}
+                      className="px-2.5 py-1 rounded-lg text-xs font-bold text-on-surface-variant hover:text-rose-400 hover:bg-white/10 transition-all flex items-center gap-1 active:scale-95"
+                      title="إلغاء تحديد كافة التصنيفات"
+                    >
+                      <span className="material-symbols-outlined text-[14px]">deselect</span>
+                      <span>إلغاء الكل</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* تنبيه في حال تم إلغاء تحديد كافة التصنيفات */}
+            {allowedTopicIds.size === 0 && (
+              <div className="p-3 sm:p-3.5 mb-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2 animate-fadeIn">
+                <span className="material-symbols-outlined text-[18px]">warning</span>
+                <span>لم يتم تحديد أي تصنيف! يرجى اختيار تصنيف واحد على الأقل أو الضغط على «عشوائي 🎲» لبدء اللعبة.</span>
+              </div>
+            )}
+
+            {/* STACKED RECTANGULAR CATEGORY BARS */}
+            <div className="flex flex-col gap-3">
+              {categoryGroups && categoryGroups.length > 0 ? (
+                categoryGroups.map((group) => {
+                  const isExpanded = !!expandedCategories[group.id];
+                  const groupTopics = group.subtopics || [];
+                  const activeInGroup = groupTopics.filter((t) => allowedTopicIds.has(t.id)).length;
+
+                  return (
+                    <div
+                      key={group.id}
+                      className="border border-outline-variant/50 rounded-xl bg-surface-container-low overflow-hidden transition-all duration-200"
+                    >
+                      {/* Header Bar */}
+                      <button
+                        type="button"
+                        onClick={() => toggleCategoryAccordion(group.id)}
+                        className="w-full p-3.5 sm:p-4 flex items-center justify-between text-right hover:bg-surface-container transition-colors"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-white shrink-0">
+                            <span className="material-symbols-outlined text-[18px] sm:text-[20px]">
+                              {group.id === 'science' ? 'science' : group.id === 'sports' ? 'sports_soccer' : 'psychology'}
+                            </span>
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-1.5 sm:gap-2">
+                              <span className="text-xs sm:text-sm font-bold text-white">{group.title}</span>
+                              <span className="px-1.5 sm:px-2 py-0.5 rounded text-[9px] sm:text-[10px] bg-surface-container-highest text-on-surface-variant border border-outline-variant/30">
+                                {toArabic(groupTopics.reduce((acc: number, t: TopicSummary) => acc + (t.puzzleCount || 0), 0))} بطاقة
+                              </span>
+                            </div>
+                            <p className="text-[11px] sm:text-xs text-on-surface-variant mt-0.5">{group.description}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 sm:gap-3">
+                          <span className="text-[11px] sm:text-xs font-bold text-white bg-surface-container px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md border border-outline-variant/40">
+                            {toArabic(activeInGroup)}/{toArabic(groupTopics.length)} مفعلة
+                          </span>
+                          <span
+                            className={`material-symbols-outlined text-[18px] sm:text-[20px] text-on-surface-variant transform transition-transform duration-200 ${
+                              isExpanded ? 'rotate-180' : ''
+                            }`}
+                          >
+                            expand_more
+                          </span>
+                        </div>
+                      </button>
+
+                      {/* Expanded Body: Grid of Sub-categories */}
+                      {isExpanded && (
+                        <div className="px-3.5 sm:px-4 pb-4 pt-1 border-t border-outline-variant/30">
+                          <p className="text-[11px] text-on-surface-variant mb-2.5 font-semibold">
+                            الفئات الفرعية المضمنة في هذه الحزمة:
+                          </p>
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                            {groupTopics.map((topic) => {
+                              const isChecked = allowedTopicIds.has(topic.id);
+                              return (
+                                <div
+                                  key={topic.id}
+                                  onClick={() => isHost && toggleAllowedTopic(topic.id)}
+                                  className={`p-3 rounded-xl transition-all flex flex-col justify-between h-24 sm:h-28 cursor-pointer ${
+                                    isChecked
+                                      ? 'border border-white/80 bg-surface-container-high hover:border-white'
+                                      : 'border border-outline-variant/50 bg-surface-container hover:border-white/50 opacity-60'
+                                  }`}
+                                >
+                                  <div className="flex items-start justify-between">
+                                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-surface-container flex items-center justify-center text-white">
+                                      <span className="material-symbols-outlined text-[16px] sm:text-[18px]">menu_book</span>
+                                    </div>
+                                    <div
+                                      className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${
+                                        isChecked
+                                          ? 'bg-white text-surface-container-lowest'
+                                          : 'border border-outline text-transparent'
+                                      }`}
+                                    >
+                                      <span className="material-symbols-outlined text-[13px] sm:text-[14px] font-bold">check</span>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <h4 className="text-xs font-bold text-white truncate">{topic.title}</h4>
+                                    <span className="text-[10px] text-on-surface-variant">
+                                      {toArabic(topic.puzzleCount)} بطاقة
+                                    </span>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              ) : (
+                topics.map((t) => {
+                  const isChecked = allowedTopicIds.has(t.id);
+                  return (
+                    <div
+                      key={t.id}
+                      onClick={() => isHost && toggleAllowedTopic(t.id)}
+                      className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
+                        isChecked
+                          ? 'border-white/80 bg-surface-container-high text-white'
+                          : 'border-outline-variant/40 bg-surface-container-low text-on-surface-variant opacity-60'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className="material-symbols-outlined text-[18px]">layers</span>
+                        <div>
+                          <div className="text-xs sm:text-sm font-bold text-white">{t.title}</div>
+                          <div className="text-[11px] text-on-surface-variant">{toArabic(t.puzzleCount)} بطاقة</div>
+                        </div>
+                      </div>
+                      <div
+                        className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                          isChecked
+                            ? 'bg-white text-surface-container-lowest'
+                            : 'border border-outline text-transparent'
+                        }`}
+                      >
+                        <span className="material-symbols-outlined text-[13px]">check</span>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </section>
+        </div>
+      </main>
+
+      {/* Sticky Bottom Action Bar with Monochrome Aesthetics */}
+      <footer className="fixed bottom-0 inset-x-0 z-50 bg-[#121414]/95 backdrop-blur-xl border-t border-outline-variant/40 shadow-[0_-8px_30px_rgba(0,0,0,0.6)]">
+        <div className="max-w-4xl mx-auto px-3.5 sm:px-8 py-2.5 sm:py-3.5 flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3.5">
+          {/* Room Summary Badge */}
+          <div className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-surface-container-low border border-outline-variant/50">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            <span className="text-[11px] sm:text-xs font-bold text-white tracking-wide">
+              {toArabic(players.length)} لاعبين · {toArabic(totalRounds)} جولات · {toArabic(allowedTopicIds.size)} تصنيفات
+            </span>
+          </div>
+
+          {/* Primary CTA */}
+          {isHost ? (
+            <button
+              type="button"
+              onClick={handleStartGame}
+              disabled={!canStart || allowedTopicIds.size === 0}
+              className="w-full sm:w-auto bg-white hover:bg-[#e3e2e2] text-surface-container-lowest font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md group disabled:opacity-40"
+            >
+              <span>
+                {allowedTopicIds.size === 0
+                  ? 'اختر تصنيفاً واحداً على الأقل للبدء'
+                  : canStart
+                  ? 'بدء اللعبة الآن'
+                  : 'في انتظار اكتمال اللاعبين (٢ على الأقل)'}
+              </span>
+              <span className="material-symbols-outlined text-[16px] sm:text-[18px] transform rotate-180 transition-transform group-hover:-translate-x-1">
+                arrow_back
+              </span>
+            </button>
+          ) : (
+            <div className="text-[11px] sm:text-xs text-on-surface-variant font-medium flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[16px] text-white animate-spin">sync</span>
+              <span>في انتظار المضيف لبدء الجولة...</span>
+            </div>
+          )}
+        </div>
+      </footer>
+
+      {/* QR Code Modal */}
+      {isQRModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+          <div
+            className="absolute inset-0 bg-black/70 backdrop-blur-md"
+            onClick={() => setIsQRModalOpen(false)}
+          />
+          <div className="relative w-full max-w-sm z-20 dark-monochrome-card rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-white/10 text-center animate-fadeIn">
+            <div className="flex items-center justify-between pb-2.5 border-b border-outline-variant/30 mb-3 sm:mb-4">
+              <h3 className="text-sm sm:text-base font-bold text-white">رمز استجابة الغرفة (QR)</h3>
+              <button
+                type="button"
+                onClick={() => setIsQRModalOpen(false)}
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container"
+              >
+                <span className="material-symbols-outlined text-lg sm:text-xl">close</span>
+              </button>
+            </div>
+
+            <div className="flex justify-center my-2 sm:my-3">
+              <QRCodeView value={joinUrl} size={190} />
+            </div>
+
+            <div className="text-base sm:text-lg font-mono font-bold text-white tracking-widest my-1.5 sm:my-2">
+              {roomCode}
+            </div>
+
+            <p className="text-[11px] sm:text-xs text-on-surface-variant mt-1.5">
+              اطلب من أصدقائك مسح الرمز بكاميرا الهاتف للانضمام مباشرة
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Character Customization Modal in Waiting Room */}
+      {isCharacterModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 animate-fadeIn">
+          <div className="w-full max-w-lg h-full max-h-[95vh] overflow-y-auto">
             <CharacterSelectScreen
               initialNickname={player?.nickname}
               initialAvatar={player?.avatar}
-              onSave={handleSaveProfile}
-              onBack={() => setIsEditingProfile(false)}
-              actionButtonText="حفظ وتأكيد التعديل"
+              onSave={(newName, newAvatar) => {
+                updateProfile(newName, newAvatar);
+                setIsCharacterModalOpen(false);
+              }}
+              onBack={() => setIsCharacterModalOpen(false)}
+              actionButtonText="تحديث وحفظ في الغرفة"
             />
           </div>
         </div>
       )}
-
-      {/* شاشة تصفح وتحديد الفئات الشاملة */}
-      {isCategoryBrowserOpen && (
-        <div className="fixed inset-0 z-50 bg-[#1b2245] flex items-center justify-center overflow-y-auto p-4">
-          <div className="w-full h-full max-w-md md:max-w-4xl mx-auto">
-            <CategoryBrowserScreen onClose={() => setIsCategoryBrowserOpen(false)} />
-          </div>
-        </div>
-      )}
-
-      {/* ماسح الكاميرا الداخلي لرموز QR */}
-      <CameraQRScanner
-        isOpen={isScannerOpen}
-        onClose={() => setIsScannerOpen(false)}
-        onScan={handleCameraScanResult}
-      />
-
-      {/* شريط القائمة العلوية المنبثقة */}
-      {isMenuOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/70 flex items-start justify-end p-4 pt-16"
-          onClick={() => setIsMenuOpen(false)}
-        >
-          <div
-            className="w-56 bg-arcade-card border-2 border-black rounded-2xl p-3 shadow-[0_6px_0_#000] space-y-2 animate-fadeIn"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="text-xs font-black text-gray-400 px-2 pb-1 border-b border-arcade-border/50">
-              خيارات الغرفة
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setIsCategoryBrowserOpen(true);
-                setIsMenuOpen(false);
-              }}
-              className="w-full text-right p-2 rounded-xl hover:bg-arcade-bg/60 text-xs font-bold text-white flex items-center gap-2"
-            >
-              <BookOpen className="w-4 h-4 text-purple-400" />
-              <span>تصفح وتحديد الفئات 📚</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setIsScannerOpen(true);
-                setIsMenuOpen(false);
-              }}
-              className="w-full text-right p-2 rounded-xl hover:bg-arcade-bg/60 text-xs font-bold text-white flex items-center gap-2"
-            >
-              <Camera className="w-4 h-4 text-arcade-cyan" />
-              <span>سكان رمز QR بالكاميرا</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setIsEditingProfile(true);
-                setIsMenuOpen(false);
-              }}
-              className="w-full text-right p-2 rounded-xl hover:bg-arcade-bg/60 text-xs font-bold text-white flex items-center gap-2"
-            >
-              <Edit3 className="w-4 h-4 text-arcade-yellow" />
-              <span>تعديل الشخصية والاسم</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                leaveRoom();
-                setIsMenuOpen(false);
-              }}
-              className="w-full text-right p-2 rounded-xl hover:bg-rose-950/40 text-xs font-bold text-rose-400 flex items-center gap-2"
-            >
-              <LogOut className="w-4 h-4" />
-              <span>مغادرة الغرفة</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* الشريط العلوي والشعار كلك! مطابق للصورة */}
-      <header className="flex items-center justify-between mb-6 relative z-20">
-        <button
-          type="button"
-          onClick={() => setIsMenuOpen((prev) => !prev)}
-          className="p-2.5 rounded-2xl bg-[#1e2337] border-2 border-black shadow-[0_3px_0_#000] text-white hover:bg-[#282f49] active:translate-y-0.5 transition-all"
-          title="القائمة"
-        >
-          <Menu className="w-5 h-5" />
-        </button>
-
-        <div className="flex flex-col items-center">
-          <h1 className="text-3xl md:text-4xl font-black text-white tracking-wider text-stroke-arcade transform -rotate-1 select-none">
-            كَلَكْ!
-          </h1>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <ConnectionBadge />
-          <ThemeToggle />
-          <AudioToggle />
-        </div>
-      </header>
-
-      {/* حاوية شبكية متجاوبة ثنائية الأعمدة للشاشات الكبيرة والحواسيب */}
-      <div className="w-full lg:grid lg:grid-cols-12 lg:gap-8 items-start">
-        {/* العمود 1: اللاعبون والفرق */}
-        <div className="lg:col-span-7 space-y-4">
-
-      {/* قسم 1: اللاعبون وتكتل الفرق */}
-      <div className="mb-4">
-        {/* شريط العنوان التركوازي العلوي ذو الأجنحة */}
-        <div className="flex justify-center -mb-3 relative z-10">
-          <div className="relative">
-            <div className="absolute -right-3 top-1 w-4 h-7 bg-[#1c8c70] border-2 border-black transform skew-y-12 -z-10 rounded-sm" />
-            <div className="bg-[#29c69f] px-8 py-1.5 rounded-lg border-2 border-black shadow-[0_3px_0_#000] text-black font-black text-sm text-center flex items-center gap-2">
-              {isTeamMode ? <Swords className="w-4 h-4" /> : <Users className="w-4 h-4" />}
-              <span>{isTeamMode ? 'تكتل الفرق المتنافسة' : 'اللاعبون'}</span>
-            </div>
-            <div className="absolute -left-3 top-1 w-4 h-7 bg-[#1c8c70] border-2 border-black transform -skew-y-12 -z-10 rounded-sm" />
-          </div>
-        </div>
-
-        {/* بطاقة اللاعبين الحاوية */}
-        <div className="bg-[#3a4460] rounded-3xl border-3 border-black overflow-hidden shadow-[0_5px_0_#000]">
-          {/* شريط العداد الداخلي وسعة الغرفة */}
-          <div className="bg-[#2d354b] py-2 px-3 text-center text-xs font-black text-white tracking-widest border-b-2 border-black flex items-center justify-between">
-            <span className="text-[10px] text-gray-300 font-bold">
-              {isTeamMode ? 'وضع الفرق 🔴 ضد 🔵' : 'نمط فردي'}
-            </span>
-            <span>
-              {playersCountFormatted} / {maxPlayersFormatted}
-            </span>
-            {isHost && isTeamMode && (
-              <button
-                type="button"
-                onClick={handleBalanceTeams}
-                className="text-[10px] text-arcade-cyan hover:underline flex items-center gap-1"
-                title="موازنة عدد اللاعبين بين الفريقين"
-              >
-                <Scale className="w-3 h-3" />
-                <span>موازنة</span>
-              </button>
-            )}
-          </div>
-
-          {/* مساحة عرض اللاعبين في النمط الفردي */}
-          {!isTeamMode && (
-            <div className="bg-[#ccd7e6] p-4 min-h-[110px] flex items-center justify-start gap-4 overflow-x-auto">
-              {players.map((p) => {
-                const isCurrentPlayer = p.id === player?.id;
-                return (
-                  <div
-                    key={p.id}
-                    onClick={() => isCurrentPlayer && setIsEditingProfile(true)}
-                    className={`flex flex-col items-center shrink-0 relative group ${
-                      isCurrentPlayer ? 'cursor-pointer' : ''
-                    }`}
-                    title={isCurrentPlayer ? 'اضغط لتعديل شخصيتك' : p.nickname}
-                  >
-                    <div className="relative">
-                      {isCurrentPlayer && (
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsEditingProfile(true);
-                          }}
-                          className="absolute -top-1 -right-1 z-10 p-1 bg-white border-2 border-black rounded-lg shadow-[0_2px_0_#000] hover:scale-110 active:scale-95 transition-all text-black"
-                        >
-                          <Edit3 className="w-3 h-3" />
-                        </button>
-                      )}
-                      <div className="animate-bounce-subtle">
-                        <ConsolePet avatar={p.avatar} size={54} />
-                      </div>
-                    </div>
-                    <span className="text-xs font-black text-black mt-1 truncate max-w-[80px] text-center">
-                      {p.nickname}
-                    </span>
-                  </div>
-                );
-              })}
-
-              {players.length < maxPlayers && (
-                <button
-                  type="button"
-                  onClick={handleShareLink}
-                  className="w-14 h-14 rounded-2xl bg-white/70 border-2 border-[#8ba3c7] hover:border-black hover:bg-white flex items-center justify-center text-[#8ba3c7] hover:text-black transition-all shadow-inner shrink-0 group active:scale-95"
-                  title="دعوة لاعب جديد"
-                >
-                  <Plus className="w-7 h-7 stroke-[3] group-hover:scale-110 transition-transform" />
-                </button>
-              )}
-            </div>
-          )}
-
-          {/* مساحة عرض اللاعبين في نمط الفرق (الأحمر ضد الأزرق) */}
-          {isTeamMode && (
-            <div className="bg-[#ccd7e6] p-3 space-y-3">
-              {/* الفريق الأحمر */}
-              <div className="bg-red-950/20 border-2 border-red-500 rounded-2xl p-2.5">
-                <div className="flex items-center justify-between mb-2 pb-1 border-b border-red-500/30">
-                  <div className="flex items-center gap-1.5 text-xs font-black text-red-600">
-                    <span>🔴 الفريق الأحمر</span>
-                    <span className="text-[10px] bg-red-500 text-white px-2 py-0.5 rounded-full">
-                      {redPlayers.length}
-                    </span>
-                  </div>
-                  {player?.teamId !== 'red' && (
-                    <button
-                      type="button"
-                      onClick={() => handleSwitchTeam('red')}
-                      className="px-2.5 py-1 rounded-xl bg-red-600 text-white font-black text-[11px] shadow-sm hover:bg-red-700 active:scale-95"
-                    >
-                      انضم للأحمر 🔴
-                    </button>
-                  )}
-                </div>
-
-                <div className="flex items-center gap-3 overflow-x-auto py-1">
-                  {redPlayers.map((p) => {
-                    const isCurrent = p.id === player?.id;
-                    return (
-                      <div
-                        key={p.id}
-                        onClick={() => isCurrent && setIsEditingProfile(true)}
-                        className="flex flex-col items-center shrink-0 cursor-pointer"
-                      >
-                        <div className="relative border-2 border-red-600 rounded-xl p-0.5 bg-red-100">
-                          <ConsolePet avatar={p.avatar} size={46} />
-                        </div>
-                        <span className="text-[11px] font-black text-black mt-0.5 truncate max-w-[70px]">
-                          {p.nickname} {isCurrent && '(أنت)'}
-                        </span>
-                      </div>
-                    );
-                  })}
-                  {redPlayers.length === 0 && (
-                    <span className="text-xs text-gray-500 font-bold py-2">لا يوجد لاعبين حتى الآن</span>
-                  )}
-                </div>
-              </div>
-
-              {/* الفريق الأزرق */}
-              <div className="bg-blue-950/20 border-2 border-blue-500 rounded-2xl p-2.5">
-                <div className="flex items-center justify-between mb-2 pb-1 border-b border-blue-500/30">
-                  <div className="flex items-center gap-1.5 text-xs font-black text-blue-600">
-                    <span>🔵 الفريق الأزرق</span>
-                    <span className="text-[10px] bg-blue-500 text-white px-2 py-0.5 rounded-full">
-                      {bluePlayers.length}
-                    </span>
-                  </div>
-                  {player?.teamId !== 'blue' && (
-                    <button
-                      type="button"
-                      onClick={() => handleSwitchTeam('blue')}
-                      className="px-2.5 py-1 rounded-xl bg-blue-600 text-white font-black text-[11px] shadow-sm hover:bg-blue-700 active:scale-95"
-                    >
-                      انضم للأزرق 🔵
-                    </button>
-                  )}
-                </div>
-
-                <div className="flex items-center gap-3 overflow-x-auto py-1">
-                  {bluePlayers.map((p) => {
-                    const isCurrent = p.id === player?.id;
-                    return (
-                      <div
-                        key={p.id}
-                        onClick={() => isCurrent && setIsEditingProfile(true)}
-                        className="flex flex-col items-center shrink-0 cursor-pointer"
-                      >
-                        <div className="relative border-2 border-blue-600 rounded-xl p-0.5 bg-blue-100">
-                          <ConsolePet avatar={p.avatar} size={46} />
-                        </div>
-                        <span className="text-[11px] font-black text-black mt-0.5 truncate max-w-[70px]">
-                          {p.nickname} {isCurrent && '(أنت)'}
-                        </span>
-                      </div>
-                    );
-                  })}
-                  {bluePlayers.length === 0 && (
-                    <span className="text-xs text-gray-500 font-bold py-2">لا يوجد لاعبين حتى الآن</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* قسم الفئات والألغاز المطابق للثيم */}
-      <div className="mb-4 bg-[#3a4460] rounded-3xl border-3 border-black p-3 shadow-[0_5px_0_#000] flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="w-10 h-10 rounded-2xl bg-[#8b5cf6] border-2 border-black flex items-center justify-center shadow-[0_2px_0_#000]">
-            <BookOpen className="w-5 h-5 text-white" />
-          </div>
-          <div className="text-right">
-            <span className="text-xs font-black text-white block">الفئات والألغاز</span>
-            <span className="text-[10px] font-bold text-gray-300">
-              {String(categoriesCount).padStart(2, '0')} فئات مختارة للجلسة
-            </span>
-          </div>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => {
-            audio.playClick();
-            setIsCategoryBrowserOpen(true);
-          }}
-          className="px-3 py-1.5 rounded-xl bg-arcade-yellow hover:bg-yellow-400 text-black font-black text-xs border-2 border-black shadow-[0_2px_0_#000] active:translate-y-0.5 transition-all flex items-center gap-1"
-        >
-          <Layers className="w-3.5 h-3.5" />
-          <span>{isHost ? 'تحديد الفئات' : 'استعراض الفئات'}</span>
-        </button>
-      </div>
-      </div>
-
-      {/* العمود 2: المشاركة وإعدادات الغرفة (على الحواسيب يظهر بجانب اللاعبين) */}
-      <div className="lg:col-span-5 space-y-4">
-      {/* قسم 2: المشاركة (QR، الرابط، إملاء الرمز، وسكان الكاميرا) */}
-      <div className="mb-4 bg-[#3a4460] rounded-3xl border-3 border-black overflow-hidden shadow-[0_5px_0_#000]">
-        <button
-          type="button"
-          onClick={() => setIsSharingOpen((prev) => !prev)}
-          className="w-full bg-[#2d354b] px-4 py-2.5 flex items-center justify-between text-white font-black text-sm border-b-2 border-black transition-colors hover:bg-[#343e58]"
-        >
-          <span>المشاركة</span>
-          {isSharingOpen ? (
-            <ChevronUp className="w-5 h-5 text-gray-300" />
-          ) : (
-            <ChevronDown className="w-5 h-5 text-gray-300" />
-          )}
-        </button>
-
-        {isSharingOpen && (
-          <div className="bg-[#ccd7e6] p-4 flex flex-col items-center text-center">
-            <div className="mb-2 bg-white p-2 rounded-2xl border-3 border-black shadow-[0_4px_0_#000]">
-              <QRCodeView value={joinUrl} size={150} />
-            </div>
-
-            <p className="text-xs font-black text-[#2d354b] mb-3">
-              امسح الرمز للانضمام إلى الغرفة
-            </p>
-
-            {/* عرض رمز الغرفة وإملائه صوتياً مباشرة */}
-            <div className="w-full bg-white/80 border-2 border-black rounded-2xl p-2.5 mb-3 flex items-center justify-between gap-2 shadow-inner">
-              <div className="text-right">
-                <span className="text-[10px] font-bold text-gray-600 block">رمز الغرفة:</span>
-                <span className="text-xl font-black tracking-widest text-black font-mono">
-                  {roomCode}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-1.5">
-                {isTtsSupported && (
-                  <button
-                    type="button"
-                    onClick={handleToggleDictation}
-                    className={`px-2.5 py-1.5 rounded-xl border-2 border-black text-xs font-black flex items-center gap-1 transition-all shadow-[0_2px_0_#000] active:translate-y-0.5 ${
-                      isSpeaking
-                        ? 'bg-arcade-pink text-white animate-pulse'
-                        : 'bg-arcade-yellow text-black hover:bg-yellow-400'
-                    }`}
-                    title="نطق وإملاء الرمز صوتياً"
-                  >
-                    {isSpeaking ? (
-                      <>
-                        <VolumeX className="w-3.5 h-3.5" />
-                        <span>إيقاف</span>
-                      </>
-                    ) : (
-                      <>
-                        <Volume2 className="w-3.5 h-3.5" />
-                        <span>إملاء الرمز</span>
-                      </>
-                    )}
-                  </button>
-                )}
-
-                <button
-                  type="button"
-                  onClick={handleCopyCode}
-                  className="p-1.5 bg-white border-2 border-black rounded-xl text-black hover:bg-gray-100 shadow-[0_2px_0_#000] active:translate-y-0.5 transition-all"
-                  title="نسخ رمز الغرفة"
-                >
-                  {copiedCode ? (
-                    <Check className="w-4 h-4 text-emerald-600" />
-                  ) : (
-                    <Copy className="w-4 h-4" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {isSpeaking && (
-              <div className="w-full mb-3 px-3 py-1.5 bg-amber-200 border-2 border-black rounded-xl text-[11px] font-black text-amber-950 flex items-center justify-center gap-2 animate-bounce-subtle">
-                <Radio className="w-3.5 h-3.5 animate-spin" />
-                <span>جارٍ إملاء رمز الغرفة صوتياً بالأرقام...</span>
-              </div>
-            )}
-
-            <button
-              type="button"
-              onClick={handleShareLink}
-              className="w-full py-3.5 rounded-2xl bg-[#0070f3] hover:bg-[#0060df] text-white font-black text-sm border-3 border-black shadow-[0_5px_0_#0047a5] active:translate-y-1 active:shadow-[0_1px_0_#0047a5] transition-all flex items-center justify-center gap-2 mb-2"
-            >
-              <Share2 className="w-4 h-4" />
-              <span>{copiedLink ? 'تم نسخ الرابط بنجاح! 🎉' : 'مشاركة الرابط'}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsScannerOpen(true)}
-              className="w-full py-2.5 rounded-2xl bg-[#1e2337] hover:bg-[#282f49] text-arcade-cyan font-black text-xs border-2 border-black shadow-[0_3px_0_#000] active:translate-y-0.5 transition-all flex items-center justify-center gap-1.5"
-            >
-              <Camera className="w-4 h-4" />
-              <span>مسح رمز QR من كاميرا الهاتف 📷</span>
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* قسم 3: إعدادات اللعبة الشاملة (الوقت لكل جولة، وضع الفرق، عدد اللاعبين، عدد الجولات) */}
-      <div className="mb-4 bg-[#3a4460] rounded-3xl border-3 border-black overflow-hidden shadow-[0_5px_0_#000]">
-        <button
-          type="button"
-          onClick={() => setIsSettingsOpen((prev) => !prev)}
-          className="w-full bg-[#2d354b] px-4 py-2.5 flex items-center justify-between text-white font-black text-sm border-b-2 border-black transition-colors hover:bg-[#343e58]"
-        >
-          <span>إعدادات اللعبة</span>
-          {isSettingsOpen ? (
-            <ChevronUp className="w-5 h-5 text-gray-300" />
-          ) : (
-            <ChevronDown className="w-5 h-5 text-gray-300" />
-          )}
-        </button>
-
-        {isSettingsOpen && (
-          <div className="bg-[#ccd7e6] p-4 space-y-4">
-            {/* 1. نمط اللعبة: فردي ضد الكل أو تكتل فرق */}
-            <div className="bg-white/80 border-2 border-black rounded-2xl p-3">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-black text-black">نمط المنافسة:</span>
-                <span className="text-[11px] font-bold text-gray-600">
-                  {isTeamMode ? 'تكتل لاعبين ضد لاعبين' : 'كل لاعب لنفسه'}
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  disabled={!isHost}
-                  onClick={() => handleToggleGameMode('individual')}
-                  className={`py-2 rounded-xl border-2 border-black font-black text-xs flex items-center justify-center gap-1.5 transition-all shadow-[0_2px_0_#000] active:translate-y-0.5 ${
-                    !isTeamMode
-                      ? 'bg-arcade-yellow text-black'
-                      : 'bg-white text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  <Users className="w-4 h-4" />
-                  <span>فردي (فردي ضد الكل)</span>
-                </button>
-                <button
-                  type="button"
-                  disabled={!isHost}
-                  onClick={() => handleToggleGameMode('teams')}
-                  className={`py-2 rounded-xl border-2 border-black font-black text-xs flex items-center justify-center gap-1.5 transition-all shadow-[0_2px_0_#000] active:translate-y-0.5 ${
-                    isTeamMode
-                      ? 'bg-arcade-pink text-white'
-                      : 'bg-white text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  <Swords className="w-4 h-4" />
-                  <span>وضع الفرق ⚔️</span>
-                </button>
-              </div>
-            </div>
-
-            {/* 2. الوقت لكل جولة (عدد الثواني المسموح بها لكل سؤال) */}
-            <div className="bg-white/80 border-2 border-black rounded-2xl p-3">
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-right">
-                  <div className="text-xs font-black text-black flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-arcade-cyan" />
-                    <span>الوقت لكل جولة:</span>
-                  </div>
-                  <div className="text-[10px] font-bold text-gray-600">
-                    عدد الثواني المسموح بها لكل سؤال
-                  </div>
-                </div>
-
-                {/* التحكم الرقمي بالثواني مباشرة */}
-                <div className="flex items-center gap-1">
-                  {isHost && (
-                    <button
-                      type="button"
-                      onClick={() => handleUpdateDuration(roundSeconds - 5)}
-                      className="w-7 h-7 bg-white border-2 border-black rounded-lg text-black font-black flex items-center justify-center shadow-[0_2px_0_#000] active:translate-y-0.5"
-                    >
-                      -
-                    </button>
-                  )}
-                  <div className="px-3 py-1 bg-white border-2 border-black rounded-xl text-sm font-black text-black min-w-[50px] text-center shadow-inner">
-                    {roundSeconds} ث
-                  </div>
-                  {isHost && (
-                    <button
-                      type="button"
-                      onClick={() => handleUpdateDuration(roundSeconds + 5)}
-                      className="w-7 h-7 bg-white border-2 border-black rounded-lg text-black font-black flex items-center justify-center shadow-[0_2px_0_#000] active:translate-y-0.5"
-                    >
-                      +
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* أزرار الثواني السريعة */}
-              {isHost && (
-                <div className="grid grid-cols-4 gap-1.5 pt-1">
-                  {[15, 30, 45, 60].map((sec) => (
-                    <button
-                      key={sec}
-                      type="button"
-                      onClick={() => handleUpdateDuration(sec)}
-                      className={`py-1 rounded-lg text-xs font-black border transition-all ${
-                        roundSeconds === sec
-                          ? 'bg-[#0070f3] text-white border-black shadow-[0_2px_0_#000]'
-                          : 'bg-white/90 text-gray-700 border-gray-300 hover:border-black'
-                      }`}
-                    >
-                      {sec} ثانية
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* 3. تعيين عدد اللاعبين بالأرقام مباشرة */}
-            <div className="bg-white/80 border-2 border-black rounded-2xl p-3 flex items-center justify-between">
-              <div className="text-right">
-                <div className="text-xs font-black text-black flex items-center gap-1">
-                  <Users className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>الحد الأقصى للاعبين:</span>
-                </div>
-                <div className="text-[10px] font-bold text-gray-600">
-                  سعة الغرفة وعدد اللاعبين المسموح به
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1.5">
-                {isHost && (
-                  <button
-                    type="button"
-                    onClick={() => handleUpdateMaxPlayers(maxPlayers - 1)}
-                    className="w-8 h-8 bg-white border-2 border-black rounded-xl text-black font-black flex items-center justify-center shadow-[0_2px_0_#000] active:translate-y-0.5 text-sm"
-                  >
-                    -
-                  </button>
-                )}
-                <input
-                  type="number"
-                  min={2}
-                  max={30}
-                  value={maxPlayers}
-                  disabled={!isHost}
-                  onChange={(e) => handleUpdateMaxPlayers(Number(e.target.value))}
-                  className="w-14 py-1.5 bg-white border-2 border-black rounded-xl text-center text-sm font-black text-black shadow-inner focus:outline-none"
-                />
-                {isHost && (
-                  <button
-                    type="button"
-                    onClick={() => handleUpdateMaxPlayers(maxPlayers + 1)}
-                    className="w-8 h-8 bg-white border-2 border-black rounded-xl text-black font-black flex items-center justify-center shadow-[0_2px_0_#000] active:translate-y-0.5 text-sm"
-                  >
-                    +
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* 4. تعيين عدد الجولات بالأرقام مباشرة */}
-            <div className="bg-white/80 border-2 border-black rounded-2xl p-3 flex items-center justify-between">
-              <div className="text-right">
-                <div className="text-xs font-black text-black flex items-center gap-1">
-                  <Hash className="w-3.5 h-3.5 text-purple-600" />
-                  <span>عدد الجولات:</span>
-                </div>
-                <div className="text-[10px] font-bold text-gray-600">
-                  إجمالي جولات الأسئلة قبل إعلان الفائز
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1.5">
-                {isHost && (
-                  <button
-                    type="button"
-                    onClick={() => handleUpdateTotalRounds(totalRounds - 1)}
-                    className="w-8 h-8 bg-white border-2 border-black rounded-xl text-black font-black flex items-center justify-center shadow-[0_2px_0_#000] active:translate-y-0.5 text-sm"
-                  >
-                    -
-                  </button>
-                )}
-                <input
-                  type="number"
-                  min={1}
-                  max={20}
-                  value={totalRounds}
-                  disabled={!isHost}
-                  onChange={(e) => handleUpdateTotalRounds(Number(e.target.value))}
-                  className="w-14 py-1.5 bg-white border-2 border-black rounded-xl text-center text-sm font-black text-black shadow-inner focus:outline-none"
-                />
-                {isHost && (
-                  <button
-                    type="button"
-                    onClick={() => handleUpdateTotalRounds(totalRounds + 1)}
-                    className="w-8 h-8 bg-white border-2 border-black rounded-xl text-black font-black flex items-center justify-center shadow-[0_2px_0_#000] active:translate-y-0.5 text-sm"
-                  >
-                    +
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-      </div>
-      </div>
-
-      {/* الشريط السفلي الثابت (متجاوب ومركزي على الحواسيب والهواتف) */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 p-3 bg-gradient-to-t from-black via-black/90 to-transparent flex flex-col items-center">
-        <div className="w-full max-w-md lg:max-w-xl bg-[#0070f3] rounded-3xl border-3 border-black p-3 shadow-[0_6px_0_#0047a5] flex flex-col items-center">
-          <button
-            type="button"
-            onClick={() => {
-              audio.playClick();
-              setIsCategoryBrowserOpen(true);
-            }}
-            className="text-white text-xs font-black tracking-wide text-stroke-sm mb-2 text-center hover:underline cursor-pointer"
-          >
-            {String(categoriesCount).padStart(2, '0')} فئات &nbsp;•&nbsp; {playersCountFormatted} لاعبين {isTeamMode && '• وضع الفرق'} 🔍
-          </button>
-
-          {isHost ? (
-            <button
-              type="button"
-              onClick={startGame}
-              disabled={!canStart}
-              className={`w-full py-3.5 rounded-2xl font-black text-lg border-3 border-black transition-all flex items-center justify-center gap-2 ${
-                canStart
-                  ? 'arcade-btn-yellow text-black'
-                  : 'bg-[#b89535] text-black/60 cursor-not-allowed opacity-75 shadow-[0_3px_0_#6d5516]'
-              }`}
-            >
-              <Play className="w-5 h-5 fill-current" />
-              <span>ابدأ اللعبة</span>
-            </button>
-          ) : (
-            <div className="w-full py-3 rounded-2xl bg-[#1e2337] border-2 border-black text-center text-xs font-black text-white shadow-[0_3px_0_#000]">
-              في انتظار مضيف الغرفة لبدء المنافسة... ⏳
-            </div>
-          )}
-        </div>
-
-        <div className="mt-2 flex items-center bg-[#1e2337] border-2 border-black rounded-full p-1 shadow-[0_3px_0_#000]">
-          <button
-            type="button"
-            onClick={() => setActiveBottomTab('game')}
-            className={`px-6 py-1 rounded-full text-xs font-black transition-all ${
-              activeBottomTab === 'game'
-                ? 'bg-[#0070f3] text-white border border-black shadow-sm'
-                : 'text-gray-400 hover:text-white'
-            }`}
-          >
-            لعبة
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveBottomTab('chat')}
-            className={`px-6 py-1 rounded-full text-xs font-black transition-all ${
-              activeBottomTab === 'chat'
-                ? 'bg-[#0070f3] text-white border border-black shadow-sm'
-                : 'text-gray-400 hover:text-white'
-            }`}
-          >
-            دردشة
-          </button>
-        </div>
-      </div>
     </div>
   );
 };

@@ -79,6 +79,13 @@ export class RoomManager {
   }
 
   /**
+   * حذف جلسة لاعب بواسطة الـ Session Token
+   */
+  public removeSession(sessionToken: string): void {
+    this.sessions.delete(sessionToken);
+  }
+
+  /**
    * انضمام لاعب جديد إلى غرفة قائمة
    */
   public joinRoom(

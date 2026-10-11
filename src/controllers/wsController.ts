@@ -26,12 +26,21 @@ export class WebSocketController {
       this.socketMeta.set(ws, {});
 
       ws.on('message', (data: string | Buffer) => {
+        let message: ClientMessage;
         try {
           const rawString = typeof data === 'string' ? data : data.toString('utf-8');
-          const message: ClientMessage = JSON.parse(rawString);
+          message = JSON.parse(rawString);
+        } catch (err: any) {
+          console.error('WebSocket invalid JSON error:', err);
+          this.sendError(ws, 'INVALID_JSON', 'الرسالة المرسلة ليست بتنسيق JSON صالح');
+          return;
+        }
+
+        try {
           this.handleClientMessage(ws, message);
         } catch (err: any) {
-          this.sendError(ws, 'INVALID_JSON', 'الرسالة المرسلة ليست بتنسيق JSON صالح');
+          console.error('WebSocket handleClientMessage error:', err);
+          this.sendError(ws, 'INTERNAL_ERROR', err?.message || 'حدث خطأ أثناء معالجة الأمر');
         }
       });
 
@@ -91,6 +100,22 @@ export class WebSocketController {
 
       case 'NEXT_ROUND':
         this.handleNextRound(ws, meta);
+        break;
+
+      case 'LEAVE_ROOM':
+        this.handleLeaveRoom(ws, meta);
+        break;
+
+      case 'KICK_PLAYER':
+        this.handleKickPlayer(ws, meta, message.payload);
+        break;
+
+      case 'ABORT_GAME':
+        this.handleAbortGame(ws, meta);
+        break;
+
+      case 'REMATCH':
+        this.handleRematch(ws, meta);
         break;
 
       default:
@@ -439,6 +464,96 @@ export class WebSocketController {
 
     if (room.phase === 'ROUND_RESULTS') {
       room.advanceToNextRoundOrFinish();
+    }
+  }
+
+  /**
+   * معالجة مغادرة اللاعب للغرفة
+   */
+  private handleLeaveRoom(ws: WebSocket, meta: SocketMetadata): void {
+    const { room, player } = this.getRoomAndPlayer(meta);
+    this.socketMeta.delete(ws);
+
+    if (player) {
+      player.detachSocket();
+    }
+
+    if (meta.sessionToken) {
+      roomManager.removeSession(meta.sessionToken);
+    }
+
+    if (room && player) {
+      const leaveRes = room.leavePlayer(player.id);
+      if (leaveRes.shouldDestroy) {
+        roomManager.deleteRoom(room.code);
+      }
+    }
+
+    this.send(ws, {
+      type: 'LEFT_ROOM',
+      payload: { success: true },
+    });
+  }
+
+  /**
+   * معالجة طرد لاعب بواسطة المضيف
+   */
+  private handleKickPlayer(ws: WebSocket, meta: SocketMetadata, payload: any): void {
+    const { room, player } = this.getRoomAndPlayer(meta);
+    if (!room || !player) {
+      this.sendError(ws, 'NOT_IN_ROOM', 'أنت لست منضماً لأي غرفة');
+      return;
+    }
+
+    if (!payload || !payload.targetPlayerId) {
+      this.sendError(ws, 'BAD_REQUEST', 'معرف اللاعب المراد طرده مطلوب');
+      return;
+    }
+
+    const targetId = String(payload.targetPlayerId);
+    const targetPlayer = room.getPlayer(targetId);
+    if (targetPlayer) {
+      if (targetPlayer.sessionToken) {
+        roomManager.removeSession(targetPlayer.sessionToken);
+      }
+      targetPlayer.detachSocket();
+    }
+
+    const res = room.kickPlayer(player.id, targetId);
+    if (!res.success) {
+      this.sendError(ws, 'KICK_FAILED', res.error || 'تعذر طرد اللاعب');
+    }
+  }
+
+  /**
+   * معالجة إنهاء المباراة الجارية والعودة لغرفة الانتظار
+   */
+  private handleAbortGame(ws: WebSocket, meta: SocketMetadata): void {
+    const { room, player } = this.getRoomAndPlayer(meta);
+    if (!room || !player) {
+      this.sendError(ws, 'NOT_IN_ROOM', 'أنت لست منضماً لأي غرفة');
+      return;
+    }
+
+    const res = room.abortGame(player.id);
+    if (!res.success) {
+      this.sendError(ws, 'ABORT_FAILED', res.error || 'تعذر إنهاء المباراة');
+    }
+  }
+
+  /**
+   * معالجة إعادة التحدي وبدء مباراة جديدة
+   */
+  private handleRematch(ws: WebSocket, meta: SocketMetadata): void {
+    const { room, player } = this.getRoomAndPlayer(meta);
+    if (!room || !player) {
+      this.sendError(ws, 'NOT_IN_ROOM', 'أنت لست منضماً لأي غرفة');
+      return;
+    }
+
+    const res = room.rematch(player.id);
+    if (!res.success) {
+      this.sendError(ws, 'REMATCH_FAILED', res.error || 'تعذر بدء إعادة المباراة');
     }
   }
 

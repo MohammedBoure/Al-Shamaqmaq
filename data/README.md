@@ -1,60 +1,57 @@
 # بنية بيانات اللعبة (Game Data Architecture)
 
-تمت هيكلة بنك بيانات اللعبة بالكامل في مجلدات فئات فرعية مستقلة، بحيث تحتوي كل فئة على مجلد خاص بها يضم ملفات المواضيع والأسئلة وحزم البيانات بصيغة JSON مهيكلة:
+تمت هيكلة بنك بيانات اللعبة بالكامل في مجلدات فئات فرعية مستقلة، بحيث تحتوي كل فئة على مجلد خاص بها يضم ملف تعريف الفئة (`category.json`) وملفات المواضيع والأسئلة وحزم البيانات بصيغة JSON مهيكلة:
 
 ```
 data/
-├── science/              # فئة العلوم
-│   ├── category.json     # بيانات تعريف الفئة
-│   ├── astronomy_space.json
-│   ├── physics.json
-│   ├── animals.json
-│   ├── general_science.json
-│   ├── biology.json
-│   ├── mathematics.json
-│   ├── botany.json
-│   ├── anatomy_health.json
-│   ├── medicine.json
-│   ├── engineering.json
-│   ├── medical_terms.json
-│   ├── math_puzzles.json
-│   ├── psychology.json
-│   └── README.md
-├── variety/              # فئة المنوعات
-│   ├── category.json
-│   ├── islamic_history.json
-│   ├── arabic_literature.json
-│   ├── world_geography.json
-│   ├── inventions.json
-│   ├── riddles.json
-│   └── README.md
-├── weekly/               # فئات الأسبوع
-│   ├── category.json
-│   ├── weekly_celebrities.json
-│   ├── weekly_sports.json
-│   └── README.md
-├── new_categories/       # فئات جديدة
-│   ├── category.json
-│   ├── ai_tech.json
-│   ├── video_games.json
-│   └── README.md
-└── topics.json           # ملف احتياطي للتوافقية
+├── science/              # فئة العلوم (19 موضوعاً - 3,575 سؤالاً)
+│   ├── category.json     # بيانات تعريف الفئة (علوم)
+│   ├── الفلك_والفضاء.json
+│   ├── الفيزياء.json
+│   ├── الكيمياء.json
+│   ├── الأحياء.json
+│   ├── طب_عام.json
+│   └── ...
+├── general/              # فئة المعلومات العامة (33 موضوعاً - 6,425 سؤالاً)
+│   ├── category.json     # بيانات تعريف الفئة (معلومات عامة)
+│   ├── معلومات_عامة.json
+│   ├── تكنولوجيا.json
+│   ├── برمجة.json
+│   ├── سيارات.json
+│   └── ...
+├── sports/               # فئة الرياضة (3 مواضيع - 600 سؤال)
+│   ├── category.json     # بيانات تعريف الفئة (رياضة)
+│   ├── رياضة.json
+│   ├── كرة_قدم.json
+│   └── جنسية_اللاعب.json
+├── celebrities_arts/     # فئة المشاهير والفنون (11 موضوعاً - 2,200 سؤال)
+│   ├── category.json     # بيانات تعريف الفئة (مشاهير وفنون)
+│   ├── من_هو_العالم.json
+│   ├── من_هو_المشهور_عربي.json
+│   ├── السيرة_الذاتية_للممثل.json
+│   └── ...
+└── README.md
 ```
 
 ## هيكل ملف الفئة (`category.json`):
 - `id`: المعرف الفريد للفئة (مثل `science`).
 - `title`: اسم الفئة المعروض بالعربية (مثل `علوم`).
-- `icon`: أيقونة الفئة.
+- `icon`: اسم أيقونة الفئة من مكتبة `lucide-react` (مثل `FlaskConical`, `Trophy`, `HelpCircle`, `Sparkles`).
 - `badge`: الشارة المعروضة بجانب الفئة.
-- `color`: اللون المميز للفئة.
-- `order`: ترتيب الظهور.
+- `color`: اللون المميز للفئة بتنسيق HEX.
+- `order`: ترتيب الظهور في واجهة اختيار الفئات.
 
 ## هيكل ملف الموضوع (`*.json`):
-- `id`: المعرف الفريد للموضوع (مثل `astronomy_space`).
-- `categoryId`: معرف الفئة الأم التابع لها.
-- `categoryTitle`: اسم الفئة الأم.
+- `id`: المعرف الفريد للموضوع (مثل `الفيزياء`).
+- `categoryId`: معرف الفئة الأم التابع لها (`science`, `general`, `sports`, `celebrities_arts`).
+- `categoryTitle`: اسم الفئة الأم بالعربية.
 - `title`: العنوان المعروض للموضوع.
 - `description`: وصف الموضوع.
-- `cover_image`: صورة الغلاف المعروضة في بطاقة الموضوع.
+- `cover_image`: مسار صورة الغلاف المعروضة في بطاقة الموضوع (مثل `/covers/الفيزياء.svg`).
 - `is_vip`: هل الموضوع مميز (شارة VIP).
-- `puzzles`: مصفوفة الأسئلة والألغاز، وكل لغز يحتوي على `id` و`prompt` و`answer_type` و`correct_answers`.
+- `puzzles`: مصفوفة الأسئلة والألغاز، ويحتوي كل لغز على:
+  - `id`: معرف فريد للغز عالمياً (مثل `فيزيا_001`).
+  - `prompt`: نص السؤال أو اللغز المطروح.
+  - `answer_type`: نوع الإجابة (`text_normalized` أو `text_exact` أو `number`).
+  - `correct_answers`: مصفوفة الإجابات الصحيحة المقبولة والصيغ المترادفة لها.
+  - `wrong_answers`: مصفوفة إجابات مضللة جاهزة (Decoys) لملء خيارات التصويت عند قلة اللاعبين.

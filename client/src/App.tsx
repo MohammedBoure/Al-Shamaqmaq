@@ -1,5 +1,4 @@
 import React from 'react';
-import { AlertCircle, CheckCircle, X } from 'lucide-react';
 import { useGame } from './context/GameContext';
 import { LobbyScreen } from './components/screens/LobbyScreen';
 import { WaitingRoomScreen } from './components/screens/WaitingRoomScreen';
@@ -8,12 +7,17 @@ import { AnsweringScreen } from './components/screens/AnsweringScreen';
 import { VotingScreen } from './components/screens/VotingScreen';
 import { RoundResultsScreen } from './components/screens/RoundResultsScreen';
 import { GameOverScreen } from './components/screens/GameOverScreen';
+import { AnimatedBackground } from './components/common/AnimatedBackground';
 
 export const App: React.FC = () => {
-  const { room, player, phase, errorMessage, successMessage, clearError } = useGame();
+  const { room, player, phase, timeRemaining, errorMessage, successMessage, clearError } = useGame();
+
+  const isTimeLow =
+    timeRemaining > 0 &&
+    timeRemaining <= 10 &&
+    (phase === 'TOPIC_SELECTION' || phase === 'ANSWERING' || phase === 'VOTING');
 
   const renderCurrentScreen = () => {
-    // إذا لم ينضم بعد لغرفة
     if (!room || !player) {
       return <LobbyScreen />;
     }
@@ -37,34 +41,44 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-arcade-bg text-white flex flex-col relative selection:bg-arcade-pink selection:text-white">
+    <div className="h-[100dvh] max-h-[100dvh] w-full overflow-hidden table-canvas-dark text-on-surface antialiased flex flex-col relative selection:bg-surface-bright selection:text-white">
+      <AnimatedBackground />
+
+      {/* وميض أطراف الشاشة باللون الأحمر التحذيري عند بقاء 10 ثوانٍ أو أقل */}
+      {isTimeLow && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-40 border-4 sm:border-8 border-rose-500 urgency-border-flash"
+        />
+      )}
+
       {/* إشعار الخطأ العائم */}
       {errorMessage && (
-        <div className="fixed top-4 right-1/2 translate-x-1/2 z-50 max-w-sm w-[90%] p-3.5 rounded-2xl bg-rose-950/95 border-2 border-rose-500 text-rose-200 text-xs font-bold shadow-2xl flex items-center justify-between gap-2 backdrop-blur-lg animate-bounce-subtle">
+        <div className="fixed top-4 right-1/2 translate-x-1/2 z-50 max-w-sm w-[90%] p-3.5 rounded-2xl bg-surface-container-high/95 border border-red-500/40 text-white text-xs font-semibold shadow-2xl flex items-center justify-between gap-2 backdrop-blur-xl animate-fadeIn">
           <div className="flex items-center gap-2">
-            <AlertCircle className="w-5 h-5 text-rose-400 shrink-0" />
+            <span className="material-symbols-outlined text-rose-400 text-[20px] shrink-0">error</span>
             <span>{errorMessage}</span>
           </div>
           <button
             type="button"
             onClick={clearError}
-            className="p-1 rounded-lg hover:bg-rose-800/40 text-rose-300"
+            className="p-1 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-white"
           >
-            <X className="w-4 h-4" />
+            <span className="material-symbols-outlined text-[16px]">close</span>
           </button>
         </div>
       )}
 
       {/* إشعار النجاح العائم */}
       {successMessage && (
-        <div className="fixed top-4 right-1/2 translate-x-1/2 z-50 max-w-sm w-[90%] p-3.5 rounded-2xl bg-emerald-950/95 border-2 border-emerald-500 text-emerald-200 text-xs font-bold shadow-2xl flex items-center gap-2 backdrop-blur-lg animate-bounce-subtle">
-          <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0" />
+        <div className="fixed top-4 right-1/2 translate-x-1/2 z-50 max-w-sm w-[90%] p-3.5 rounded-2xl bg-surface-container-high/95 border border-white/40 text-white text-xs font-semibold shadow-2xl flex items-center gap-2 backdrop-blur-xl animate-fadeIn">
+          <span className="material-symbols-outlined text-white text-[20px] shrink-0">check_circle</span>
           <span>{successMessage}</span>
         </div>
       )}
 
       {/* الشاشة النشطة */}
-      <main className="flex-1 flex flex-col justify-center">
+      <main className="flex-1 w-full h-full overflow-hidden overscroll-none flex flex-col">
         {renderCurrentScreen()}
       </main>
     </div>
