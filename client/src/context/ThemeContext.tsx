@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { GameThemeId, GAME_THEMES } from '../types/theme';
+import { GameThemeId, GAME_THEMES, ThemeOption } from '../types/theme';
 
 interface ThemeContextType {
   theme: GameThemeId;
+  themeOption: ThemeOption;
   setTheme: (themeId: GameThemeId) => void;
   toggleTheme: () => void;
   isLight: boolean;
@@ -20,7 +21,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return 'monochrome-magic';
   });
 
-  const selectedOption = GAME_THEMES.find((t) => t.id === theme);
+  const selectedOption = GAME_THEMES.find((t) => t.id === theme) || GAME_THEMES[0];
   const isLight = !!selectedOption?.isLight || theme === 'light' || theme === 'light-steel';
 
   useEffect(() => {
@@ -39,12 +40,22 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     root.classList.add(`theme-${theme}`);
     root.setAttribute('data-theme', theme);
 
+    // Apply semantic CSS variables
+    root.style.setProperty('--theme-btn-primary-bg', selectedOption.primaryButtonBg);
+    root.style.setProperty('--theme-btn-primary-text', selectedOption.primaryButtonText);
+    root.style.setProperty('--theme-btn-primary-hover', selectedOption.primaryButtonHover);
+    root.style.setProperty('--theme-accent', selectedOption.accentColor);
+    root.style.setProperty('--theme-card', selectedOption.cardBg);
+    root.style.setProperty('--theme-text', selectedOption.textColor);
+    root.style.setProperty('--theme-text-muted', selectedOption.textMutedColor);
+    root.style.setProperty('--theme-border', selectedOption.borderColor);
+
     if (isLight) {
       root.classList.add('theme-light', 'light');
     } else {
       root.classList.add('dark');
     }
-  }, [theme, isLight]);
+  }, [theme, isLight, selectedOption]);
 
   const toggleTheme = () => {
     setThemeState((prev) => (prev === 'monochrome-magic' ? 'light' : 'monochrome-magic'));
@@ -55,7 +66,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme, isLight }}>
+    <ThemeContext.Provider value={{ theme, themeOption: selectedOption, setTheme, toggleTheme, isLight }}>
       {children}
     </ThemeContext.Provider>
   );

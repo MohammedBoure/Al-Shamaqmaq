@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useGame } from '../../context/GameContext';
 import { AudioToggle } from '../common/AudioToggle';
 import { ThemeToggle } from '../common/ThemeToggle';
+import { GameScaleControl } from '../common/GameScaleControl';
 import { QRCodeView } from '../common/QRCodeView';
 import { ConsolePet } from '../common/ConsolePet';
 import { CharacterSelectScreen } from './CharacterSelectScreen';
@@ -171,7 +172,7 @@ export const WaitingRoomScreen: React.FC = () => {
   };
 
   return (
-    <div className="bg-background text-on-surface antialiased h-full max-h-full overflow-y-auto flex flex-col selection:bg-surface-bright selection:text-white">
+    <div className="table-canvas-dark text-on-surface antialiased h-full max-h-full overflow-y-auto flex flex-col selection:bg-surface-bright selection:text-white">
       {/* Desktop Top App Bar */}
       <header className="bg-surface/90 backdrop-blur-md sticky top-0 z-40 border-b border-outline-variant/40">
         <div className="flex justify-between items-center w-full px-3.5 sm:px-6 md:px-8 max-w-5xl mx-auto h-14 sm:h-16">
@@ -199,6 +200,7 @@ export const WaitingRoomScreen: React.FC = () => {
           <div className="flex items-center gap-1.5 sm:gap-3">
             <AudioToggle />
             <ThemeToggle />
+            <GameScaleControl />
             <button
               type="button"
               onClick={() => setIsCharacterModalOpen(true)}
@@ -232,7 +234,7 @@ export const WaitingRoomScreen: React.FC = () => {
           </div>
 
           {/* Preset Badge Cluster */}
-          <div className="flex items-center self-start sm:self-auto gap-1 bg-surface-container-low p-1 rounded-xl border border-outline-variant/50">
+          <div className="flex items-center self-start sm:self-auto gap-1 bg-surface-container-high mono-well p-1 rounded-xl border border-outline-variant/50">
             <button
               type="button"
               onClick={() => setPreset('classic')}
@@ -858,7 +860,7 @@ export const WaitingRoomScreen: React.FC = () => {
       </main>
 
       {/* Sticky Bottom Action Bar with Monochrome Aesthetics */}
-      <footer className="fixed bottom-0 inset-x-0 z-50 bg-[#121414]/95 backdrop-blur-xl border-t border-outline-variant/40 shadow-[0_-8px_30px_rgba(0,0,0,0.6)]">
+      <footer className="fixed bottom-0 inset-x-0 z-50 bg-surface-container-lowest/95 backdrop-blur-xl border-t border-outline-variant/40 shadow-[0_-8px_30px_rgba(0,0,0,0.6)]">
         <div className="max-w-4xl mx-auto px-3.5 sm:px-8 py-2.5 sm:py-3.5 flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3.5">
           {/* Room Summary Badge */}
           <div className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-surface-container-low border border-outline-variant/50">

@@ -7,6 +7,7 @@ import {
   checkAnswerMatch,
   areAnswersDuplicate,
   levenshteinDistance,
+  getDisplayCorrectAnswer,
 } from '../src/utils/textNormalizer';
 
 describe('Arabic Text Normalization & Matching Utilities', () => {
@@ -73,6 +74,26 @@ describe('Arabic Text Normalization & Matching Utilities', () => {
       expect(areAnswersDuplicate('الرئة', 'رئة')).toBe(true);
       expect(areAnswersDuplicate('ماركوني', 'ماركوني')).toBe(true);
       expect(areAnswersDuplicate('القلب', 'المخ')).toBe(false);
+    });
+  });
+
+  describe('getDisplayCorrectAnswer', () => {
+    it('returns answer directly if it already does not start with ال', () => {
+      expect(getDisplayCorrectAnswer(['روپ توتوپ', 'روب توتوب', 'الروب توتوب'])).toBe('روپ توتوپ');
+      expect(getDisplayCorrectAnswer(['نيتروجين', 'الآزوت'])).toBe('نيتروجين');
+      expect(getDisplayCorrectAnswer(['2.1'])).toBe('2.1');
+    });
+
+    it('finds and returns the exact counterpart without ال when list starts with ال', () => {
+      expect(getDisplayCorrectAnswer(['المشتري', 'مشتري', 'كوكب المشتري'])).toBe('مشتري');
+      expect(getDisplayCorrectAnswer(['النيل', 'نيل', 'نهر النيل'])).toBe('نيل');
+      expect(getDisplayCorrectAnswer(['القصص', 'قصص'])).toBe('قصص');
+    });
+
+    it('strips leading ال when no explicit alternative without ال exists in the list', () => {
+      expect(getDisplayCorrectAnswer(['السلسلة تاريخية طويلة'])).toBe('سلسلة تاريخية طويلة');
+      expect(getDisplayCorrectAnswer(['الإكس درايف'])).toBe('إكس درايف');
+      expect(getDisplayCorrectAnswer(['الAU'])).toBe('AU');
     });
   });
 });

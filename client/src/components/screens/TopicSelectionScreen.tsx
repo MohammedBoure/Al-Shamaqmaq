@@ -3,6 +3,7 @@ import { useGame } from '../../context/GameContext';
 import { TimerBar } from '../common/TimerBar';
 import { AudioToggle } from '../common/AudioToggle';
 import { ThemeToggle } from '../common/ThemeToggle';
+import { GameScaleControl } from '../common/GameScaleControl';
 import { PlayerScoreBars } from '../common/PlayerScoreBars';
 
 export const TopicSelectionScreen: React.FC = () => {
@@ -102,6 +103,7 @@ export const TopicSelectionScreen: React.FC = () => {
         <div className="flex items-center gap-1.5 sm:gap-2">
           <AudioToggle />
           <ThemeToggle />
+          <GameScaleControl />
         </div>
       </header>
 

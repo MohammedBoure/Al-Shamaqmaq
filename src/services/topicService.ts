@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { Topic, TopicSummary, CategoryGroup, Puzzle } from '../types/topics';
+import { getDisplayCorrectAnswer } from '../utils/textNormalizer';
 
 export class TopicService {
   private topics: Map<string, Topic> = new Map();
@@ -151,6 +152,15 @@ export class TopicService {
     for (const puzzle of topic.puzzles) {
       if (!puzzle.id || !puzzle.prompt || !Array.isArray(puzzle.correct_answers) || puzzle.correct_answers.length === 0) {
         throw new Error(`Puzzle ${puzzle.id} has invalid format in topic ${topic.id} (${source})`);
+      }
+
+      // ضبط الإجابة المعروضة بحيث تكون الصيغة الخالية من "ال" التعريف هي الأولى دائماً
+      const displayAnswer = getDisplayCorrectAnswer(puzzle.correct_answers);
+      if (displayAnswer && puzzle.correct_answers[0] !== displayAnswer) {
+        puzzle.correct_answers = [
+          displayAnswer,
+          ...puzzle.correct_answers.filter((a) => a !== displayAnswer),
+        ];
       }
     }
   }

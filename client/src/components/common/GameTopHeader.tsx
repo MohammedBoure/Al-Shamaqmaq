@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeToggle } from './ThemeToggle';
+import { GameScaleControl } from './GameScaleControl';
 
 interface GameTopHeaderProps {
   currentRound: number;
@@ -78,9 +79,10 @@ export const GameTopHeader: React.FC<GameTopHeaderProps> = ({
         </div>
       </div>
 
-      {/* أدوات الرأس: زر تبديل النمط والمشاركة */}
+      {/* أدوات الرأس: زر تبديل النمط ومقاس العرض والمشاركة */}
       <div className="flex items-center gap-1.5">
         <ThemeToggle />
+        <GameScaleControl />
         {onShareClick && (
           <button
             type="button"
