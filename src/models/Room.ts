@@ -15,7 +15,7 @@ import {
 import { Puzzle, TopicSummary } from '../types/topics';
 import { ServerMessage } from '../types/messages';
 import { topicService } from '../services/topicService';
-import { checkAnswerMatch, areAnswersDuplicate } from '../utils/textNormalizer';
+import { checkAnswerMatch, areAnswersDuplicate, getDisplayCorrectAnswer } from '../utils/textNormalizer';
 import { generateId } from '../utils/codeGenerator';
 import { config } from '../config';
 
@@ -791,8 +791,8 @@ export class Room {
     if (!this.currentPuzzle) return;
 
     // تجميع الخيارات
-    // 1. الإجابة الصحيحة الأصلية
-    const trueAnswerText = this.currentPuzzle.correct_answers[0];
+    // 1. الإجابة الصحيحة الأصلية (مهيأة للعرض بدون "ال" التعريف)
+    const trueAnswerText = getDisplayCorrectAnswer(this.currentPuzzle.correct_answers);
     const options: InternalVotingOption[] = [
       {
         id: generateId(),
@@ -847,8 +847,9 @@ export class Room {
       }
 
       // إذا لم تكتمل الخيارات المطلوبة، نستعين بإجابات مضللة من ألغاز أخرى لنفس الموضوع
-      if (options.length < targetTotalOptions && this.currentTopic?.puzzles) {
-        for (const p of this.currentTopic.puzzles) {
+      const topicObj = this.currentTopicId ? topicService.getTopicById(this.currentTopicId) : undefined;
+      if (options.length < targetTotalOptions && topicObj?.puzzles) {
+        for (const p of topicObj.puzzles) {
           if (options.length >= targetTotalOptions) break;
           for (const decoy of p.wrong_answers || []) {
             if (options.length >= targetTotalOptions) break;
@@ -1067,7 +1068,7 @@ export class Room {
       roundNumber: this.currentRound,
       puzzleId: this.currentPuzzle.id,
       prompt: this.currentPuzzle.prompt,
-      correctAnswer: this.currentPuzzle.correct_answers[0],
+      correctAnswer: getDisplayCorrectAnswer(this.currentPuzzle.correct_answers),
       options: resultOptions,
       scoreBreakdown,
       teamScores,

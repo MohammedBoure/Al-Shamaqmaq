@@ -185,3 +185,47 @@ export function areAnswersDuplicate(ans1: string, ans2: string): boolean {
 
   return false;
 }
+
+/**
+ * استخراج الإجابة الصحيحة المهيأة للعرض على اللاعبين (بدون "ال" التعريف في اللغة العربية)
+ * يضمن إزالة "ال" أو اختيار الصيغة النكرة الخالية من "ال" إن وجدت في قائمة الإجابات
+ */
+export function getDisplayCorrectAnswer(correctAnswers: string[]): string {
+  if (!correctAnswers || correctAnswers.length === 0) {
+    return '';
+  }
+
+  const first = correctAnswers[0].trim();
+  if (first === 'الله' || first.length <= 3) {
+    return first;
+  }
+
+  // إذا كانت الإجابة الأولى أصلاً لا تبدأ بـ "ال" أو "الـ"، نستخدمها مباشرة
+  if (!first.startsWith('ال') && !first.startsWith('الـ')) {
+    return first;
+  }
+
+  // 1. البحث عن صيغة مطابقة تماماً للإجابة الأولى بعد نزع "ال"
+  const strippedFirst = first.replace(/^الـ?/, '').trim();
+  if (strippedFirst && strippedFirst.length > 1) {
+    const exactMatch = correctAnswers.find((ans) => {
+      const clean = ans.trim();
+      return clean === strippedFirst || normalizeText(clean) === normalizeText(strippedFirst);
+    });
+    if (exactMatch) {
+      return exactMatch.trim();
+    }
+  }
+
+  // 2. البحث عن أي صيغة بديلة في قائمة الإجابات لا تبدأ بـ "ال"
+  const alternativeWithoutAl = correctAnswers.find((ans) => {
+    const clean = ans?.trim() || '';
+    return clean && !clean.startsWith('ال') && !clean.startsWith('الـ');
+  });
+  if (alternativeWithoutAl) {
+    return alternativeWithoutAl.trim();
+  }
+
+  // 3. في حال كانت جميع الصيغ في القائمة تبدأ بـ "ال"، ننزع "ال" من الإجابة الأولى
+  return strippedFirst || first;
+}
