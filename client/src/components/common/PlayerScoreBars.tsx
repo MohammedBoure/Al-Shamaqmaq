@@ -10,14 +10,6 @@ interface PlayerScoreBarsProps {
   className?: string;
 }
 
-const arabicNumbers: Record<string, string> = {
-  '0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤',
-  '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩',
-};
-
-const toArabic = (num: number | string) => {
-  return String(num).replace(/[0-9]/g, (w) => arabicNumbers[w] || w);
-};
 
 export const PlayerScoreBars: React.FC<PlayerScoreBarsProps> = ({
   players,
@@ -44,7 +36,7 @@ export const PlayerScoreBars: React.FC<PlayerScoreBarsProps> = ({
           <span>سباق النقاط في الجلسة</span>
         </span>
         <span className="text-[10px] text-on-surface-variant font-mono">
-          أعلى نتيجة: {toArabic(highestCurrentScore)} ن
+          أعلى نتيجة: {highestCurrentScore} ن
         </span>
       </div>
 
@@ -75,7 +67,7 @@ export const PlayerScoreBars: React.FC<PlayerScoreBarsProps> = ({
                   </span>
                 </div>
                 <span className="text-[11px] sm:text-xs font-extrabold text-amber-400 shrink-0 font-mono">
-                  {toArabic(score)}{' '}
+                  {score}{' '}
                   <span className="text-[9px] font-normal text-on-surface-variant">ن</span>
                 </span>
               </div>

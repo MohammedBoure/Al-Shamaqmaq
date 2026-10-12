@@ -86,7 +86,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full max-h-full overflow-y-auto max-w-4xl mx-auto w-full bg-background relative select-none p-3 sm:p-4 transition-all justify-between">
+    <div className="flex flex-col h-full max-h-full overflow-y-auto max-w-4xl mx-auto w-full table-canvas-dark relative select-none p-3 sm:p-4 transition-all justify-between">
       {/* 1. الشريط العلوي */}
       <header className="flex items-center justify-between pb-3 sm:pb-4 border-b border-outline-variant/40 w-full">
         {onBack ? (

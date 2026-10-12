@@ -95,7 +95,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
   }, [categoryGroups, searchQuery]);
 
   return (
-    <div className="h-full max-h-full overflow-y-auto bg-background text-on-surface flex flex-col justify-between selection:bg-surface-bright selection:text-white pb-10">
+    <div className="h-full max-h-full overflow-y-auto table-canvas-dark text-on-surface flex flex-col justify-between selection:bg-surface-bright selection:text-white pb-10">
       {/* نافذة تفاصيل الموضوع */}
       {selectedTopicForInfo && (
         <div
@@ -284,7 +284,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
       </main>
 
       {/* الشريط السفلي الثابت */}
-      <footer className="fixed bottom-0 inset-x-0 z-50 bg-[#121414]/95 backdrop-blur-xl border-t border-outline-variant/40 shadow-2xl py-3.5 px-4 sm:px-8">
+      <footer className="fixed bottom-0 inset-x-0 z-50 bg-surface-container-lowest/95 backdrop-blur-xl border-t border-outline-variant/40 shadow-2xl py-3.5 px-4 sm:px-8">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <span className="text-xs font-bold text-white">
             {allowedTopicIds.size} تصنيفات نشطة جاهزة للعبة

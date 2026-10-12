@@ -108,60 +108,73 @@ export const VotingScreen: React.FC = () => {
           </h2>
         </div>
 
-        {/* شبكة خيارات التصويت */}
-        <div className="grid grid-cols-2 gap-2 sm:gap-3.5">
-          {votingOptions.map((opt, idx) => {
-            const isSelected = votedOptionId === opt.id;
-            const isSelf = opt.isSelfSubmission;
-            const isLastOdd = idx === votingOptions.length - 1 && votingOptions.length % 2 !== 0;
-
-            return (
-              <button
-                key={opt.id}
-                type="button"
-                disabled={hasVoted || isSelf}
-                onClick={() => handleVote(opt.id, isSelf)}
-                className={`w-full relative text-center px-6 py-3.5 sm:py-4.5 rounded-2xl sm:rounded-3xl border transition-all duration-150 flex flex-col items-center justify-center min-h-[58px] sm:min-h-[66px] ${
-                  isLastOdd ? 'col-span-2' : 'col-span-1'
-                } ${
-                  isSelected
-                    ? 'bg-surface-container-high border-2 border-white ring-2 ring-white/10 shadow-lg scale-[1.01]'
-                    : isSelf
-                    ? 'bg-surface-container-low/50 border-outline-variant/30 opacity-40 cursor-not-allowed'
-                    : 'bg-surface-container-low hover:bg-surface-container border-outline-variant/50 text-white active:scale-98 cursor-pointer'
-                }`}
-              >
-                <span className="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-snug w-full block">
-                  {opt.text}
-                </span>
-
-                {isSelf && (
-                  <span className="text-[10px] sm:text-[11px] text-outline mt-1 text-center font-medium block">
-                    (إجابتك أنت — لا يمكنك التصويت عليها)
-                  </span>
-                )}
-
-                {/* مؤشر الاختيار والتصويت على جانب الكبسولة */}
-                {isSelected && (
-                  <div className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white text-surface-container-lowest flex items-center justify-center shrink-0 shadow-md">
-                    <span className="material-symbols-outlined text-[14px] sm:text-[16px] font-bold">check</span>
-                  </div>
-                )}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* حالة بعد التصويت */}
-        {hasVoted && (
-          <div className="p-3 sm:p-4 rounded-xl bg-surface-container-low border border-outline-variant/40 text-center animate-fadeIn flex items-center justify-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-surface-container-high border border-outline-variant/50 flex items-center justify-center overflow-hidden shrink-0">
-              <ConsolePet avatar={player?.avatar} size={28} />
+        {/* إخفاء الإجابات بالكامل عند التصويت لحماية الخصوصية ومنع اختلاس النظر */}
+        {hasVoted ? (
+          <div className="dark-monochrome-card rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-white/10 text-center animate-fadeIn space-y-4 sm:space-y-5 shadow-xl">
+            {/* Lock / Privacy Icon Well */}
+            <div className="relative inline-flex items-center justify-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-surface-container-high border border-outline-variant/60 flex items-center justify-center overflow-hidden shadow-inner">
+                <ConsolePet avatar={player?.avatar} size={60} />
+              </div>
+              <span className="absolute -bottom-1 -left-1 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-md">
+                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">lock</span>
+              </span>
             </div>
-            <span className="text-xs font-bold text-white flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-[15px] sm:text-[16px] text-emerald-400">check_circle</span>
-              <span>تم تسجيل تصويتك يا {player?.nickname}! في انتظار كشف الخدعة...</span>
-            </span>
+
+            <div className="space-y-1.5 max-w-md mx-auto">
+              <h3 className="text-base sm:text-xl font-bold text-white flex items-center justify-center gap-2">
+                <span>تم قفل إجابتك بنجاح! 🔒</span>
+              </h3>
+              <p className="text-xs sm:text-sm text-emerald-400 font-semibold flex items-center justify-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>تم إخفاء الخيارات حتى لا يختلس أصدقاؤك النظر إلى شاشتك 👀</span>
+              </p>
+            </div>
+
+            {/* في انتظار بقية اللاعبين لاختيار إجاباتهم */}
+            <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-surface-container-low border border-outline-variant/40 flex items-center justify-center gap-2.5 text-xs sm:text-sm font-bold text-white max-w-sm mx-auto shadow-sm">
+              <span className="material-symbols-outlined text-[18px] text-amber-400 animate-spin">
+                sync
+              </span>
+              <span>في انتظار بقية اللاعبين لاختيار إجاباتهم...</span>
+            </div>
+          </div>
+        ) : (
+          /* شبكة خيارات التصويت (تظهر فقط قبل التصويت) */
+          <div className="grid grid-cols-2 gap-2 sm:gap-3.5">
+            {votingOptions.map((opt, idx) => {
+              const isSelected = votedOptionId === opt.id;
+              const isSelf = opt.isSelfSubmission;
+              const isLastOdd = idx === votingOptions.length - 1 && votingOptions.length % 2 !== 0;
+
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  disabled={hasVoted || isSelf}
+                  onClick={() => handleVote(opt.id, isSelf)}
+                  className={`w-full relative text-center px-6 py-3.5 sm:py-4.5 rounded-2xl sm:rounded-3xl border transition-all duration-150 flex flex-col items-center justify-center min-h-[58px] sm:min-h-[66px] ${
+                    isLastOdd ? 'col-span-2' : 'col-span-1'
+                  } ${
+                    isSelected
+                      ? 'bg-surface-container-high border-2 border-white ring-2 ring-white/10 shadow-lg scale-[1.01]'
+                      : isSelf
+                      ? 'bg-surface-container-low/50 border-outline-variant/30 opacity-40 cursor-not-allowed'
+                      : 'bg-surface-container-low hover:bg-surface-container border-outline-variant/50 text-white active:scale-98 cursor-pointer'
+                  }`}
+                >
+                  <span className="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-snug w-full block">
+                    {opt.text}
+                  </span>
+
+                  {isSelf && (
+                    <span className="text-[10px] sm:text-[11px] text-outline mt-1 text-center font-medium block">
+                      (إجابتك أنت — لا يمكنك التصويت عليها)
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         )}
       </div>

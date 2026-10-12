@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '../../context/GameContext';
 import { AudioToggle } from '../common/AudioToggle';
 import { ThemeToggle } from '../common/ThemeToggle';
+import { GameScaleControl } from '../common/GameScaleControl';
 import { CameraQRScanner } from '../common/CameraQRScanner';
 import { ConsolePet, serializePet, DEFAULT_PET_CONFIG } from '../common/ConsolePet';
 import { CharacterSelectScreen } from './CharacterSelectScreen';
@@ -198,6 +199,7 @@ export const LobbyScreen: React.FC = () => {
           <div className="flex items-center gap-1.5 sm:gap-2">
             <AudioToggle />
             <ThemeToggle />
+            <GameScaleControl />
           </div>
         </div>
       </header>
@@ -533,7 +535,7 @@ export const LobbyScreen: React.FC = () => {
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-outline-variant/40" />
                 </div>
-                <div className="relative inline-block bg-[#18191a] px-3">
+                <div className="relative inline-block bg-surface-container-low px-3">
                   <span className="text-[11px] font-semibold text-outline tracking-wider">أو</span>
                 </div>
               </div>
