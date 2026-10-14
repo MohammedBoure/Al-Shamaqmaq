@@ -15,14 +15,14 @@ export const TimerBar: React.FC<TimerBarProps> = ({
   const isUrgent = timeRemaining <= 10;
 
   return (
-    <div className="w-full bg-surface-container-low/90 backdrop-blur-md p-3.5 rounded-2xl border border-outline-variant/40 shadow-md">
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-on-surface-variant">
-          <span className="material-symbols-outlined text-[16px]">timer</span>
+    <div className="w-full bg-surface-container-low/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-outline-variant/40 shadow-xs my-[5px]">
+      <div className="flex items-center justify-between mb-1">
+        <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-on-surface-variant">
+          <span className="material-symbols-outlined text-[15px]">timer</span>
           <span>{label}</span>
         </div>
         <div
-          className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${
+          className={`px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold border ${
             isUrgent
               ? 'bg-surface-container-high text-white border-white animate-pulse'
               : 'bg-surface-container text-on-surface border-outline-variant/50'
@@ -31,7 +31,7 @@ export const TimerBar: React.FC<TimerBarProps> = ({
           {timeRemaining} ثانية
         </div>
       </div>
-      <div className="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+      <div className="w-full h-1.5 sm:h-2 bg-surface-container-highest rounded-full overflow-hidden">
         <div
           className="h-full bg-white rounded-full transition-all duration-1000 ease-linear"
           style={{ width: `${percentage}%` }}

@@ -40,7 +40,7 @@ export const GameOverScreen: React.FC = () => {
   const thirdPlace = leaderboard[2];
 
   return (
-    <div className="flex flex-col h-full max-h-full overflow-y-auto px-3 sm:px-4 py-3 sm:py-4 max-w-3xl mx-auto w-full select-none justify-between relative">
+    <div className="flex flex-col min-h-full w-full max-w-3xl mx-auto px-2.5 sm:px-4 py-[5px] select-none gap-y-[5px] relative">
       <GameTopHeader
         currentRound={totalRounds}
         totalRounds={totalRounds}
@@ -48,32 +48,32 @@ export const GameOverScreen: React.FC = () => {
         onMenuClick={leaveRoom}
       />
 
-      <div className="text-center my-3 sm:my-5">
-        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center text-white mx-auto mb-2 shadow-lg">
-          <span className="material-symbols-outlined text-[26px] sm:text-[32px]">emoji_events</span>
+      <div className="text-center my-[5px]">
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center text-white mx-auto mb-1.5 shadow-md">
+          <span className="material-symbols-outlined text-[22px] sm:text-[26px]">emoji_events</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight">
           تتويج بطل ESC!
         </h1>
-        <p className="text-xs sm:text-sm text-on-surface-variant mt-1 max-w-xs sm:max-w-md mx-auto">
+        <p className="text-[11px] sm:text-xs text-on-surface-variant mt-0.5 max-w-xs sm:max-w-md mx-auto">
           تهانينا للأذكى والأكثر براعة في الخداع والتخمين 🎭
         </p>
       </div>
 
       {/* المنصة الثلاثية مع شخصيات كلك */}
-      <div className="flex items-end justify-center gap-2 sm:gap-3 max-w-sm sm:max-w-md mx-auto w-full my-3 sm:my-5 px-2 sm:px-4">
+      <div className="flex items-end justify-center gap-2 sm:gap-3 max-w-sm sm:max-w-md mx-auto w-full my-[5px] px-2 shrink-0">
         {/* المركز الثاني */}
         {secondPlace && (
           <div className="flex-1 flex flex-col items-center">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 mb-1 flex items-center justify-center">
-              <ConsolePet avatar={secondPlace.avatar} size={48} />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 mb-1 flex items-center justify-center">
+              <ConsolePet avatar={secondPlace.avatar} size={40} />
             </div>
-            <span className="text-[11px] sm:text-xs font-bold text-white mb-1 truncate max-w-[70px] sm:max-w-[80px]">
+            <span className="text-[10px] sm:text-xs font-bold text-white mb-0.5 truncate max-w-[70px] sm:max-w-[80px]">
               {secondPlace.nickname}
             </span>
-            <div className="w-full bg-surface-container-low border border-outline-variant/60 rounded-t-xl sm:rounded-t-2xl h-20 sm:h-24 flex flex-col items-center justify-center p-1.5 sm:p-2">
-              <span className="text-base sm:text-lg font-bold text-white">٢</span>
-              <span className="text-[10px] sm:text-xs text-on-surface-variant">{secondPlace.score} نقطة</span>
+            <div className="w-full bg-surface-container-low border border-outline-variant/60 rounded-t-xl h-16 sm:h-20 flex flex-col items-center justify-center p-1 sm:p-1.5">
+              <span className="text-sm sm:text-base font-bold text-white">٢</span>
+              <span className="text-[9px] sm:text-[10px] text-on-surface-variant">{secondPlace.score} نقطة</span>
             </div>
           </div>
         )}
@@ -81,18 +81,18 @@ export const GameOverScreen: React.FC = () => {
         {/* المركز الأول */}
         {firstPlace && (
           <div className="flex-1 flex flex-col items-center">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 mb-1 relative flex items-center justify-center">
-              <span className="material-symbols-outlined text-yellow-400 text-lg sm:text-xl absolute -top-3 left-1/2 -translate-x-1/2 drop-shadow animate-bounce">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 mb-1 relative flex items-center justify-center">
+              <span className="material-symbols-outlined text-yellow-400 text-base sm:text-lg absolute -top-2.5 left-1/2 -translate-x-1/2 drop-shadow animate-bounce">
                 crown
               </span>
-              <ConsolePet avatar={firstPlace.avatar} size={64} />
+              <ConsolePet avatar={firstPlace.avatar} size={50} />
             </div>
-            <span className="text-xs sm:text-base font-extrabold text-white mb-1 truncate max-w-[85px] sm:max-w-[100px]">
+            <span className="text-xs sm:text-sm font-extrabold text-white mb-0.5 truncate max-w-[85px] sm:max-w-[100px]">
               {firstPlace.nickname}
             </span>
-            <div className="w-full bg-white text-surface-container-lowest rounded-t-xl sm:rounded-t-2xl h-28 sm:h-36 flex flex-col items-center justify-center p-1.5 sm:p-2 shadow-2xl">
-              <span className="text-xl sm:text-2xl font-black">١</span>
-              <span className="text-[10px] sm:text-xs font-bold">{firstPlace.score} نقطة</span>
+            <div className="w-full bg-white text-surface-container-lowest rounded-t-xl h-22 sm:h-28 flex flex-col items-center justify-center p-1 sm:p-1.5 shadow-xl">
+              <span className="text-lg sm:text-xl font-black">١</span>
+              <span className="text-[9px] sm:text-[10px] font-bold">{firstPlace.score} نقطة</span>
             </div>
           </div>
         )}
@@ -100,33 +100,33 @@ export const GameOverScreen: React.FC = () => {
         {/* المركز الثالث */}
         {thirdPlace && (
           <div className="flex-1 flex flex-col items-center">
-            <div className="w-11 h-11 sm:w-12 sm:h-12 mb-1 flex items-center justify-center">
-              <ConsolePet avatar={thirdPlace.avatar} size={42} />
+            <div className="w-9 h-9 sm:w-10 sm:h-10 mb-1 flex items-center justify-center">
+              <ConsolePet avatar={thirdPlace.avatar} size={34} />
             </div>
-            <span className="text-[11px] sm:text-xs font-bold text-white mb-1 truncate max-w-[70px] sm:max-w-[80px]">
+            <span className="text-[10px] sm:text-xs font-bold text-white mb-0.5 truncate max-w-[70px] sm:max-w-[80px]">
               {thirdPlace.nickname}
             </span>
-            <div className="w-full bg-surface-container-low border border-outline-variant/60 rounded-t-xl sm:rounded-t-2xl h-14 sm:h-16 flex flex-col items-center justify-center p-1.5 sm:p-2">
-              <span className="text-base sm:text-lg font-bold text-white">٣</span>
-              <span className="text-[10px] sm:text-xs text-on-surface-variant">{thirdPlace.score} نقطة</span>
+            <div className="w-full bg-surface-container-low border border-outline-variant/60 rounded-t-xl h-12 sm:h-14 flex flex-col items-center justify-center p-1">
+              <span className="text-sm sm:text-base font-bold text-white">٣</span>
+              <span className="text-[9px] sm:text-[10px] text-on-surface-variant">{thirdPlace.score} نقطة</span>
             </div>
           </div>
         )}
       </div>
 
       {/* لوحة الترتيب الكاملة */}
-      <div className="dark-monochrome-card rounded-2xl p-4 sm:p-5 border border-white/10 my-3 sm:my-4 max-w-lg mx-auto w-full">
-        <h3 className="text-xs sm:text-sm font-bold text-white mb-2.5 sm:mb-3">الترتيب النهائي لجميع اللاعبين:</h3>
-        <div className="space-y-1.5 sm:space-y-2">
+      <div className="dark-monochrome-card rounded-xl p-2.5 sm:p-3.5 border border-white/10 my-[5px] max-w-lg mx-auto w-full">
+        <h3 className="text-xs sm:text-sm font-bold text-white mb-1.5 sm:mb-2">الترتيب النهائي لجميع اللاعبين:</h3>
+        <div className="space-y-1">
           {leaderboard.map((entry, idx) => (
             <div
               key={entry.id}
-              className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl bg-surface-container-low text-[11px] sm:text-xs"
+              className="flex items-center justify-between p-1.5 sm:p-2 rounded-lg bg-surface-container-low text-[10px] sm:text-xs"
             >
-              <div className="flex items-center gap-2.5">
-                <span className="font-bold text-outline w-5 text-center">#{idx + 1}</span>
-                <div className="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center overflow-hidden shrink-0 border border-outline-variant/40">
-                  <ConsolePet avatar={entry.avatar} size={26} />
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-outline w-4 text-center">#{idx + 1}</span>
+                <div className="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center overflow-hidden shrink-0 border border-outline-variant/40">
+                  <ConsolePet avatar={entry.avatar} size={22} />
                 </div>
                 <span className="font-bold text-white">{entry.nickname}</span>
               </div>
@@ -137,19 +137,19 @@ export const GameOverScreen: React.FC = () => {
       </div>
 
       {/* أزرار الإجراءات: إعادة التحدي أو مغادرة الجلسة */}
-      <div className="pt-2 sm:pt-4 max-w-sm mx-auto w-full space-y-2.5">
+      <div className="py-[5px] max-w-sm mx-auto w-full space-y-1.5 shrink-0">
         {isHost ? (
           <button
             type="button"
             onClick={rematch}
-            className="w-full bg-amber-400 hover:bg-amber-300 text-neutral-950 font-extrabold py-3 sm:py-3.5 px-5 sm:px-6 rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-xs sm:text-sm"
+            className="w-full bg-amber-400 hover:bg-amber-300 text-neutral-950 font-extrabold py-2 sm:py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-1.5 text-xs sm:text-sm"
           >
-            <span className="material-symbols-outlined text-[18px] sm:text-[20px]">replay</span>
+            <span className="material-symbols-outlined text-[16px] sm:text-[18px]">replay</span>
             <span>إعادة التحدي (مباراة جديدة بنفس اللاعبين)</span>
           </button>
         ) : (
-          <div className="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-center text-[11px] sm:text-xs text-on-surface-variant flex items-center justify-center gap-2">
-            <span className="material-symbols-outlined text-[16px] text-amber-400 animate-spin">sync</span>
+          <div className="p-2 rounded-xl bg-surface-container-low border border-outline-variant/40 text-center text-[10px] sm:text-xs text-on-surface-variant flex items-center justify-center gap-1.5">
+            <span className="material-symbols-outlined text-[15px] text-amber-400 animate-spin">sync</span>
             <span>في انتظار المضيف لبدء إعادة التحدي أو العودة للردهة...</span>
           </div>
         )}
@@ -157,10 +157,10 @@ export const GameOverScreen: React.FC = () => {
         <button
           type="button"
           onClick={leaveRoom}
-          className="w-full bg-surface-container-low hover:bg-surface-container text-white border border-outline-variant/50 font-bold py-2.5 sm:py-3 px-5 sm:px-6 rounded-xl shadow-sm transition-all active:scale-[0.99] flex items-center justify-center gap-2 text-xs sm:text-sm"
+          className="w-full bg-surface-container-low hover:bg-surface-container text-white border border-outline-variant/50 font-bold py-2 px-4 rounded-xl shadow-xs transition-all active:scale-[0.99] flex items-center justify-center gap-1.5 text-xs sm:text-sm"
         >
           <span>مغادرة الجلسة والعودة للرئيسية</span>
-          <span className="material-symbols-outlined text-[16px] sm:text-[18px]">logout</span>
+          <span className="material-symbols-outlined text-[15px] sm:text-[16px]">logout</span>
         </button>
       </div>
     </div>

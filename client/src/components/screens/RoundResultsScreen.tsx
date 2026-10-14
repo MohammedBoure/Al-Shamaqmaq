@@ -58,7 +58,7 @@ export const RoundResultsScreen: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full max-h-full overflow-y-auto px-3 sm:px-4 py-3 sm:py-4 max-w-3xl mx-auto w-full select-none justify-between relative">
+    <div className="flex flex-col min-h-full w-full max-w-3xl mx-auto px-2.5 sm:px-4 py-[5px] select-none gap-y-[5px] relative">
       {/* القائمة السريعة */}
       {isMenuOpen && (
         <div
@@ -106,13 +106,13 @@ export const RoundResultsScreen: React.FC = () => {
       />
 
       {/* تبديل العرض بين كشف الخدعة ولوحة النقاط */}
-      <div className="mono-well p-1 rounded-xl grid grid-cols-2 gap-2 mb-4 sm:mb-6 max-w-sm mx-auto w-full">
+      <div className="mono-well p-1 rounded-xl grid grid-cols-2 gap-1.5 my-[5px] max-w-sm mx-auto w-full shrink-0">
         <button
           type="button"
           onClick={() => handleSwitchTab('reveal')}
-          className={`py-2 px-3 rounded-lg text-xs transition-all flex items-center justify-center gap-1.5 ${
+          className={`py-1.5 px-3 rounded-lg text-xs transition-all flex items-center justify-center gap-1.5 ${
             viewState === 'reveal'
-              ? 'font-bold bg-white text-surface-container-lowest shadow'
+              ? 'font-bold bg-white text-surface-container-lowest shadow-xs'
               : 'font-semibold text-on-surface-variant hover:text-white'
           }`}
         >
@@ -122,9 +122,9 @@ export const RoundResultsScreen: React.FC = () => {
         <button
           type="button"
           onClick={() => handleSwitchTab('leaderboard')}
-          className={`py-2 px-3 rounded-lg text-xs transition-all flex items-center justify-center gap-1.5 ${
+          className={`py-1.5 px-3 rounded-lg text-xs transition-all flex items-center justify-center gap-1.5 ${
             viewState === 'leaderboard'
-              ? 'font-bold bg-white text-surface-container-lowest shadow'
+              ? 'font-bold bg-white text-surface-container-lowest shadow-xs'
               : 'font-semibold text-on-surface-variant hover:text-white'
           }`}
         >
@@ -134,11 +134,11 @@ export const RoundResultsScreen: React.FC = () => {
       </div>
 
       {/* محتوى الشاشة */}
-      <div className="flex-1 space-y-4 sm:space-y-6 my-auto">
+      <div className="flex-1 space-y-2 sm:space-y-3 my-[5px]">
         {viewState === 'reveal' ? (
-          <div className="space-y-4 sm:space-y-6 animate-fadeIn">
+          <div className="space-y-2 sm:space-y-3 animate-fadeIn">
             {/* الإجابة الصحيحة */}
-            <div className="dark-monochrome-card rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-white/20 text-center">
+            <div className="dark-monochrome-card rounded-xl sm:rounded-2xl p-2.5 sm:p-4 border border-white/20 text-center my-[5px]">
               <span className="inline-flex items-center gap-1.5 px-3 py-0.5 sm:py-1 rounded-full bg-white text-surface-container-lowest text-[11px] sm:text-xs font-bold mb-2.5 sm:mb-3">
                 <span className="material-symbols-outlined text-[14px] sm:text-[15px]">verified</span>
                 الإجابة الحقيقية الصحيحة (+٢ نقطة)
@@ -367,19 +367,19 @@ export const RoundResultsScreen: React.FC = () => {
       </div>
 
       {/* زر المتابعة للجولة التالية */}
-      <div className="pt-3 sm:pt-6">
+      <div className="py-[5px] shrink-0">
         {isHost ? (
           <button
             type="button"
             onClick={handleNextRound}
-            className="w-full bg-white hover:bg-neutral-200 text-surface-container-lowest font-bold text-xs sm:text-base py-2.5 sm:py-3.5 px-5 sm:px-6 rounded-xl shadow-lg transition-all active:scale-[0.99] flex items-center justify-center gap-2"
+            className="w-full bg-white hover:bg-neutral-200 text-surface-container-lowest font-bold text-xs sm:text-sm py-2 sm:py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-[0.99] flex items-center justify-center gap-2"
           >
             <span>{isLastRound ? 'إعلان النتائج النهائية والتتويج' : 'الانتقال إلى الجولة التالية'}</span>
             <span className="material-symbols-outlined text-[16px] sm:text-[18px]">arrow_back</span>
           </button>
         ) : (
-          <div className="text-center text-[11px] sm:text-xs text-on-surface-variant py-2 flex items-center justify-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+          <div className="text-center text-[10px] sm:text-xs text-on-surface-variant py-1 flex items-center justify-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
             <span>في انتظار المضيف للانتقال للجولة التالية...</span>
           </div>
         )}
