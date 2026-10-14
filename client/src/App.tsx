@@ -41,7 +41,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="h-[100dvh] max-h-[100dvh] w-full overflow-hidden table-canvas-dark text-on-surface antialiased flex flex-col relative selection:bg-surface-bright selection:text-white">
+    <div className="min-h-[100dvh] w-full table-canvas-dark text-on-surface antialiased flex flex-col relative selection:bg-surface-bright selection:text-white">
       <AnimatedBackground />
 
       {/* وميض أطراف الشاشة باللون الأحمر التحذيري عند بقاء 10 ثوانٍ أو أقل */}
@@ -78,7 +78,7 @@ export const App: React.FC = () => {
       )}
 
       {/* الشاشة النشطة */}
-      <main className="flex-1 w-full h-full overflow-hidden overscroll-none flex flex-col">
+      <main className="flex-1 w-full min-h-0 flex flex-col">
         {renderCurrentScreen()}
       </main>
     </div>

@@ -26,21 +26,21 @@ export const PlayerScoreBars: React.FC<PlayerScoreBarsProps> = ({
 
   return (
     <div
-      className={`p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-surface-container-low border border-outline-variant/40 shadow-sm shrink-0 space-y-2 ${className}`}
+      className={`p-1.5 sm:p-2 rounded-xl bg-surface-container-low border border-outline-variant/40 shadow-xs shrink-0 space-y-1 my-[5px] ${className}`}
     >
       <div className="flex items-center justify-between">
-        <span className="text-[11px] sm:text-xs font-bold text-white flex items-center gap-1.5">
-          <span className="material-symbols-outlined text-[15px] sm:text-[16px] text-amber-400">
+        <span className="text-[10px] sm:text-[11px] font-bold text-white flex items-center gap-1">
+          <span className="material-symbols-outlined text-[14px] sm:text-[15px] text-amber-400">
             equalizer
           </span>
           <span>سباق النقاط في الجلسة</span>
         </span>
-        <span className="text-[10px] text-on-surface-variant font-mono">
+        <span className="text-[9px] sm:text-[10px] text-on-surface-variant font-mono">
           أعلى نتيجة: {highestCurrentScore} ن
         </span>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
         {players.map((p) => {
           const score = p.score || 0;
           // نسبة امتلاء شريط النقاط من 0 إلى 100%
@@ -51,29 +51,29 @@ export const PlayerScoreBars: React.FC<PlayerScoreBarsProps> = ({
           return (
             <div
               key={p.id}
-              className={`p-2 rounded-xl border flex flex-col justify-between transition-all duration-300 ${
+              className={`p-1.5 rounded-lg border flex flex-col justify-between transition-all duration-300 ${
                 isPicker
-                  ? 'bg-surface-container-high border-amber-400/50 ring-1 ring-amber-400/20 shadow-sm'
+                  ? 'bg-surface-container-high border-amber-400/50 ring-1 ring-amber-400/20 shadow-xs'
                   : 'bg-surface-container border-outline-variant/30'
               }`}
             >
-              <div className="flex items-center justify-between gap-1 mb-1.5">
-                <div className="flex items-center gap-1.5 min-w-0">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-surface-container-high flex items-center justify-center overflow-hidden shrink-0 border border-outline-variant/30">
-                    <ConsolePet avatar={p.avatar} size={22} />
+              <div className="flex items-center justify-between gap-1 mb-1">
+                <div className="flex items-center gap-1 min-w-0">
+                  <div className="w-5 h-5 rounded-md bg-surface-container-high flex items-center justify-center overflow-hidden shrink-0 border border-outline-variant/30">
+                    <ConsolePet avatar={p.avatar} size={20} />
                   </div>
-                  <span className="text-[11px] sm:text-xs font-bold text-white truncate">
+                  <span className="text-[10px] sm:text-[11px] font-bold text-white truncate">
                     {p.nickname} {isMe && '(أنت)'}
                   </span>
                 </div>
-                <span className="text-[11px] sm:text-xs font-extrabold text-amber-400 shrink-0 font-mono">
+                <span className="text-[10px] sm:text-[11px] font-extrabold text-amber-400 shrink-0 font-mono">
                   {score}{' '}
-                  <span className="text-[9px] font-normal text-on-surface-variant">ن</span>
+                  <span className="text-[8px] font-normal text-on-surface-variant">ن</span>
                 </span>
               </div>
 
               {/* شريط تعبئة النقاط التفاعلي */}
-              <div className="w-full bg-surface-container-highest rounded-full h-1.5 sm:h-2 overflow-hidden relative">
+              <div className="w-full bg-surface-container-highest rounded-full h-1 sm:h-1.5 overflow-hidden relative">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-emerald-400 transition-all duration-700 ease-out shadow-xs"
                   style={{ width: `${fillPercent}%` }}
