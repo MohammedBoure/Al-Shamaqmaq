@@ -86,14 +86,14 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full max-h-full overflow-y-auto max-w-4xl mx-auto w-full table-canvas-dark relative select-none p-3 sm:p-4 transition-all justify-between">
+    <div className="flex flex-col min-h-full flex-1 max-w-4xl mx-auto w-full table-canvas-dark relative select-none p-3 sm:p-4 transition-all justify-between">
       {/* 1. الشريط العلوي */}
       <header className="flex items-center justify-between pb-3 sm:pb-4 border-b border-outline-variant/40 w-full">
         {onBack ? (
           <button
             type="button"
             onClick={onBack}
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 flex items-center justify-center text-white"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 flex items-center justify-center text-white"
             title="رجوع"
           >
             <span className="material-symbols-outlined text-[18px] sm:text-[20px] rotate-180">arrow_back</span>
@@ -109,7 +109,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
         <button
           type="button"
           onClick={handleRandomize}
-          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 flex items-center justify-center text-white"
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 flex items-center justify-center text-white"
           title="عشوائي"
         >
           <span className="material-symbols-outlined text-[18px] sm:text-[20px]">casino</span>
@@ -120,7 +120,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
       <div className="flex-1 flex flex-col md:flex-row md:items-center md:justify-center md:gap-8 py-4 sm:py-6 w-full my-auto">
         {/* معاينة الشخصية والاسم */}
         <div className="flex flex-col items-center justify-center mb-4 sm:mb-6 md:mb-0">
-          <div className="w-full max-w-[240px] sm:max-w-[280px] bg-surface-container-low border border-outline-variant/60 rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 shadow-2xl flex flex-col items-center">
+          <div className="w-full max-w-[240px] sm:max-w-[280px] bg-surface-container-low border border-outline-variant/60 rounded-xl p-3.5 sm:p-5 shadow-2xl flex flex-col items-center">
             <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center relative overflow-hidden my-2 sm:my-3">
               <ConsolePet config={petConfig} size={90} />
             </div>
@@ -132,7 +132,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
                 onChange={(e) => setNickname(e.target.value)}
                 placeholder="أدخل اسمك"
                 maxLength={15}
-                className="w-full py-2 sm:py-2.5 px-3 sm:px-4 bg-surface-container border border-outline-variant/60 rounded-xl text-center text-white font-bold text-xs sm:text-base focus:outline-none focus:border-white"
+                className="w-full py-2 sm:py-2.5 px-3 sm:px-4 bg-surface-container border border-outline-variant/60 rounded-lg text-center text-white font-bold text-xs sm:text-base focus:outline-none focus:border-white"
               />
             </div>
           </div>
@@ -145,7 +145,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
             <button
               type="button"
               onClick={() => handleTabChange('colors')}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all ${
                 activeTab === 'colors'
                   ? 'bg-white text-surface-container-lowest'
                   : 'bg-surface-container-low text-on-surface-variant hover:text-white border border-outline-variant/40'
@@ -156,7 +156,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
             <button
               type="button"
               onClick={() => handleTabChange('masks')}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all ${
                 activeTab === 'masks'
                   ? 'bg-white text-surface-container-lowest'
                   : 'bg-surface-container-low text-on-surface-variant hover:text-white border border-outline-variant/40'
@@ -167,7 +167,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
             <button
               type="button"
               onClick={() => handleTabChange('glasses')}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all ${
                 activeTab === 'glasses'
                   ? 'bg-white text-surface-container-lowest'
                   : 'bg-surface-container-low text-on-surface-variant hover:text-white border border-outline-variant/40'
@@ -178,7 +178,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
             <button
               type="button"
               onClick={() => handleTabChange('expressions')}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all ${
                 activeTab === 'expressions'
                   ? 'bg-white text-surface-container-lowest'
                   : 'bg-surface-container-low text-on-surface-variant hover:text-white border border-outline-variant/40'
@@ -188,7 +188,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
             </button>
           </div>
 
-          <div className="dark-monochrome-card rounded-2xl p-3.5 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
+          <div className="dark-monochrome-card rounded-xl p-3.5 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-outline-variant/30">
               <span className="text-[11px] sm:text-xs font-bold text-white">
                 {activeTab === 'colors' && 'اختر اللون الأساسي للكونسول'}
@@ -216,7 +216,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
                       key={colorKey}
                       type="button"
                       onClick={() => setPetConfig((prev) => ({ ...prev, color: colorKey }))}
-                      className={`aspect-square rounded-xl bg-surface-container border flex items-center justify-center p-1 transition-all ${
+                      className={`aspect-square rounded-lg bg-surface-container border flex items-center justify-center p-1 transition-all ${
                         isSelected
                           ? 'border-2 border-white bg-surface-container-highest shadow-sm scale-105'
                           : 'border-outline-variant/40 hover:border-outline'
@@ -235,7 +235,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
                       key={maskKey}
                       type="button"
                       onClick={() => setPetConfig((prev) => ({ ...prev, mask: maskKey }))}
-                      className={`aspect-square rounded-xl bg-surface-container border flex flex-col items-center justify-center p-1 transition-all ${
+                      className={`aspect-square rounded-lg bg-surface-container border flex flex-col items-center justify-center p-1 transition-all ${
                         isSelected
                           ? 'border-2 border-white bg-surface-container-highest shadow-sm scale-105'
                           : 'border-outline-variant/40 hover:border-outline'
@@ -258,7 +258,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
                       key={glassesKey}
                       type="button"
                       onClick={() => setPetConfig((prev) => ({ ...prev, glasses: glassesKey }))}
-                      className={`aspect-square rounded-xl bg-surface-container border flex flex-col items-center justify-center p-1 transition-all ${
+                      className={`aspect-square rounded-lg bg-surface-container border flex flex-col items-center justify-center p-1 transition-all ${
                         isSelected
                           ? 'border-2 border-white bg-surface-container-highest shadow-sm scale-105'
                           : 'border-outline-variant/40 hover:border-outline'
@@ -281,7 +281,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
                       key={exprKey}
                       type="button"
                       onClick={() => setPetConfig((prev) => ({ ...prev, expression: exprKey }))}
-                      className={`aspect-square rounded-xl bg-surface-container border flex flex-col items-center justify-center p-1 transition-all ${
+                      className={`aspect-square rounded-lg bg-surface-container border flex flex-col items-center justify-center p-1 transition-all ${
                         isSelected
                           ? 'border-2 border-white bg-surface-container-highest shadow-sm scale-105'
                           : 'border-outline-variant/40 hover:border-outline'
@@ -305,7 +305,7 @@ export const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({
         <button
           type="button"
           onClick={handleContinue}
-          className="w-full bg-white hover:bg-neutral-200 text-surface-container-lowest font-bold py-2.5 sm:py-3.5 px-5 sm:px-6 rounded-xl shadow-lg transition-all active:scale-[0.99] flex items-center justify-center gap-2 text-xs sm:text-sm"
+          className="w-full bg-white hover:bg-neutral-200 text-surface-container-lowest font-bold py-2.5 sm:py-3.5 px-5 sm:px-6 rounded-lg shadow-lg transition-all active:scale-[0.99] flex items-center justify-center gap-2 text-xs sm:text-sm"
         >
           <span>{actionButtonText}</span>
           <span className="material-symbols-outlined text-[16px] sm:text-[18px]">check</span>

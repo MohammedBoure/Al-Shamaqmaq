@@ -67,12 +67,7 @@ describe('Room State Machine & Deception Game Loop', () => {
     expect(validBluffResult.success).toBe(true);
     expect(host.answerState.bluffAnswer).toBe(bluffText1);
 
-    // محاولة إدخال إجابة مكررة من اللاعب 2 -> يجب أن تكتشف الخوارزمية التشابه وترفضها
-    const duplicateSubmission = room.submitInitialAnswer('player-2', 'المعدة والامعاء الدقيقة');
-    expect(duplicateSubmission.success).toBe(false);
-    expect(duplicateSubmission.error).toContain('مشابهة');
-
-    // اللاعب 2 (سارة) يدخل إجابة خاطئة عادية -> تُعتمد تلقائياً كإجابته المزيفة المضللة
+    // اللاعب 2 (سارة) يدخل إجابة خاطئة عادية -> تُعتمد تلقائياً كإجابته المزيفة المضللة (يُسمح بتطابق أو تشابه الإجابات الخاطئة بين عدة لاعبين)
     const bluffText2 = 'الرئتان اليمنى واليسرى';
     const ans2Result = room.submitInitialAnswer('player-2', bluffText2);
     expect(ans2Result.success).toBe(true);
@@ -132,6 +127,84 @@ describe('Room State Machine & Deception Game Loop', () => {
     expect(leaderboard[0].score).toBe(3);
     expect(leaderboard[1].id).toBe('player-1');
     expect(leaderboard[1].score).toBe(0);
+
+    room.clearTimer();
+  });
+
+  it('allows multiple players to submit the same wrong answer and credits all authors with points', () => {
+    const host = new Player({
+      id: 'player-1',
+      nickname: 'طارق',
+      avatar: '🎩',
+      isHost: true,
+    });
+    const p2 = new Player({
+      id: 'player-2',
+      nickname: 'سارة',
+      avatar: '🦊',
+      isHost: false,
+    });
+    const p3 = new Player({
+      id: 'player-3',
+      nickname: 'أحمد',
+      avatar: '🦁',
+      isHost: false,
+    });
+
+    const room = new Room('MULTI_DUPE', host, ['الفيزياء']);
+    room.addPlayer(p2);
+    room.addPlayer(p3);
+
+    room.startGame();
+    room.selectTopic('الفيزياء', 'player-1');
+
+    expect(room.phase).toBe('ANSWERING');
+
+    // طارق وسارة كلاهما يكتب نفس الإجابة الخاطئة تماماً!
+    const sharedWrongAnswer = 'المعدة والأمعاء';
+    const p1Ans = room.submitInitialAnswer('player-1', sharedWrongAnswer);
+    expect(p1Ans.success).toBe(true);
+    expect(p1Ans.isCorrect).toBe(false);
+
+    const p2Ans = room.submitInitialAnswer('player-2', sharedWrongAnswer);
+    expect(p2Ans.success).toBe(true);
+    expect(p2Ans.isCorrect).toBe(false);
+
+    // أحمد يكتب إجابة خاطئة مختلفة
+    const p3Ans = room.submitInitialAnswer('player-3', 'الرئتان');
+    expect(p3Ans.success).toBe(true);
+
+    expect(room.phase).toBe('VOTING');
+
+    // التحقق من أن الإجابة المشتركة تم دمجها في خيار واحد يحتوي على كلا اللاعبين كمؤلفين
+    const sharedOption = room.roundOptions.find((opt) =>
+      opt.authorPlayerIds.includes('player-1') && opt.authorPlayerIds.includes('player-2')
+    );
+    expect(sharedOption).toBeDefined();
+    expect(sharedOption?.authorPlayerIds).toHaveLength(2);
+
+    // كلاهما لا يستطيع التصويت لهذا الخيار المشترك
+    const p1SelfVote = room.submitVote('player-1', sharedOption!.id);
+    expect(p1SelfVote.success).toBe(false);
+
+    const p2SelfVote = room.submitVote('player-2', sharedOption!.id);
+    expect(p2SelfVote.success).toBe(false);
+
+    // أحمد ينخدع ويصوت للخيار المشترك!
+    const p3Vote = room.submitVote('player-3', sharedOption!.id);
+    expect(p3Vote.success).toBe(true);
+
+    // طارق وسارة يصوتان للخيار الصحيح
+    const correctOpt = room.roundOptions.find((opt) => opt.isCorrect);
+    room.submitVote('player-1', correctOpt!.id);
+    room.submitVote('player-2', correctOpt!.id);
+
+    expect(room.phase).toBe('ROUND_RESULTS');
+
+    // كلاهما حصل على +2 (للإجابة الصحيحة) + 1 (لأن أحمد انخدع بإجابتهما المشتركة) = 3 نقاط
+    expect(host.score).toBe(3);
+    expect(p2.score).toBe(3);
+    expect(p3.score).toBe(0);
 
     room.clearTimer();
   });

@@ -6,7 +6,7 @@ export const ConnectionBadge: React.FC = () => {
 
   if (wsStatus === 'connected') {
     return (
-      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 text-on-surface-variant text-xs font-medium">
+      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container-low border border-outline-variant/40 text-on-surface-variant text-xs font-medium">
         <span className="w-2 h-2 rounded-full bg-white" />
         <span>متصل</span>
       </div>
@@ -15,7 +15,7 @@ export const ConnectionBadge: React.FC = () => {
 
   if (wsStatus === 'connecting') {
     return (
-      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 text-on-surface-variant text-xs font-medium">
+      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container-low border border-outline-variant/40 text-on-surface-variant text-xs font-medium">
         <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
         <span>الاتصال...</span>
       </div>
@@ -23,7 +23,7 @@ export const ConnectionBadge: React.FC = () => {
   }
 
   return (
-    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 text-outline text-xs font-medium">
+    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container-low border border-outline-variant/40 text-outline text-xs font-medium">
       <span className="w-2 h-2 rounded-full bg-outline" />
       <span>منقطع</span>
     </div>

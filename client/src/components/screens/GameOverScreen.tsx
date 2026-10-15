@@ -40,7 +40,7 @@ export const GameOverScreen: React.FC = () => {
   const thirdPlace = leaderboard[2];
 
   return (
-    <div className="flex flex-col min-h-full w-full max-w-3xl mx-auto px-2.5 sm:px-4 py-[5px] select-none gap-y-[5px] relative">
+    <div className="flex flex-col min-h-full w-full max-w-lg mx-auto px-2.5 sm:px-4 py-[5px] select-none gap-y-[5px] relative">
       <GameTopHeader
         currentRound={totalRounds}
         totalRounds={totalRounds}
@@ -72,7 +72,7 @@ export const GameOverScreen: React.FC = () => {
               {secondPlace.nickname}
             </span>
             <div className="w-full bg-surface-container-low border border-outline-variant/60 rounded-t-xl h-16 sm:h-20 flex flex-col items-center justify-center p-1 sm:p-1.5">
-              <span className="text-sm sm:text-base font-bold text-white">٢</span>
+              <span className="text-sm sm:text-base font-bold text-white">2</span>
               <span className="text-[9px] sm:text-[10px] text-on-surface-variant">{secondPlace.score} نقطة</span>
             </div>
           </div>
@@ -91,7 +91,7 @@ export const GameOverScreen: React.FC = () => {
               {firstPlace.nickname}
             </span>
             <div className="w-full bg-white text-surface-container-lowest rounded-t-xl h-22 sm:h-28 flex flex-col items-center justify-center p-1 sm:p-1.5 shadow-xl">
-              <span className="text-lg sm:text-xl font-black">١</span>
+              <span className="text-lg sm:text-xl font-black">1</span>
               <span className="text-[9px] sm:text-[10px] font-bold">{firstPlace.score} نقطة</span>
             </div>
           </div>
@@ -107,7 +107,7 @@ export const GameOverScreen: React.FC = () => {
               {thirdPlace.nickname}
             </span>
             <div className="w-full bg-surface-container-low border border-outline-variant/60 rounded-t-xl h-12 sm:h-14 flex flex-col items-center justify-center p-1">
-              <span className="text-sm sm:text-base font-bold text-white">٣</span>
+              <span className="text-sm sm:text-base font-bold text-white">3</span>
               <span className="text-[9px] sm:text-[10px] text-on-surface-variant">{thirdPlace.score} نقطة</span>
             </div>
           </div>
@@ -142,13 +142,13 @@ export const GameOverScreen: React.FC = () => {
           <button
             type="button"
             onClick={rematch}
-            className="w-full bg-amber-400 hover:bg-amber-300 text-neutral-950 font-extrabold py-2 sm:py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-1.5 text-xs sm:text-sm"
+            className="w-full bg-amber-400 hover:bg-amber-300 text-neutral-950 font-extrabold py-2 sm:py-2.5 px-4 rounded-lg shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-1.5 text-xs sm:text-sm"
           >
             <span className="material-symbols-outlined text-[16px] sm:text-[18px]">replay</span>
             <span>إعادة التحدي (مباراة جديدة بنفس اللاعبين)</span>
           </button>
         ) : (
-          <div className="p-2 rounded-xl bg-surface-container-low border border-outline-variant/40 text-center text-[10px] sm:text-xs text-on-surface-variant flex items-center justify-center gap-1.5">
+          <div className="p-2 rounded-lg bg-surface-container-low border border-outline-variant/40 text-center text-[10px] sm:text-xs text-on-surface-variant flex items-center justify-center gap-1.5">
             <span className="material-symbols-outlined text-[15px] text-amber-400 animate-spin">sync</span>
             <span>في انتظار المضيف لبدء إعادة التحدي أو العودة للردهة...</span>
           </div>
@@ -157,7 +157,7 @@ export const GameOverScreen: React.FC = () => {
         <button
           type="button"
           onClick={leaveRoom}
-          className="w-full bg-surface-container-low hover:bg-surface-container text-white border border-outline-variant/50 font-bold py-2 px-4 rounded-xl shadow-xs transition-all active:scale-[0.99] flex items-center justify-center gap-1.5 text-xs sm:text-sm"
+          className="w-full bg-surface-container-low hover:bg-surface-container text-white border border-outline-variant/50 font-bold py-2 px-4 rounded-lg shadow-xs transition-all active:scale-[0.99] flex items-center justify-center gap-1.5 text-xs sm:text-sm"
         >
           <span>مغادرة الجلسة والعودة للرئيسية</span>
           <span className="material-symbols-outlined text-[15px] sm:text-[16px]">logout</span>

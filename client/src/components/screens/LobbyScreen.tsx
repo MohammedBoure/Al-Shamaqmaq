@@ -157,7 +157,7 @@ export const LobbyScreen: React.FC = () => {
   };
 
   return (
-    <div className="h-full max-h-full overflow-y-auto table-canvas-dark text-on-surface antialiased flex flex-col justify-between selection:bg-surface-bright selection:text-white relative">
+    <div className="min-h-full flex-1 w-full table-canvas-dark text-on-surface antialiased flex flex-col justify-between selection:bg-surface-bright selection:text-white relative">
       {/* ماسح الكاميرا لرموز QR */}
       <CameraQRScanner
         isOpen={isScannerOpen}
@@ -165,163 +165,64 @@ export const LobbyScreen: React.FC = () => {
         onScan={handleScannedCode}
       />
 
-      {/* TOP APP BAR */}
-      <header className="bg-surface/85 backdrop-blur-md top-0 sticky z-40 border-b border-outline-variant/30">
-        <div className="flex justify-between items-center w-full px-3.5 sm:px-6 md:px-8 max-w-5xl mx-auto h-14 sm:h-16">
-          {/* User Profile Badge & Editable Character / Nickname */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* ConsolePet Avatar Token */}
-            <div
-              onClick={() => setIsEditCharacterOpen(true)}
-              className="relative group cursor-pointer"
-              title="تخصيص شخصيتك في ESC"
-            >
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-surface-container-high border border-outline-variant/60 p-0.5 transition-transform duration-200 group-hover:scale-110 active:scale-95 flex items-center justify-center overflow-hidden">
-                <ConsolePet avatar={avatar} size={36} />
-              </div>
-              <span className="absolute -bottom-0.5 -left-0.5 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white border-2 border-surface-container-lowest rounded-full" />
-            </div>
-
-            {/* Editable Nickname Tag in Arabic */}
-            <button
-              type="button"
-              onClick={() => setIsEditCharacterOpen(true)}
-              aria-label="تعديل الشخصية والاسم"
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 hover:bg-surface-container text-on-surface transition-colors duration-150 active:scale-95 text-right"
-            >
-              <span className="text-xs sm:text-sm tracking-tight font-bold text-white">{nickname}</span>
-              <span className="text-on-surface-variant text-[10px] sm:text-[11px]">• تخصيص</span>
-              <span className="material-symbols-outlined text-[14px] sm:text-[15px] text-outline mr-0.5">palette</span>
-            </button>
-          </div>
-
-          {/* Trailing Action Icons (Sound Toggle & Settings) */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <AudioToggle />
-            <ThemeToggle />
-            <GameScaleControl />
-          </div>
-        </div>
+      {/* Floating Minimal Controls Row (Audio, Theme, Scale) */}
+      <header className="w-full max-w-md mx-auto flex items-center justify-end px-4 pt-3 pb-1 gap-1 z-20">
+        <AudioToggle />
+        <ThemeToggle />
+        <GameScaleControl />
       </header>
 
-      {/* MAIN CANVAS */}
-      <main className="flex-grow flex flex-col justify-center items-center px-3.5 sm:px-6 py-6 sm:py-8 pb-28 sm:pb-32 max-w-xl mx-auto w-full">
-        {/* HERO CENTERPIECE */}
-        <div className="w-full text-center mb-6 sm:mb-8 relative">
-          {/* Decorative subtle accents */}
-          <div className="absolute -top-3 right-4 sm:right-6 text-on-surface-variant/40 select-none animate-pulse">
-            <span className="material-symbols-outlined text-[18px] sm:text-[20px]">auto_awesome</span>
-          </div>
-          <div className="absolute top-1 left-4 sm:left-8 text-on-surface-variant/40 select-none">
-            <span className="material-symbols-outlined text-[16px] sm:text-[18px]">star</span>
-          </div>
-
-          {/* Parlor Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high/90 border border-outline-variant/50 text-on-surface-variant text-[11px] sm:text-xs mb-2.5 sm:mb-3 font-medium">
-            <span className="material-symbols-outlined text-[14px] sm:text-[15px] text-white">diversity_3</span>
-            <span>جلسة ألعاب جماعية ذكية</span>
-          </div>
-
-          {/* Wordmark: ESC in Monochrome Minimalist Typography */}
-          <div className="relative inline-block my-0.5 sm:my-1">
-            <h1 className="text-5xl sm:text-6xl md:text-7xl text-white font-black tracking-widest select-none uppercase font-mono">
-              ESC
-            </h1>
-            {/* Minimalist monochrome subtle curved baseline accent */}
-            <svg
-              className="w-20 sm:w-28 h-2 sm:h-2.5 mx-auto mt-0.5 text-outline opacity-40"
-              fill="none"
-              viewBox="0 0 112 12"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M2 3C32 10 80 10 110 3" stroke="currentColor" strokeLinecap="round" strokeWidth="3" />
-            </svg>
-          </div>
-
-          {/* Subtitle */}
-          <p className="text-xs sm:text-sm md:text-base text-on-surface-variant mt-2 sm:mt-3 max-w-xs mx-auto leading-relaxed font-normal">
-            لعبة الخداع الذكي والتخمين الحاسم.
+      {/* Centered Main Canvas */}
+      <main className="flex-1 flex flex-col items-center justify-center px-4 py-6 pb-20 max-w-md mx-auto w-full">
+        {/* ESC Wordmark & 1-line Tagline */}
+        <div className="text-center mb-6 w-full">
+          <h1 className="text-5xl sm:text-6xl font-black tracking-widest text-white uppercase font-mono leading-none">
+            ESC
+          </h1>
+          <p className="text-xs sm:text-sm text-on-surface-variant mt-2 font-medium">
+            لعبة الخداع والبديهة
           </p>
 
-          {/* Interactive Character Showcase Badge */}
-          <div className="mt-3 flex justify-center">
-            <button
-              type="button"
-              onClick={() => setIsEditCharacterOpen(true)}
-              className="inline-flex items-center gap-2.5 sm:gap-3 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-2xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/50 hover:border-white transition-all active:scale-95 shadow-sm group cursor-pointer"
-              title="تخصيص شخصيتك في ESC"
-            >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-container-high border border-outline-variant/50 flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
-                <ConsolePet avatar={avatar} size={36} />
-              </div>
-              <div className="text-right">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs sm:text-sm font-bold text-white">{nickname}</span>
-                  <span className="material-symbols-outlined text-[14px] text-outline group-hover:text-white transition-colors">edit</span>
-                </div>
-                <span className="text-[10px] sm:text-[11px] text-on-surface-variant block">اضغط لتخصيص شخصيتك وأقنعتك 🎭</span>
-              </div>
-            </button>
-          </div>
+          {/* User Profile: Compact chip (Avatar + Name + Edit icon) */}
+          <button
+            type="button"
+            onClick={() => setIsEditCharacterOpen(true)}
+            className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container border border-outline-variant/40 hover:border-white/60 transition-all active:scale-95 shadow-xs cursor-pointer"
+            title="تعديل الشخصية والاسم"
+          >
+            <div className="w-7 h-7 rounded-md bg-surface-container-high border border-outline-variant/60 flex items-center justify-center overflow-hidden shrink-0">
+              <ConsolePet avatar={avatar} size={28} />
+            </div>
+            <span className="text-xs sm:text-sm font-bold text-white">{nickname}</span>
+            <span className="material-symbols-outlined text-[15px] text-on-surface-variant">edit</span>
+          </button>
         </div>
 
         {/* PRIMARY ACTION DECK */}
-        <div className="w-full space-y-3.5 sm:space-y-4 mb-6 sm:mb-8">
-          {/* 1. CREATE GAME CARD (Primary Dark Charcoal & Crisp White High-Contrast) */}
+        <div className="w-full space-y-3 mb-5">
+          {/* 1. إنشاء لعبة (Sleek medium-height button) */}
           <button
             type="button"
-            onClick={() => setIsCreateModalOpen(true)}
-            className="w-full text-right bg-white text-surface-container-lowest hover:bg-neutral-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 transition-all duration-200 transform hover:-translate-y-1 active:translate-y-0 active:scale-[0.98] dark-card-primary flex items-center justify-between group cursor-pointer relative overflow-hidden"
+            onClick={() => {
+              if (!nickname.trim()) {
+                setIsEditNicknameOpen(true);
+              } else {
+                handleCreateSubmit();
+              }
+            }}
+            disabled={isCreating}
+            className="w-full py-3.5 px-5 rounded-lg bg-white text-surface-container-lowest hover:bg-neutral-200 transition-all font-bold text-sm sm:text-base flex items-center justify-between shadow-md active:scale-[0.99] group cursor-pointer disabled:opacity-50"
           >
-            <div className="flex items-center gap-3 sm:gap-4 relative z-10">
-              {/* Crisp Icon Well */}
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-surface-container-lowest flex items-center justify-center text-white shrink-0 shadow-inner">
-                <span className="material-symbols-outlined text-[24px] sm:text-[28px]">add_circle</span>
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h2 className="text-lg sm:text-2xl font-bold tracking-tight text-surface-container-lowest">إنشاء لعبة</h2>
-                  <span className="bg-surface-container-high text-white text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 rounded-full font-bold">المضيف</span>
-                </div>
-                <p className="text-xs sm:text-sm text-surface-variant mt-0.5 font-medium">
-                  استضافة غرفة وضبط قواعد مخصصة
-                </p>
-              </div>
+            <div className="flex items-center gap-2.5">
+              <span className="material-symbols-outlined text-[22px]">add_circle</span>
+              <span>{isCreating ? 'جارٍ إنشاء الغرفة...' : 'إنشاء لعبة جديدة'}</span>
             </div>
-            {/* Arrow (Flipped for RTL) */}
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-surface-container-lowest/10 flex items-center justify-center text-surface-container-lowest transition-transform duration-200 group-hover:-translate-x-1 shrink-0 relative z-10">
-              <span className="material-symbols-outlined text-[18px] sm:text-[20px] rtl:rotate-180">arrow_forward</span>
-            </div>
+            <span className="material-symbols-outlined text-[18px] rtl:rotate-180 group-hover:-translate-x-1 transition-transform">
+              arrow_forward
+            </span>
           </button>
 
-          {/* 2. JOIN GAME CARD (Slate/Charcoal Minimalist Action) */}
-          <button
-            type="button"
-            onClick={() => setIsJoinModalOpen(true)}
-            className="w-full text-right bg-surface-container-high/70 hover:bg-surface-container-high border border-outline-variant/50 text-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 transition-all duration-200 transform hover:-translate-y-1 active:translate-y-0 active:scale-[0.98] dark-card-secondary flex items-center justify-between group cursor-pointer relative backdrop-blur-md"
-          >
-            <div className="flex items-center gap-3 sm:gap-4">
-              {/* Recessed Slate Icon Container */}
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-surface-container-low flex items-center justify-center text-white shrink-0 border border-outline-variant/40">
-                <span className="material-symbols-outlined text-[24px] sm:text-[28px]">meeting_room</span>
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h2 className="text-lg sm:text-2xl font-bold tracking-tight text-white">الانضمام إلى لعبة</h2>
-                  <span className="material-symbols-outlined text-[16px] sm:text-[18px] text-outline">qr_code_scanner</span>
-                </div>
-                <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5 font-medium">
-                  أدخل رمز الغرفة أو امسح رمز الاستجابة السريعة (QR)
-                </p>
-              </div>
-            </div>
-            {/* Arrow (Flipped for RTL) */}
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant transition-transform duration-200 group-hover:-translate-x-1 shrink-0 border border-outline-variant/30">
-              <span className="material-symbols-outlined text-[18px] sm:text-[20px] rtl:rotate-180">arrow_forward</span>
-            </div>
-          </button>
-
-          {/* TACTILE RECESSED INPUT / QUICK CODE WELL */}
+          {/* 2. Unified inline input bar [ إدخال رمز الغرفة... ] [ دخول ] + QR */}
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -333,103 +234,90 @@ export const LobbyScreen: React.FC = () => {
                 joinRoom(clean, nickname, avatar);
               }
             }}
-            className="bg-surface-container-low border border-outline-variant/40 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl dark-pill-recessed flex items-center gap-2 sm:gap-3"
+            className="w-full bg-surface-container-low border border-outline-variant/50 p-1.5 rounded-lg flex items-center gap-2 shadow-xs focus-within:border-white/60 transition-colors"
           >
-            <div className="pr-1.5 sm:pr-2 text-outline flex items-center">
-              <span className="material-symbols-outlined text-[18px] sm:text-[20px]">tag</span>
-            </div>
+            <button
+              type="button"
+              onClick={() => setIsScannerOpen(true)}
+              className="w-9 h-9 rounded-md bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-white flex items-center justify-center transition-all shrink-0 active:scale-95"
+              title="مسح رمز QR بالكاميرا"
+            >
+              <span className="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+            </button>
             <input
               type="text"
               maxLength={8}
               value={quickCode}
               onChange={(e) => setQuickCode(e.target.value.toUpperCase())}
-              placeholder="لديك رمز غرفة؟ (مثال: KAL9AB)"
-              className="bg-transparent border-none text-white text-xs sm:text-sm md:text-base placeholder:text-outline focus:ring-0 w-full p-0 tracking-wider font-semibold placeholder:text-xs text-right focus:outline-none"
+              placeholder="إدخال رمز الغرفة..."
+              className="flex-1 bg-transparent border-none text-white text-xs sm:text-sm placeholder:text-outline focus:outline-none px-2 font-mono tracking-wider text-right"
             />
             <button
               type="submit"
               disabled={!quickCode.trim()}
-              className="bg-white hover:bg-neutral-200 text-surface-container-lowest px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold shadow-sm active:scale-95 transition-all shrink-0 disabled:opacity-40"
+              className="bg-white hover:bg-neutral-200 text-surface-container-lowest px-4 py-2 rounded-md text-xs sm:text-sm font-bold shadow-xs active:scale-95 transition-all shrink-0 disabled:opacity-30"
             >
               دخول
             </button>
           </form>
         </div>
 
-        {/* MINIMALIST SOCIAL STATUS & ACTIVE LOBBY INDICATOR */}
-        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-1 px-1">
-          {/* Quick Play Option */}
-          <button
-            type="button"
-            onClick={() => setIsJoinModalOpen(true)}
-            className="flex items-center gap-1.5 sm:gap-2 text-on-surface-variant hover:text-white transition-colors text-xs sm:text-sm font-medium group cursor-pointer"
-          >
-            <span className="material-symbols-outlined text-[16px] sm:text-[18px] text-white transition-transform group-hover:rotate-12">casino</span>
-            <span>اللعب السريع مع غرباء</span>
-            <span className="material-symbols-outlined text-[14px] sm:text-[15px] text-outline group-hover:-translate-x-0.5 rtl:rotate-180 transition-transform">chevron_right</span>
-          </button>
-
-          {/* Active Bluffers Pulse Badge (Monochrome) */}
-          <div className="flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-surface-container-low border border-outline-variant/40 shadow-sm">
-            <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-40" />
-              <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-white" />
-            </span>
-            <span className="text-[11px] sm:text-xs text-on-surface-variant font-medium">
-              <strong className="font-bold text-white">١,٤٢٠</strong> لاعباً يخادعون الآن
-            </span>
-          </div>
-        </div>
+        {/* Quick Join Modal Trigger */}
+        <button
+          type="button"
+          onClick={() => setIsJoinModalOpen(true)}
+          className="text-xs text-on-surface-variant hover:text-white transition-colors flex items-center gap-1.5 font-medium py-1 active:scale-95 cursor-pointer"
+        >
+          <span className="material-symbols-outlined text-[16px]">casino</span>
+          <span>الانضمام عبر قائمة الغرف المتاحة</span>
+        </button>
       </main>
 
-      {/* BOTTOM NAVIGATION BAR */}
-      <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-3 sm:px-4 py-2 sm:py-2.5 max-w-sm sm:max-w-md mx-auto inset-x-0 bg-surface-container-low/95 backdrop-blur-xl border-t border-outline-variant/40 rounded-t-3xl shadow-2xl">
-        {/* Item 1: الردهة (ACTIVE) */}
+      {/* BOTTOM NAVIGATION BAR: Ultra-compact bar */}
+      <nav className="fixed bottom-3 left-0 w-full z-40 flex justify-around items-center px-2 py-1.5 max-w-xs sm:max-w-sm mx-auto inset-x-0 bg-surface-container-low/95 backdrop-blur-xl border border-outline-variant/40 rounded-lg shadow-xl">
         <button
           type="button"
           onClick={() => setActiveBottomNav('lobby')}
           aria-label="الردهة"
-          className={`flex flex-col items-center justify-center rounded-2xl px-4 sm:px-5 py-1 sm:py-1.5 transition-all active:scale-95 ${
+          className={`flex items-center gap-1.5 rounded-md px-3.5 py-1.5 transition-all active:scale-95 ${
             activeBottomNav === 'lobby'
-              ? 'bg-white text-surface-container-lowest'
-              : 'text-on-surface-variant hover:text-white'
+              ? 'bg-white text-surface-container-lowest font-bold shadow-xs'
+              : 'text-on-surface-variant hover:text-white font-medium'
           }`}
         >
-          <span className="material-symbols-outlined text-[20px] sm:text-[22px]">chair</span>
-          <span className="text-[10px] sm:text-xs mt-0.5 font-bold">الردهة</span>
+          <span className="material-symbols-outlined text-[18px]">chair</span>
+          <span className="text-xs">الردهة</span>
         </button>
 
-        {/* Item 2: الحزم والتصنيفات */}
         <button
           type="button"
           onClick={() => {
             setActiveBottomNav('packs');
             setIsCreateModalOpen(true);
           }}
-          aria-label="الحزم والتصنيفات"
-          className={`flex flex-col items-center justify-center px-4 sm:px-5 py-1 sm:py-1.5 rounded-xl active:scale-95 transition-all ${
+          aria-label="الحزم"
+          className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 transition-all active:scale-95 ${
             activeBottomNav === 'packs'
-              ? 'bg-white text-surface-container-lowest'
-              : 'text-on-surface-variant hover:text-white hover:bg-surface-container'
+              ? 'bg-white text-surface-container-lowest font-bold shadow-xs'
+              : 'text-on-surface-variant hover:text-white font-medium'
           }`}
         >
-          <span className="material-symbols-outlined text-[20px] sm:text-[22px]">style</span>
-          <span className="text-[10px] sm:text-xs mt-0.5 font-medium">الحزم والتصنيفات</span>
+          <span className="material-symbols-outlined text-[18px]">style</span>
+          <span className="text-xs">الحزم</span>
         </button>
 
-        {/* Item 3: الإحصائيات */}
         <button
           type="button"
           onClick={() => setActiveBottomNav('stats')}
           aria-label="الإحصائيات"
-          className={`flex flex-col items-center justify-center px-4 sm:px-5 py-1 sm:py-1.5 rounded-xl active:scale-95 transition-all ${
+          className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 transition-all active:scale-95 ${
             activeBottomNav === 'stats'
-              ? 'bg-white text-surface-container-lowest'
-              : 'text-on-surface-variant hover:text-white hover:bg-surface-container'
+              ? 'bg-white text-surface-container-lowest font-bold shadow-xs'
+              : 'text-on-surface-variant hover:text-white font-medium'
           }`}
         >
-          <span className="material-symbols-outlined text-[20px] sm:text-[22px]">leaderboard</span>
-          <span className="text-[10px] sm:text-xs mt-0.5 font-medium">الإحصائيات</span>
+          <span className="material-symbols-outlined text-[18px]">leaderboard</span>
+          <span className="text-xs">الإحصائيات</span>
         </button>
       </nav>
 
@@ -447,7 +335,7 @@ export const LobbyScreen: React.FC = () => {
             aria-labelledby="modal-title"
             className="relative w-full max-w-lg z-20 mx-auto animate-fadeIn"
           >
-            <div className="dark-monochrome-card backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-white/10 relative overflow-hidden transition-all duration-200 max-h-[92vh] overflow-y-auto">
+            <div className="dark-monochrome-card backdrop-blur-2xl rounded-xl p-4 sm:p-7 border border-white/10 relative overflow-hidden transition-all duration-200 max-h-[92vh] overflow-y-auto">
               {/* Smooth Drag Handle Indicator (Top) */}
               <div className="flex justify-center mb-3">
                 <div
@@ -470,7 +358,7 @@ export const LobbyScreen: React.FC = () => {
                   type="button"
                   onClick={() => setIsJoinModalOpen(false)}
                   aria-label="إغلاق"
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container-highest transition-colors duration-150 active:scale-95 border border-transparent hover:border-outline-variant/40"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container-highest transition-colors duration-150 active:scale-95 border border-transparent hover:border-outline-variant/40"
                   title="إغلاق"
                 >
                   <span className="material-symbols-outlined text-lg sm:text-xl">close</span>
@@ -496,7 +384,7 @@ export const LobbyScreen: React.FC = () => {
                   {codeBoxes.map((val, idx) => (
                     <div
                       key={idx}
-                      className={`relative dark-input-slot rounded-xl sm:rounded-2xl flex items-center justify-center h-14 sm:h-16 text-center transition-all duration-150 ${
+                      className={`relative dark-input-slot rounded-lg flex items-center justify-center h-14 sm:h-16 text-center transition-all duration-150 ${
                         val
                           ? 'bg-surface-container border-2 border-white/80 shadow-md'
                           : 'bg-surface-container-low border border-outline-variant/60'
@@ -522,7 +410,7 @@ export const LobbyScreen: React.FC = () => {
                   <button
                     type="button"
                     onClick={handlePasteCode}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-white text-[11px] sm:text-xs font-medium border border-outline-variant/40 transition-all active:scale-95 duration-150 shadow-sm"
+                    className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-white text-[11px] sm:text-xs font-medium border border-outline-variant/40 transition-all active:scale-95 duration-150 shadow-sm"
                   >
                     <span className="material-symbols-outlined text-[16px] text-white">content_paste</span>
                     <span>لصق من الحافظة</span>
@@ -548,7 +436,7 @@ export const LobbyScreen: React.FC = () => {
                     setIsJoinModalOpen(false);
                     setIsScannerOpen(true);
                   }}
-                  className="w-full bg-surface-container-low hover:bg-surface-container text-white font-medium text-xs sm:text-sm py-2.5 sm:py-3 px-4 rounded-xl border border-outline-variant/60 flex items-center justify-center gap-2 transition-all duration-150 active:scale-[0.99] shadow-sm hover:border-outline"
+                  className="w-full bg-surface-container-low hover:bg-surface-container text-white font-medium text-xs sm:text-sm py-2.5 sm:py-3 px-4 rounded-lg border border-outline-variant/60 flex items-center justify-center gap-2 transition-all duration-150 active:scale-[0.99] shadow-sm hover:border-outline"
                 >
                   <span className="material-symbols-outlined text-white text-[18px] sm:text-[20px]">qr_code_scanner</span>
                   <span>مسح رمز QR</span>
@@ -556,9 +444,9 @@ export const LobbyScreen: React.FC = () => {
               </div>
 
               {/* Player Character Preview in Join Modal */}
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 mt-3.5 mb-1">
+              <div className="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/40 mt-3.5 mb-1">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-surface-container-high border border-outline-variant/50 flex items-center justify-center overflow-hidden shrink-0">
+                  <div className="w-10 h-10 rounded-lg bg-surface-container-high border border-outline-variant/50 flex items-center justify-center overflow-hidden shrink-0">
                     <ConsolePet avatar={avatar} size={36} />
                   </div>
                   <div>
@@ -581,7 +469,7 @@ export const LobbyScreen: React.FC = () => {
                   type="button"
                   onClick={handleJoinSubmit}
                   disabled={!fullEnteredCode}
-                  className="w-full bg-white hover:bg-inverse-surface text-on-primary font-bold text-sm sm:text-base py-3 sm:py-3.5 px-6 rounded-xl shadow-lg transition-all active:scale-[0.99] flex items-center justify-center gap-2 group disabled:opacity-40"
+                  className="w-full bg-white hover:bg-inverse-surface text-on-primary font-bold text-sm sm:text-base py-3 sm:py-3.5 px-6 rounded-lg shadow-lg transition-all active:scale-[0.99] flex items-center justify-center gap-2 group disabled:opacity-40"
                 >
                   <span>دخول الغرفة</span>
                   <span className="material-symbols-outlined text-on-primary transition-transform group-hover:-translate-x-1 duration-150">
@@ -617,7 +505,7 @@ export const LobbyScreen: React.FC = () => {
             onClick={() => setIsCreateModalOpen(false)}
           />
           <section className="relative w-full max-w-lg z-20 mx-auto animate-fadeIn">
-            <div className="dark-monochrome-card backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-white/10 relative overflow-hidden max-h-[92vh] overflow-y-auto">
+            <div className="dark-monochrome-card backdrop-blur-2xl rounded-xl p-4 sm:p-7 border border-white/10 relative overflow-hidden max-h-[92vh] overflow-y-auto">
               <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-outline-variant/40">
                 <div>
                   <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">استضافة غرفة جديدة</h2>
@@ -626,7 +514,7 @@ export const LobbyScreen: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsCreateModalOpen(false)}
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container-highest"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container-highest"
                 >
                   <span className="material-symbols-outlined text-lg sm:text-xl">close</span>
                 </button>
@@ -646,7 +534,7 @@ export const LobbyScreen: React.FC = () => {
                       <span>تخصيص المظهر</span>
                     </button>
                   </div>
-                  <div className="flex items-center gap-2 p-1.5 bg-surface-container-low border border-outline-variant/60 rounded-xl">
+                  <div className="flex items-center gap-2 p-1.5 bg-surface-container-low border border-outline-variant/60 rounded-lg">
                     <div
                       onClick={() => setIsEditCharacterOpen(true)}
                       className="w-10 h-10 rounded-lg bg-surface-container-high border border-outline-variant/50 flex items-center justify-center overflow-hidden shrink-0 cursor-pointer"
@@ -677,7 +565,7 @@ export const LobbyScreen: React.FC = () => {
                         key={r}
                         type="button"
                         onClick={() => setTotalRounds(r)}
-                        className={`py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs font-bold transition-all ${
+                        className={`py-1.5 sm:py-2 rounded-lg text-xs font-bold transition-all ${
                           totalRounds === r
                             ? 'bg-white text-surface-container-lowest'
                             : 'bg-surface-container-low text-on-surface-variant hover:text-white border border-outline-variant/40'
@@ -701,7 +589,7 @@ export const LobbyScreen: React.FC = () => {
                         key={sec}
                         type="button"
                         onClick={() => setAnswerDuration(sec)}
-                        className={`py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs font-bold transition-all ${
+                        className={`py-1.5 sm:py-2 rounded-lg text-xs font-bold transition-all ${
                           answerDuration === sec
                             ? 'bg-white text-surface-container-lowest'
                             : 'bg-surface-container-low text-on-surface-variant hover:text-white border border-outline-variant/40'
@@ -734,7 +622,7 @@ export const LobbyScreen: React.FC = () => {
                     type="button"
                     onClick={handleCreateSubmit}
                     disabled={isCreating || !nickname.trim()}
-                    className="w-full bg-white hover:bg-neutral-200 text-surface-container-lowest font-bold text-sm sm:text-base py-3 sm:py-3.5 px-6 rounded-xl shadow-lg transition-all active:scale-[0.99] flex items-center justify-center gap-2"
+                    className="w-full bg-white hover:bg-neutral-200 text-surface-container-lowest font-bold text-sm sm:text-base py-3 sm:py-3.5 px-6 rounded-lg shadow-lg transition-all active:scale-[0.99] flex items-center justify-center gap-2"
                   >
                     <span>{isCreating ? 'جارٍ الإنشاء...' : 'بدء الردهة كـ مضيف'}</span>
                     <span className="material-symbols-outlined text-[18px]">arrow_back</span>
@@ -755,7 +643,7 @@ export const LobbyScreen: React.FC = () => {
             className="absolute inset-0 bg-black/70 backdrop-blur-md"
             onClick={() => setIsEditNicknameOpen(false)}
           />
-          <div className="relative w-full max-w-sm z-20 dark-monochrome-card rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-white/10">
+          <div className="relative w-full max-w-sm z-20 dark-monochrome-card rounded-xl p-5 sm:p-6 border border-white/10">
             <h3 className="text-base sm:text-lg font-bold text-white mb-1.5">تعديل الاسم المستعار</h3>
             <p className="text-xs text-on-surface-variant mb-3.5">اختر اسماً يميزك في جلسات ESC</p>
             <input
@@ -764,13 +652,13 @@ export const LobbyScreen: React.FC = () => {
               id="nickname-input-field"
               maxLength={20}
               autoFocus
-              className="w-full bg-surface-container-low border border-outline-variant/60 rounded-xl px-3.5 py-2.5 text-white text-xs sm:text-sm mb-3.5 focus:border-white focus:outline-none"
+              className="w-full bg-surface-container-low border border-outline-variant/60 rounded-lg px-3.5 py-2.5 text-white text-xs sm:text-sm mb-3.5 focus:border-white focus:outline-none"
             />
             <div className="flex items-center justify-end gap-2">
               <button
                 type="button"
                 onClick={() => setIsEditNicknameOpen(false)}
-                className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-on-surface-variant hover:text-white"
+                className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-on-surface-variant hover:text-white"
               >
                 إلغاء
               </button>
@@ -780,7 +668,7 @@ export const LobbyScreen: React.FC = () => {
                   const input = document.getElementById('nickname-input-field') as HTMLInputElement;
                   if (input) handleSaveNickname(input.value);
                 }}
-                className="px-4 py-1.5 rounded-xl bg-white text-surface-container-lowest text-xs font-bold"
+                className="px-4 py-1.5 rounded-lg bg-white text-surface-container-lowest text-xs font-bold"
               >
                 حفظ
               </button>

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useGame } from '../../context/GameContext';
 import { GameTopHeader } from '../common/GameTopHeader';
 import { ConsolePet } from '../common/ConsolePet';
-import { PlayerScoreBars } from '../common/PlayerScoreBars';
 
 export const AnsweringScreen: React.FC = () => {
   const {
@@ -48,15 +47,15 @@ export const AnsweringScreen: React.FC = () => {
   const isEnteringBluff = hasSubmittedInitial && requiresBluff && !hasSubmittedBluff;
 
   return (
-    <div className="flex flex-col min-h-full w-full max-w-3xl mx-auto px-2.5 sm:px-4 py-[5px] select-none gap-y-[5px] relative">
-      {/* القائمة السريعة */}
+    <div className="flex flex-col min-h-full w-full max-w-md mx-auto px-4 select-none relative">
+      {/* Quick Session Menu */}
       {isMenuOpen && (
         <div
           className="fixed inset-0 z-50 bg-black/75 flex items-start justify-start p-4 pt-16 backdrop-blur-md"
           onClick={() => setIsMenuOpen(false)}
         >
           <div
-            className="w-56 bg-surface-container-low border border-outline-variant/60 rounded-2xl p-3 shadow-2xl space-y-2 animate-fadeIn"
+            className="w-56 bg-surface-container-low border border-outline-variant/60 rounded-xl p-3 shadow-2xl space-y-2 animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-xs font-bold text-on-surface-variant px-2 pb-1 border-b border-outline-variant/30">
@@ -68,7 +67,7 @@ export const AnsweringScreen: React.FC = () => {
                 audio.toggleMute();
                 setIsMenuOpen(false);
               }}
-              className="w-full text-right p-2 rounded-xl hover:bg-surface-container text-xs font-semibold text-white flex items-center gap-2"
+              className="w-full text-right p-2 rounded-lg hover:bg-surface-container text-xs font-semibold text-white flex items-center gap-2"
             >
               <span className="material-symbols-outlined text-[18px]">
                 {audio.isMuted ? 'volume_off' : 'volume_up'}
@@ -81,7 +80,7 @@ export const AnsweringScreen: React.FC = () => {
                 leaveRoom();
                 setIsMenuOpen(false);
               }}
-              className="w-full text-right p-2 rounded-xl hover:bg-red-950/40 text-xs font-semibold text-rose-400 flex items-center gap-2"
+              className="w-full text-right p-2 rounded-lg hover:bg-red-950/40 text-xs font-semibold text-rose-400 flex items-center gap-2"
             >
               <span className="material-symbols-outlined text-[18px]">logout</span>
               <span>مغادرة الجلسة</span>
@@ -93,17 +92,17 @@ export const AnsweringScreen: React.FC = () => {
                   abortGame();
                   setIsMenuOpen(false);
                 }}
-                className="w-full text-right p-2 rounded-xl hover:bg-amber-950/40 text-xs font-semibold text-amber-400 flex items-center gap-2 border-t border-outline-variant/30 pt-2"
+                className="w-full text-right p-2 rounded-lg hover:bg-amber-950/40 text-xs font-semibold text-amber-400 flex items-center gap-2 border-t border-outline-variant/30 pt-2"
               >
                 <span className="material-symbols-outlined text-[18px]">stop_circle</span>
-                <span>إنهاء المباراة للجميع (للمضيف)</span>
+                <span>إنهاء المباراة للجميع</span>
               </button>
             )}
           </div>
         </div>
       )}
 
-      {/* 1. الشريط العلوي المتزامن */}
+      {/* Floating Top Header */}
       <GameTopHeader
         currentRound={currentRound}
         totalRounds={totalRounds}
@@ -112,115 +111,94 @@ export const AnsweringScreen: React.FC = () => {
         onMenuClick={() => setIsMenuOpen(true)}
       />
 
-      {/* شريط نقاط اللاعبين لمتابعة السباق أثناء الجولة */}
-      {room?.players && room.players.length > 0 && (
-        <PlayerScoreBars
-          players={room.players}
-          myPlayerId={player?.id}
-          targetScore={totalRounds * 2}
-        />
-      )}
+      {/* Main Single-Column Game Area */}
+      <main className="flex-1 flex flex-col justify-center py-6 gap-6">
+        {/* Question Hero Area */}
+        <div className="text-center">
+          {/* Category Pill */}
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-surface-container-high border border-outline-variant/40 text-xs font-semibold text-on-surface-variant mb-3">
+            <span className="material-symbols-outlined text-[14px] text-white">category</span>
+            <span>{currentTopicTitle || 'سؤال الجولة'}</span>
+          </div>
 
-      {/* 2. بطاقة السؤال المركزية */}
-      <div className="dark-monochrome-card rounded-xl sm:rounded-2xl p-2.5 sm:p-4 border border-white/10 text-center relative overflow-hidden my-[5px]">
-        {/* شارة الموضوع */}
-        <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high border border-outline-variant/50 text-[10px] sm:text-xs font-medium text-on-surface-variant mb-1.5 sm:mb-2">
-          <span className="material-symbols-outlined text-[13px] sm:text-[14px] text-white">category</span>
-          <span>{currentTopicTitle || 'سؤال الجولة'}</span>
+          {/* Question Prompt */}
+          <h1 className="text-xl sm:text-2xl font-black text-white leading-relaxed tracking-tight">
+            {currentPuzzle?.prompt || 'جارٍ تحميل لغز الجولة...'}
+          </h1>
         </div>
 
-        {/* نص السؤال */}
-        <h2 className="text-sm sm:text-xl md:text-2xl font-bold text-white leading-relaxed tracking-tight max-w-xl mx-auto">
-          {currentPuzzle?.prompt || 'جارٍ تحميل لغز الجولة...'}
-        </h2>
-      </div>
-
-      {/* 3. منطقة الإدخال وحالة الخداع */}
-      {isEnteringBluff ? (
-        <div className="dark-monochrome-card rounded-xl sm:rounded-2xl p-3 sm:p-4 border-2 border-emerald-500/60 shadow-lg bg-surface-container-low/95 animate-fadeIn space-y-2 my-[5px]">
-          {/* شارة التهنئة بالإجابة الصحيحة */}
-          <div className="flex items-center justify-between border-b border-outline-variant/40 pb-2">
-            <div className="flex items-center gap-1.5 text-emerald-400">
-              <span className="material-symbols-outlined text-[18px] sm:text-[20px]">verified</span>
-              <span className="text-xs sm:text-sm font-extrabold text-white">
-                إجابتك صحيحة 100%! 🎯
+        {/* Action Phase */}
+        {isEnteringBluff ? (
+          /* Bluff Input Phase (Correct answer found, now write a lie) */
+          <div className="bg-surface-container-low border border-amber-400/50 rounded-xl p-4 shadow-sm flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                <span className="material-symbols-outlined text-[16px]">verified</span>
+                عرفت الحقيقة! الآن اكتب خدعة بديلة:
+              </span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300">
+                +2 نقطة
               </span>
             </div>
-            <span className="text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-              عبقري 🧠
-            </span>
-          </div>
 
-          <div className="space-y-0.5">
-            <h3 className="text-xs sm:text-sm font-bold text-amber-300 flex items-center gap-1">
-              <span className="material-symbols-outlined text-[16px]">psychology</span>
-              <span>الآن غيّر إجابتك واكتب خدعة مضللة:</span>
-            </h3>
-            <p className="text-[10px] sm:text-[11px] text-on-surface-variant leading-normal">
-              اكتب إجابة كاذبة ولكنها تبدو مقنعة ليصوتوا عليها وتكسب نقطة إضافية عن كل لاعب ينخدع بها 🎭
-            </p>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 w-full">
+              <input
+                type="text"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                placeholder="اكتب خدعة مضللة ليصوت عليها المنافسون..."
+                maxLength={60}
+                autoFocus
+                className="w-full bg-surface-container border border-outline-variant/60 rounded-lg px-3.5 py-2.5 text-white text-sm focus:border-white focus:outline-none placeholder:text-outline text-right"
+              />
+              <button
+                type="submit"
+                disabled={!inputText.trim()}
+                className="w-full bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold py-2.5 px-4 rounded-lg text-xs sm:text-sm transition-all disabled:opacity-40 shadow-xs active:scale-[0.99] flex items-center justify-center gap-1.5"
+              >
+                <span>تأكيد الخدعة</span>
+                <span className="material-symbols-outlined text-[16px] rotate-180">arrow_back</span>
+              </button>
+            </form>
           </div>
-
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-1.5 pt-0.5">
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              placeholder="اكتب إجابتك المزيفة البديلة هنا..."
-              maxLength={60}
-              autoFocus
-              className="flex-1 bg-surface-container border border-amber-400/50 rounded-xl px-3 py-1.5 sm:py-2 text-white text-xs sm:text-sm focus:border-amber-300 focus:outline-none placeholder:text-outline"
-            />
+        ) : isWaitingForOthers ? (
+          /* Waiting for Others Phase */
+          <div className="bg-surface-container-low border border-outline-variant/40 rounded-xl p-6 text-center flex flex-col items-center gap-3">
+            <div className="w-14 h-14 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden shadow-inner">
+              <ConsolePet avatar={player?.avatar} size={44} />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-white">تم استلام إجابتك!</h3>
+              <p className="text-xs text-on-surface-variant mt-1">
+                في انتظار بقية اللاعبين لتقديم إجاباتهم...
+              </p>
+            </div>
+          </div>
+        ) : (
+          /* Standard Answer Input Phase */
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 w-full">
+            <div className="bg-surface-container-low border border-outline-variant/60 rounded-lg p-2.5 shadow-xs focus-within:border-white transition-colors">
+              <input
+                type="text"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                placeholder="اكتب إجابتك أو تخمينك الذكي..."
+                maxLength={60}
+                autoFocus
+                className="w-full bg-transparent border-none text-white text-sm sm:text-base placeholder:text-outline focus:outline-none px-1 text-right"
+              />
+            </div>
             <button
               type="submit"
               disabled={!inputText.trim()}
-              className="bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm transition-all disabled:opacity-40 shadow-xs shrink-0 flex items-center justify-center gap-1.5"
+              className="w-full bg-white hover:bg-neutral-200 text-surface-container-lowest py-2.5 px-4 rounded-lg text-xs sm:text-sm font-bold shadow-xs active:scale-[0.99] transition-all disabled:opacity-40 flex items-center justify-center gap-2"
             >
-              <span>تأكيد الخدعة</span>
-              <span className="material-symbols-outlined text-[15px]">send</span>
+              <span>إرسال الإجابة</span>
+              <span className="material-symbols-outlined text-[16px] rotate-180">arrow_back</span>
             </button>
           </form>
-        </div>
-      ) : isWaitingForOthers ? (
-        <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-surface-container-low border border-outline-variant/40 text-center animate-fadeIn space-y-1.5 flex flex-col items-center my-[5px]">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-surface-container-high border border-outline-variant/50 flex items-center justify-center overflow-hidden shadow-inner">
-            <ConsolePet avatar={player?.avatar} size={42} />
-          </div>
-          <h3 className="text-xs sm:text-sm font-bold text-white">تم استلام إجابتك يا {player?.nickname}! 🎭</h3>
-          <p className="text-[10px] sm:text-xs text-on-surface-variant max-w-sm">
-            في انتظار بقية اللاعبين لتقديم إجاباتهم قبل بدء مرحلة التصويت...
-          </p>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="space-y-1.5 my-[5px]">
-          <div className="bg-surface-container-low border border-outline-variant/50 p-1 sm:p-1.5 rounded-xl dark-pill-recessed flex items-center gap-2">
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              placeholder="اكتب إجابتك أو تخمينك الذكي هنا..."
-              maxLength={60}
-              autoFocus
-              className="flex-1 bg-transparent border-none text-white text-xs sm:text-sm md:text-base placeholder:text-outline focus:outline-none px-2.5 py-1.5 text-right placeholder:text-xs"
-            />
-            <button
-              type="submit"
-              disabled={!inputText.trim()}
-              className="bg-white hover:bg-neutral-200 text-surface-container-lowest px-3.5 py-1.5 sm:px-5 sm:py-2 rounded-lg text-xs sm:text-sm font-bold shadow-xs active:scale-95 transition-all shrink-0 disabled:opacity-40"
-            >
-              تأكيد الإجابة
-            </button>
-          </div>
-          <p className="text-center text-[9px] sm:text-[10px] text-outline">
-            إذا لم تكن متأكداً، اكتب إجابة تبدو مقنعة لخداع المنافسين!
-          </p>
-        </form>
-      )}
-
-      {/* تذييل */}
-      <footer className="text-center text-[10px] text-outline py-[5px] font-mono shrink-0">
-        ESC — مرحلة تقديم الإجابة والخداع
-      </footer>
+        )}
+      </main>
     </div>
   );
 };

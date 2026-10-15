@@ -259,7 +259,7 @@ export const CameraQRScanner: React.FC<CameraQRScannerProps> = ({
       {/* الترويسة العلوية */}
       <div className="w-full max-w-md flex items-center justify-between pt-1 pb-3 text-white">
         <div className="flex items-center gap-2">
-          <div className="p-2 bg-surface-container-high border border-outline-variant/60 rounded-xl text-white">
+          <div className="p-2 bg-surface-container-high border border-outline-variant/60 rounded-lg text-white">
             <span className="material-symbols-outlined text-[20px]">qr_code_scanner</span>
           </div>
           <div>
@@ -271,7 +271,7 @@ export const CameraQRScanner: React.FC<CameraQRScannerProps> = ({
         <button
           type="button"
           onClick={onClose}
-          className="p-2 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-white transition-all active:scale-95 border border-outline-variant/40"
+          className="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-white transition-all active:scale-95 border border-outline-variant/40"
           title="إغلاق"
         >
           <span className="material-symbols-outlined text-[20px]">close</span>
@@ -279,7 +279,7 @@ export const CameraQRScanner: React.FC<CameraQRScannerProps> = ({
       </div>
 
       {/* منطقة مسح الكاميرا */}
-      <div className="relative w-full max-w-xs sm:max-w-sm aspect-square my-auto rounded-3xl overflow-hidden border border-outline-variant/60 bg-black shadow-2xl flex items-center justify-center">
+      <div className="relative w-full max-w-xs sm:max-w-sm aspect-square my-auto rounded-xl overflow-hidden border border-outline-variant/60 bg-black shadow-2xl flex items-center justify-center">
         {/* الفيديو المباشر */}
         <video
           ref={videoRef}
@@ -294,7 +294,7 @@ export const CameraQRScanner: React.FC<CameraQRScannerProps> = ({
 
         {/* شبكة التصويب */}
         <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-          <div className="relative w-3/4 h-3/4 rounded-2xl border-2 border-white/80 shadow-[0_0_20px_rgba(255,255,255,0.15)] overflow-hidden">
+          <div className="relative w-3/4 h-3/4 rounded-xl border-2 border-white/80 shadow-[0_0_20px_rgba(255,255,255,0.15)] overflow-hidden">
             <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-white rounded-tr-xl" />
             <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-white rounded-tl-xl" />
             <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-white rounded-br-xl" />
@@ -329,7 +329,7 @@ export const CameraQRScanner: React.FC<CameraQRScannerProps> = ({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="w-full py-2 px-3 bg-white text-surface-container-lowest hover:bg-neutral-200 rounded-xl text-xs font-bold shadow-md flex items-center justify-center gap-1.5 transition-all active:scale-95"
+                className="w-full py-2 px-3 bg-white text-surface-container-lowest hover:bg-neutral-200 rounded-lg text-xs font-bold shadow-md flex items-center justify-center gap-1.5 transition-all active:scale-95"
               >
                 <span className="material-symbols-outlined text-[16px]">photo_camera</span>
                 <span>التقاط صورة للرمز الآن</span>
@@ -337,7 +337,7 @@ export const CameraQRScanner: React.FC<CameraQRScannerProps> = ({
               <button
                 type="button"
                 onClick={startCamera}
-                className="w-full py-2 px-3 bg-surface-container-high hover:bg-surface-container text-white rounded-xl text-xs font-semibold border border-outline-variant/50 transition-all active:scale-95"
+                className="w-full py-2 px-3 bg-surface-container-high hover:bg-surface-container text-white rounded-lg text-xs font-semibold border border-outline-variant/50 transition-all active:scale-95"
               >
                 إعادة تشغيل الكاميرا
               </button>
@@ -353,7 +353,7 @@ export const CameraQRScanner: React.FC<CameraQRScannerProps> = ({
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="flex-1 py-2.5 px-3 rounded-xl bg-surface-container-high hover:bg-surface-container border border-outline-variant/60 text-white flex items-center justify-center gap-1.5 text-xs font-bold transition-all active:scale-95 shadow-sm"
+            className="flex-1 py-2.5 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container border border-outline-variant/60 text-white flex items-center justify-center gap-1.5 text-xs font-bold transition-all active:scale-95 shadow-sm"
           >
             <span className="material-symbols-outlined text-[18px]">photo_camera</span>
             <span>التقاط صورة الرمز</span>
@@ -363,7 +363,7 @@ export const CameraQRScanner: React.FC<CameraQRScannerProps> = ({
             <button
               type="button"
               onClick={toggleTorch}
-              className={`p-2.5 rounded-xl border flex items-center justify-center transition-all shadow-sm active:scale-95 ${
+              className={`p-2.5 rounded-lg border flex items-center justify-center transition-all shadow-sm active:scale-95 ${
                 torchOn
                   ? 'bg-white text-surface-container-lowest border-white'
                   : 'bg-surface-container-low border-outline-variant/60 text-white hover:bg-surface-container'
@@ -379,7 +379,7 @@ export const CameraQRScanner: React.FC<CameraQRScannerProps> = ({
           <button
             type="button"
             onClick={toggleFacingMode}
-            className="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/60 text-white hover:bg-surface-container transition-all active:scale-95 shadow-sm"
+            className="p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/60 text-white hover:bg-surface-container transition-all active:scale-95 shadow-sm"
             title="تبديل الكاميرا الأمامية والخلفية"
           >
             <span className="material-symbols-outlined text-[18px]">flip_camera_ios</span>

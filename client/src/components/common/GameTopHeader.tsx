@@ -26,27 +26,27 @@ export const GameTopHeader: React.FC<GameTopHeaderProps> = ({
   const isUrgent = centerType === 'timer' && timeRemaining <= 10 && timeRemaining > 0;
 
   return (
-    <header className="flex items-center justify-between my-[5px] w-full select-none shrink-0">
-      {/* زر القائمة أو الخروج */}
+    <header className="flex items-center justify-between w-full select-none shrink-0 py-1 sm:py-1.5 max-w-lg mx-auto">
+      {/* زر القائمة */}
       <button
         type="button"
         onClick={onMenuClick}
-        className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-white border border-outline-variant/40 flex items-center justify-center transition-all active:scale-95 shadow-xs"
+        className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-white flex items-center justify-center transition-all active:scale-95"
         title="القائمة"
       >
-        <span className="material-symbols-outlined text-[18px]">menu</span>
+        <span className="material-symbols-outlined text-[20px]">menu</span>
       </button>
 
       {/* شارة الجولة والمؤقت في المنتصف */}
       <div
-        className={`flex items-center rounded-full px-3 py-1 sm:px-4 sm:py-1.5 gap-2 sm:gap-2.5 shadow-xs border transition-all ${
+        className={`flex items-center rounded-lg px-3 py-1 sm:px-3.5 sm:py-1 gap-2 shadow-xs transition-all ${
           isUrgent
-            ? 'bg-rose-500/20 border-rose-500/80 ring-2 ring-rose-500/40 animate-pulse text-rose-300'
-            : 'bg-surface-container-low border-outline-variant/60 text-white'
+            ? 'bg-rose-500/20 text-rose-300 ring-1 ring-rose-500/50 animate-pulse'
+            : 'bg-surface-container-low text-white border border-outline-variant/40'
         }`}
       >
         {/* رقم الجولة */}
-        <span className="text-[11px] sm:text-xs font-bold tracking-wide">
+        <span className="text-[11px] sm:text-xs font-bold tracking-tight">
           الجولة {currentRound}/{totalRounds}
         </span>
 
@@ -56,7 +56,7 @@ export const GameTopHeader: React.FC<GameTopHeaderProps> = ({
         <div className="flex items-center gap-1 font-mono text-xs sm:text-sm font-extrabold">
           {centerType === 'timer' && (
             <>
-              <span className={`material-symbols-outlined text-[16px] sm:text-[18px] ${isUrgent ? 'text-rose-400' : 'text-white'}`}>
+              <span className={`material-symbols-outlined text-[15px] sm:text-[16px] ${isUrgent ? 'text-rose-400' : 'text-on-surface-variant'}`}>
                 timer
               </span>
               <span className={isUrgent ? 'text-rose-400 font-black' : 'text-white'}>
@@ -65,32 +65,32 @@ export const GameTopHeader: React.FC<GameTopHeaderProps> = ({
             </>
           )}
           {centerType === 'correct' && (
-            <>
-              <span className="material-symbols-outlined text-[16px] sm:text-[18px] text-emerald-400">check_circle</span>
-              <span className="text-[11px] sm:text-xs text-emerald-300">إجابة صحيحة</span>
-            </>
+            <span className="text-[11px] sm:text-xs text-emerald-400 flex items-center gap-1 font-sans font-bold">
+              <span className="material-symbols-outlined text-[15px]">check_circle</span>
+              <span>النتائج</span>
+            </span>
           )}
           {centerType === 'crown' && (
-            <>
-              <span className="material-symbols-outlined text-[16px] sm:text-[18px] text-amber-400">trophy</span>
-              <span className="text-[11px] sm:text-xs text-amber-300">المتصدر</span>
-            </>
+            <span className="text-[11px] sm:text-xs text-amber-400 flex items-center gap-1 font-sans font-bold">
+              <span className="material-symbols-outlined text-[15px]">trophy</span>
+              <span>الترتيب</span>
+            </span>
           )}
         </div>
       </div>
 
       {/* أدوات الرأس: زر تبديل النمط ومقاس العرض والمشاركة */}
-      <div className="flex items-center gap-1 sm:gap-1.5">
+      <div className="flex items-center gap-0.5 sm:gap-1">
         <ThemeToggle />
         <GameScaleControl />
         {onShareClick && (
           <button
             type="button"
             onClick={onShareClick}
-            className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-white border border-outline-variant/40 flex items-center justify-center transition-all active:scale-95 shadow-xs"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-white flex items-center justify-center transition-all active:scale-95"
             title="مشاركة"
           >
-            <span className="material-symbols-outlined text-[16px] sm:text-[18px]">share</span>
+            <span className="material-symbols-outlined text-[17px] sm:text-[18px]">share</span>
           </button>
         )}
       </div>

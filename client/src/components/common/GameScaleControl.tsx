@@ -40,13 +40,13 @@ export const GameScaleControl: React.FC<GameScaleControlProps> = ({ className = 
         onClick={handleToggle}
         aria-label="تغيير مقاس العرض والنصوص"
         title={`مقاس العرض: ${percent}%`}
-        className={`flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full transition-all duration-200 active:scale-95 border bg-surface-container-high border-outline-variant/40 text-on-surface-variant hover:text-white hover:border-white/40 shadow-sm relative group cursor-pointer ${className}`}
+        className={`flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-lg transition-all duration-200 active:scale-95 border bg-surface-container-high border-outline-variant/40 text-on-surface-variant hover:text-white hover:border-white/40 shadow-sm relative group cursor-pointer ${className}`}
       >
         <span className="material-symbols-outlined text-[17px] sm:text-[19px]">
           format_size
         </span>
         {percent !== 100 && (
-          <span className="absolute -top-1 -right-1 px-1 py-0.2 bg-amber-400 text-black text-[9px] font-black rounded-full shadow-xs leading-tight">
+          <span className="absolute -top-1 -right-1 px-1 py-0.2 bg-amber-400 text-black text-[9px] font-black rounded-md shadow-xs leading-tight">
             {percent}%
           </span>
         )}
@@ -59,7 +59,7 @@ export const GameScaleControl: React.FC<GameScaleControlProps> = ({ className = 
             onClick={() => setIsOpen(false)}
           >
             <div
-              className="w-full max-w-sm flex flex-col dark-monochrome-card rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-white/20 text-right shadow-2xl space-y-4 my-auto"
+              className="w-full max-w-sm flex flex-col dark-monochrome-card rounded-xl p-4 sm:p-5 border border-white/20 text-right shadow-2xl space-y-4 my-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
@@ -71,7 +71,7 @@ export const GameScaleControl: React.FC<GameScaleControlProps> = ({ className = 
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container"
+                  className="w-7 h-7 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container"
                 >
                   <span className="material-symbols-outlined text-[16px]">close</span>
                 </button>
@@ -83,7 +83,7 @@ export const GameScaleControl: React.FC<GameScaleControlProps> = ({ className = 
               </p>
 
               {/* Display & Stepper */}
-              <div className="p-3 rounded-2xl bg-surface-container-low border border-outline-variant/40 flex items-center justify-between">
+              <div className="p-3 rounded-xl bg-surface-container-low border border-outline-variant/40 flex items-center justify-between">
                 <button
                   type="button"
                   onClick={() => {
@@ -91,7 +91,7 @@ export const GameScaleControl: React.FC<GameScaleControlProps> = ({ className = 
                     decreaseScale();
                   }}
                   disabled={scale <= 0.8}
-                  className="w-9 h-9 rounded-xl bg-surface-container-high hover:bg-surface-container-highest border border-outline-variant/50 text-white font-bold flex items-center justify-center transition-all active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+                  className="w-9 h-9 rounded-lg bg-surface-container-high hover:bg-surface-container-highest border border-outline-variant/50 text-white font-bold flex items-center justify-center transition-all active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
                   title="تصغير"
                 >
                   <span className="material-symbols-outlined text-[20px]">remove</span>
@@ -117,7 +117,7 @@ export const GameScaleControl: React.FC<GameScaleControlProps> = ({ className = 
                     increaseScale();
                   }}
                   disabled={scale >= 1.3}
-                  className="w-9 h-9 rounded-xl bg-surface-container-high hover:bg-surface-container-highest border border-outline-variant/50 text-white font-bold flex items-center justify-center transition-all active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+                  className="w-9 h-9 rounded-lg bg-surface-container-high hover:bg-surface-container-highest border border-outline-variant/50 text-white font-bold flex items-center justify-center transition-all active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
                   title="تكبير"
                 >
                   <span className="material-symbols-outlined text-[20px]">add</span>
@@ -151,7 +151,7 @@ export const GameScaleControl: React.FC<GameScaleControlProps> = ({ className = 
                       key={p.scale}
                       type="button"
                       onClick={() => handleSetPreset(p.scale)}
-                      className={`py-1.5 px-1 rounded-xl text-xs font-bold transition-all text-center ${
+                      className={`py-1.5 px-1 rounded-lg text-xs font-bold transition-all text-center ${
                         isCurrent
                           ? 'bg-white text-surface-container-lowest shadow-sm ring-1 ring-white/50'
                           : 'bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-white border border-outline-variant/40'
@@ -173,7 +173,7 @@ export const GameScaleControl: React.FC<GameScaleControlProps> = ({ className = 
                     resetScale();
                   }}
                   disabled={percent === 100}
-                  className="flex-1 py-2 px-3 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-xs font-semibold text-on-surface-variant hover:text-white transition-all disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center gap-1"
+                  className="flex-1 py-2 px-3 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-xs font-semibold text-on-surface-variant hover:text-white transition-all disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center gap-1"
                 >
                   <span className="material-symbols-outlined text-[15px]">restart_alt</span>
                   <span>إعادة ضبط (100%)</span>
@@ -181,7 +181,7 @@ export const GameScaleControl: React.FC<GameScaleControlProps> = ({ className = 
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="py-2 px-5 rounded-xl bg-white hover:bg-neutral-200 text-surface-container-lowest text-xs font-bold transition-all shadow-sm"
+                  className="py-2 px-5 rounded-lg bg-white hover:bg-neutral-200 text-surface-container-lowest text-xs font-bold transition-all shadow-sm"
                 >
                   تم
                 </button>

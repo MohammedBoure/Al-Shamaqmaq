@@ -33,7 +33,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '' }) => {
         }}
         aria-label="تغيير مظهر اللعبة"
         title={`النمط الحالي: ${currentThemeObj.nameAr}`}
-        className={`flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full transition-all duration-200 active:scale-95 border bg-surface-container-high border-outline-variant/40 text-on-surface-variant hover:text-white hover:border-white/40 shadow-sm ${className}`}
+        className={`flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-lg transition-all duration-200 active:scale-95 border bg-surface-container-high border-outline-variant/40 text-on-surface-variant hover:text-white hover:border-white/40 shadow-sm ${className}`}
       >
         <span className="text-[16px] sm:text-[18px]" role="img" aria-label={currentThemeObj.name}>
           {currentThemeObj.icon}
@@ -47,7 +47,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '' }) => {
             onClick={() => setIsOpen(false)}
           >
             <div
-              className="w-full max-w-sm max-h-[85dvh] flex flex-col dark-monochrome-card rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-white/20 text-right shadow-2xl space-y-3 my-auto"
+              className="w-full max-w-sm max-h-[85dvh] flex flex-col dark-monochrome-card rounded-xl p-4 sm:p-5 border border-white/20 text-right shadow-2xl space-y-3 my-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between pb-2.5 border-b border-outline-variant/30 shrink-0">
@@ -58,7 +58,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '' }) => {
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container"
+                  className="w-7 h-7 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container"
                 >
                   <span className="material-symbols-outlined text-[16px]">close</span>
                 </button>
@@ -76,7 +76,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '' }) => {
                       key={themeOption.id}
                       type="button"
                       onClick={() => handleSelectTheme(themeOption.id)}
-                      className={`w-full p-2.5 sm:p-3 rounded-xl border flex items-center justify-between transition-all active:scale-98 ${
+                      className={`w-full p-2.5 sm:p-3 rounded-lg border flex items-center justify-between transition-all active:scale-98 ${
                         isActive
                           ? 'bg-surface-container-high border-white ring-1 ring-white/20 shadow-md'
                           : 'bg-surface-container-low hover:bg-surface-container border-outline-variant/40 hover:border-white/40'

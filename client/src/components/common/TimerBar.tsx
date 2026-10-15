@@ -22,7 +22,7 @@ export const TimerBar: React.FC<TimerBarProps> = ({
           <span>{label}</span>
         </div>
         <div
-          className={`px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold border ${
+          className={`px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-bold border ${
             isUrgent
               ? 'bg-surface-container-high text-white border-white animate-pulse'
               : 'bg-surface-container text-on-surface border-outline-variant/50'
