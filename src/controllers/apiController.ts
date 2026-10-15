@@ -63,7 +63,12 @@ apiRouter.post('/rooms', (req: Request, res: Response) => {
       return;
     }
 
-    if (allowedTopicIds && !topicService.validateTopicIds(allowedTopicIds)) {
+    const validTopicIds =
+      Array.isArray(allowedTopicIds) && allowedTopicIds.length > 0
+        ? allowedTopicIds
+        : undefined;
+
+    if (validTopicIds && !topicService.validateTopicIds(validTopicIds)) {
       res.status(400).json({
         success: false,
         error: 'بعض أو كل معرفات المواضيع المختارة غير صالحة',
@@ -81,7 +86,7 @@ apiRouter.post('/rooms', (req: Request, res: Response) => {
     const { room, host, sessionToken } = roomManager.createRoom(
       hostNickname,
       hostAvatar || '👑',
-      allowedTopicIds,
+      validTopicIds,
       initialSettings
     );
 

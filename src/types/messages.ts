@@ -16,6 +16,8 @@ export type ClientMessageType =
   | 'SUBMIT_BLUFF'
   | 'SUBMIT_VOTE'
   | 'NEXT_ROUND'
+  | 'ADD_BOT'
+  | 'REMOVE_BOT'
   | 'PING';
 
 export interface KickPlayerPayload {

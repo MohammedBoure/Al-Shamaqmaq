@@ -16,6 +16,7 @@ export interface PlayerProfile {
   isConnected: boolean;
   score: number;
   teamId?: string | null;
+  isBot?: boolean;
 }
 
 export interface PlayerAnswerState {

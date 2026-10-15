@@ -15,6 +15,7 @@ export class Player {
   public currentVote: PlayerVote | null;
   public lastSeenAt: number;
   public teamId: string | null;
+  public isBot: boolean;
 
   constructor(params: {
     id: string;
@@ -24,6 +25,7 @@ export class Player {
     isHost?: boolean;
     socket?: WebSocket;
     teamId?: string | null;
+    isBot?: boolean;
   }) {
     this.id = params.id;
     this.nickname = params.nickname;
@@ -36,6 +38,7 @@ export class Player {
     this.lastSeenAt = Date.now();
     this.currentVote = null;
     this.teamId = params.teamId ?? null;
+    this.isBot = params.isBot ?? false;
 
     this.answerState = {
       initialAnswer: '',
@@ -74,6 +77,7 @@ export class Player {
       isConnected: this.isConnected,
       score: this.score,
       teamId: this.teamId,
+      isBot: this.isBot,
     };
   }
 

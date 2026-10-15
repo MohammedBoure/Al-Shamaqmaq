@@ -15,6 +15,7 @@ export function useWebSocket({ onMessage, onOpen, onClose, onError }: UseWebSock
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const isManuallyClosedRef = useRef<boolean>(false);
+  const messageQueueRef = useRef<{ type: string; payload?: any }[]>([]);
 
   // حفظ المراجع لتجنب تكرار الاتصال في React StrictMode
   const onMessageRef = useRef(onMessage);
@@ -48,8 +49,17 @@ export function useWebSocket({ onMessage, onOpen, onClose, onError }: UseWebSock
     socketRef.current = ws;
 
     ws.onopen = () => {
+      if (socketRef.current !== ws) return;
       setStatus('connected');
       if (onOpenRef.current) onOpenRef.current();
+
+      // إرسال جميع الرسائل العالقة في قائمة الانتظار فور فتح الاتصال
+      while (messageQueueRef.current.length > 0) {
+        const queuedMsg = messageQueueRef.current.shift();
+        if (queuedMsg && ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify(queuedMsg));
+        }
+      }
 
       // تفعيل نبضات الاتصال (Ping) كل 15 ثانية للحفاظ على استقرار الشبكة
       if (pingIntervalRef.current) clearInterval(pingIntervalRef.current);
@@ -61,6 +71,7 @@ export function useWebSocket({ onMessage, onOpen, onClose, onError }: UseWebSock
     };
 
     ws.onmessage = (event) => {
+      if (socketRef.current !== ws) return;
       try {
         const data = JSON.parse(event.data);
         if (data.type === 'PONG') return;
@@ -71,6 +82,7 @@ export function useWebSocket({ onMessage, onOpen, onClose, onError }: UseWebSock
     };
 
     ws.onclose = () => {
+      if (socketRef.current !== ws) return;
       setStatus('disconnected');
       if (pingIntervalRef.current) clearInterval(pingIntervalRef.current);
       if (onCloseRef.current) onCloseRef.current();
@@ -85,6 +97,7 @@ export function useWebSocket({ onMessage, onOpen, onClose, onError }: UseWebSock
     };
 
     ws.onerror = (err) => {
+      if (socketRef.current !== ws) return;
       if (onErrorRef.current) onErrorRef.current(err);
       ws.close();
     };
@@ -105,9 +118,15 @@ export function useWebSocket({ onMessage, onOpen, onClose, onError }: UseWebSock
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
       socketRef.current.send(JSON.stringify(message));
       return true;
+    } else {
+      // حفظ الرسالة في قائمة الانتظار إذا كان المقبس قيد الاتصال
+      messageQueueRef.current.push(message);
+      if (!socketRef.current || socketRef.current.readyState === WebSocket.CLOSED) {
+        connect();
+      }
+      return false;
     }
-    return false;
-  }, []);
+  }, [connect]);
 
   useEffect(() => {
     connect();

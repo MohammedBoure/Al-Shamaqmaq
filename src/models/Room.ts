@@ -16,7 +16,7 @@ import { Puzzle, TopicSummary } from '../types/topics';
 import { ServerMessage } from '../types/messages';
 import { topicService } from '../services/topicService';
 import { checkAnswerMatch, areAnswersDuplicate, getDisplayCorrectAnswer } from '../utils/textNormalizer';
-import { generateId } from '../utils/codeGenerator';
+import { generateId, generateSessionToken } from '../utils/codeGenerator';
 import { config } from '../config';
 
 export class Room {
@@ -86,6 +86,83 @@ export class Room {
 
     this.players.set(player.id, player);
     this.lastActiveAt = Date.now();
+    return { success: true };
+  }
+
+  /**
+   * إضافة لاعب تجريبي (روبوت) لمساعدة المستخدم في تجربة اللعبة بمفرده
+   */
+  public addBot(): { success: boolean; error?: string; bot?: Player } {
+    if (this.phase !== 'LOBBY') {
+      return { success: false, error: 'يمكن إضافة الروبوت في غرفة الانتظار فقط' };
+    }
+    if (this.players.size >= this.settings.maxPlayers) {
+      return { success: false, error: 'الغرفة ممتلئة بالكامل' };
+    }
+
+    const botCount = Array.from(this.players.values()).filter((p) => p.isBot).length;
+    const botNicknames = ['روبوت ذكي 🤖', 'عبقري الألغاز 🤖', 'ماكر الآركيد 🤖', 'مخادع سري 🤖'];
+    const botName = botNicknames[botCount % botNicknames.length] || `روبوت ${botCount + 1} 🤖`;
+    const botId = `bot-${generateId().slice(0, 8)}`;
+
+    const botPlayer = new Player({
+      id: botId,
+      nickname: botName,
+      avatar: '🤖',
+      sessionToken: `token-${botId}`,
+      isHost: false,
+      isBot: true,
+    });
+
+    const addRes = this.addPlayer(botPlayer);
+    if (!addRes.success) {
+      return addRes;
+    }
+
+    this.broadcast({
+      type: 'PLAYER_JOINED',
+      payload: { player: botPlayer.toProfile() },
+    });
+
+    this.broadcast({
+      type: 'ROOM_UPDATED',
+      payload: { room: this.getPublicState() },
+    });
+
+    return { success: true, bot: botPlayer };
+  }
+
+  /**
+   * إزالة لاعب روبوت من الغرفة
+   */
+  public removeBot(botId?: string): { success: boolean; error?: string } {
+    if (this.phase !== 'LOBBY') {
+      return { success: false, error: 'يمكن إزالة الروبوت في غرفة الانتظار فقط' };
+    }
+
+    let targetBot: Player | undefined;
+    if (botId) {
+      targetBot = this.players.get(botId);
+    } else {
+      targetBot = Array.from(this.players.values()).find((p) => p.isBot);
+    }
+
+    if (!targetBot || !targetBot.isBot) {
+      return { success: false, error: 'لم يتم العثور على روبوت لإزالته' };
+    }
+
+    this.removePlayer(targetBot.id, true);
+
+    this.broadcast({
+      type: 'PLAYER_LEFT',
+      payload: { playerId: targetBot.id },
+    });
+
+    this.broadcast({
+      type: 'ROOM_UPDATED',
+      payload: { room: this.getPublicState() },
+    });
+
     return { success: true };
   }
 
@@ -452,8 +529,10 @@ export class Room {
       .getTopicSummaries()
       .filter((t) => this.settings.allowedTopicIds.includes(t.id));
 
+    const finalTopics = filteredTopics.length > 0 ? filteredTopics : topicService.getTopicSummaries();
+
     // اختيار ٦ مواضيع عشوائية كحد أقصى من بين المواضيع المحددة
-    const shuffled = [...filteredTopics].sort(() => 0.5 - Math.random());
+    const shuffled = [...finalTopics].sort(() => 0.5 - Math.random());
     const allowedTopics = shuffled.slice(0, Math.min(6, shuffled.length));
 
     this.broadcast({
@@ -466,6 +545,18 @@ export class Room {
         players: this.getPlayerList().map((p) => p.toProfile()),
       },
     });
+
+    // إذا كان المختار روبوتاً، يقوم باختيار موضوع عشوائي تلقائياً بعد ثانية ونصف
+    if (currentPicker && currentPicker.isBot) {
+      setTimeout(() => {
+        if (this.phase === 'TOPIC_SELECTION' && this.currentPickerId === currentPicker.id) {
+          const randomTopic = allowedTopics[Math.floor(Math.random() * allowedTopics.length)];
+          if (randomTopic) {
+            this.selectTopic(randomTopic.id);
+          }
+        }
+      }, 1500);
+    }
 
     this.startTimer(this.settings.topicPickDuration, () => {
       // إذا انتهى الوقت دون اختيار موضوع، يختار السيرفر موضوعاً عشوائياً
@@ -536,6 +627,20 @@ export class Room {
         timeRemaining: this.settings.answerDuration,
       },
     });
+
+    // إرسال الإجابة تلقائياً لأي روبوت في الغرفة بعد مهلة واقعية
+    const botPlayers = Array.from(this.players.values()).filter((p) => p.isBot);
+    for (const bot of botPlayers) {
+      setTimeout(() => {
+        if (this.phase === 'ANSWERING' && this.currentPuzzle && !bot.answerState.hasSubmittedInitial) {
+          const wrongAnswers = this.currentPuzzle.wrong_answers || [];
+          const pick = wrongAnswers.length > 0
+            ? wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)]
+            : 'تخمين بديل';
+          this.submitInitialAnswer(bot.id, pick);
+        }
+      }, 1500 + Math.random() * 1500);
+    }
 
     this.startTimer(this.settings.answerDuration, () => {
       this.handleAnsweringTimeout();
@@ -868,6 +973,20 @@ export class Room {
           timeRemaining: this.settings.voteDuration,
         },
       });
+    }
+
+    // تسجيل أصوات الروبوتات تلقائياً
+    const botPlayers = Array.from(this.players.values()).filter((p) => p.isBot);
+    for (const bot of botPlayers) {
+      setTimeout(() => {
+        if (this.phase === 'VOTING' && !bot.currentVote) {
+          const eligibleOptions = this.roundOptions.filter((opt) => !opt.authorPlayerIds.includes(bot.id));
+          if (eligibleOptions.length > 0) {
+            const randomPick = eligibleOptions[Math.floor(Math.random() * eligibleOptions.length)];
+            this.submitVote(bot.id, randomPick.id);
+          }
+        }
+      }, 1500 + Math.random() * 1500);
     }
 
     this.startTimer(this.settings.voteDuration, () => {

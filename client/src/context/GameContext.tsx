@@ -93,6 +93,8 @@ interface GameContextType {
   kickPlayer: (targetPlayerId: string) => void;
   abortGame: () => void;
   rematch: () => void;
+  addBot: () => void;
+  removeBot: (botId?: string) => void;
   toggleAllowedTopic: (topicId: string) => void;
   setAllowedTopicIdsList: (topicIds: string[]) => void;
 }
@@ -402,6 +404,16 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       case 'ERROR': {
+        if (payload.code === 'JOIN_FAILED' || payload.code === 'NOT_IN_ROOM' || payload.code === 'ROOM_NOT_FOUND') {
+          // إذا فشلت محاولة إعادة الاتصال لأن الغرفة انتهت، نمسح بيانات الجلسة القديمة فوراً
+          localStorage.removeItem('deception_session_token');
+          localStorage.removeItem('deception_room_code');
+          setSessionToken(null);
+          setRoomCode(null);
+          setPlayer(null);
+          setRoom(null);
+          setPhase('LOBBY');
+        }
         triggerToast(payload.message || 'حدث خطأ غير متوقع', true);
         break;
       }
@@ -470,7 +482,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
           body: JSON.stringify({
             hostNickname: hostNickname.trim(),
             hostAvatar: hostAvatar.trim(),
-            allowedTopicIds,
+            allowedTopicIds: allowedTopicIds && allowedTopicIds.length > 0 ? allowedTopicIds : undefined,
             ...(initialSettings || {}),
           }),
         });
@@ -645,6 +657,23 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     send({ type: 'REMATCH', payload: {} });
   }, [audio, haptic, send]);
 
+  // إضافة روبوت تجريبي للمساعدة في تجربة اللعبة
+  const addBot = useCallback(() => {
+    audio.playClick();
+    haptic.triggerHaptic('medium');
+    send({ type: 'ADD_BOT', payload: {} });
+  }, [audio, haptic, send]);
+
+  // إزالة روبوت تجريبي
+  const removeBot = useCallback(
+    (botId?: string) => {
+      audio.playClick();
+      haptic.triggerHaptic('light');
+      send({ type: 'REMOVE_BOT', payload: { botId } });
+    },
+    [audio, haptic, send]
+  );
+
   // تبديل اختيار موضوع مسموح به
   const toggleAllowedTopic = useCallback(
     (topicId: string) => {
@@ -728,6 +757,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         kickPlayer,
         abortGame,
         rematch,
+        addBot,
+        removeBot,
         toggleAllowedTopic,
         setAllowedTopicIdsList,
       }}

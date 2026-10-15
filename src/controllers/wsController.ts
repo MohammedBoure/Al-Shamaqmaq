@@ -118,6 +118,14 @@ export class WebSocketController {
         this.handleRematch(ws, meta);
         break;
 
+      case 'ADD_BOT':
+        this.handleAddBot(ws, meta);
+        break;
+
+      case 'REMOVE_BOT':
+        this.handleRemoveBot(ws, meta, message.payload);
+        break;
+
       default:
         this.sendError(ws, 'UNKNOWN_ACTION', `نوع الأمر غير معروف: ${message.type}`);
     }
@@ -554,6 +562,48 @@ export class WebSocketController {
     const res = room.rematch(player.id);
     if (!res.success) {
       this.sendError(ws, 'REMATCH_FAILED', res.error || 'تعذر بدء إعادة المباراة');
+    }
+  }
+
+  /**
+   * معالجة إضافة روبوت تجريبي إلى الغرفة
+   */
+  private handleAddBot(ws: WebSocket, meta: SocketMetadata): void {
+    const { room, player } = this.getRoomAndPlayer(meta);
+    if (!room || !player) {
+      this.sendError(ws, 'NOT_IN_ROOM', 'أنت لست منضماً لأي غرفة');
+      return;
+    }
+
+    if (!player.isHost) {
+      this.sendError(ws, 'FORBIDDEN', 'المضيف فقط يملك صلاحية إضافة روبوت تجريبي');
+      return;
+    }
+
+    const res = room.addBot();
+    if (!res.success) {
+      this.sendError(ws, 'BOT_ADD_FAILED', res.error || 'تعذر إضافة الروبوت');
+    }
+  }
+
+  /**
+   * معالجة إزالة روبوت من الغرفة
+   */
+  private handleRemoveBot(ws: WebSocket, meta: SocketMetadata, payload?: any): void {
+    const { room, player } = this.getRoomAndPlayer(meta);
+    if (!room || !player) {
+      this.sendError(ws, 'NOT_IN_ROOM', 'أنت لست منضماً لأي غرفة');
+      return;
+    }
+
+    if (!player.isHost) {
+      this.sendError(ws, 'FORBIDDEN', 'المضيف فقط يملك صلاحية إزالة الروبوت');
+      return;
+    }
+
+    const res = room.removeBot(payload?.botId);
+    if (!res.success) {
+      this.sendError(ws, 'BOT_REMOVE_FAILED', res.error || 'تعذر إزالة الروبوت');
     }
   }
 

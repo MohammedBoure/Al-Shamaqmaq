@@ -22,6 +22,8 @@ export const WaitingRoomScreen: React.FC = () => {
     categoryGroups,
     toggleAllowedTopic,
     setAllowedTopicIdsList,
+    addBot,
+    removeBot,
     haptic,
     audio,
   } = useGame();
@@ -307,15 +309,57 @@ export const WaitingRoomScreen: React.FC = () => {
               </span>
             </div>
 
-            <button
-              type="button"
-              onClick={() => setIsCharacterModalOpen(true)}
-              className="text-xs font-semibold text-on-surface-variant hover:text-white flex items-center gap-1 transition-colors"
-            >
-              <span className="material-symbols-outlined text-[15px]">palette</span>
-              <span>تعديل شخصيتي</span>
-            </button>
+            <div className="flex items-center gap-2">
+              {isHost && (
+                <>
+                  <button
+                    type="button"
+                    onClick={addBot}
+                    className="text-xs font-bold text-emerald-400 hover:text-emerald-300 bg-emerald-950/40 border border-emerald-500/40 px-2.5 py-1 rounded-lg flex items-center gap-1 transition-all active:scale-95 cursor-pointer"
+                    title="إضافة روبوت تجريبي لتجربة اللعبة بمفردك"
+                  >
+                    <span className="material-symbols-outlined text-[15px]">smart_toy</span>
+                    <span>+ بوت تجريبي</span>
+                  </button>
+                  {players.some((p) => p.isBot) && (
+                    <button
+                      type="button"
+                      onClick={() => removeBot()}
+                      className="text-xs font-semibold text-rose-400 hover:text-rose-300 bg-rose-950/40 border border-rose-500/40 px-2 py-1 rounded-lg flex items-center gap-1 transition-all active:scale-95 cursor-pointer"
+                      title="إزالة الروبوت"
+                    >
+                      <span>إزالة البوت</span>
+                    </button>
+                  )}
+                </>
+              )}
+
+              <button
+                type="button"
+                onClick={() => setIsCharacterModalOpen(true)}
+                className="text-xs font-semibold text-on-surface-variant hover:text-white flex items-center gap-1 transition-colors"
+              >
+                <span className="material-symbols-outlined text-[15px]">palette</span>
+                <span>تعديل شخصيتي</span>
+              </button>
+            </div>
           </div>
+
+          {/* تلميح مساعدة عند وجود لاعب واحد فقط */}
+          {players.length < 2 && (
+            <div className="mb-3 p-2.5 rounded-lg bg-surface-container/70 border border-outline-variant/30 text-xs text-on-surface-variant flex items-center justify-between gap-2">
+              <span>💡 يمكنك مشاركة رمز الغرفة، أو الضغط على <b>+ بوت تجريبي</b> لتجربة اللعبة فوراً بمفردك!</span>
+              {isHost && (
+                <button
+                  type="button"
+                  onClick={addBot}
+                  className="bg-white hover:bg-neutral-200 text-surface-container-lowest text-xs font-bold px-2.5 py-1 rounded-md shrink-0 active:scale-95 transition-all cursor-pointer"
+                >
+                  إضافة بوت 🤖
+                </button>
+              )}
+            </div>
+          )}
 
           {/* Compact Players Wrap */}
           <div className="flex flex-wrap gap-2.5">
@@ -349,6 +393,11 @@ export const WaitingRoomScreen: React.FC = () => {
                           crown
                         </span>
                       )}
+                      {p.isBot && (
+                        <span className="text-[10px] px-1 py-0.2 rounded bg-cyan-950/60 text-cyan-300 font-bold border border-cyan-500/30">
+                          بوت
+                        </span>
+                      )}
                       {isMe && (
                         <span className="text-[9px] font-bold text-on-surface-variant">
                           (أنت)
@@ -357,16 +406,16 @@ export const WaitingRoomScreen: React.FC = () => {
                     </div>
                     <span className="text-[10px] text-emerald-400 flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                      متصل
+                      {p.isBot ? 'روبوت آلي' : 'متصل'}
                     </span>
                   </div>
 
                   {isHost && !p.isHost && !isMe && (
                     <button
                       type="button"
-                      onClick={() => kickPlayer(p.id)}
-                      className="w-6 h-6 rounded-md text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 flex items-center justify-center transition-colors mr-1"
-                      title={`طرد ${p.nickname}`}
+                      onClick={() => (p.isBot ? removeBot(p.id) : kickPlayer(p.id))}
+                      className="w-6 h-6 rounded-md text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 flex items-center justify-center transition-colors mr-1 cursor-pointer"
+                      title={p.isBot ? 'إزالة الروبوت' : `طرد ${p.nickname}`}
                     >
                       <span className="material-symbols-outlined text-[14px]">close</span>
                     </button>

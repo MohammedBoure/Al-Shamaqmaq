@@ -129,7 +129,7 @@ export const LobbyScreen: React.FC = () => {
     const success = await createRoom(
       nickname,
       avatar,
-      topics.map((t) => t.id),
+      topics.length > 0 ? topics.map((t) => t.id) : undefined,
       {
         totalRounds,
         answerDuration,
