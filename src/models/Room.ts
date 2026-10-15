@@ -605,16 +605,7 @@ export class Room {
       this.checkAndBroadcastAnswerProgress();
       return { success: true, isCorrect: true, requiresBluff: true };
     } else {
-      // إجابة خاطئة: تُعتمد تلقائياً كإجابته المزيفة المضللة في الجولة
-      // التحقق من عدم التكرار مع إجابات مزيفة سابقة للاعبين آخرين
-      const isDuplicate = this.isDuplicateWithExistingBluffs(cleanAnswer, playerId);
-      if (isDuplicate) {
-        return {
-          success: false,
-          error: 'تم تقديم إجابة مشابهة من لاعب آخر بالفعل، يرجى كتابة إجابة مختلفة أو صياغتها بطريقة أخرى',
-        };
-      }
-
+      // إجابة خاطئة: تُعتمد تلقائياً كإجابته المزيفة المضللة في الجولة (يمكن لأكثر من لاعب كتابة نفس الإجابة الخاطئة)
       player.answerState.initialAnswer = cleanAnswer;
       player.answerState.bluffAnswer = cleanAnswer;
       player.answerState.isCorrect = false;
@@ -681,14 +672,7 @@ export class Room {
       };
     }
 
-    // التحقق من التكرار مع إجابات اللاعبين الآخرين
-    if (this.isDuplicateWithExistingBluffs(cleanBluff, playerId)) {
-      return {
-        success: false,
-        error: 'تم تقديم إجابة مزيفة مشابهة من قبل لاعب آخر، يرجى كتابة فكرة أخرى لتضليلهم',
-      };
-    }
-
+    // يُسمح بتشابه أو تطابق الإجابات المزيفة بين اللاعبين وتُدمج في خيار واحد بالتصويت
     player.answerState.bluffAnswer = cleanBluff;
     player.answerState.hasSubmittedBluff = true;
 
@@ -707,20 +691,6 @@ export class Room {
     return { success: true };
   }
 
-  /**
-   * فحص ما إذا كانت الإجابة تطابق إجابة مزيفة معتمدة لأي لاعب آخر
-   */
-  private isDuplicateWithExistingBluffs(answer: string, currentPlayerId: string): boolean {
-    for (const [id, player] of this.players.entries()) {
-      if (id === currentPlayerId) continue;
-      if (player.answerState.bluffAnswer) {
-        if (areAnswersDuplicate(answer, player.answerState.bluffAnswer)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
 
   /**
    * بث تقدم استقبال الإجابات للاعبين

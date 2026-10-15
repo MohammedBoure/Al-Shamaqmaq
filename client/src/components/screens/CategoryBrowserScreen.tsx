@@ -95,7 +95,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
   }, [categoryGroups, searchQuery]);
 
   return (
-    <div className="h-full max-h-full overflow-y-auto table-canvas-dark text-on-surface flex flex-col justify-between selection:bg-surface-bright selection:text-white pb-10">
+    <div className="min-h-full flex-1 w-full table-canvas-dark text-on-surface flex flex-col justify-between selection:bg-surface-bright selection:text-white pb-10">
       {/* نافذة تفاصيل الموضوع */}
       {selectedTopicForInfo && (
         <div
@@ -103,7 +103,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
           onClick={() => setSelectedTopicForInfo(null)}
         >
           <div
-            className="w-full max-w-md dark-monochrome-card rounded-3xl p-6 border border-white/10 text-right space-y-4"
+            className="w-full max-w-md dark-monochrome-card rounded-xl p-6 border border-white/10 text-right space-y-4"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-3 border-b border-outline-variant/30">
@@ -114,7 +114,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
               <button
                 type="button"
                 onClick={() => setSelectedTopicForInfo(null)}
-                className="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container"
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container"
               >
                 <span className="material-symbols-outlined text-[18px]">close</span>
               </button>
@@ -140,7 +140,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-surface-container hover:bg-surface-container-high text-white border border-outline-variant/40 transition-all"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center bg-surface-container hover:bg-surface-container-high text-white border border-outline-variant/40 transition-all"
               >
                 <span className="material-symbols-outlined text-[16px] sm:text-[18px] rotate-180">arrow_back</span>
               </button>
@@ -152,7 +152,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-surface-container-high border border-outline-variant/60 text-[11px] sm:text-xs font-bold text-white">
+            <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-lg bg-surface-container-high border border-outline-variant/60 text-[11px] sm:text-xs font-bold text-white">
               {allowedTopicIds.size} نشطة
             </span>
           </div>
@@ -169,7 +169,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="ابحث عن تصنيف أو موضوع..."
-              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl pr-9 pl-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-white transition-all"
+              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-lg pr-9 pl-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-white transition-all"
             />
             <span className="material-symbols-outlined absolute right-2.5 top-2 sm:top-2.5 text-[18px] sm:text-[20px] text-outline">
               search
@@ -181,7 +181,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
               <button
                 type="button"
                 onClick={handleRandomizeSelection}
-                className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 text-white text-[11px] sm:text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 shadow-sm"
+                className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 text-white text-[11px] sm:text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 shadow-sm"
               >
                 <span className="material-symbols-outlined text-[15px] sm:text-[16px]">casino</span>
                 <span>عشوائي</span>
@@ -189,7 +189,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
               <button
                 type="button"
                 onClick={handleSelectAll}
-                className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-white text-surface-container-lowest text-[11px] sm:text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 shadow-sm"
+                className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-lg bg-white text-surface-container-lowest text-[11px] sm:text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 shadow-sm"
               >
                 <span className="material-symbols-outlined text-[15px] sm:text-[16px]">done_all</span>
                 <span>تحديد الكل</span>
@@ -197,7 +197,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
               <button
                 type="button"
                 onClick={handleDeselectAll}
-                className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 text-on-surface-variant hover:text-rose-400 text-[11px] sm:text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 shadow-sm"
+                className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 text-on-surface-variant hover:text-rose-400 text-[11px] sm:text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 shadow-sm"
               >
                 <span className="material-symbols-outlined text-[15px] sm:text-[16px]">deselect</span>
                 <span>إلغاء الكل</span>
@@ -293,7 +293,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="bg-white hover:bg-neutral-200 text-surface-container-lowest font-bold text-xs py-2 px-6 rounded-xl transition-all shadow-sm"
+              className="bg-white hover:bg-neutral-200 text-surface-container-lowest font-bold text-xs py-2 px-6 rounded-lg transition-all shadow-sm"
             >
               تم والعودة
             </button>
@@ -302,7 +302,7 @@ export const CategoryBrowserScreen: React.FC<CategoryBrowserScreenProps> = ({
               type="button"
               onClick={startGame}
               disabled={playersCount < 2}
-              className="bg-white hover:bg-neutral-200 text-surface-container-lowest font-bold text-xs py-2 px-6 rounded-xl transition-all shadow-sm disabled:opacity-40"
+              className="bg-white hover:bg-neutral-200 text-surface-container-lowest font-bold text-xs py-2 px-6 rounded-lg transition-all shadow-sm disabled:opacity-40"
             >
               بدء اللعبة الآن
             </button>

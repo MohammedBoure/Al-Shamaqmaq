@@ -38,13 +38,13 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
               e.stopPropagation();
               onShowInfo(topic);
             }}
-            className="w-5 h-5 rounded-full flex items-center justify-center text-outline hover:text-white"
+            className="w-5 h-5 rounded-md flex items-center justify-center text-outline hover:text-white"
             title="معلومات عن الفئة"
           >
             <span className="material-symbols-outlined text-[14px]">info</span>
           </button>
           <div
-            className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${
+            className={`w-5 h-5 rounded-md flex items-center justify-center transition-all ${
               isSelected
                 ? 'bg-white text-surface-container-lowest'
                 : 'border border-outline text-transparent'

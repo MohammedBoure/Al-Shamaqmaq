@@ -38,12 +38,12 @@ export const ScaleProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const root = document.documentElement;
     root.style.setProperty('--game-scale', `${scale}`);
 
-    // If browser supports CSS zoom (Chromium, Safari, Edge):
-    const hasZoom = typeof (root.style as any).zoom !== 'undefined';
-    if (hasZoom) {
-      (root.style as any).zoom = `${scale}`;
-    } else {
-      // Fallback for browsers without zoom support: scale base font size
+    // Explicitly reset non-standard CSS zoom which breaks mouse wheel & touch scrolling in Chromium
+    if (typeof (root.style as any).zoom !== 'undefined') {
+      (root.style as any).zoom = '';
+    }
+
+    const applyScaleFontSize = () => {
       const basePx =
         window.innerWidth <= 375
           ? 12.5
@@ -52,8 +52,12 @@ export const ScaleProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           : window.innerWidth <= 1024
           ? 15
           : 16;
-      (root as HTMLElement).style.fontSize = `${basePx * scale}px`;
-    }
+      root.style.fontSize = `${basePx * scale}px`;
+    };
+
+    applyScaleFontSize();
+    window.addEventListener('resize', applyScaleFontSize);
+    return () => window.removeEventListener('resize', applyScaleFontSize);
   }, [scale]);
 
   const setScale = (newScale: number) => {

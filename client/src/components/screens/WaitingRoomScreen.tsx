@@ -30,7 +30,6 @@ export const WaitingRoomScreen: React.FC = () => {
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState<boolean>(false);
   const [isCharacterModalOpen, setIsCharacterModalOpen] = useState<boolean>(false);
-  const [preset, setPreset] = useState<'classic' | 'custom'>('classic');
 
   // إعدادات اللعبة
   const [roundSeconds, setRoundSeconds] = useState<number>(() => room?.roundDuration || 45);
@@ -38,13 +37,8 @@ export const WaitingRoomScreen: React.FC = () => {
   const [totalRounds, setTotalRounds] = useState<number>(() => room?.totalRounds || 10);
   const [gameMode, setGameMode] = useState<'individual' | 'teams'>(() => room?.gameMode || 'individual');
 
-  // التحكم في طي/فتح أقسام التصنيفات
-  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
-    general: true,
-    science: false,
-    culture: false,
-    custom: false,
-  });
+  // التحكم في طي/فتح أقسام التصنيفات (افتراضياً مفتوحة لتسهيل الرؤية)
+  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
 
   // مزامنة الإعدادات من الغرفة
   useEffect(() => {
@@ -57,6 +51,38 @@ export const WaitingRoomScreen: React.FC = () => {
   // خطاف إملاء الرقم صوتياً
   const { isSpeaking, isSupported: isTtsSupported, dictateCode, stopDictation } = useCodeDictation();
 
+  const getCategoryIcon = (groupId: string, iconName?: string) => {
+    const map: Record<string, string> = {
+      science: 'science',
+      flaskconical: 'science',
+      general: 'psychology',
+      helpcircle: 'help',
+      sports: 'sports_soccer',
+      trophy: 'emoji_events',
+      anime_cartoons: 'auto_awesome',
+      tv: 'tv',
+      celebrities_arts: 'palette',
+      palette: 'palette',
+      video_games: 'sports_esports',
+      gamepad2: 'sports_esports',
+    };
+    const key = (iconName || groupId).toLowerCase();
+    return map[key] || map[groupId.toLowerCase()] || 'layers';
+  };
+
+  const getCategoryDisplayName = (groupId: string, title?: string) => {
+    if (title && title !== groupId && !title.includes('_')) return title;
+    const map: Record<string, string> = {
+      anime_cartoons: 'أنمي ورسوم متحركة',
+      video_games: 'ألعاب فيديو',
+      science: 'علوم',
+      general: 'معلومات عامة',
+      sports: 'رياضة',
+      celebrities_arts: 'مشاهير وفنون',
+    };
+    return map[groupId.toLowerCase()] || title || groupId;
+  };
+
   const roomCode = room?.code || '';
   const players = room?.players || [];
   const isHost = player?.isHost;
@@ -66,15 +92,6 @@ export const WaitingRoomScreen: React.FC = () => {
     ? `${window.location.origin}${window.location.pathname}?join=${roomCode}`
     : `https://game/?join=${roomCode}`;
 
-  const arabicNumbers: Record<string, string> = {
-    '0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤',
-    '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩',
-  };
-
-  const toArabic = (num: number | string) => {
-    return String(num).replace(/[0-9]/g, (w) => arabicNumbers[w] || w);
-  };
-
   // المواضيع المسموحة
   const allowedTopicIds = useMemo(() => {
     if (Array.isArray(room?.allowedTopicIds)) {
@@ -82,6 +99,30 @@ export const WaitingRoomScreen: React.FC = () => {
     }
     return new Set(topics.map((t) => t.id));
   }, [room?.allowedTopicIds, topics]);
+
+  const toggleCategoryAccordion = (catId: string) => {
+    audio.playClick();
+    setExpandedCategories((prev) => ({
+      ...prev,
+      [catId]: prev[catId] === undefined ? false : !prev[catId],
+    }));
+  };
+
+  const handleToggleCategoryGroup = (groupTopics: TopicSummary[], e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!isHost) return;
+    audio.playClick();
+    const subtopicIds = groupTopics.map((t) => t.id);
+    const allSelected = subtopicIds.every((id) => allowedTopicIds.has(id));
+
+    const newSet = new Set(allowedTopicIds);
+    if (allSelected) {
+      subtopicIds.forEach((id) => newSet.delete(id));
+    } else {
+      subtopicIds.forEach((id) => newSet.add(id));
+    }
+    setAllowedTopicIdsList(Array.from(newSet));
+  };
 
   const handleSelectRandomTopics = () => {
     if (!isHost || topics.length === 0) return;
@@ -127,20 +168,11 @@ export const WaitingRoomScreen: React.FC = () => {
   const handleCopyLink = async () => {
     audio.playClick();
     try {
-      await navigator.clipboard.readText();
       await navigator.clipboard.writeText(joinUrl);
       setCopiedLink(true);
       haptic.triggerHaptic('success');
       setTimeout(() => setCopiedLink(false), 2000);
     } catch (_) {}
-  };
-
-  const toggleCategoryAccordion = (catId: string) => {
-    audio.playClick();
-    setExpandedCategories((prev) => ({
-      ...prev,
-      [catId]: !prev[catId],
-    }));
   };
 
   const handleUpdateRounds = (rounds: number) => {
@@ -171,728 +203,524 @@ export const WaitingRoomScreen: React.FC = () => {
     }
   };
 
+  const emptySeatsCount = Math.max(0, maxPlayers - players.length);
+
   return (
-    <div className="table-canvas-dark text-on-surface antialiased h-full max-h-full overflow-y-auto flex flex-col selection:bg-surface-bright selection:text-white">
-      {/* Desktop Top App Bar */}
-      <header className="bg-surface/90 backdrop-blur-md sticky top-0 z-40 border-b border-outline-variant/40">
-        <div className="flex justify-between items-center w-full px-3.5 sm:px-6 md:px-8 max-w-5xl mx-auto h-14 sm:h-16">
-          {/* Brand Logo & Context */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <span className="text-xl sm:text-2xl font-black tracking-wider text-white flex items-center gap-2 font-mono">
-              <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white" />
+    <div className="table-canvas-dark text-on-surface antialiased min-h-full flex-1 w-full flex flex-col selection:bg-surface-bright selection:text-white">
+      {/* Floating Borderless Header */}
+      <header className="sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30">
+        <div className="flex justify-between items-center w-full px-4 max-w-xl mx-auto h-14">
+          {/* Back button + Brand */}
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={leaveRoom}
+              className="w-9 h-9 rounded-lg bg-surface-container-high hover:bg-surface-container-highest border border-outline-variant/50 text-white flex items-center justify-center transition-all active:scale-95"
+              title="مغادرة الغرفة"
+            >
+              <span className="material-symbols-outlined text-[18px] rotate-180">arrow_back</span>
+            </button>
+            <span className="text-lg font-black tracking-wider text-white font-mono flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-white" />
               ESC
             </span>
-            <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-outline-variant" />
-            <span className="hidden sm:inline-block text-[11px] sm:text-xs text-on-surface-variant font-medium">
-              لعبة الخداع والبديهة
-            </span>
           </div>
 
-          {/* Mode Indicator */}
-          <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-surface-container-low rounded-full border border-outline-variant/60">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-            <span className="text-xs text-on-surface-variant font-semibold">
-              {isHost ? 'إعداد غرفة المضيف' : 'في انتظار بدء الجلسة'}
-            </span>
-          </div>
-
-          {/* Actions & Avatar */}
-          <div className="flex items-center gap-1.5 sm:gap-3">
+          {/* User Character & Controls */}
+          <div className="flex items-center gap-1.5">
             <AudioToggle />
             <ThemeToggle />
             <GameScaleControl />
             <button
               type="button"
               onClick={() => setIsCharacterModalOpen(true)}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-surface-container-high border border-outline-variant/60 hover:scale-105 active:scale-95 transition-all flex items-center justify-center overflow-hidden"
+              className="w-9 h-9 rounded-lg bg-surface-container-high border border-outline-variant/60 hover:scale-105 active:scale-95 transition-all flex items-center justify-center overflow-hidden"
               title="تخصيص شخصيتك"
             >
-              <ConsolePet avatar={player?.avatar} size={36} />
+              <ConsolePet avatar={player?.avatar} size={32} />
             </button>
           </div>
         </div>
       </header>
 
-      {/* Main Configuration Container */}
-      <main className="flex-1 w-full max-w-4xl mx-auto px-3.5 sm:px-6 md:px-8 pt-5 sm:pt-8 pb-32 sm:pb-36">
-        {/* Sub-Header / Back & Preset Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
-          <div className="flex items-start sm:items-center gap-3 sm:gap-4">
-            {/* Back Navigation Button */}
-            <button
-              type="button"
-              onClick={leaveRoom}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest border border-outline-variant/50 text-white text-xs sm:text-sm font-semibold transition-all duration-150 active:scale-95"
-            >
-              <span className="material-symbols-outlined text-[16px] sm:text-[18px] rotate-180">arrow_back</span>
-              <span>الردهة</span>
-            </button>
-            <div>
-              <h1 className="text-xl sm:text-3xl font-extrabold text-white tracking-tight">إعدادات الغرفة</h1>
-              <p className="text-[11px] sm:text-sm text-on-surface-variant mt-0.5">تخصيص تجربة الخداع والمرح في ESC</p>
-            </div>
+      {/* Main Single-Column Content */}
+      <main className="flex-1 w-full max-w-xl mx-auto px-4 py-4 pb-28 flex flex-col gap-4">
+        {/* 1. Slim Room Code Bar */}
+        <section className="bg-surface-container-low border border-outline-variant/50 rounded-xl p-3 flex items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-center gap-2.5">
+            <span className="text-xs text-on-surface-variant font-semibold">الغرفة</span>
+            <span className="text-2xl font-mono font-black text-white tracking-widest">{roomCode}</span>
           </div>
 
-          {/* Preset Badge Cluster */}
-          <div className="flex items-center self-start sm:self-auto gap-1 bg-surface-container-high mono-well p-1 rounded-xl border border-outline-variant/50">
+          <div className="flex items-center gap-1.5">
             <button
               type="button"
-              onClick={() => setPreset('classic')}
-              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
-                preset === 'classic'
-                  ? 'bg-white text-surface-container-lowest shadow'
-                  : 'text-on-surface-variant hover:text-white'
-              }`}
+              onClick={handleCopyCode}
+              className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-white transition-all active:scale-95 flex items-center justify-center"
+              title="نسخ الرمز"
             >
-              جلسة كلاسيكية
+              <span className="material-symbols-outlined text-[18px]">
+                {copiedCode ? 'check' : 'content_copy'}
+              </span>
             </button>
-            <button
-              type="button"
-              onClick={() => setPreset('custom')}
-              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
-                preset === 'custom'
-                  ? 'bg-white text-surface-container-lowest shadow'
-                  : 'text-on-surface-variant hover:text-white'
-              }`}
-            >
-              مخصص
-            </button>
-          </div>
-        </div>
 
-        {/* ROOM CODE & INVITE BANNER */}
-        <section className="mono-card rounded-2xl p-4 sm:p-5 mb-5 sm:mb-6 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
-          <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-surface-container-high border border-outline-variant/60 flex items-center justify-center text-white shrink-0">
-              <span className="material-symbols-outlined text-xl sm:text-2xl">qr_code_2</span>
-            </div>
-            <div>
-              <span className="text-[11px] sm:text-xs text-on-surface-variant font-medium">رمز الغرفة للمشاركين:</span>
-              <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-xl sm:text-2xl font-mono font-black text-white tracking-widest">{roomCode}</span>
-                <button
-                  type="button"
-                  onClick={handleCopyCode}
-                  className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-surface-container text-xs font-bold text-white hover:bg-surface-container-high border border-outline-variant/40 transition-all flex items-center gap-1"
-                >
-                  <span className="material-symbols-outlined text-[14px] sm:text-[15px]">
-                    {copiedCode ? 'check' : 'content_copy'}
-                  </span>
-                  <span>{copiedCode ? 'تم' : 'نسخ'}</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-end">
             {isTtsSupported && (
               <button
                 type="button"
                 onClick={() => (isSpeaking ? stopDictation() : dictateCode(roomCode))}
-                className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-[11px] sm:text-xs font-bold text-white flex items-center gap-1"
+                className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-white transition-all active:scale-95 flex items-center justify-center"
                 title="إملاء الرمز صوتياً"
               >
-                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">
+                <span className="material-symbols-outlined text-[18px]">
                   {isSpeaking ? 'volume_off' : 'record_voice_over'}
                 </span>
-                <span>{isSpeaking ? 'إيقاف' : 'إملاء'}</span>
               </button>
             )}
 
             <button
               type="button"
               onClick={() => setIsQRModalOpen(true)}
-              className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-[11px] sm:text-xs font-bold text-white flex items-center gap-1"
+              className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-white transition-all active:scale-95 flex items-center justify-center"
+              title="رمز QR"
             >
-              <span className="material-symbols-outlined text-[16px] sm:text-[18px]">qr_code</span>
-              <span>QR</span>
+              <span className="material-symbols-outlined text-[18px]">qr_code</span>
             </button>
 
             <button
               type="button"
               onClick={handleCopyLink}
-              className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-white text-surface-container-lowest text-[11px] sm:text-xs font-bold flex items-center gap-1 shadow-sm active:scale-95 transition-all"
+              className="px-3 py-1.5 rounded-lg bg-white text-surface-container-lowest text-xs font-bold flex items-center gap-1 shadow-sm active:scale-95 transition-all"
             >
-              <span className="material-symbols-outlined text-[16px] sm:text-[18px]">share</span>
-              <span>{copiedLink ? 'تم النسخ' : 'مشاركة الرابط'}</span>
+              <span className="material-symbols-outlined text-[16px]">share</span>
+              <span>{copiedLink ? 'تم' : 'مشاركة'}</span>
             </button>
           </div>
         </section>
 
-        {/* PLAYERS & CHARACTERS TABLE (KALAK ROSTER) */}
-        <section className="mono-card rounded-2xl p-4 sm:p-6 mb-5 sm:mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2.5 sm:gap-3">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-white shrink-0">
-                <span className="material-symbols-outlined text-[18px] sm:text-[20px]">groups</span>
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h2 className="text-sm sm:text-base font-bold text-white">طاولة اللاعبين في الغرفة</h2>
-                  <span className="px-2 py-0.5 rounded-full bg-white text-surface-container-lowest text-[10px] sm:text-xs font-bold">
-                    {toArabic(players.length)} / {toArabic(maxPlayers)}
-                  </span>
-                </div>
-                <p className="text-[11px] sm:text-xs text-on-surface-variant">شخصيات المتنافسين الجالسين حول طاولة الخداع</p>
-              </div>
+        {/* 2. Players Roster */}
+        <section className="bg-surface-container-low border border-outline-variant/50 rounded-xl p-4 shadow-xs">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <h2 className="text-sm font-bold text-white">اللاعبون</h2>
+              <span className="px-2 py-0.5 rounded-lg bg-surface-container-high text-[11px] font-bold text-white border border-outline-variant/40">
+                {players.length} / {maxPlayers}
+              </span>
             </div>
 
             <button
               type="button"
               onClick={() => setIsCharacterModalOpen(true)}
-              className="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-white text-surface-container-lowest text-xs font-bold flex items-center gap-1.5 shadow-sm active:scale-95 hover:bg-neutral-200 transition-all"
+              className="text-xs font-semibold text-on-surface-variant hover:text-white flex items-center gap-1 transition-colors"
             >
-              <span className="material-symbols-outlined text-[16px]">palette</span>
-              <span>تخصيص شخصيتي</span>
+              <span className="material-symbols-outlined text-[15px]">palette</span>
+              <span>تعديل شخصيتي</span>
             </button>
           </div>
 
-          {/* Players Grid with live Kalak characters */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 sm:gap-3.5">
+          {/* Compact Players Wrap */}
+          <div className="flex flex-wrap gap-2.5">
             {players.map((p) => {
               const isMe = p.id === player?.id;
               return (
                 <div
                   key={p.id}
-                  className={`relative p-3 sm:p-4 rounded-xl sm:rounded-2xl border transition-all flex flex-col items-center text-center ${
+                  className={`flex items-center gap-2.5 py-1.5 px-3 rounded-lg border transition-all ${
                     isMe
-                      ? 'bg-surface-container-high/90 border-white/70 shadow-md ring-1 ring-white/30'
-                      : 'bg-surface-container-low border-outline-variant/50'
+                      ? 'bg-surface-container-high border-white/60 shadow-xs ring-1 ring-white/20'
+                      : 'bg-surface-container border-outline-variant/40'
                   }`}
                 >
-                  {/* Badges */}
-                  <div className="w-full flex items-center justify-between mb-1">
-                    {p.isHost ? (
-                      <span className="px-1.5 py-0.5 rounded-md bg-white text-surface-container-lowest text-[9px] sm:text-[10px] font-black flex items-center gap-0.5">
-                        <span className="material-symbols-outlined text-[11px]">crown</span>
-                        <span>مضيف</span>
-                      </span>
-                    ) : (
-                      <span />
-                    )}
-                    {isMe && (
-                      <span className="px-1.5 py-0.5 rounded-md bg-surface-container-highest border border-outline-variant/60 text-white text-[9px] sm:text-[10px] font-bold">
-                        أنت
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Character Avatar Icon */}
                   <div
                     onClick={() => isMe && setIsCharacterModalOpen(true)}
-                    className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-surface-container border border-outline-variant/50 flex items-center justify-center overflow-hidden my-1 shadow-inner ${
-                      isMe ? 'cursor-pointer hover:scale-105 active:scale-95 transition-transform' : ''
+                    className={`w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center overflow-hidden shrink-0 ${
+                      isMe ? 'cursor-pointer hover:scale-105 transition-transform' : ''
                     }`}
-                    title={isMe ? 'اضغط لتعديل شخصيتك' : p.nickname}
                   >
-                    <ConsolePet avatar={p.avatar} size={62} />
+                    <ConsolePet avatar={p.avatar} size={30} />
                   </div>
 
-                  {/* Nickname */}
-                  <h3 className="text-xs sm:text-sm font-bold text-white truncate max-w-full mt-1.5">
-                    {p.nickname}
-                  </h3>
-
-                  {/* Status Indicator */}
-                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-emerald-400 font-medium mt-0.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>متصل</span>
+                  <div className="flex flex-col min-w-0">
+                    <div className="flex items-center gap-1">
+                      <span className="text-xs font-bold text-white truncate max-w-[90px] sm:max-w-[120px]">
+                        {p.nickname}
+                      </span>
+                      {p.isHost && (
+                        <span className="material-symbols-outlined text-[13px] text-amber-400" title="المضيف">
+                          crown
+                        </span>
+                      )}
+                      {isMe && (
+                        <span className="text-[9px] font-bold text-on-surface-variant">
+                          (أنت)
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-[10px] text-emerald-400 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      متصل
+                    </span>
                   </div>
 
-                  {/* Edit button if self */}
-                  {isMe && (
-                    <button
-                      type="button"
-                      onClick={() => setIsCharacterModalOpen(true)}
-                      className="mt-2.5 w-full py-1 px-2 rounded-lg bg-surface-container hover:bg-surface-container-highest border border-outline-variant/50 text-[10px] sm:text-[11px] font-bold text-white transition-all flex items-center justify-center gap-1"
-                    >
-                      <span className="material-symbols-outlined text-[13px]">edit</span>
-                      <span>تعديل الشخصية</span>
-                    </button>
-                  )}
-
-                  {/* زر طرد اللاعب (صلاحية خاصة بالمضيف) */}
                   {isHost && !p.isHost && !isMe && (
                     <button
                       type="button"
                       onClick={() => kickPlayer(p.id)}
-                      className="mt-2.5 w-full py-1 px-2 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-500/40 text-[10px] sm:text-[11px] font-bold text-rose-300 transition-all flex items-center justify-center gap-1 active:scale-95"
-                      title={`طرد ${p.nickname} من الغرفة`}
+                      className="w-6 h-6 rounded-md text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 flex items-center justify-center transition-colors mr-1"
+                      title={`طرد ${p.nickname}`}
                     >
-                      <span className="material-symbols-outlined text-[13px]">person_remove</span>
-                      <span>طرد اللاعب</span>
+                      <span className="material-symbols-outlined text-[14px]">close</span>
                     </button>
                   )}
                 </div>
               );
             })}
 
-            {/* Empty Seats */}
-            {Array.from({ length: Math.max(0, maxPlayers - players.length) }).map((_, idx) => (
+            {/* Subtle empty seat indicators */}
+            {Array.from({ length: Math.min(emptySeatsCount, 6) }).map((_, idx) => (
               <div
                 key={`empty-${idx}`}
-                className="p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-dashed border-outline-variant/30 bg-surface-container-low/30 flex flex-col items-center justify-center text-center opacity-40 min-h-[140px]"
+                className="w-9 h-9 rounded-lg border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant/60"
+                title="مقعد شاغر"
               >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-surface-container-low flex items-center justify-center text-outline-variant mb-2">
-                  <span className="material-symbols-outlined text-[20px] sm:text-[24px]">chair</span>
-                </div>
-                <span className="text-[11px] text-outline font-semibold">مقعد شاغر</span>
-                <span className="text-[9px] text-outline/60 mt-0.5">في انتظار انضمام لاعب</span>
+                <span className="material-symbols-outlined text-[16px]">add</span>
               </div>
             ))}
+            {emptySeatsCount > 6 && (
+              <div className="h-9 px-2.5 rounded-lg border border-dashed border-outline-variant/40 flex items-center justify-center text-[10px] text-on-surface-variant">
+                +{emptySeatsCount - 6}
+              </div>
+            )}
           </div>
         </section>
 
-        {/* Configuration Sections Stack */}
-        <div className="flex flex-col gap-4 sm:gap-6">
-          {/* SECTION 1: Room Privacy & Access */}
-          <section className="mono-card rounded-2xl p-4 sm:p-6 transition-all">
-            <div className="flex items-center justify-between mb-3 sm:mb-4">
-              <div className="flex items-center gap-2.5 sm:gap-3">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-white shrink-0">
-                  <span className="material-symbols-outlined text-[18px] sm:text-[20px]">lock</span>
-                </div>
-                <div>
-                  <h2 className="text-sm sm:text-base font-bold text-white">خصوصية الغرفة ونمط المنافسة</h2>
-                  <p className="text-[11px] sm:text-xs text-on-surface-variant">التحكم في طريقة توزيع النقاط والمواجهات</p>
-                </div>
-              </div>
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-surface-container-highest border border-outline-variant/60 text-white text-[10px] sm:text-xs font-medium">
-                <span className="material-symbols-outlined text-[12px] sm:text-[14px]">security</span>
-                مشفرة
-              </span>
-            </div>
-
-            {/* Segmented Minimalist Pill Switch */}
-            <div className="mono-well p-1 sm:p-1.5 rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 mt-3">
+        {/* 3. Combined Game Rules Settings */}
+        <section className="bg-surface-container-low border border-outline-variant/50 rounded-xl p-4 flex flex-col gap-3.5 shadow-xs">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-bold text-white">إعدادات الجلسة</h2>
+            <div className="inline-flex rounded-lg bg-surface-container p-0.5 border border-outline-variant/40">
               <button
                 type="button"
                 onClick={() => handleUpdateGameMode('individual')}
-                className={`py-2 sm:py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 text-xs sm:text-sm transition-all duration-150 ${
+                disabled={!isHost}
+                className={`px-2.5 py-1 rounded-md text-xs font-bold transition-all ${
                   gameMode === 'individual'
-                    ? 'font-bold bg-white text-surface-container-lowest shadow'
-                    : 'font-semibold text-on-surface-variant hover:text-white hover:bg-surface-container-high'
+                    ? 'bg-white text-surface-container-lowest shadow-xs'
+                    : 'text-on-surface-variant hover:text-white'
                 }`}
               >
-                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">person</span>
-                <span>فردي (كل لاعب لنفسه)</span>
+                فردي
               </button>
               <button
                 type="button"
                 onClick={() => handleUpdateGameMode('teams')}
-                className={`py-2 sm:py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 text-xs sm:text-sm transition-all duration-150 ${
+                disabled={!isHost}
+                className={`px-2.5 py-1 rounded-md text-xs font-bold transition-all ${
                   gameMode === 'teams'
-                    ? 'font-bold bg-white text-surface-container-lowest shadow'
-                    : 'font-semibold text-on-surface-variant hover:text-white hover:bg-surface-container-high'
+                    ? 'bg-white text-surface-container-lowest shadow-xs'
+                    : 'text-on-surface-variant hover:text-white'
                 }`}
               >
-                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">swords</span>
-                <span>قتال جماعي (فرق)</span>
+                فرق
               </button>
             </div>
-          </section>
+          </div>
 
-          {/* SECTION 2: Player Capacity */}
-          <section className="mono-card rounded-2xl p-4 sm:p-6">
-            <div className="flex items-center justify-between mb-4 sm:mb-5">
-              <div className="flex items-center gap-2.5 sm:gap-3">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-white shrink-0">
-                  <span className="material-symbols-outlined text-[18px] sm:text-[20px]">chair</span>
-                </div>
-                <div>
-                  <h2 className="text-sm sm:text-base font-bold text-white">سعة اللاعبين المتواجدين</h2>
-                  <p className="text-[11px] sm:text-xs text-on-surface-variant">الموصى به ٦–٨ لاعبين لأفضل توازن وخداع</p>
-                </div>
-              </div>
-              <div className="px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-xl bg-white text-surface-container-lowest font-bold text-xs sm:text-sm tracking-tight flex items-center gap-1">
-                <span>{toArabic(maxPlayers)}</span>
-                <span className="text-[10px] sm:text-xs font-semibold">لاعبين</span>
+          {/* Segmented Controls Rows with Standard Numbers */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            {/* Player Capacity */}
+            <div className="flex flex-col gap-1.5">
+              <span className="text-[11px] text-on-surface-variant font-semibold">سعة اللاعبين</span>
+              <div className="mono-well p-1 rounded-lg grid grid-cols-4 gap-1">
+                {[4, 6, 8, 12].map((count) => (
+                  <button
+                    key={count}
+                    type="button"
+                    onClick={() => handleUpdateMaxPlayers(count)}
+                    disabled={!isHost}
+                    className={`py-1 rounded-md text-xs font-bold transition-all ${
+                      maxPlayers === count
+                        ? 'bg-white text-surface-container-lowest shadow-xs'
+                        : 'text-on-surface-variant hover:text-white'
+                    }`}
+                  >
+                    {count}
+                  </button>
+                ))}
               </div>
             </div>
 
-            {/* Visual Table Seat Tokens Preview */}
-            <div className="mono-well rounded-xl p-3 sm:p-4 mb-4 sm:mb-5">
-              <div className="text-[11px] sm:text-xs text-on-surface-variant mb-2.5 flex justify-between items-center font-medium">
-                <span>مقاعد طاولة اللعب</span>
-                <span className="text-white font-bold">
-                  {toArabic(players.length)} متواجدين · {toArabic(Math.max(0, maxPlayers - players.length))} شاغر
-                </span>
+            {/* Rounds Count */}
+            <div className="flex flex-col gap-1.5">
+              <span className="text-[11px] text-on-surface-variant font-semibold">عدد الجولات</span>
+              <div className="mono-well p-1 rounded-lg grid grid-cols-4 gap-1">
+                {[3, 5, 10, 15].map((r) => (
+                  <button
+                    key={r}
+                    type="button"
+                    onClick={() => handleUpdateRounds(r)}
+                    disabled={!isHost}
+                    className={`py-1 rounded-md text-xs font-bold transition-all ${
+                      totalRounds === r
+                        ? 'bg-white text-surface-container-lowest shadow-xs'
+                        : 'text-on-surface-variant hover:text-white'
+                    }`}
+                  >
+                    {r}
+                  </button>
+                ))}
               </div>
+            </div>
 
-              {/* Seat Tokens Row (up to 12) */}
-              <div className="grid grid-cols-6 sm:grid-cols-12 gap-1.5 sm:gap-2 justify-items-center">
-                {Array.from({ length: 12 }).map((_, idx) => {
-                  const seatNumber = idx + 1;
-                  const isSeatEnabled = seatNumber <= maxPlayers;
-                  const connectedPlayer = players[idx];
+            {/* Timer Duration */}
+            <div className="flex flex-col gap-1.5">
+              <span className="text-[11px] text-on-surface-variant font-semibold">مهلة الإجابة</span>
+              <div className="mono-well p-1 rounded-lg grid grid-cols-3 gap-1">
+                {[30, 45, 60].map((sec) => (
+                  <button
+                    key={sec}
+                    type="button"
+                    onClick={() => handleUpdateTimer(sec)}
+                    disabled={!isHost}
+                    className={`py-1 rounded-md text-xs font-bold transition-all ${
+                      roundSeconds === sec
+                        ? 'bg-white text-surface-container-lowest shadow-xs'
+                        : 'text-on-surface-variant hover:text-white'
+                    }`}
+                  >
+                    {sec}ث
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
-                  if (connectedPlayer) {
-                    return (
-                      <div
-                        key={idx}
-                        onClick={() => connectedPlayer.id === player?.id && setIsCharacterModalOpen(true)}
-                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-container-high border border-outline-variant/80 flex items-center justify-center overflow-hidden shadow-sm transition-all relative group cursor-pointer hover:scale-110"
-                        title={connectedPlayer.nickname}
-                      >
-                        <ConsolePet avatar={connectedPlayer.avatar} size={28} />
-                        {connectedPlayer.isHost && (
-                          <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-white border border-surface-container-lowest" />
-                        )}
-                      </div>
-                    );
-                  }
+        {/* 4. Categories & Sub-Categories Selection */}
+        <section className="bg-surface-container-low border border-outline-variant/50 rounded-xl p-4 shadow-xs">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <h2 className="text-sm font-bold text-white">حزم الأسئلة والتصنيفات</h2>
+              <span className="px-2 py-0.5 rounded-lg bg-surface-container-high text-[11px] font-bold text-white border border-outline-variant/40">
+                {allowedTopicIds.size} مفعلة
+              </span>
+            </div>
 
-                  if (isSeatEnabled) {
-                    return (
-                      <div
-                        key={idx}
-                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-container-high border border-outline-variant/60 text-white flex items-center justify-center text-[10px] sm:text-xs font-semibold opacity-60"
-                        title="مقعد متاح"
-                      >
-                        {toArabic(seatNumber)}
-                      </div>
-                    );
-                  }
+            {isHost && (
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={handleSelectRandomTopics}
+                  className="px-2 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-[11px] font-semibold text-white transition-all active:scale-95"
+                  title="اختيار 8 تصنيفات عشوائية"
+                >
+                  عشوائي 🎲
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSelectAllTopics}
+                  className="px-2 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-[11px] font-semibold text-white transition-all active:scale-95"
+                >
+                  الكل
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDeselectAllTopics}
+                  className="px-2 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-[11px] font-semibold text-on-surface-variant hover:text-rose-400 transition-all active:scale-95"
+                >
+                  مسح
+                </button>
+              </div>
+            )}
+          </div>
 
-                  return (
+          {allowedTopicIds.size === 0 && (
+            <div className="p-2.5 mb-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[16px]">warning</span>
+              <span>يرجى اختيار تصنيف واحد على الأقل للبدء!</span>
+            </div>
+          )}
+
+          {/* Categories Groups with Sub-categories Accordions */}
+          <div className="flex flex-col gap-2.5">
+            {categoryGroups && categoryGroups.length > 0 ? (
+              categoryGroups.map((group) => {
+                const isExpanded = expandedCategories[group.id] !== false; // Default to open
+                const groupTopics = group.subtopics || [];
+                const activeInGroup = groupTopics.filter((t) => allowedTopicIds.has(t.id)).length;
+                const totalCards = groupTopics.reduce((acc, t) => acc + (t.puzzleCount || 0), 0);
+                const allSelectedInGroup = groupTopics.length > 0 && activeInGroup === groupTopics.length;
+
+                return (
+                  <div
+                    key={group.id}
+                    className="border border-outline-variant/40 rounded-lg bg-surface-container/40 overflow-hidden transition-all duration-200"
+                  >
+                    {/* Category Header */}
                     <div
-                      key={idx}
-                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-container border border-dashed border-outline-variant/30 text-outline-variant flex items-center justify-center text-[10px] sm:text-xs opacity-30"
+                      onClick={() => toggleCategoryAccordion(group.id)}
+                      className="p-3 flex items-center justify-between cursor-pointer hover:bg-surface-container/70 transition-colors"
                     >
-                      {toArabic(seatNumber)}
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="w-8 h-8 rounded-lg bg-surface-container-high border border-outline-variant/50 flex items-center justify-center text-white shrink-0">
+                          <span className="material-symbols-outlined text-[18px]">
+                            {getCategoryIcon(group.id, group.icon)}
+                          </span>
+                        </div>
+                        <div className="min-w-0 flex items-center gap-2">
+                          <span className="text-xs sm:text-sm font-bold text-white truncate">
+                            {getCategoryDisplayName(group.id, group.title)}
+                          </span>
+                          <span className="text-[10px] text-on-surface-variant font-medium px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/30 shrink-0">
+                            {totalCards} بطاقة
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Actions & Status on Left */}
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-[11px] font-bold text-white bg-surface-container px-2 py-0.5 rounded-md border border-outline-variant/40">
+                          {activeInGroup}/{groupTopics.length} مفعلة
+                        </span>
+
+                        {isHost && (
+                          <button
+                            type="button"
+                            onClick={(e) => handleToggleCategoryGroup(groupTopics, e)}
+                            className={`text-[10px] font-bold px-2 py-0.5 rounded-md border transition-all active:scale-95 ${
+                              allSelectedInGroup
+                                ? 'bg-white text-surface-container-lowest border-white shadow-xs'
+                                : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant border-outline-variant/50'
+                            }`}
+                            title="تحديد أو إلغاء كل الفئات الفرعية في هذا التصنيف"
+                          >
+                            {allSelectedInGroup ? 'محدد' : 'تحديد'}
+                          </button>
+                        )}
+
+                        <span
+                          className={`material-symbols-outlined text-[18px] text-on-surface-variant transform transition-transform duration-200 ${
+                            isExpanded ? 'rotate-180' : ''
+                          }`}
+                        >
+                          expand_more
+                        </span>
+                      </div>
                     </div>
+
+                    {/* Sub-categories Grid */}
+                    {isExpanded && (
+                      <div className="p-2.5 pt-1 border-t border-outline-variant/20 bg-surface-container-lowest/30">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+                          {groupTopics.map((subtopic) => {
+                            const isChecked = allowedTopicIds.has(subtopic.id);
+                            return (
+                              <button
+                                key={subtopic.id}
+                                type="button"
+                                onClick={() => isHost && toggleAllowedTopic(subtopic.id)}
+                                disabled={!isHost}
+                                className={`p-2 rounded-lg border text-right transition-all flex items-center justify-between gap-1.5 ${
+                                  isChecked
+                                    ? 'border-white/70 bg-surface-container-high text-white shadow-xs'
+                                    : 'border-outline-variant/30 bg-surface-container/60 text-on-surface-variant opacity-60 hover:opacity-90'
+                                }`}
+                              >
+                                <div className="min-w-0">
+                                  <span className="text-[11px] font-bold block truncate">
+                                    {subtopic.title}
+                                  </span>
+                                  <span className="text-[9px] text-on-surface-variant block">
+                                    {subtopic.puzzleCount} بطاقة
+                                  </span>
+                                </div>
+                                <span
+                                  className={`w-3.5 h-3.5 rounded-md flex items-center justify-center shrink-0 transition-all ${
+                                    isChecked
+                                      ? 'bg-white text-surface-container-lowest'
+                                      : 'border border-outline-variant text-transparent'
+                                  }`}
+                                >
+                                  <span className="material-symbols-outlined text-[10px] font-bold">
+                                    check
+                                  </span>
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              /* Fallback if categoryGroups is still loading or flat */
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {topics.map((t) => {
+                  const isChecked = allowedTopicIds.has(t.id);
+                  return (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() => isHost && toggleAllowedTopic(t.id)}
+                      disabled={!isHost}
+                      className={`p-2.5 rounded-xl border text-right transition-all flex items-center justify-between gap-2 ${
+                        isChecked
+                          ? 'border-white/70 bg-surface-container-high text-white shadow-xs'
+                          : 'border-outline-variant/30 bg-surface-container text-on-surface-variant opacity-60 hover:opacity-80'
+                      }`}
+                    >
+                      <div className="min-w-0">
+                        <span className="text-xs font-bold block truncate">{t.title}</span>
+                        <span className="text-[10px] text-on-surface-variant block mt-0.5">
+                          {t.puzzleCount || 0} بطاقة
+                        </span>
+                      </div>
+                      <span
+                        className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                          isChecked
+                            ? 'bg-white text-surface-container-lowest'
+                            : 'border border-outline-variant text-transparent'
+                        }`}
+                      >
+                        <span className="material-symbols-outlined text-[12px] font-bold">check</span>
+                      </span>
+                    </button>
                   );
                 })}
               </div>
-            </div>
-
-            {/* Stepper / Range Slider Controls */}
-            {isHost && (
-              <div className="flex items-center gap-3 sm:gap-4">
-                <span className="text-xs text-on-surface-variant font-bold">٣</span>
-                <div className="flex-1 relative flex items-center">
-                  <input
-                    type="range"
-                    min={3}
-                    max={12}
-                    step={1}
-                    value={maxPlayers}
-                    onChange={(e) => handleUpdateMaxPlayers(parseInt(e.target.value, 10))}
-                    className="w-full"
-                  />
-                </div>
-                <span className="text-xs text-on-surface-variant font-bold">١٢</span>
-              </div>
             )}
-          </section>
-
-          {/* SECTION 3: Round & Timer Settings */}
-          <section className="mono-card rounded-2xl p-4 sm:p-6">
-            <div className="flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-white shrink-0">
-                <span className="material-symbols-outlined text-[18px] sm:text-[20px]">timer</span>
-              </div>
-              <div>
-                <h2 className="text-sm sm:text-base font-bold text-white">إيقاع الجولات والتوقيت</h2>
-                <p className="text-[11px] sm:text-xs text-on-surface-variant">ضبط مدة المباراة وسرعة تقديم إجابات الخداع</p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-              {/* Rounds Selector */}
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[15px] sm:text-[16px] text-on-surface-variant">sports_score</span>
-                    <span>عدد الجولات</span>
-                  </label>
-                  <span className="text-[11px] sm:text-xs text-on-surface-variant">
-                    حوالي {toArabic(totalRounds * 3)} دقيقة
-                  </span>
-                </div>
-                <div className="mono-well p-1 rounded-xl grid grid-cols-4 gap-1 sm:gap-1.5">
-                  {[3, 5, 10, 15].map((r) => (
-                    <button
-                      key={r}
-                      type="button"
-                      onClick={() => handleUpdateRounds(r)}
-                      disabled={!isHost}
-                      className={`py-1.5 sm:py-2 rounded-lg text-xs transition-all ${
-                        totalRounds === r
-                          ? 'font-bold bg-white text-surface-container-lowest shadow'
-                          : 'font-semibold text-on-surface-variant hover:text-white'
-                      }`}
-                    >
-                      {toArabic(r)} جولات
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Answer Timer Selector */}
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[15px] sm:text-[16px] text-on-surface-variant">hourglass_empty</span>
-                    <span>مهلة تقديم الخدعة</span>
-                  </label>
-                  <span className="text-xs text-white font-bold">{toArabic(roundSeconds)} ثانية</span>
-                </div>
-                <div className="mono-well p-1 rounded-xl grid grid-cols-3 gap-1 sm:gap-1.5">
-                  {[30, 45, 60].map((sec) => (
-                    <button
-                      key={sec}
-                      type="button"
-                      onClick={() => handleUpdateTimer(sec)}
-                      disabled={!isHost}
-                      className={`py-1.5 sm:py-2 rounded-lg text-xs transition-all ${
-                        roundSeconds === sec
-                          ? 'font-bold bg-white text-surface-container-lowest shadow'
-                          : 'font-semibold text-on-surface-variant hover:text-white'
-                      }`}
-                    >
-                      {toArabic(sec)} ثانية
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION 4: Categories & Card Decks */}
-          <section className="mono-card rounded-2xl p-4 sm:p-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 sm:mb-6">
-              <div className="flex items-center gap-2.5 sm:gap-3">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-white shrink-0">
-                  <span className="material-symbols-outlined text-[18px] sm:text-[20px]">layers</span>
-                </div>
-                <div>
-                  <h2 className="text-sm sm:text-base font-bold text-white">حزم البطاقات والتصنيفات</h2>
-                  <p className="text-[11px] sm:text-xs text-on-surface-variant">اختر التصنيفات العامة وفصّل الفئات الفرعية النشطة</p>
-                </div>
-              </div>
-
-              {/* Status and Action Buttons */}
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-highest border border-outline-variant/60">
-                  <span className="material-symbols-outlined text-[14px] text-white">done_all</span>
-                  <span className="text-xs font-bold text-white">
-                    {toArabic(allowedTopicIds.size)} تصنيفات نشطة
-                  </span>
-                </div>
-
-                {isHost && (
-                  <div className="inline-flex items-center gap-1.5 p-1 rounded-xl bg-surface-container-high border border-outline-variant/50">
-                    <button
-                      type="button"
-                      onClick={handleSelectRandomTopics}
-                      className="px-2.5 py-1 rounded-lg text-xs font-bold text-white hover:bg-white/10 transition-all flex items-center gap-1 active:scale-95"
-                      title="اختيار ٨ تصنيفات عشوائية متوازنة"
-                    >
-                      <span className="material-symbols-outlined text-[14px]">casino</span>
-                      <span>عشوائي 🎲</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleSelectAllTopics}
-                      className="px-2.5 py-1 rounded-lg text-xs font-bold text-white hover:bg-white/10 transition-all flex items-center gap-1 active:scale-95"
-                      title="تحديد كافة التصنيفات المتاحة"
-                    >
-                      <span className="material-symbols-outlined text-[14px]">select_all</span>
-                      <span>تحديد الكل</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleDeselectAllTopics}
-                      className="px-2.5 py-1 rounded-lg text-xs font-bold text-on-surface-variant hover:text-rose-400 hover:bg-white/10 transition-all flex items-center gap-1 active:scale-95"
-                      title="إلغاء تحديد كافة التصنيفات"
-                    >
-                      <span className="material-symbols-outlined text-[14px]">deselect</span>
-                      <span>إلغاء الكل</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* تنبيه في حال تم إلغاء تحديد كافة التصنيفات */}
-            {allowedTopicIds.size === 0 && (
-              <div className="p-3 sm:p-3.5 mb-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2 animate-fadeIn">
-                <span className="material-symbols-outlined text-[18px]">warning</span>
-                <span>لم يتم تحديد أي تصنيف! يرجى اختيار تصنيف واحد على الأقل أو الضغط على «عشوائي 🎲» لبدء اللعبة.</span>
-              </div>
-            )}
-
-            {/* STACKED RECTANGULAR CATEGORY BARS */}
-            <div className="flex flex-col gap-3">
-              {categoryGroups && categoryGroups.length > 0 ? (
-                categoryGroups.map((group) => {
-                  const isExpanded = !!expandedCategories[group.id];
-                  const groupTopics = group.subtopics || [];
-                  const activeInGroup = groupTopics.filter((t) => allowedTopicIds.has(t.id)).length;
-
-                  return (
-                    <div
-                      key={group.id}
-                      className="border border-outline-variant/50 rounded-xl bg-surface-container-low overflow-hidden transition-all duration-200"
-                    >
-                      {/* Header Bar */}
-                      <button
-                        type="button"
-                        onClick={() => toggleCategoryAccordion(group.id)}
-                        className="w-full p-3.5 sm:p-4 flex items-center justify-between text-right hover:bg-surface-container transition-colors"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-white shrink-0">
-                            <span className="material-symbols-outlined text-[18px] sm:text-[20px]">
-                              {group.id === 'science' ? 'science' : group.id === 'sports' ? 'sports_soccer' : 'psychology'}
-                            </span>
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-1.5 sm:gap-2">
-                              <span className="text-xs sm:text-sm font-bold text-white">{group.title}</span>
-                              <span className="px-1.5 sm:px-2 py-0.5 rounded text-[9px] sm:text-[10px] bg-surface-container-highest text-on-surface-variant border border-outline-variant/30">
-                                {toArabic(groupTopics.reduce((acc: number, t: TopicSummary) => acc + (t.puzzleCount || 0), 0))} بطاقة
-                              </span>
-                            </div>
-                            <p className="text-[11px] sm:text-xs text-on-surface-variant mt-0.5">{group.description}</p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-2 sm:gap-3">
-                          <span className="text-[11px] sm:text-xs font-bold text-white bg-surface-container px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md border border-outline-variant/40">
-                            {toArabic(activeInGroup)}/{toArabic(groupTopics.length)} مفعلة
-                          </span>
-                          <span
-                            className={`material-symbols-outlined text-[18px] sm:text-[20px] text-on-surface-variant transform transition-transform duration-200 ${
-                              isExpanded ? 'rotate-180' : ''
-                            }`}
-                          >
-                            expand_more
-                          </span>
-                        </div>
-                      </button>
-
-                      {/* Expanded Body: Grid of Sub-categories */}
-                      {isExpanded && (
-                        <div className="px-3.5 sm:px-4 pb-4 pt-1 border-t border-outline-variant/30">
-                          <p className="text-[11px] text-on-surface-variant mb-2.5 font-semibold">
-                            الفئات الفرعية المضمنة في هذه الحزمة:
-                          </p>
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
-                            {groupTopics.map((topic) => {
-                              const isChecked = allowedTopicIds.has(topic.id);
-                              return (
-                                <div
-                                  key={topic.id}
-                                  onClick={() => isHost && toggleAllowedTopic(topic.id)}
-                                  className={`p-3 rounded-xl transition-all flex flex-col justify-between h-24 sm:h-28 cursor-pointer ${
-                                    isChecked
-                                      ? 'border border-white/80 bg-surface-container-high hover:border-white'
-                                      : 'border border-outline-variant/50 bg-surface-container hover:border-white/50 opacity-60'
-                                  }`}
-                                >
-                                  <div className="flex items-start justify-between">
-                                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-surface-container flex items-center justify-center text-white">
-                                      <span className="material-symbols-outlined text-[16px] sm:text-[18px]">menu_book</span>
-                                    </div>
-                                    <div
-                                      className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${
-                                        isChecked
-                                          ? 'bg-white text-surface-container-lowest'
-                                          : 'border border-outline text-transparent'
-                                      }`}
-                                    >
-                                      <span className="material-symbols-outlined text-[13px] sm:text-[14px] font-bold">check</span>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <h4 className="text-xs font-bold text-white truncate">{topic.title}</h4>
-                                    <span className="text-[10px] text-on-surface-variant">
-                                      {toArabic(topic.puzzleCount)} بطاقة
-                                    </span>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })
-              ) : (
-                topics.map((t) => {
-                  const isChecked = allowedTopicIds.has(t.id);
-                  return (
-                    <div
-                      key={t.id}
-                      onClick={() => isHost && toggleAllowedTopic(t.id)}
-                      className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                        isChecked
-                          ? 'border-white/80 bg-surface-container-high text-white'
-                          : 'border-outline-variant/40 bg-surface-container-low text-on-surface-variant opacity-60'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <span className="material-symbols-outlined text-[18px]">layers</span>
-                        <div>
-                          <div className="text-xs sm:text-sm font-bold text-white">{t.title}</div>
-                          <div className="text-[11px] text-on-surface-variant">{toArabic(t.puzzleCount)} بطاقة</div>
-                        </div>
-                      </div>
-                      <div
-                        className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                          isChecked
-                            ? 'bg-white text-surface-container-lowest'
-                            : 'border border-outline text-transparent'
-                        }`}
-                      >
-                        <span className="material-symbols-outlined text-[13px]">check</span>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          </section>
-        </div>
+          </div>
+        </section>
       </main>
 
-      {/* Sticky Bottom Action Bar with Monochrome Aesthetics */}
-      <footer className="fixed bottom-0 inset-x-0 z-50 bg-surface-container-lowest/95 backdrop-blur-xl border-t border-outline-variant/40 shadow-[0_-8px_30px_rgba(0,0,0,0.6)]">
-        <div className="max-w-4xl mx-auto px-3.5 sm:px-8 py-2.5 sm:py-3.5 flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3.5">
-          {/* Room Summary Badge */}
-          <div className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-surface-container-low border border-outline-variant/50">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-            <span className="text-[11px] sm:text-xs font-bold text-white tracking-wide">
-              {toArabic(players.length)} لاعبين · {toArabic(totalRounds)} جولات · {toArabic(allowedTopicIds.size)} تصنيفات
-            </span>
+      {/* Sticky Bottom Action Bar */}
+      <footer className="fixed bottom-0 inset-x-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-outline-variant/30 py-3 px-4">
+        <div className="max-w-xl mx-auto flex items-center justify-between gap-3">
+          <div className="text-xs text-on-surface-variant font-medium hidden sm:block">
+            {players.length} لاعبين · {totalRounds} جولات
           </div>
 
-          {/* Primary CTA */}
           {isHost ? (
             <button
               type="button"
               onClick={handleStartGame}
               disabled={!canStart || allowedTopicIds.size === 0}
-              className="w-full sm:w-auto bg-white hover:bg-[#e3e2e2] text-surface-container-lowest font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md group disabled:opacity-40"
+              className="w-full sm:w-auto bg-white hover:bg-neutral-200 text-surface-container-lowest font-bold py-2.5 px-8 rounded-lg text-xs sm:text-sm flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md disabled:opacity-40"
             >
               <span>
                 {allowedTopicIds.size === 0
-                  ? 'اختر تصنيفاً واحداً على الأقل للبدء'
+                  ? 'اختر تصنيفاً واحداً للبدء'
                   : canStart
-                  ? 'بدء اللعبة الآن'
-                  : 'في انتظار اكتمال اللاعبين (٢ على الأقل)'}
+                  ? 'بدء اللعبة'
+                  : 'في انتظار لاعب آخر (2 على الأقل)'}
               </span>
-              <span className="material-symbols-outlined text-[16px] sm:text-[18px] transform rotate-180 transition-transform group-hover:-translate-x-1">
-                arrow_back
-              </span>
+              <span className="material-symbols-outlined text-[16px] rotate-180">arrow_back</span>
             </button>
           ) : (
-            <div className="text-[11px] sm:text-xs text-on-surface-variant font-medium flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-[16px] text-white animate-spin">sync</span>
-              <span>في انتظار المضيف لبدء الجولة...</span>
+            <div className="w-full text-center text-xs text-on-surface-variant font-medium flex items-center justify-center gap-1.5 py-1">
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span>في انتظار المضيف لبدء اللعبة...</span>
             </div>
           )}
         </div>
@@ -900,42 +728,42 @@ export const WaitingRoomScreen: React.FC = () => {
 
       {/* QR Code Modal */}
       {isQRModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
-            className="absolute inset-0 bg-black/70 backdrop-blur-md"
+            className="absolute inset-0 bg-black/75 backdrop-blur-sm"
             onClick={() => setIsQRModalOpen(false)}
           />
-          <div className="relative w-full max-w-sm z-20 dark-monochrome-card rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-white/10 text-center animate-fadeIn">
-            <div className="flex items-center justify-between pb-2.5 border-b border-outline-variant/30 mb-3 sm:mb-4">
-              <h3 className="text-sm sm:text-base font-bold text-white">رمز استجابة الغرفة (QR)</h3>
+          <div className="relative w-full max-w-sm z-20 bg-surface-container-low rounded-xl p-5 border border-outline-variant/50 text-center animate-fadeIn shadow-2xl">
+            <div className="flex items-center justify-between pb-2 border-b border-outline-variant/30 mb-3">
+              <h3 className="text-sm font-bold text-white">رمز QR للغرفة</h3>
               <button
                 type="button"
                 onClick={() => setIsQRModalOpen(false)}
-                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container"
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container"
               >
-                <span className="material-symbols-outlined text-lg sm:text-xl">close</span>
+                <span className="material-symbols-outlined text-lg">close</span>
               </button>
             </div>
 
-            <div className="flex justify-center my-2 sm:my-3">
-              <QRCodeView value={joinUrl} size={190} />
+            <div className="flex justify-center my-3 bg-white p-3 rounded-lg max-w-fit mx-auto">
+              <QRCodeView value={joinUrl} size={180} />
             </div>
 
-            <div className="text-base sm:text-lg font-mono font-bold text-white tracking-widest my-1.5 sm:my-2">
+            <div className="text-xl font-mono font-black text-white tracking-widest my-2">
               {roomCode}
             </div>
 
-            <p className="text-[11px] sm:text-xs text-on-surface-variant mt-1.5">
-              اطلب من أصدقائك مسح الرمز بكاميرا الهاتف للانضمام مباشرة
+            <p className="text-xs text-on-surface-variant">
+              امسح الرمز بكاميرا الهاتف للانضمام مباشرة
             </p>
           </div>
         </div>
       )}
 
-      {/* Character Customization Modal in Waiting Room */}
+      {/* Character Customization Modal */}
       {isCharacterModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 animate-fadeIn">
-          <div className="w-full max-w-lg h-full max-h-[95vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 animate-fadeIn">
+          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <CharacterSelectScreen
               initialNickname={player?.nickname}
               initialAvatar={player?.avatar}
@@ -944,7 +772,7 @@ export const WaitingRoomScreen: React.FC = () => {
                 setIsCharacterModalOpen(false);
               }}
               onBack={() => setIsCharacterModalOpen(false)}
-              actionButtonText="تحديث وحفظ في الغرفة"
+              actionButtonText="حفظ ومتابعة"
             />
           </div>
         </div>

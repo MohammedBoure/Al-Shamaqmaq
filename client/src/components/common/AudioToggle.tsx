@@ -10,7 +10,7 @@ export const AudioToggle: React.FC = () => {
       onClick={audio.toggleMute}
       aria-label={audio.isMuted ? 'تشغيل المؤثرات الصوتية' : 'كتم المؤثرات الصوتية'}
       title={audio.isMuted ? 'تشغيل المؤثرات الصوتية' : 'كتم المؤثرات الصوتية'}
-      className="relative flex items-center justify-center w-10 h-10 text-on-surface-variant hover:text-white hover:bg-surface-container transition-colors duration-150 rounded-full active:scale-95 border border-outline-variant/30"
+      className="relative flex items-center justify-center w-10 h-10 text-on-surface-variant hover:text-white hover:bg-surface-container transition-colors duration-150 rounded-lg active:scale-95 border border-outline-variant/30"
     >
       <span className="material-symbols-outlined text-[20px]">
         {audio.isMuted ? 'volume_off' : 'volume_up'}
