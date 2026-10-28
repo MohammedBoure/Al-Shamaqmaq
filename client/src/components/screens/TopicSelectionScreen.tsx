@@ -11,6 +11,7 @@ export const TopicSelectionScreen: React.FC = () => {
     pickerNickname,
     player,
     room,
+    teamScores,
     timeRemaining,
     selectTopic,
     currentRound,
@@ -23,6 +24,7 @@ export const TopicSelectionScreen: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false);
   const isHost = player?.id === room?.hostId;
   const isMyTurn = player?.id === currentPickerId;
+  const isTeamsMode = room?.gameMode === 'teams';
 
   // 30-second default timer progress calculation
   const totalDuration = 30;
@@ -124,6 +126,28 @@ export const TopicSelectionScreen: React.FC = () => {
           <GameScaleControl />
         </div>
       </header>
+
+      {/* Live Team Scores Strip */}
+      {isTeamsMode && teamScores && teamScores.length > 0 && (
+        <div className="w-full max-w-md mx-auto px-4 pt-1 flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+          {teamScores.map((ts) => (
+            <div
+              key={ts.teamId}
+              className="px-2.5 py-1 rounded-md bg-surface-container-low border border-outline-variant/30 flex items-center gap-1.5 shrink-0 text-[11px]"
+              style={{
+                borderColor: ts.teamId === player?.teamId ? ts.teamColor : undefined,
+              }}
+            >
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: ts.teamColor || '#ffffff' }}
+              />
+              <span className="font-bold text-white">{ts.teamName}</span>
+              <span className="font-black text-amber-400">{ts.score}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Main Topic Selection Stack */}
       <main className="flex-1 w-full max-w-md mx-auto px-4 py-4 flex flex-col justify-center">

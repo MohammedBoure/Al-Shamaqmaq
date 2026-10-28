@@ -63,6 +63,24 @@ describe('REST API Endpoints', () => {
     expect(getBody.room.code).toBe(body.roomCode);
   });
 
+  it('POST /api/rooms succeeds when allowedTopicIds is empty array', async () => {
+    const res = await fetch(`${baseUrl}/api/rooms`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        hostNickname: 'لاعب منفرد',
+        hostAvatar: '👑',
+        allowedTopicIds: [],
+      }),
+    });
+
+    expect(res.status).toBe(201);
+    const body = await res.json();
+    expect(body.success).toBe(true);
+    expect(body.roomCode).toBeTruthy();
+    expect(body.room.allowedTopicIds.length).toBeGreaterThan(0);
+  });
+
   it('returns 404 for non-existent room', async () => {
     const res = await fetch(`${baseUrl}/api/rooms/NON_EXISTENT_CODE`);
     expect(res.status).toBe(404);

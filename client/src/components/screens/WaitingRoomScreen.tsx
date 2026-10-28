@@ -6,7 +6,7 @@ import { GameScaleControl } from '../common/GameScaleControl';
 import { QRCodeView } from '../common/QRCodeView';
 import { ConsolePet } from '../common/ConsolePet';
 import { CharacterSelectScreen } from './CharacterSelectScreen';
-import { TopicSummary } from '../../types';
+import { TopicSummary, DEFAULT_TEAMS, TeamConfig } from '../../types';
 import { useCodeDictation } from '../../hooks/useCodeDictation';
 
 export const WaitingRoomScreen: React.FC = () => {
@@ -18,26 +18,36 @@ export const WaitingRoomScreen: React.FC = () => {
     kickPlayer,
     updateSettings,
     updateProfile,
+    joinTeam,
     topics,
     categoryGroups,
     toggleAllowedTopic,
     setAllowedTopicIdsList,
+    addBot,
+    removeBot,
     haptic,
     audio,
   } = useGame();
 
   const [copiedCode, setCopiedCode] = useState<boolean>(false);
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
+  const [copiedInvite, setCopiedInvite] = useState<boolean>(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState<boolean>(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
   const [isCharacterModalOpen, setIsCharacterModalOpen] = useState<boolean>(false);
+  const [editingTeamId, setEditingTeamId] = useState<string | null>(null);
+  const [editingTeamName, setEditingTeamName] = useState<string>('');
+  const [lanIp, setLanIp] = useState<string | null>(null);
+  const [availableIps, setAvailableIps] = useState<string[]>([]);
 
   // إعدادات اللعبة
   const [roundSeconds, setRoundSeconds] = useState<number>(() => room?.roundDuration || 45);
-  const [maxPlayers, setMaxPlayers] = useState<number>(() => room?.maxPlayers || 8);
+  const [maxPlayers, setMaxPlayers] = useState<number>(() => room?.maxPlayers || 40);
   const [totalRounds, setTotalRounds] = useState<number>(() => room?.totalRounds || 10);
   const [gameMode, setGameMode] = useState<'individual' | 'teams'>(() => room?.gameMode || 'individual');
+  const [teamCount, setTeamCount] = useState<number>(() => room?.teamCount || 2);
 
-  // التحكم في طي/فتح أقسام التصنيفات (افتراضياً مفتوحة لتسهيل الرؤية)
+  // التحكم في طي/فتح أقسام التصنيفات
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
 
   // مزامنة الإعدادات من الغرفة
@@ -46,7 +56,23 @@ export const WaitingRoomScreen: React.FC = () => {
     if (room?.maxPlayers) setMaxPlayers(room.maxPlayers);
     if (room?.totalRounds) setTotalRounds(room.totalRounds);
     if (room?.gameMode) setGameMode(room.gameMode);
-  }, [room?.roundDuration, room?.maxPlayers, room?.totalRounds, room?.gameMode]);
+    if (room?.teamCount) setTeamCount(room.teamCount);
+  }, [room?.roundDuration, room?.maxPlayers, room?.totalRounds, room?.gameMode, room?.teamCount]);
+
+  // جلب عنوان الشبكة المحلية (LAN IP) حتى يعمل الرابط ورمز QR على الهواتف والأجهزة الأخرى
+  useEffect(() => {
+    fetch('/api/network-info')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.lanIp) {
+          setLanIp(data.lanIp);
+        }
+        if (Array.isArray(data?.allIps)) {
+          setAvailableIps(data.allIps);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // خطاف إملاء الرقم صوتياً
   const { isSpeaking, isSupported: isTtsSupported, dictateCode, stopDictation } = useCodeDictation();
@@ -88,11 +114,63 @@ export const WaitingRoomScreen: React.FC = () => {
   const isHost = player?.isHost;
   const canStart = players.length >= 2;
 
-  const joinUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}${window.location.pathname}?join=${roomCode}`
-    : `https://game/?join=${roomCode}`;
+  const activeTeams: TeamConfig[] = useMemo(() => {
+    if (room?.teams && room.teams.length > 0) {
+      return room.teams.slice(0, teamCount);
+    }
+    return DEFAULT_TEAMS.slice(0, teamCount);
+  }, [room?.teams, teamCount]);
 
-  // المواضيع المسموحة
+  const joinUrl = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return `https://game/?join=${roomCode}`;
+    }
+    const { protocol, hostname, port, pathname } = window.location;
+    const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+    const effectiveHost = isLocalhost && lanIp ? lanIp : hostname;
+    const portSuffix = port ? `:${port}` : '';
+    return `${protocol}//${effectiveHost}${portSuffix}${pathname}?join=${roomCode}`;
+  }, [roomCode, lanIp]);
+
+  const shareMessageText = useMemo(() => {
+    return `انضموا إليّ في لعبة الخداع والبديهة ESC! 🎭\nرمز الغرفة: ${roomCode}\nرابط الدخول المباشر:\n${joinUrl}`;
+  }, [roomCode, joinUrl]);
+
+  const copyTextCrossPlatform = async (text: string): Promise<boolean> => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (_) {
+        // Fallback below
+      }
+    }
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.top = '0';
+      textArea.style.left = '0';
+      textArea.style.width = '2em';
+      textArea.style.height = '2em';
+      textArea.style.padding = '0';
+      textArea.style.border = 'none';
+      textArea.style.outline = 'none';
+      textArea.style.boxShadow = 'none';
+      textArea.style.background = 'transparent';
+      textArea.setAttribute('readonly', '');
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      textArea.setSelectionRange(0, text.length);
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      return successful;
+    } catch (_) {
+      return false;
+    }
+  };
+
   const allowedTopicIds = useMemo(() => {
     if (Array.isArray(room?.allowedTopicIds)) {
       return new Set(room.allowedTopicIds);
@@ -157,22 +235,56 @@ export const WaitingRoomScreen: React.FC = () => {
 
   const handleCopyCode = async () => {
     audio.playClick();
-    try {
-      await navigator.clipboard.writeText(roomCode);
+    const ok = await copyTextCrossPlatform(roomCode);
+    if (ok) {
       setCopiedCode(true);
       haptic.triggerHaptic('success');
       setTimeout(() => setCopiedCode(false), 2000);
-    } catch (_) {}
+    }
   };
 
   const handleCopyLink = async () => {
     audio.playClick();
-    try {
-      await navigator.clipboard.writeText(joinUrl);
+    const ok = await copyTextCrossPlatform(joinUrl);
+    if (ok) {
       setCopiedLink(true);
       haptic.triggerHaptic('success');
       setTimeout(() => setCopiedLink(false), 2000);
-    } catch (_) {}
+    }
+  };
+
+  const handleCopyInviteMessage = async () => {
+    audio.playClick();
+    const ok = await copyTextCrossPlatform(shareMessageText);
+    if (ok) {
+      setCopiedInvite(true);
+      haptic.triggerHaptic('success');
+      setTimeout(() => setCopiedInvite(false), 2000);
+    }
+  };
+
+  const handleNativeShare = async () => {
+    audio.playClick();
+    haptic.triggerHaptic('light');
+    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+      try {
+        await navigator.share({
+          title: `غرفة ESC (${roomCode})`,
+          text: `انضموا إليّ في لعبة الخداع والبديهة ESC! رمز الغرفة: ${roomCode}`,
+          url: joinUrl,
+        });
+        return;
+      } catch (err: any) {
+        if (err?.name === 'AbortError') return;
+      }
+    }
+    await handleCopyLink();
+  };
+
+  const handleOpenShareModal = () => {
+    audio.playClick();
+    haptic.triggerHaptic('light');
+    setIsShareModalOpen(true);
   };
 
   const handleUpdateRounds = (rounds: number) => {
@@ -190,9 +302,10 @@ export const WaitingRoomScreen: React.FC = () => {
   };
 
   const handleUpdateMaxPlayers = (count: number) => {
-    setMaxPlayers(count);
+    const clamped = Math.min(Math.max(2, count), 40);
+    setMaxPlayers(clamped);
     if (isHost) {
-      updateSettings({ maxPlayers: count });
+      updateSettings({ maxPlayers: clamped });
     }
   };
 
@@ -203,14 +316,47 @@ export const WaitingRoomScreen: React.FC = () => {
     }
   };
 
+  const handleUpdateTeamCount = (count: number) => {
+    const clamped = Math.min(Math.max(2, count), 8);
+    setTeamCount(clamped);
+    if (isHost) {
+      updateSettings({ teamCount: clamped });
+    }
+  };
+
+  const handleUpdateTeamMaxPlayers = (teamId: string, nextMax: number) => {
+    if (!isHost) return;
+    const clamped = Math.min(Math.max(1, nextMax), 40);
+    updateSettings({
+      teamIdToUpdate: {
+        id: teamId,
+        maxPlayers: clamped,
+      },
+    });
+  };
+
+  const handleSaveTeamName = (teamId: string) => {
+    if (!isHost) return;
+    const clean = editingTeamName.trim();
+    if (clean) {
+      updateSettings({
+        teamIdToUpdate: {
+          id: teamId,
+          name: clean,
+        },
+      });
+    }
+    setEditingTeamId(null);
+    setEditingTeamName('');
+  };
+
   const emptySeatsCount = Math.max(0, maxPlayers - players.length);
 
   return (
     <div className="table-canvas-dark text-on-surface antialiased min-h-full flex-1 w-full flex flex-col selection:bg-surface-bright selection:text-white">
       {/* Floating Borderless Header */}
       <header className="sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30">
-        <div className="flex justify-between items-center w-full px-4 max-w-xl mx-auto h-14">
-          {/* Back button + Brand */}
+        <div className="flex justify-between items-center w-full px-4 max-w-2xl mx-auto h-14">
           <div className="flex items-center gap-2.5">
             <button
               type="button"
@@ -226,7 +372,6 @@ export const WaitingRoomScreen: React.FC = () => {
             </span>
           </div>
 
-          {/* User Character & Controls */}
           <div className="flex items-center gap-1.5">
             <AudioToggle />
             <ThemeToggle />
@@ -243,8 +388,8 @@ export const WaitingRoomScreen: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Single-Column Content */}
-      <main className="flex-1 w-full max-w-xl mx-auto px-4 py-4 pb-28 flex flex-col gap-4">
+      {/* Main Content */}
+      <main className="flex-1 w-full max-w-2xl mx-auto px-4 py-4 pb-28 flex flex-col gap-4">
         {/* 1. Slim Room Code Bar */}
         <section className="bg-surface-container-low border border-outline-variant/50 rounded-xl p-3 flex items-center justify-between gap-3 shadow-xs">
           <div className="flex items-center gap-2.5">
@@ -289,155 +434,73 @@ export const WaitingRoomScreen: React.FC = () => {
             <button
               type="button"
               onClick={handleCopyLink}
-              className="px-3 py-1.5 rounded-lg bg-white text-surface-container-lowest text-xs font-bold flex items-center gap-1 shadow-sm active:scale-95 transition-all"
+              className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-white transition-all active:scale-95 flex items-center justify-center cursor-pointer"
+              title="نسخ رابط الغرفة"
             >
-              <span className="material-symbols-outlined text-[16px]">share</span>
-              <span>{copiedLink ? 'تم' : 'مشاركة'}</span>
-            </button>
-          </div>
-        </section>
-
-        {/* 2. Players Roster */}
-        <section className="bg-surface-container-low border border-outline-variant/50 rounded-xl p-4 shadow-xs">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <h2 className="text-sm font-bold text-white">اللاعبون</h2>
-              <span className="px-2 py-0.5 rounded-lg bg-surface-container-high text-[11px] font-bold text-white border border-outline-variant/40">
-                {players.length} / {maxPlayers}
+              <span className="material-symbols-outlined text-[18px]">
+                {copiedLink ? 'done_all' : 'link'}
               </span>
-            </div>
+            </button>
 
             <button
               type="button"
-              onClick={() => setIsCharacterModalOpen(true)}
-              className="text-xs font-semibold text-on-surface-variant hover:text-white flex items-center gap-1 transition-colors"
+              onClick={handleOpenShareModal}
+              className="px-3 py-1.5 rounded-lg bg-white hover:bg-neutral-200 text-surface-container-lowest text-xs font-bold flex items-center gap-1 shadow-sm active:scale-95 transition-all cursor-pointer"
+              title="مشاركة الغرفة عبر كافة المنصات"
             >
-              <span className="material-symbols-outlined text-[15px]">palette</span>
-              <span>تعديل شخصيتي</span>
+              <span className="material-symbols-outlined text-[16px]">share</span>
+              <span>{copiedLink ? 'تم النسخ' : 'مشاركة'}</span>
             </button>
-          </div>
-
-          {/* Compact Players Wrap */}
-          <div className="flex flex-wrap gap-2.5">
-            {players.map((p) => {
-              const isMe = p.id === player?.id;
-              return (
-                <div
-                  key={p.id}
-                  className={`flex items-center gap-2.5 py-1.5 px-3 rounded-lg border transition-all ${
-                    isMe
-                      ? 'bg-surface-container-high border-white/60 shadow-xs ring-1 ring-white/20'
-                      : 'bg-surface-container border-outline-variant/40'
-                  }`}
-                >
-                  <div
-                    onClick={() => isMe && setIsCharacterModalOpen(true)}
-                    className={`w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center overflow-hidden shrink-0 ${
-                      isMe ? 'cursor-pointer hover:scale-105 transition-transform' : ''
-                    }`}
-                  >
-                    <ConsolePet avatar={p.avatar} size={30} />
-                  </div>
-
-                  <div className="flex flex-col min-w-0">
-                    <div className="flex items-center gap-1">
-                      <span className="text-xs font-bold text-white truncate max-w-[90px] sm:max-w-[120px]">
-                        {p.nickname}
-                      </span>
-                      {p.isHost && (
-                        <span className="material-symbols-outlined text-[13px] text-amber-400" title="المضيف">
-                          crown
-                        </span>
-                      )}
-                      {isMe && (
-                        <span className="text-[9px] font-bold text-on-surface-variant">
-                          (أنت)
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-[10px] text-emerald-400 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                      متصل
-                    </span>
-                  </div>
-
-                  {isHost && !p.isHost && !isMe && (
-                    <button
-                      type="button"
-                      onClick={() => kickPlayer(p.id)}
-                      className="w-6 h-6 rounded-md text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 flex items-center justify-center transition-colors mr-1"
-                      title={`طرد ${p.nickname}`}
-                    >
-                      <span className="material-symbols-outlined text-[14px]">close</span>
-                    </button>
-                  )}
-                </div>
-              );
-            })}
-
-            {/* Subtle empty seat indicators */}
-            {Array.from({ length: Math.min(emptySeatsCount, 6) }).map((_, idx) => (
-              <div
-                key={`empty-${idx}`}
-                className="w-9 h-9 rounded-lg border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant/60"
-                title="مقعد شاغر"
-              >
-                <span className="material-symbols-outlined text-[16px]">add</span>
-              </div>
-            ))}
-            {emptySeatsCount > 6 && (
-              <div className="h-9 px-2.5 rounded-lg border border-dashed border-outline-variant/40 flex items-center justify-center text-[10px] text-on-surface-variant">
-                +{emptySeatsCount - 6}
-              </div>
-            )}
           </div>
         </section>
 
-        {/* 3. Combined Game Rules Settings */}
+        {/* 2. Combined Game Rules Settings (Individual vs Teams, Max Players up to 40, Team Count up to 8) */}
         <section className="bg-surface-container-low border border-outline-variant/50 rounded-xl p-4 flex flex-col gap-3.5 shadow-xs">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold text-white">إعدادات الجلسة</h2>
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <h2 className="text-sm font-bold text-white">إعدادات الجلسة والفرق</h2>
             <div className="inline-flex rounded-lg bg-surface-container p-0.5 border border-outline-variant/40">
               <button
                 type="button"
                 onClick={() => handleUpdateGameMode('individual')}
                 disabled={!isHost}
-                className={`px-2.5 py-1 rounded-md text-xs font-bold transition-all ${
+                className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${
                   gameMode === 'individual'
                     ? 'bg-white text-surface-container-lowest shadow-xs'
                     : 'text-on-surface-variant hover:text-white'
                 }`}
               >
-                فردي
+                فردي 👤
               </button>
               <button
                 type="button"
                 onClick={() => handleUpdateGameMode('teams')}
                 disabled={!isHost}
-                className={`px-2.5 py-1 rounded-md text-xs font-bold transition-all ${
+                className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${
                   gameMode === 'teams'
                     ? 'bg-white text-surface-container-lowest shadow-xs'
                     : 'text-on-surface-variant hover:text-white'
                 }`}
               >
-                فرق
+                فرق 🛡️ (حتى 8 فرق)
               </button>
             </div>
           </div>
 
-          {/* Segmented Controls Rows with Standard Numbers */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            {/* Player Capacity */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {/* Player Capacity up to 40 */}
             <div className="flex flex-col gap-1.5">
-              <span className="text-[11px] text-on-surface-variant font-semibold">سعة اللاعبين</span>
-              <div className="mono-well p-1 rounded-lg grid grid-cols-4 gap-1">
-                {[4, 6, 8, 12].map((count) => (
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-on-surface-variant font-semibold">سعة الغرفة الكلية</span>
+                <span className="text-[11px] font-black text-white font-mono">{maxPlayers} لاعب</span>
+              </div>
+              <div className="mono-well p-1 rounded-lg grid grid-cols-5 gap-1">
+                {[8, 16, 24, 32, 40].map((count) => (
                   <button
                     key={count}
                     type="button"
                     onClick={() => handleUpdateMaxPlayers(count)}
                     disabled={!isHost}
-                    className={`py-1 rounded-md text-xs font-bold transition-all ${
+                    className={`py-1 rounded-md text-[11px] font-bold transition-all ${
                       maxPlayers === count
                         ? 'bg-white text-surface-container-lowest shadow-xs'
                         : 'text-on-surface-variant hover:text-white'
@@ -447,6 +510,16 @@ export const WaitingRoomScreen: React.FC = () => {
                   </button>
                 ))}
               </div>
+              {isHost && (
+                <input
+                  type="range"
+                  min={2}
+                  max={40}
+                  value={maxPlayers}
+                  onChange={(e) => handleUpdateMaxPlayers(parseInt(e.target.value, 10))}
+                  className="w-full accent-white h-1.5 cursor-pointer mt-0.5"
+                />
+              )}
             </div>
 
             {/* Rounds Count */}
@@ -493,7 +566,449 @@ export const WaitingRoomScreen: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* Number of Teams Control (2 to 8 Teams) when in Team Mode */}
+          {gameMode === 'teams' && (
+            <div className="pt-2 border-t border-outline-variant/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] text-amber-400">groups</span>
+                <div>
+                  <span className="text-xs font-bold text-white block">عدد الفرق المتنافسة ({teamCount} فرق)</span>
+                  <span className="text-[10px] text-on-surface-variant">
+                    يمكن لكل لاعب اختيار فريقه، ويمكن للمضيف تخصيص اسم وسعة كل فريق
+                  </span>
+                </div>
+              </div>
+              <div className="mono-well p-1 rounded-lg grid grid-cols-7 gap-1 shrink-0">
+                {[2, 3, 4, 5, 6, 7, 8].map((cnt) => (
+                  <button
+                    key={cnt}
+                    type="button"
+                    onClick={() => handleUpdateTeamCount(cnt)}
+                    disabled={!isHost}
+                    className={`px-2 py-1 rounded-md text-xs font-bold transition-all ${
+                      teamCount === cnt
+                        ? 'bg-white text-surface-container-lowest shadow-xs'
+                        : 'text-on-surface-variant hover:text-white'
+                    }`}
+                  >
+                    {cnt}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </section>
+
+        {/* 3. Players & Teams Roster */}
+        {gameMode === 'teams' ? (
+          <section className="bg-surface-container-low border border-outline-variant/50 rounded-xl p-4 shadow-xs flex flex-col gap-3">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                <h2 className="text-sm font-bold text-white">تشكيلة الفرق واللاعبين</h2>
+                <span className="px-2 py-0.5 rounded-lg bg-surface-container-high text-[11px] font-bold text-white border border-outline-variant/40">
+                  {players.length} / {maxPlayers} لاعب
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                {isHost && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={addBot}
+                      className="text-xs font-bold text-emerald-400 hover:text-emerald-300 bg-emerald-950/40 border border-emerald-500/40 px-2.5 py-1 rounded-lg flex items-center gap-1 transition-all active:scale-95 cursor-pointer"
+                      title="إضافة روبوت تجريبي لتجربة اللعبة بمفردك"
+                    >
+                      <span className="material-symbols-outlined text-[15px]">smart_toy</span>
+                      <span>+ بوت تجريبي</span>
+                    </button>
+                    {players.some((p) => p.isBot) && (
+                      <button
+                        type="button"
+                        onClick={() => removeBot()}
+                        className="text-xs font-semibold text-rose-400 hover:text-rose-300 bg-rose-950/40 border border-rose-500/40 px-2 py-1 rounded-lg flex items-center gap-1 transition-all active:scale-95 cursor-pointer"
+                        title="إزالة الروبوت"
+                      >
+                        <span>إزالة البوت</span>
+                      </button>
+                    )}
+                  </>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => setIsCharacterModalOpen(true)}
+                  className="text-xs font-semibold text-on-surface-variant hover:text-white flex items-center gap-1 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[15px]">palette</span>
+                  <span>تعديل شخصيتي</span>
+                </button>
+              </div>
+            </div>
+
+            {/* تلميح مساعدة عند وجود لاعب واحد فقط */}
+            {players.length < 2 && (
+              <div className="mb-1 p-2.5 rounded-lg bg-surface-container/70 border border-outline-variant/30 text-xs text-on-surface-variant flex items-center justify-between gap-2">
+                <span>💡 يمكنك مشاركة رمز الغرفة، أو الضغط على <b>+ بوت تجريبي</b> لتجربة اللعبة فوراً بمفردك!</span>
+                {isHost && (
+                  <button
+                    type="button"
+                    onClick={addBot}
+                    className="bg-white hover:bg-neutral-200 text-surface-container-lowest text-xs font-bold px-2.5 py-1 rounded-md shrink-0 active:scale-95 transition-all cursor-pointer"
+                  >
+                    إضافة بوت 🤖
+                  </button>
+                )}
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {activeTeams.map((team) => {
+                const teamPlayers = players.filter((p) => p.teamId === team.id);
+                const isMyTeam = player?.teamId === team.id;
+                const isFull = teamPlayers.length >= team.maxPlayers;
+                const teamTotalScore = teamPlayers.reduce((sum, p) => sum + (p.score || 0), 0);
+
+                return (
+                  <div
+                    key={team.id}
+                    className={`rounded-xl border p-3 flex flex-col justify-between gap-2.5 transition-all ${
+                      isMyTeam
+                        ? 'bg-surface-container-high/90 shadow-md ring-1'
+                        : 'bg-surface-container/60 border-outline-variant/40'
+                    }`}
+                    style={{
+                      borderColor: isMyTeam ? team.color : undefined,
+                      boxShadow: isMyTeam ? `0 0 0 1px ${team.color}40` : undefined,
+                    }}
+                  >
+                    {/* Team Header: Color, Name, Score, Custom Capacity Controls */}
+                    <div className="flex items-center justify-between gap-2 pb-2 border-b border-outline-variant/30">
+                      <div className="flex items-center gap-2 min-w-0 flex-1">
+                        <span
+                          className="w-3.5 h-3.5 rounded-full shrink-0 shadow-xs"
+                          style={{ backgroundColor: team.color }}
+                        />
+
+                        {editingTeamId === team.id && isHost ? (
+                          <div className="flex items-center gap-1 flex-1 min-w-0">
+                            <input
+                              type="text"
+                              value={editingTeamName}
+                              onChange={(e) => setEditingTeamName(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') handleSaveTeamName(team.id);
+                              }}
+                              maxLength={24}
+                              autoFocus
+                              className="w-full bg-surface-container-lowest border border-white/40 rounded px-2 py-0.5 text-xs font-bold text-white focus:outline-none"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => handleSaveTeamName(team.id)}
+                              className="p-1 rounded bg-white text-surface-container-lowest text-xs font-bold shrink-0"
+                            >
+                              ✓
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1 min-w-0">
+                            <span className="text-xs sm:text-sm font-extrabold text-white truncate">
+                              {team.name}
+                            </span>
+                            {isHost && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setEditingTeamId(team.id);
+                                  setEditingTeamName(team.name);
+                                }}
+                                className="text-on-surface-variant hover:text-white p-0.5 rounded transition-colors shrink-0"
+                                title="تغيير اسم الفريق"
+                              >
+                                <span className="material-symbols-outlined text-[13px]">edit</span>
+                              </button>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Score + Custom Team Player Limit */}
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <span
+                          className="px-2 py-0.5 rounded-md text-[10px] font-black border"
+                          style={{
+                            backgroundColor: `${team.color}20`,
+                            borderColor: `${team.color}50`,
+                            color: '#ffffff',
+                          }}
+                        >
+                          {teamTotalScore} ن
+                        </span>
+
+                        <div
+                          className="flex items-center gap-1 bg-surface-container-lowest px-1.5 py-0.5 rounded-md border border-outline-variant/40"
+                          title="سعة اللاعبين المخصصة لهذا الفريق"
+                        >
+                          {isHost && (
+                            <button
+                              type="button"
+                              onClick={() => handleUpdateTeamMaxPlayers(team.id, team.maxPlayers - 1)}
+                              disabled={team.maxPlayers <= 1}
+                              className="w-4 h-4 rounded bg-surface-container hover:bg-surface-container-high text-white flex items-center justify-center text-[11px] font-bold disabled:opacity-30"
+                              title="تقليل سعة الفريق"
+                            >
+                              -
+                            </button>
+                          )}
+                          <span className="text-[10px] font-mono font-bold text-on-surface-variant px-0.5">
+                            {teamPlayers.length}/{team.maxPlayers}
+                          </span>
+                          {isHost && (
+                            <button
+                              type="button"
+                              onClick={() => handleUpdateTeamMaxPlayers(team.id, team.maxPlayers + 1)}
+                              disabled={team.maxPlayers >= 40}
+                              className="w-4 h-4 rounded bg-surface-container hover:bg-surface-container-high text-white flex items-center justify-center text-[11px] font-bold disabled:opacity-30"
+                              title="زيادة سعة الفريق"
+                            >
+                              +
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Team Players List */}
+                    <div className="flex flex-wrap gap-1.5 min-h-[42px] items-center">
+                      {teamPlayers.length > 0 ? (
+                        teamPlayers.map((p) => {
+                          const isMe = p.id === player?.id;
+                          return (
+                            <div
+                              key={p.id}
+                              className={`flex items-center gap-1.5 py-1 px-2 rounded-lg border text-xs ${
+                                isMe
+                                  ? 'bg-surface-container-lowest border-white/60 text-white font-bold'
+                                  : 'bg-surface-container-low border-outline-variant/40 text-white'
+                              }`}
+                            >
+                              <div
+                                onClick={() => isMe && setIsCharacterModalOpen(true)}
+                                className="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center overflow-hidden shrink-0"
+                              >
+                                <ConsolePet avatar={p.avatar} size={22} />
+                              </div>
+                              <span className="truncate max-w-[85px]">{p.nickname}</span>
+                              {p.isHost && (
+                                <span className="material-symbols-outlined text-[12px] text-amber-400">
+                                  crown
+                                </span>
+                              )}
+                              {p.isBot && (
+                                <span className="text-[9px] px-1 py-0.2 rounded bg-cyan-950/60 text-cyan-300 font-bold border border-cyan-500/30">
+                                  بوت
+                                </span>
+                              )}
+                              {isMe && (
+                                <span className="text-[9px] text-on-surface-variant">(أنت)</span>
+                              )}
+                              {isHost && !p.isHost && !isMe && (
+                                <button
+                                  type="button"
+                                  onClick={() => (p.isBot ? removeBot(p.id) : kickPlayer(p.id))}
+                                  className="text-rose-400 hover:text-rose-300 flex items-center justify-center cursor-pointer"
+                                  title={p.isBot ? 'إزالة الروبوت' : `طرد ${p.nickname}`}
+                                >
+                                  <span className="material-symbols-outlined text-[13px]">close</span>
+                                </button>
+                              )}
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <span className="text-[11px] text-on-surface-variant italic">
+                          لا يوجد لاعبون في هذا الفريق بعد
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Join Team Action Button */}
+                    <div className="pt-1">
+                      {isMyTeam ? (
+                        <div
+                          className="w-full py-1.5 px-3 rounded-lg text-center text-[11px] font-bold flex items-center justify-center gap-1 border"
+                          style={{
+                            backgroundColor: `${team.color}25`,
+                            borderColor: `${team.color}60`,
+                            color: '#ffffff',
+                          }}
+                        >
+                          <span className="material-symbols-outlined text-[14px]">check_circle</span>
+                          <span>فريقك الحالي</span>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          disabled={isFull}
+                          onClick={() => joinTeam(team.id)}
+                          className="w-full py-1.5 px-3 rounded-lg text-[11px] font-bold transition-all active:scale-95 flex items-center justify-center gap-1 border bg-surface-container-low hover:bg-surface-container-highest text-white border-outline-variant/50 disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          <span className="material-symbols-outlined text-[14px]">
+                            {isFull ? 'block' : 'login'}
+                          </span>
+                          <span>{isFull ? 'الفريق ممتلئ' : `انضمام إلى ${team.name}`}</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        ) : (
+          /* Individual Mode Roster */
+          <section className="bg-surface-container-low border border-outline-variant/50 rounded-xl p-4 shadow-xs">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <h2 className="text-sm font-bold text-white">اللاعبون</h2>
+                <span className="px-2 py-0.5 rounded-lg bg-surface-container-high text-[11px] font-bold text-white border border-outline-variant/40">
+                  {players.length} / {maxPlayers}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                {isHost && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={addBot}
+                      className="text-xs font-bold text-emerald-400 hover:text-emerald-300 bg-emerald-950/40 border border-emerald-500/40 px-2.5 py-1 rounded-lg flex items-center gap-1 transition-all active:scale-95 cursor-pointer"
+                      title="إضافة روبوت تجريبي لتجربة اللعبة بمفردك"
+                    >
+                      <span className="material-symbols-outlined text-[15px]">smart_toy</span>
+                      <span>+ بوت تجريبي</span>
+                    </button>
+                    {players.some((p) => p.isBot) && (
+                      <button
+                        type="button"
+                        onClick={() => removeBot()}
+                        className="text-xs font-semibold text-rose-400 hover:text-rose-300 bg-rose-950/40 border border-rose-500/40 px-2 py-1 rounded-lg flex items-center gap-1 transition-all active:scale-95 cursor-pointer"
+                        title="إزالة الروبوت"
+                      >
+                        <span>إزالة البوت</span>
+                      </button>
+                    )}
+                  </>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => setIsCharacterModalOpen(true)}
+                  className="text-xs font-semibold text-on-surface-variant hover:text-white flex items-center gap-1 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[15px]">palette</span>
+                  <span>تعديل شخصيتي</span>
+                </button>
+              </div>
+            </div>
+
+            {/* تلميح مساعدة عند وجود لاعب واحد فقط */}
+            {players.length < 2 && (
+              <div className="mb-1 p-2.5 rounded-lg bg-surface-container/70 border border-outline-variant/30 text-xs text-on-surface-variant flex items-center justify-between gap-2">
+                <span>💡 يمكنك مشاركة رمز الغرفة، أو الضغط على <b>+ بوت تجريبي</b> لتجربة اللعبة فوراً بمفردك!</span>
+                {isHost && (
+                  <button
+                    type="button"
+                    onClick={addBot}
+                    className="bg-white hover:bg-neutral-200 text-surface-container-lowest text-xs font-bold px-2.5 py-1 rounded-md shrink-0 active:scale-95 transition-all cursor-pointer"
+                  >
+                    إضافة بوت 🤖
+                  </button>
+                )}
+              </div>
+            )}
+
+            <div className="flex flex-wrap gap-2.5">
+              {players.map((p) => {
+                const isMe = p.id === player?.id;
+                return (
+                  <div
+                    key={p.id}
+                    className={`flex items-center gap-2.5 py-1.5 px-3 rounded-lg border transition-all ${
+                      isMe
+                        ? 'bg-surface-container-high border-white/60 shadow-xs ring-1 ring-white/20'
+                        : 'bg-surface-container border-outline-variant/40'
+                    }`}
+                  >
+                    <div
+                      onClick={() => isMe && setIsCharacterModalOpen(true)}
+                      className={`w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center overflow-hidden shrink-0 ${
+                        isMe ? 'cursor-pointer hover:scale-105 transition-transform' : ''
+                      }`}
+                    >
+                      <ConsolePet avatar={p.avatar} size={30} />
+                    </div>
+
+                    <div className="flex flex-col min-w-0">
+                      <div className="flex items-center gap-1">
+                        <span className="text-xs font-bold text-white truncate max-w-[90px] sm:max-w-[120px]">
+                          {p.nickname}
+                        </span>
+                        {p.isHost && (
+                          <span className="material-symbols-outlined text-[13px] text-amber-400" title="المضيف">
+                            crown
+                          </span>
+                        )}
+                        {p.isBot && (
+                          <span className="text-[10px] px-1 py-0.2 rounded bg-cyan-950/60 text-cyan-300 font-bold border border-cyan-500/30">
+                            بوت
+                          </span>
+                        )}
+                        {isMe && (
+                          <span className="text-[9px] font-bold text-on-surface-variant">
+                            (أنت)
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[10px] text-emerald-400 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                        {p.isBot ? 'روبوت آلي' : 'متصل'}
+                      </span>
+                    </div>
+
+                    {isHost && !p.isHost && !isMe && (
+                      <button
+                        type="button"
+                        onClick={() => (p.isBot ? removeBot(p.id) : kickPlayer(p.id))}
+                        className="w-6 h-6 rounded-md text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 flex items-center justify-center transition-colors mr-1 cursor-pointer"
+                        title={p.isBot ? 'إزالة الروبوت' : `طرد ${p.nickname}`}
+                      >
+                        <span className="material-symbols-outlined text-[14px]">close</span>
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+
+              {Array.from({ length: Math.min(emptySeatsCount, 6) }).map((_, idx) => (
+                <div
+                  key={`empty-${idx}`}
+                  className="w-9 h-9 rounded-lg border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant/60"
+                  title="مقعد شاغر"
+                >
+                  <span className="material-symbols-outlined text-[16px]">add</span>
+                </div>
+              ))}
+              {emptySeatsCount > 6 && (
+                <div className="h-9 px-2.5 rounded-lg border border-dashed border-outline-variant/40 flex items-center justify-center text-[10px] text-on-surface-variant">
+                  +{emptySeatsCount - 6}
+                </div>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* 4. Categories & Sub-Categories Selection */}
         <section className="bg-surface-container-low border border-outline-variant/50 rounded-xl p-4 shadow-xs">
@@ -540,11 +1055,10 @@ export const WaitingRoomScreen: React.FC = () => {
             </div>
           )}
 
-          {/* Categories Groups with Sub-categories Accordions */}
           <div className="flex flex-col gap-2.5">
             {categoryGroups && categoryGroups.length > 0 ? (
               categoryGroups.map((group) => {
-                const isExpanded = expandedCategories[group.id] !== false; // Default to open
+                const isExpanded = expandedCategories[group.id] !== false;
                 const groupTopics = group.subtopics || [];
                 const activeInGroup = groupTopics.filter((t) => allowedTopicIds.has(t.id)).length;
                 const totalCards = groupTopics.reduce((acc, t) => acc + (t.puzzleCount || 0), 0);
@@ -555,7 +1069,6 @@ export const WaitingRoomScreen: React.FC = () => {
                     key={group.id}
                     className="border border-outline-variant/40 rounded-lg bg-surface-container/40 overflow-hidden transition-all duration-200"
                   >
-                    {/* Category Header */}
                     <div
                       onClick={() => toggleCategoryAccordion(group.id)}
                       className="p-3 flex items-center justify-between cursor-pointer hover:bg-surface-container/70 transition-colors"
@@ -576,7 +1089,6 @@ export const WaitingRoomScreen: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Actions & Status on Left */}
                       <div className="flex items-center gap-2 shrink-0">
                         <span className="text-[11px] font-bold text-white bg-surface-container px-2 py-0.5 rounded-md border border-outline-variant/40">
                           {activeInGroup}/{groupTopics.length} مفعلة
@@ -591,7 +1103,6 @@ export const WaitingRoomScreen: React.FC = () => {
                                 ? 'bg-white text-surface-container-lowest border-white shadow-xs'
                                 : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant border-outline-variant/50'
                             }`}
-                            title="تحديد أو إلغاء كل الفئات الفرعية في هذا التصنيف"
                           >
                             {allSelectedInGroup ? 'محدد' : 'تحديد'}
                           </button>
@@ -607,7 +1118,6 @@ export const WaitingRoomScreen: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Sub-categories Grid */}
                     {isExpanded && (
                       <div className="p-2.5 pt-1 border-t border-outline-variant/20 bg-surface-container-lowest/30">
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
@@ -654,7 +1164,6 @@ export const WaitingRoomScreen: React.FC = () => {
                 );
               })
             ) : (
-              /* Fallback if categoryGroups is still loading or flat */
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {topics.map((t) => {
                   const isChecked = allowedTopicIds.has(t.id);
@@ -696,9 +1205,9 @@ export const WaitingRoomScreen: React.FC = () => {
 
       {/* Sticky Bottom Action Bar */}
       <footer className="fixed bottom-0 inset-x-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-outline-variant/30 py-3 px-4">
-        <div className="max-w-xl mx-auto flex items-center justify-between gap-3">
+        <div className="max-w-2xl mx-auto flex items-center justify-between gap-3">
           <div className="text-xs text-on-surface-variant font-medium hidden sm:block">
-            {players.length} لاعبين · {totalRounds} جولات
+            {players.length} لاعبين · {gameMode === 'teams' ? `${teamCount} فرق · ` : ''}{totalRounds} جولات
           </div>
 
           {isHost ? (
@@ -725,6 +1234,158 @@ export const WaitingRoomScreen: React.FC = () => {
           )}
         </div>
       </footer>
+
+      {/* Cross-Platform Share Modal */}
+      {isShareModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div
+            className="absolute inset-0 bg-black/75 backdrop-blur-sm"
+            onClick={() => setIsShareModalOpen(false)}
+          />
+          <div className="relative w-full max-w-md z-20 bg-surface-container-low rounded-xl p-5 border border-outline-variant/50 text-right animate-fadeIn shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-2.5 border-b border-outline-variant/30">
+              <div>
+                <h3 className="text-sm sm:text-base font-extrabold text-white flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[18px]">share</span>
+                  <span>مشاركة الغرفة عبر المنصات</span>
+                </h3>
+                <p className="text-[11px] text-on-surface-variant mt-0.5">
+                  شارك الرابط أو الرمز مع أصدقائك على أي هاتف أو متصفح
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsShareModalOpen(false)}
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-lg">close</span>
+              </button>
+            </div>
+
+            {/* Room Code & Direct Link Copy Box */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between bg-surface-container p-2.5 rounded-lg border border-outline-variant/40">
+                <div>
+                  <span className="text-[10px] text-on-surface-variant block">رمز الغرفة السريع</span>
+                  <span className="text-lg font-mono font-black text-white tracking-widest">{roomCode}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleCopyCode}
+                  className="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-white text-xs font-bold border border-outline-variant/50 flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[15px]">
+                    {copiedCode ? 'check' : 'content_copy'}
+                  </span>
+                  <span>{copiedCode ? 'تم نسخ الرمز ✓' : 'نسخ الرمز'}</span>
+                </button>
+              </div>
+
+              <div className="bg-surface-container p-2.5 rounded-lg border border-outline-variant/40 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-on-surface-variant font-semibold">
+                    رابط الدخول المباشر (يعمل على الجوال والكمبيوتر):
+                  </span>
+                  {availableIps.length > 1 && (
+                    <select
+                      value={lanIp || ''}
+                      onChange={(e) => setLanIp(e.target.value)}
+                      className="bg-surface-container-low text-white text-[10px] rounded px-1.5 py-0.5 border border-outline-variant/40 font-mono"
+                      title="تغيير عنوان الشبكة"
+                    >
+                      {availableIps.map((ip) => (
+                        <option key={ip} value={ip}>
+                          {ip}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <input
+                    type="text"
+                    readOnly
+                    dir="ltr"
+                    value={joinUrl}
+                    onClick={(e) => (e.target as HTMLInputElement).select()}
+                    className="flex-1 bg-surface-container-lowest border border-outline-variant/40 rounded-md px-2.5 py-1.5 text-xs font-mono text-white focus:outline-none select-all"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleCopyLink}
+                    className="px-3 py-1.5 rounded-md bg-white hover:bg-neutral-200 text-surface-container-lowest text-xs font-bold shrink-0 flex items-center gap-1 active:scale-95 transition-all cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[15px]">
+                      {copiedLink ? 'check' : 'link'}
+                    </span>
+                    <span>{copiedLink ? 'تم النسخ ✓' : 'نسخ الرابط'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Cross-Platform Social & Native Share Grid */}
+            <div className="grid grid-cols-2 gap-2">
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(shareMessageText)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => audio.playClick()}
+                className="py-2.5 px-3 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-95"
+              >
+                <span className="material-symbols-outlined text-[17px]">chat</span>
+                <span>مشاركة عبر واتساب</span>
+              </a>
+
+              <a
+                href={`https://t.me/share/url?url=${encodeURIComponent(joinUrl)}&text=${encodeURIComponent(
+                  `انضموا إليّ في لعبة ESC! رمز الغرفة: ${roomCode}`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => audio.playClick()}
+                className="py-2.5 px-3 rounded-lg bg-sky-600/20 hover:bg-sky-600/30 border border-sky-500/40 text-sky-300 text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-95"
+              >
+                <span className="material-symbols-outlined text-[17px]">send</span>
+                <span>مشاركة عبر تيليجرام</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={handleCopyInviteMessage}
+                className="py-2.5 px-3 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[17px]">
+                  {copiedInvite ? 'check' : 'assignment'}
+                </span>
+                <span>{copiedInvite ? 'تم نسخ الدعوة ✓' : 'نسخ رسالة الدعوة'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleNativeShare}
+                className="py-2.5 px-3 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[17px]">ios_share</span>
+                <span>تطبيقات الجهاز...</span>
+              </button>
+            </div>
+
+            {/* Inline QR Code inside Share Modal */}
+            <div className="pt-2 border-t border-outline-variant/30 flex items-center justify-between gap-3">
+              <div className="text-right">
+                <span className="text-xs font-bold text-white block">أو امسح رمز QR بالكاميرا</span>
+                <span className="text-[11px] text-on-surface-variant">
+                  افتح كاميرا الهاتف ووجهها نحو الرمز للدخول مباشرة
+                </span>
+              </div>
+              <div className="bg-white p-2 rounded-lg shrink-0">
+                <QRCodeView value={joinUrl} size={96} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* QR Code Modal */}
       {isQRModalOpen && (

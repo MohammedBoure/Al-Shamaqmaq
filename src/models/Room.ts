@@ -11,8 +11,12 @@ import {
   LeaderboardEntry,
   TeamScoreEntry,
   GameMode,
+  TeamConfig,
+  DEFAULT_TEAMS,
+  TeamRoundState,
+  CheatType,
 } from '../types/game';
-import { Puzzle, TopicSummary } from '../types/topics';
+import { Puzzle } from '../types/topics';
 import { ServerMessage } from '../types/messages';
 import { topicService } from '../services/topicService';
 import { checkAnswerMatch, areAnswersDuplicate, getDisplayCorrectAnswer } from '../utils/textNormalizer';
@@ -35,6 +39,8 @@ export class Room {
   public usedPuzzleIds: Set<string> = new Set();
 
   public roundOptions: InternalVotingOption[] = [];
+  public teamRoundStates: Map<string, TeamRoundState> = new Map();
+  public isTeamVotingSubPhase: boolean = false;
   public lastRoundResult: RoundResult | null = null;
 
   public timeRemaining: number = 0;
@@ -64,7 +70,17 @@ export class Room {
       revealDuration: config.DEFAULT_REVEAL_TIME_SECONDS,
       maxPlayers: config.MAX_PLAYERS_PER_ROOM,
       gameMode: 'individual',
+      teamCount: 2,
+      teams: DEFAULT_TEAMS.map((t) => ({ ...t })),
     };
+  }
+
+  /**
+   * جلب الفرق النشطة حالياً بحسب عدد الفرق المحدد (٢ إلى ٨ فرق)
+   */
+  public getActiveTeams(): TeamConfig[] {
+    const count = Math.min(Math.max(2, this.settings.teamCount || 2), 8);
+    return this.settings.teams.slice(0, count);
   }
 
   /**
@@ -78,14 +94,90 @@ export class Room {
       };
     }
 
+    this.players.set(player.id, player);
+
     if (this.settings.gameMode === 'teams' && !player.teamId) {
-      const redCount = this.getPlayerList().filter((p) => p.teamId === 'red').length;
-      const blueCount = this.getPlayerList().filter((p) => p.teamId === 'blue').length;
-      player.teamId = redCount <= blueCount ? 'red' : 'blue';
+      this.balanceTeams();
     }
 
-    this.players.set(player.id, player);
     this.lastActiveAt = Date.now();
+    return { success: true };
+  }
+
+  /**
+   * إضافة لاعب تجريبي (روبوت) لمساعدة المستخدم في تجربة اللعبة بمفرده
+   */
+  public addBot(): { success: boolean; error?: string; bot?: Player } {
+    if (this.phase !== 'LOBBY') {
+      return { success: false, error: 'يمكن إضافة الروبوت في غرفة الانتظار فقط' };
+    }
+    if (this.players.size >= this.settings.maxPlayers) {
+      return { success: false, error: 'الغرفة ممتلئة بالكامل' };
+    }
+
+    const botCount = Array.from(this.players.values()).filter((p) => p.isBot).length;
+    const botNicknames = ['روبوت ذكي 🤖', 'عبقري الألغاز 🤖', 'ماكر الآركيد 🤖', 'مخادع سري 🤖'];
+    const botName = botNicknames[botCount % botNicknames.length] || `روبوت ${botCount + 1} 🤖`;
+    const botId = `bot-${generateId().slice(0, 8)}`;
+
+    const botPlayer = new Player({
+      id: botId,
+      nickname: botName,
+      avatar: '🤖',
+      sessionToken: `token-${botId}`,
+      isHost: false,
+      isBot: true,
+    });
+
+    const addRes = this.addPlayer(botPlayer);
+    if (!addRes.success) {
+      return addRes;
+    }
+
+    this.broadcast({
+      type: 'PLAYER_JOINED',
+      payload: { player: botPlayer.toProfile() },
+    });
+
+    this.broadcast({
+      type: 'ROOM_UPDATED',
+      payload: { room: this.getPublicState() },
+    });
+
+    return { success: true, bot: botPlayer };
+  }
+
+  /**
+   * إزالة لاعب روبوت من الغرفة
+   */
+  public removeBot(botId?: string): { success: boolean; error?: string } {
+    if (this.phase !== 'LOBBY') {
+      return { success: false, error: 'يمكن إزالة الروبوت في غرفة الانتظار فقط' };
+    }
+
+    let targetBot: Player | undefined;
+    if (botId) {
+      targetBot = this.players.get(botId);
+    } else {
+      targetBot = Array.from(this.players.values()).find((p) => p.isBot);
+    }
+
+    if (!targetBot || !targetBot.isBot) {
+      return { success: false, error: 'لم يتم العثور على روبوت لإزالته' };
+    }
+
+    this.removePlayer(targetBot.id, true);
+
+    this.broadcast({
+      type: 'PLAYER_LEFT',
+      payload: { playerId: targetBot.id },
+    });
+
+    this.broadcast({
+      type: 'ROOM_UPDATED',
+      payload: { room: this.getPublicState() },
+    });
+
     return { success: true };
   }
 
@@ -201,9 +293,14 @@ export class Room {
     this.currentTopicTitle = null;
     this.currentPuzzle = null;
     this.roundOptions = [];
+    this.teamRoundStates.clear();
+    this.isTeamVotingSubPhase = false;
     this.usedPuzzleIds.clear();
 
     for (const player of this.players.values()) {
+      player.cheatCount = 0;
+      player.lastCheatType = null;
+      player.lastCheatAt = 0;
       player.resetRoundState();
     }
 
@@ -235,11 +332,16 @@ export class Room {
     this.currentTopicTitle = null;
     this.currentPuzzle = null;
     this.roundOptions = [];
+    this.teamRoundStates.clear();
+    this.isTeamVotingSubPhase = false;
     this.usedPuzzleIds.clear();
 
     // تصفير النقاط وحالات الجولة لجميع اللاعبين لبدء مباراة نظيفة
     for (const player of this.players.values()) {
       player.score = 0;
+      player.cheatCount = 0;
+      player.lastCheatType = null;
+      player.lastCheatAt = 0;
       player.resetRoundState();
     }
 
@@ -280,7 +382,11 @@ export class Room {
   /**
    * تحديث إعدادات الغرفة (من قبل المضيف فقط أثناء مرحلة الانتظار)
    */
-  public updateSettings(newSettings: Partial<RoomSettings>): boolean {
+  public updateSettings(
+    newSettings: Partial<RoomSettings> & {
+      teamIdToUpdate?: { id: string; name?: string; maxPlayers?: number };
+    }
+  ): boolean {
     if (this.phase !== 'LOBBY') return false;
 
     if (newSettings.allowedTopicIds !== undefined) {
@@ -294,14 +400,44 @@ export class Room {
       this.settings.totalRounds = Math.min(Math.max(1, newSettings.totalRounds), 20);
     }
     if (newSettings.maxPlayers && newSettings.maxPlayers >= 2) {
-      this.settings.maxPlayers = Math.min(Math.max(2, newSettings.maxPlayers), 30);
+      this.settings.maxPlayers = Math.min(Math.max(2, newSettings.maxPlayers), 40);
+    }
+    if (newSettings.teamCount && newSettings.teamCount >= 2) {
+      this.settings.teamCount = Math.min(Math.max(2, Math.floor(newSettings.teamCount)), 8);
+    }
+    if (Array.isArray(newSettings.teams) && newSettings.teams.length > 0) {
+      for (const incoming of newSettings.teams) {
+        const target = this.settings.teams.find((t) => t.id === incoming.id);
+        if (target) {
+          if (incoming.name && incoming.name.trim()) {
+            target.name = incoming.name.trim().slice(0, 30);
+          }
+          if (typeof incoming.maxPlayers === 'number' && incoming.maxPlayers >= 1) {
+            target.maxPlayers = Math.min(Math.max(1, Math.floor(incoming.maxPlayers)), 40);
+          }
+        }
+      }
+    }
+    if (newSettings.teamIdToUpdate) {
+      const { id, name, maxPlayers } = newSettings.teamIdToUpdate;
+      const target = this.settings.teams.find((t) => t.id === id);
+      if (target) {
+        if (name !== undefined && name.trim()) {
+          target.name = name.trim().slice(0, 30);
+        }
+        if (typeof maxPlayers === 'number' && maxPlayers >= 1) {
+          target.maxPlayers = Math.min(Math.max(1, Math.floor(maxPlayers)), 40);
+        }
+      }
     }
     if (newSettings.gameMode && (newSettings.gameMode === 'individual' || newSettings.gameMode === 'teams')) {
       this.settings.gameMode = newSettings.gameMode;
-      if (this.settings.gameMode === 'teams') {
-        this.balanceTeams();
-      }
     }
+
+    if (this.settings.gameMode === 'teams') {
+      this.balanceTeams();
+    }
+
     if (newSettings.topicPickDuration && newSettings.topicPickDuration >= 5) {
       this.settings.topicPickDuration = newSettings.topicPickDuration;
     }
@@ -323,27 +459,90 @@ export class Room {
   }
 
   /**
-   * موازنة الفرق تلقائياً في وضع الفرق
+   * موازنة الفرق تلقائياً في وضع الفرق مع مراعاة العدد الأقصى المخصص لكل فريق
    */
   public balanceTeams(): void {
+    const activeTeams = this.getActiveTeams();
+    if (activeTeams.length === 0) return;
+
+    const activeIds = new Set(activeTeams.map((t) => t.id));
     const list = this.getPlayerList();
-    let redCount = 0;
-    let blueCount = 0;
+
+    // إعادة تعيين أي لاعب كان في فريق لم يعد ضمن الفرق النشطة
     for (const p of list) {
-      if (p.teamId === 'red') redCount++;
-      else if (p.teamId === 'blue') blueCount++;
-    }
-    for (const p of list) {
-      if (!p.teamId) {
-        if (redCount <= blueCount) {
-          p.teamId = 'red';
-          redCount++;
-        } else {
-          p.teamId = 'blue';
-          blueCount++;
-        }
+      if (p.teamId && !activeIds.has(p.teamId)) {
+        p.teamId = null;
       }
     }
+
+    // حساب عدد اللاعبين الحالي في كل فريق نشط
+    const counts = new Map<string, number>();
+    for (const t of activeTeams) {
+      counts.set(t.id, 0);
+    }
+    for (const p of list) {
+      if (p.teamId && counts.has(p.teamId)) {
+        counts.set(p.teamId, (counts.get(p.teamId) || 0) + 1);
+      }
+    }
+
+    // توزيع اللاعبين غير المنضمين لأي فريق على الفريق الأقل عدداً والذي لم يتجاوز سعته المخصصة
+    for (const p of list) {
+      if (!p.teamId) {
+        // الفرق التي لم تصل إلى الحد الأقصى المخصص لها
+        const availableTeams = activeTeams.filter(
+          (t) => (counts.get(t.id) || 0) < t.maxPlayers
+        );
+        const pool = availableTeams.length > 0 ? availableTeams : activeTeams;
+
+        let bestTeam = pool[0];
+        let minCount = counts.get(bestTeam.id) || 0;
+        for (const candidate of pool) {
+          const c = counts.get(candidate.id) || 0;
+          if (c < minCount) {
+            minCount = c;
+            bestTeam = candidate;
+          }
+        }
+
+        p.teamId = bestTeam.id;
+        counts.set(bestTeam.id, (counts.get(bestTeam.id) || 0) + 1);
+      }
+    }
+  }
+
+  /**
+   * انضمام اللاعب أو انتقاله إلى فريق محدد مع التحقق من سعة الفريق المخصصة
+   */
+  public joinTeam(playerId: string, teamId: string): { success: boolean; player?: Player; error?: string } {
+    const player = this.players.get(playerId);
+    if (!player) {
+      return { success: false, error: 'اللاعب غير موجود في الغرفة' };
+    }
+
+    const activeTeams = this.getActiveTeams();
+    const targetTeam = activeTeams.find((t) => t.id === teamId);
+    if (!targetTeam) {
+      return { success: false, error: 'الفريق المختار غير متاح حالياً' };
+    }
+
+    if (player.teamId === teamId) {
+      return { success: true, player };
+    }
+
+    const currentMembers = this.getPlayerList().filter(
+      (p) => p.teamId === teamId && p.id !== playerId
+    );
+    if (currentMembers.length >= targetTeam.maxPlayers) {
+      return {
+        success: false,
+        error: `${targetTeam.name} ممتلئ (${targetTeam.maxPlayers} لاعبين كحد أقصى)`,
+      };
+    }
+
+    player.teamId = teamId;
+    this.lastActiveAt = Date.now();
+    return { success: true, player };
   }
 
   /**
@@ -365,7 +564,23 @@ export class Room {
       player.avatar = avatar.trim();
     }
     if (teamId !== undefined) {
-      player.teamId = teamId || null;
+      if (teamId === null || teamId === '') {
+        player.teamId = null;
+      } else {
+        const activeTeams = this.getActiveTeams();
+        const targetTeam = activeTeams.find((t) => t.id === teamId);
+        if (targetTeam) {
+          const currentMembers = this.getPlayerList().filter(
+            (p) => p.teamId === teamId && p.id !== playerId
+          );
+          if (currentMembers.length < targetTeam.maxPlayers) {
+            player.teamId = teamId;
+          }
+        } else {
+          // السماح بتعيين المعرف إذا كان ضمن قائمة الفرق الكاملة
+          player.teamId = teamId;
+        }
+      }
     }
 
     this.lastActiveAt = Date.now();
@@ -378,6 +593,17 @@ export class Room {
   public broadcast(message: ServerMessage): void {
     for (const player of this.players.values()) {
       player.send(message);
+    }
+  }
+
+  /**
+   * إرسال رسالة لجميع أعضاء فريق معين
+   */
+  public broadcastToTeam(teamId: string, message: ServerMessage): void {
+    for (const player of this.players.values()) {
+      if (player.teamId === teamId) {
+        player.send(message);
+      }
     }
   }
 
@@ -418,6 +644,9 @@ export class Room {
 
     for (const player of this.players.values()) {
       player.score = 0;
+      player.cheatCount = 0;
+      player.lastCheatType = null;
+      player.lastCheatAt = 0;
       player.resetRoundState();
     }
 
@@ -447,13 +676,16 @@ export class Room {
     this.currentTopicTitle = null;
     this.currentPuzzle = null;
     this.roundOptions = [];
+    this.teamRoundStates.clear();
 
     const filteredTopics = topicService
       .getTopicSummaries()
       .filter((t) => this.settings.allowedTopicIds.includes(t.id));
 
+    const finalTopics = filteredTopics.length > 0 ? filteredTopics : topicService.getTopicSummaries();
+
     // اختيار ٦ مواضيع عشوائية كحد أقصى من بين المواضيع المحددة
-    const shuffled = [...filteredTopics].sort(() => 0.5 - Math.random());
+    const shuffled = [...finalTopics].sort(() => 0.5 - Math.random());
     const allowedTopics = shuffled.slice(0, Math.min(6, shuffled.length));
 
     this.broadcast({
@@ -464,8 +696,21 @@ export class Room {
         allowedTopics,
         timeRemaining: this.settings.topicPickDuration,
         players: this.getPlayerList().map((p) => p.toProfile()),
+        teamScores: this.settings.gameMode === 'teams' ? this.getTeamLeaderboard() : undefined,
       },
     });
+
+    // إذا كان المختار روبوتاً، يقوم باختيار موضوع عشوائي تلقائياً بعد ثانية ونصف
+    if (currentPicker && currentPicker.isBot) {
+      setTimeout(() => {
+        if (this.phase === 'TOPIC_SELECTION' && this.currentPickerId === currentPicker.id) {
+          const randomTopic = allowedTopics[Math.floor(Math.random() * allowedTopics.length)];
+          if (randomTopic) {
+            this.selectTopic(randomTopic.id);
+          }
+        }
+      }, 1500);
+    }
 
     this.startTimer(this.settings.topicPickDuration, () => {
       // إذا انتهى الوقت دون اختيار موضوع، يختار السيرفر موضوعاً عشوائياً
@@ -512,6 +757,90 @@ export class Room {
   }
 
   /**
+   * تهيئة حالة الإجابات الخاصة بكل فريق في بداية الجولة
+   */
+  private initTeamRoundStates(): void {
+    this.teamRoundStates.clear();
+    this.isTeamVotingSubPhase = false;
+    if (this.settings.gameMode !== 'teams') return;
+
+    for (const team of this.getActiveTeams()) {
+      this.teamRoundStates.set(team.id, {
+        teamId: team.id,
+        teamName: team.name,
+        teamColor: team.color,
+        hasCorrectAnswer: false,
+        correctAnswerText: null,
+        correctFinderId: null,
+        correctFinderNickname: null,
+        candidates: [],
+        selectedCandidateId: null,
+        submittedPlayerIds: [],
+        isTeamVotingPhase: false,
+      });
+    }
+  }
+
+  /**
+   * إضافة أو تحديث خيار إجابة داخل الفريق وإعادة حساب الخيار المتصدر لتصويت الفريق
+   */
+  private addOrUpdateTeamCandidate(teamId: string, player: Player, text: string): void {
+    const teamState = this.teamRoundStates.get(teamId);
+    if (!teamState) return;
+
+    const clean = text.trim();
+    if (!clean) return;
+
+    const existing = teamState.candidates.find((c) => areAnswersDuplicate(c.text, clean));
+    if (existing) {
+      if (!existing.voterIds.includes(player.id)) {
+        // إزالة صوت اللاعب من أي مرشح آخر أولاً
+        for (const c of teamState.candidates) {
+          c.voterIds = c.voterIds.filter((id) => id !== player.id);
+        }
+        existing.voterIds.push(player.id);
+      }
+    } else {
+      // إزالة صوت اللاعب الافتراضي من أي مرشح سابق ووضعه على إجابته الجديدة
+      for (const c of teamState.candidates) {
+        c.voterIds = c.voterIds.filter((id) => id !== player.id);
+      }
+      const newCandidate = {
+        id: generateId(),
+        text: clean,
+        authorId: player.id,
+        authorNickname: player.nickname,
+        authorAvatar: player.avatar,
+        voterIds: [player.id],
+      };
+      teamState.candidates.push(newCandidate);
+    }
+
+    this.recomputeTeamSelectedCandidate(teamState);
+    this.broadcastToTeam(teamId, {
+      type: 'TEAM_ROUND_STATE_UPDATED',
+      payload: { teamState },
+    });
+  }
+
+  /**
+   * حساب الإجابة المختارة لتمثيل الفريق بناءً على أصوات أعضاء الفريق
+   */
+  private recomputeTeamSelectedCandidate(teamState: TeamRoundState): void {
+    if (teamState.candidates.length === 0) {
+      teamState.selectedCandidateId = null;
+      return;
+    }
+    let best = teamState.candidates[0];
+    for (const c of teamState.candidates) {
+      if (c.voterIds.length > best.voterIds.length) {
+        best = c;
+      }
+    }
+    teamState.selectedCandidateId = best.id;
+  }
+
+  /**
    * مرحلة 2: طرح اللغز واستقبال الإجابات (Answering Phase)
    */
   private startAnsweringPhase(): void {
@@ -519,6 +848,8 @@ export class Room {
     this.lastActiveAt = Date.now();
 
     if (!this.currentPuzzle || !this.currentTopicId) return;
+
+    this.initTeamRoundStates();
 
     this.broadcast({
       type: 'ROUND_STARTED',
@@ -536,6 +867,30 @@ export class Room {
         timeRemaining: this.settings.answerDuration,
       },
     });
+
+    if (this.settings.gameMode === 'teams') {
+      for (const [teamId, teamState] of this.teamRoundStates.entries()) {
+        this.broadcastToTeam(teamId, {
+          type: 'TEAM_ROUND_STATE_UPDATED',
+          payload: { teamState },
+        });
+      }
+    }
+
+    // إرسال الإجابة تلقائياً لأي روبوت في الغرفة بعد مهلة واقعية
+    const botPlayers = Array.from(this.players.values()).filter((p) => p.isBot);
+    for (const bot of botPlayers) {
+      setTimeout(() => {
+        if (this.phase === 'ANSWERING' && this.currentPuzzle && !bot.answerState.hasSubmittedInitial) {
+          const wrongAnswers = this.currentPuzzle.wrong_answers || [];
+          const pick =
+            wrongAnswers.length > 0
+              ? wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)]
+              : 'تخمين بديل';
+          this.submitInitialAnswer(bot.id, pick);
+        }
+      }, 1500 + Math.random() * 1500);
+    }
 
     this.startTimer(this.settings.answerDuration, () => {
       this.handleAnsweringTimeout();
@@ -578,17 +933,37 @@ export class Room {
     );
 
     if (isMatch) {
-      // إجابة صحيحة! نبلغه سراً ونطلب منه صياغة إجابة مزيفة مقنعة
+      // إجابة صحيحة! نبلغه سراً (ونبلغ فريقه في وضع الفرق) ونطلب صياغة إجابة مزيفة مقنعة
       player.answerState.initialAnswer = cleanAnswer;
       player.answerState.isCorrect = true;
       player.answerState.hasSubmittedInitial = true;
       player.answerState.submittedAt = Date.now();
 
+      if (this.settings.gameMode === 'teams' && player.teamId) {
+        const teamState = this.teamRoundStates.get(player.teamId);
+        if (teamState) {
+          teamState.hasCorrectAnswer = true;
+          teamState.correctAnswerText = getDisplayCorrectAnswer(this.currentPuzzle.correct_answers);
+          teamState.correctFinderId = player.id;
+          teamState.correctFinderNickname = player.nickname;
+          if (!teamState.submittedPlayerIds.includes(player.id)) {
+            teamState.submittedPlayerIds.push(player.id);
+          }
+          this.broadcastToTeam(player.teamId, {
+            type: 'TEAM_ROUND_STATE_UPDATED',
+            payload: { teamState },
+          });
+        }
+      }
+
       player.send({
         type: 'ANSWER_FEEDBACK',
         payload: {
           isCorrect: true,
-          message: 'أحسنت! إجابتك صحيحة 🎯. الآن اكتب إجابة مزيفة مقنعة لتضليل وخداع باقي اللاعبين!',
+          message:
+            this.settings.gameMode === 'teams'
+              ? 'أحسنت! إجابتك صحيحة 🎯 وتم كشفها لأعضاء فريقك! الآن اكتب خدعة لتضليل الفرق الأخرى.'
+              : 'أحسنت! إجابتك صحيحة 🎯. الآن اكتب إجابة مزيفة مقنعة لتضليل وخداع باقي اللاعبين!',
           requiresBluff: true,
         },
       });
@@ -598,14 +973,14 @@ export class Room {
         payload: {
           prompt: this.currentPuzzle.prompt,
           timeRemaining: this.timeRemaining,
-          instruction: 'اكتب إجابة مزيفة تبدو حقيقية ليصوت عليها زملاؤك',
+          instruction: 'اكتب إجابة مزيفة تبدو حقيقية ليصوت عليها المنافسون',
         },
       });
 
       this.checkAndBroadcastAnswerProgress();
       return { success: true, isCorrect: true, requiresBluff: true };
     } else {
-      // إجابة خاطئة: تُعتمد تلقائياً كإجابته المزيفة المضللة في الجولة (يمكن لأكثر من لاعب كتابة نفس الإجابة الخاطئة)
+      // إجابة خاطئة: تُعتمد كإجابة مضللة مرشحة
       player.answerState.initialAnswer = cleanAnswer;
       player.answerState.bluffAnswer = cleanAnswer;
       player.answerState.isCorrect = false;
@@ -613,11 +988,22 @@ export class Room {
       player.answerState.hasSubmittedBluff = true;
       player.answerState.submittedAt = Date.now();
 
+      if (this.settings.gameMode === 'teams' && player.teamId) {
+        const teamState = this.teamRoundStates.get(player.teamId);
+        if (teamState && !teamState.submittedPlayerIds.includes(player.id)) {
+          teamState.submittedPlayerIds.push(player.id);
+        }
+        this.addOrUpdateTeamCandidate(player.teamId, player, cleanAnswer);
+      }
+
       player.send({
         type: 'ANSWER_FEEDBACK',
         payload: {
           isCorrect: false,
-          message: 'تم تسجيل إجابتك بنجاح! سيتم استخدامها كإجابة مضللة لتشتيت باقي اللاعبين 🎭',
+          message:
+            this.settings.gameMode === 'teams'
+              ? 'تم تسجيل إجابتك في قائمة فريقك! يمكنك الآن التصويت على أفضل إجابة لتمثيل فريقكم 🎭'
+              : 'تم تسجيل إجابتك بنجاح! سيتم استخدامها كإجابة مضللة لتشتيت باقي اللاعبين 🎭',
           requiresBluff: false,
         },
       });
@@ -672,9 +1058,12 @@ export class Room {
       };
     }
 
-    // يُسمح بتشابه أو تطابق الإجابات المزيفة بين اللاعبين وتُدمج في خيار واحد بالتصويت
     player.answerState.bluffAnswer = cleanBluff;
     player.answerState.hasSubmittedBluff = true;
+
+    if (this.settings.gameMode === 'teams' && player.teamId) {
+      this.addOrUpdateTeamCandidate(player.teamId, player, cleanBluff);
+    }
 
     player.send({
       type: 'ANSWER_FEEDBACK',
@@ -691,6 +1080,47 @@ export class Room {
     return { success: true };
   }
 
+  /**
+   * تصويت أعضاء الفريق الواحد على الإجابة التي ستُعرض للفرق الأخرى (في حال لم يكتب أحد الإجابة الصحيحة أو لتحديد خدعة الفريق)
+   */
+  public submitTeamVote(playerId: string, candidateId: string): { success: boolean; error?: string } {
+    if (this.phase !== 'ANSWERING') {
+      return { success: false, error: 'ليست مرحلة اختيار إجابة الفريق حالياً' };
+    }
+
+    if (this.settings.gameMode !== 'teams') {
+      return { success: false, error: 'تصويت الفريق متاح فقط في طور الفرق' };
+    }
+
+    const player = this.players.get(playerId);
+    if (!player || !player.teamId) {
+      return { success: false, error: 'اللاعب غير منضم لفريق' };
+    }
+
+    const teamState = this.teamRoundStates.get(player.teamId);
+    if (!teamState) {
+      return { success: false, error: 'حالة الفريق غير موجودة' };
+    }
+
+    const targetCandidate = teamState.candidates.find((c) => c.id === candidateId);
+    if (!targetCandidate) {
+      return { success: false, error: 'الإجابة المرشحة غير موجودة ضمن إجابات الفريق' };
+    }
+
+    for (const c of teamState.candidates) {
+      c.voterIds = c.voterIds.filter((id) => id !== playerId);
+    }
+    targetCandidate.voterIds.push(playerId);
+
+    this.recomputeTeamSelectedCandidate(teamState);
+
+    this.broadcastToTeam(player.teamId, {
+      type: 'TEAM_ROUND_STATE_UPDATED',
+      payload: { teamState },
+    });
+
+    return { success: true };
+  }
 
   /**
    * بث تقدم استقبال الإجابات للاعبين
@@ -726,7 +1156,11 @@ export class Room {
 
     if (allFinished) {
       this.clearTimer();
-      this.startVotingPhase();
+      if (this.settings.gameMode === 'teams' && !this.isTeamVotingSubPhase) {
+        this.startTeamVotingSubPhase();
+      } else {
+        this.startVotingPhase();
+      }
     }
   }
 
@@ -734,68 +1168,231 @@ export class Room {
    * معالجة انتهاء وقت الإجابة
    */
   private handleAnsweringTimeout(): void {
-    // لكل لاعب أجاب صحيحاً ولم يقدم خدعة، أو لاعب لم يجب نهائياً
     for (const player of this.getConnectedPlayers()) {
       if (!player.answerState.hasSubmittedInitial) {
-        // لم يجب نهائياً: نضع له علامة تخطي
         player.answerState.bluffAnswer = null;
         player.answerState.hasSubmittedInitial = true;
         player.answerState.hasSubmittedBluff = true;
       } else if (player.answerState.isCorrect && !player.answerState.hasSubmittedBluff) {
-        // أجاب صح ولم يكتب خدعة بالوقت المحدد
         player.answerState.bluffAnswer = null;
         player.answerState.hasSubmittedBluff = true;
       }
     }
 
-    this.startVotingPhase();
+    if (this.settings.gameMode === 'teams' && !this.isTeamVotingSubPhase) {
+      this.startTeamVotingSubPhase();
+    } else {
+      this.startVotingPhase();
+    }
+  }
+
+  /**
+   * مرحلة فرعية لطور الفرق (15 ثانية): بعد أن يكتب جميع اللاعبين إجاباتهم،
+   * يصوّت كل فريق لاختيار الإجابة التي ستمثله قبل الانتقال للتصويت العام
+   */
+  public startTeamVotingSubPhase(): void {
+    this.clearTimer();
+    this.isTeamVotingSubPhase = true;
+    this.lastActiveAt = Date.now();
+    const teamVoteSeconds = 15;
+    this.timeRemaining = teamVoteSeconds;
+
+    for (const [teamId, teamState] of this.teamRoundStates.entries()) {
+      teamState.isTeamVotingPhase = true;
+      this.recomputeTeamSelectedCandidate(teamState);
+      this.broadcastToTeam(teamId, {
+        type: 'TEAM_ROUND_STATE_UPDATED',
+        payload: { teamState },
+      });
+    }
+
+    this.broadcast({
+      type: 'TIMER_TICK',
+      payload: {
+        phase: this.phase,
+        timeRemaining: teamVoteSeconds,
+      },
+    });
+
+    this.startTimer(teamVoteSeconds, () => {
+      this.startVotingPhase();
+    });
   }
 
   /**
    * مرحلة 3: عرض الخيارات والتصويت (Voting Phase)
    */
-  private startVotingPhase(): void {
+  public startVotingPhase(): void {
+    this.clearTimer();
+    this.isTeamVotingSubPhase = false;
     this.phase = 'VOTING';
     this.lastActiveAt = Date.now();
 
     if (!this.currentPuzzle) return;
 
-    // تجميع الخيارات
     // 1. الإجابة الصحيحة الأصلية (مهيأة للعرض بدون "ال" التعريف)
     const trueAnswerText = getDisplayCorrectAnswer(this.currentPuzzle.correct_answers);
     const options: InternalVotingOption[] = [
       {
         id: generateId(),
         text: trueAnswerText,
-        authorPlayerIds: [], // الإجابة الحقيقية ليس لها مؤلف من اللاعبين
+        authorPlayerIds: [],
         isCorrect: true,
+        teamId: null,
+        teamName: null,
+        teamColor: null,
       },
     ];
 
-    // 2. الإجابات المزيفة للاعبين
-    for (const player of this.players.values()) {
-      const bluff = player.answerState.bluffAnswer;
-      if (bluff && bluff.trim()) {
-        // فحص إذا كان هناك خيار مطابق تقريباً موجود مسبقاً (دمج الإجابات المكررة إذا وجدت)
-        const existingOption = options.find((opt) => !opt.isCorrect && areAnswersDuplicate(opt.text, bluff));
-        if (existingOption) {
-          if (!existingOption.authorPlayerIds.includes(player.id)) {
-            existingOption.authorPlayerIds.push(player.id);
-          }
+    if (this.settings.gameMode === 'teams') {
+      // في طور الفرق: نعرض إجابة واحدة فقط لكل فريق (وليس ٤٠ إجابة منفصلة!)
+      // بناءً على تصويت أعضاء الفريق أو الخدعة المختارة للفريق
+      const activeTeams = this.getActiveTeams();
+      for (const team of activeTeams) {
+        const teamState = this.teamRoundStates.get(team.id);
+        let chosenText: string | null = null;
+        let chosenAuthorId: string | null = null;
+
+        if (teamState && teamState.candidates.length > 0) {
+          this.recomputeTeamSelectedCandidate(teamState);
+          const selected =
+            teamState.candidates.find((c) => c.id === teamState.selectedCandidateId) ||
+            teamState.candidates[0];
+          chosenText = selected.text;
+          chosenAuthorId = selected.authorId;
         } else {
-          options.push({
-            id: generateId(),
-            text: bluff.trim(),
-            authorPlayerIds: [player.id],
-            isCorrect: false,
-          });
+          // احتياط: البحث عن أي إجابة مزيفة من لاعبي هذا الفريق
+          const teamPlayerWithBluff = this.getPlayerList().find(
+            (p) => p.teamId === team.id && p.answerState.bluffAnswer && p.answerState.bluffAnswer.trim()
+          );
+          if (teamPlayerWithBluff && teamPlayerWithBluff.answerState.bluffAnswer) {
+            chosenText = teamPlayerWithBluff.answerState.bluffAnswer.trim();
+            chosenAuthorId = teamPlayerWithBluff.id;
+          }
+        }
+
+        if (chosenText && chosenAuthorId) {
+          const existingOption = options.find(
+            (opt) => !opt.isCorrect && areAnswersDuplicate(opt.text, chosenText!)
+          );
+          if (existingOption) {
+            if (!existingOption.authorPlayerIds.includes(chosenAuthorId)) {
+              existingOption.authorPlayerIds.push(chosenAuthorId);
+            }
+          } else {
+            options.push({
+              id: generateId(),
+              text: chosenText,
+              authorPlayerIds: [chosenAuthorId],
+              isCorrect: false,
+              teamId: team.id,
+              teamName: team.name,
+              teamColor: team.color,
+            });
+          }
         }
       }
+
+      // إضافة خيارات مضللة من بنك الأسئلة بحيث يكون العدد متناسباً مع عدد الفرق النشطة (بحد أقصى 9 خيارات)
+      const teamsWithPlayers = activeTeams.filter((t) =>
+        this.getPlayerList().some((p) => p.teamId === t.id)
+      ).length;
+      const targetTotalOptions = Math.max(3, Math.min(9, teamsWithPlayers + 1));
+      this.fillDecoyOptions(options, targetTotalOptions);
+    } else {
+      // في الطور الفردي: الإجابات المزيفة للاعبين
+      for (const player of this.players.values()) {
+        const bluff = player.answerState.bluffAnswer;
+        if (bluff && bluff.trim()) {
+          const existingOption = options.find((opt) => !opt.isCorrect && areAnswersDuplicate(opt.text, bluff));
+          if (existingOption) {
+            if (!existingOption.authorPlayerIds.includes(player.id)) {
+              existingOption.authorPlayerIds.push(player.id);
+            }
+          } else {
+            options.push({
+              id: generateId(),
+              text: bluff.trim(),
+              authorPlayerIds: [player.id],
+              isCorrect: false,
+            });
+          }
+        }
+      }
+
+      const targetTotalOptions = Math.max(2, Math.min(12, this.players.size + 1));
+      this.fillDecoyOptions(options, targetTotalOptions);
     }
 
-    // 3. إضافة خيارات مضللة من بنك الأسئلة (Decoys) بحيث يكون إجمالي الخيارات = عدد اللاعبين + ١ (إجابة صحيحة واحدة + إجابات خاطئة بعدد اللاعبين)
+    // خلط الخيارات عشوائياً (Fisher-Yates Shuffle)
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+
+    this.roundOptions = options;
+
+    // إرسال الخيارات لكل لاعب بشكل مخصص
+    for (const player of this.players.values()) {
+      const playerTeamState =
+        this.settings.gameMode === 'teams' && player.teamId
+          ? this.teamRoundStates.get(player.teamId)
+          : undefined;
+
+      const publicOptions: PublicVotingOption[] = options.map((opt) => {
+        const isOwnTeamOption =
+          this.settings.gameMode === 'teams' &&
+          Boolean(player.teamId && opt.teamId && player.teamId === opt.teamId);
+
+        return {
+          id: opt.id,
+          text: opt.text,
+          isSelfSubmission: opt.authorPlayerIds.includes(player.id) || isOwnTeamOption,
+          teamId: opt.teamId,
+          isTeamCorrectHint: Boolean(playerTeamState?.hasCorrectAnswer && opt.isCorrect),
+        };
+      });
+
+      player.send({
+        type: 'VOTING_STARTED',
+        payload: {
+          prompt: this.currentPuzzle.prompt,
+          options: publicOptions,
+          timeRemaining: this.settings.voteDuration,
+        },
+      });
+    }
+
+    // تسجيل أصوات الروبوتات تلقائياً
+    const botPlayers = Array.from(this.players.values()).filter((p) => p.isBot);
+    for (const bot of botPlayers) {
+      setTimeout(() => {
+        if (this.phase === 'VOTING' && !bot.currentVote) {
+          const eligibleOptions = this.roundOptions.filter(
+            (opt) =>
+              !opt.authorPlayerIds.includes(bot.id) &&
+              !(this.settings.gameMode === 'teams' && bot.teamId && opt.teamId === bot.teamId)
+          );
+          if (eligibleOptions.length > 0) {
+            const randomPick = eligibleOptions[Math.floor(Math.random() * eligibleOptions.length)];
+            this.submitVote(bot.id, randomPick.id);
+          }
+        }
+      }, 1500 + Math.random() * 1500);
+    }
+
+    this.startTimer(this.settings.voteDuration, () => {
+      this.calculateResultsAndReveal();
+    });
+  }
+
+  /**
+   * إكمال الخيارات بإجابات مضللة من بنك الأسئلة
+   */
+  private fillDecoyOptions(options: InternalVotingOption[], targetTotalOptions: number): void {
+    if (!this.currentPuzzle) return;
+
     if (this.currentPuzzle.wrong_answers && Array.isArray(this.currentPuzzle.wrong_answers)) {
-      const targetTotalOptions = Math.max(2, this.players.size + 1);
       for (const decoy of this.currentPuzzle.wrong_answers) {
         if (options.length >= targetTotalOptions) break;
         if (!decoy || !decoy.trim()) continue;
@@ -816,7 +1413,6 @@ export class Room {
         }
       }
 
-      // إذا لم تكتمل الخيارات المطلوبة، نستعين بإجابات مضللة من ألغاز أخرى لنفس الموضوع
       const topicObj = this.currentTopicId ? topicService.getTopicById(this.currentTopicId) : undefined;
       if (options.length < targetTotalOptions && topicObj?.puzzles) {
         for (const p of topicObj.puzzles) {
@@ -843,40 +1439,10 @@ export class Room {
         }
       }
     }
-
-    // خلط الخيارات عشوائياً (Fisher-Yates Shuffle)
-    for (let i = options.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [options[i], options[j]] = [options[j], options[i]];
-    }
-
-    this.roundOptions = options;
-
-    // إرسال الخيارات لكل لاعب بشكل مخصص (مع وسم إجابته لمنعه من التصويت لها)
-    for (const player of this.players.values()) {
-      const publicOptions: PublicVotingOption[] = options.map((opt) => ({
-        id: opt.id,
-        text: opt.text,
-        isSelfSubmission: opt.authorPlayerIds.includes(player.id),
-      }));
-
-      player.send({
-        type: 'VOTING_STARTED',
-        payload: {
-          prompt: this.currentPuzzle.prompt,
-          options: publicOptions,
-          timeRemaining: this.settings.voteDuration,
-        },
-      });
-    }
-
-    this.startTimer(this.settings.voteDuration, () => {
-      this.calculateResultsAndReveal();
-    });
   }
 
   /**
-   * تسجيل صوت اللاعب
+   * تسجيل صوت اللاعب (وفي وضع الفرق: مشاركة اختيارات أعضاء الفريق لحظياً ليتمكنوا من التوحد حول إجابة واحدة)
    */
   public submitVote(playerId: string, optionId: string): { success: boolean; error?: string } {
     if (this.phase !== 'VOTING') {
@@ -888,7 +1454,7 @@ export class Room {
       return { success: false, error: 'اللاعب غير موجود' };
     }
 
-    if (player.currentVote) {
+    if (player.currentVote && this.settings.gameMode !== 'teams') {
       return { success: false, error: 'لقد قمت بالتصويت بالفعل' };
     }
 
@@ -897,11 +1463,17 @@ export class Room {
       return { success: false, error: 'الخيار المحدد غير موجود' };
     }
 
-    // يُحظر على أي لاعب التصويت للإجابة التي كتبها هو بنفسه!
-    if (targetOption.authorPlayerIds.includes(playerId)) {
+    // يُحظر على أي لاعب التصويت للإجابة التي كتبها هو بنفسه أو إجابة فريقه!
+    const isOwnTeamOption =
+      this.settings.gameMode === 'teams' &&
+      Boolean(player.teamId && targetOption.teamId && player.teamId === targetOption.teamId);
+
+    if (targetOption.authorPlayerIds.includes(playerId) || isOwnTeamOption) {
       return {
         success: false,
-        error: 'لا يمكنك التصويت للإجابة التي كتبتها بنفسك! اختر إجابة أخرى تعتقد أنها الحقيقية',
+        error: isOwnTeamOption
+          ? 'لا يمكنك التصويت لإجابة فريقك! اختر إجابة أخرى تعتقد أنها الحقيقية'
+          : 'لا يمكنك التصويت للإجابة التي كتبتها بنفسك! اختر إجابة أخرى تعتقد أنها الحقيقية',
       };
     }
 
@@ -911,10 +1483,96 @@ export class Room {
       votedAt: Date.now(),
     };
 
+    if (this.settings.gameMode === 'teams' && player.teamId) {
+      this.broadcastTeamVotes(player.teamId);
+    }
+
     this.checkAndBroadcastVoteProgress();
     this.checkIfAllVotesComplete();
 
     return { success: true };
+  }
+
+  /**
+   * إرسال اختيارات أعضاء الفريق لبعضهم البعض أثناء التصويت العام ليرى كل لاعب ماذا اختار فريقه
+   */
+  private broadcastTeamVotes(teamId: string): void {
+    const teamVotes: Record<string, { id: string; nickname: string; avatar: string; teamId?: string | null }[]> = {};
+    for (const p of this.players.values()) {
+      if (p.teamId === teamId && p.currentVote) {
+        const optId = p.currentVote.optionId;
+        if (!teamVotes[optId]) {
+          teamVotes[optId] = [];
+        }
+        teamVotes[optId].push({
+          id: p.id,
+          nickname: p.nickname,
+          avatar: p.avatar,
+          teamId: p.teamId,
+        });
+      }
+    }
+
+    this.broadcastToTeam(teamId, {
+      type: 'TEAM_VOTES_UPDATED',
+      payload: { teamVotes },
+    });
+  }
+
+  /**
+   * تسجيل وتنبيه محاولة غش من أحد اللاعبين (مغادرة المتصفح لسؤال الذكاء الاصطناعي، تصوير الشاشة، أو نسخ السؤال)
+   */
+  public reportCheat(playerId: string, cheatType: CheatType): { success: boolean; cheatCount?: number } {
+    if (this.phase !== 'ANSWERING' && this.phase !== 'VOTING') {
+      return { success: false };
+    }
+
+    const player = this.players.get(playerId);
+    if (!player || player.isBot) {
+      return { success: false };
+    }
+
+    // منع تكرار التنبيهات المتتالية لنفس الحدث خلال ٣ ثوانٍ
+    const now = Date.now();
+    if (now - player.lastCheatAt < 3000) {
+      return { success: false };
+    }
+
+    player.lastCheatAt = now;
+    player.cheatCount += 1;
+    player.lastCheatType = cheatType;
+
+    let reasonText = 'حاول الغش أثناء السؤال';
+    if (cheatType === 'TAB_SWITCH') {
+      reasonText = 'غادر المتصفح أثناء السؤال (ربما يسأل الذكاء الاصطناعي 🤖 أو يبحث عن الإجابة!)';
+    } else if (cheatType === 'WINDOW_BLUR') {
+      reasonText = 'خرج من نافذة اللعبة لفتح تطبيق خارجي أثناء السؤال!';
+    } else if (cheatType === 'SCREENSHOT') {
+      reasonText = 'حاول التلصص وتصوير الشاشة (Screenshot 📸) أثناء السؤال!';
+    } else if (cheatType === 'COPY_PASTE') {
+      reasonText = 'حاول نسخ السؤال أو لصق إجابة جاهزة من الخارج 📋!';
+    }
+
+    const message = `🚨 تنبيه كاشف الغش: ${player.nickname} ${reasonText} (المرة ${player.cheatCount})`;
+
+    this.broadcast({
+      type: 'CHEAT_DETECTED',
+      payload: {
+        playerId: player.id,
+        nickname: player.nickname,
+        avatar: player.avatar,
+        cheatType,
+        cheatCount: player.cheatCount,
+        message,
+      },
+    });
+
+    this.broadcast({
+      type: 'PLAYER_UPDATED',
+      payload: { player: player.toProfile() },
+    });
+
+    return { success: true, cheatCount: player.cheatCount };
   }
 
   /**
@@ -961,17 +1619,34 @@ export class Room {
     const correctOption = this.roundOptions.find((opt) => opt.isCorrect);
     const correctOptionId = correctOption ? correctOption.id : null;
 
+    // في طور الفرق: إذا كان أحد أعضاء الفريق قد توصل للإجابة الصحيحة أثناء مرحلة الكتابة،
+    // وأحد زملائه لم يصوت قبل انتهاء الوقت، نحتسب تصويته للإجابة الصحيحة التي اكتشفها فريقه
+    if (this.settings.gameMode === 'teams' && correctOptionId) {
+      for (const player of this.players.values()) {
+        if (!player.currentVote && player.teamId) {
+          const teamState = this.teamRoundStates.get(player.teamId);
+          if (teamState?.hasCorrectAnswer) {
+            player.currentVote = {
+              playerId: player.id,
+              optionId: correctOptionId,
+              votedAt: Date.now(),
+            };
+          }
+        }
+      }
+    }
+
     // إعداد تفاصيل التصويت لكل خيار
     const resultOptions: RoundResultOption[] = this.roundOptions.map((opt) => {
       const authors = opt.authorPlayerIds
         .map((id) => this.players.get(id))
         .filter((p): p is Player => p !== undefined)
-        .map((p) => ({ id: p.id, nickname: p.nickname, avatar: p.avatar }));
+        .map((p) => ({ id: p.id, nickname: p.nickname, avatar: p.avatar, teamId: p.teamId }));
 
       // من صوت لهذا الخيار؟
       const votes = Array.from(this.players.values())
         .filter((p) => p.currentVote?.optionId === opt.id)
-        .map((p) => ({ id: p.id, nickname: p.nickname, avatar: p.avatar }));
+        .map((p) => ({ id: p.id, nickname: p.nickname, avatar: p.avatar, teamId: p.teamId }));
 
       return {
         id: opt.id,
@@ -979,12 +1654,13 @@ export class Room {
         isCorrect: opt.isCorrect,
         authors,
         votes,
+        teamId: opt.teamId,
+        teamName: opt.teamName,
+        teamColor: opt.teamColor,
       };
     });
 
     // احتساب النقاط لكل لاعب
-    // - نقطتان (2) إذا صوّت للإجابة الصحيحة الأصلية
-    // - نقطة واحدة (1) لصاحب الإجابة المزيفة عن كل لاعب خدعه وصوّت لإجابته
     const scoreBreakdown: RoundScoreDetail[] = [];
 
     for (const player of this.players.values()) {
@@ -997,10 +1673,17 @@ export class Room {
         votedForCorrect = true;
       }
 
-      // 2. فحص اللاعبين المخدوعين بإجابة هذا اللاعب (+1 نقطة عن كل مخدوع)
+      // 2. فحص اللاعبين المخدوعين بإجابة هذا اللاعب أو فريقه (+1 نقطة عن كل مخدوع)
       const fooledPlayerNames: string[] = [];
       for (const otherPlayer of this.players.values()) {
         if (otherPlayer.id === player.id) continue;
+        if (
+          this.settings.gameMode === 'teams' &&
+          player.teamId &&
+          otherPlayer.teamId === player.teamId
+        ) {
+          continue;
+        }
         if (otherPlayer.currentVote) {
           const chosenOption = this.roundOptions.find((opt) => opt.id === otherPlayer.currentVote?.optionId);
           if (chosenOption && chosenOption.authorPlayerIds.includes(player.id)) {
@@ -1027,6 +1710,7 @@ export class Room {
         roundPoints,
         totalScore: player.score,
         teamId: player.teamId,
+        cheatCount: player.cheatCount,
       });
     }
 
@@ -1077,11 +1761,18 @@ export class Room {
   }
 
   /**
-   * إنهاء اللعبة وإعلان الفائز (Game Over)
+   * إنهاء اللعبة وإعلان الفائز (Game Over) وتصفير عداد الغش لجميع اللاعبين
    */
   private finishGame(): void {
     this.phase = 'GAME_OVER';
     this.lastActiveAt = Date.now();
+
+    // تصفير عدد مرات الغش لكل لاعب عند انتهاء كل مباراة
+    for (const player of this.players.values()) {
+      player.cheatCount = 0;
+      player.lastCheatType = null;
+      player.lastCheatAt = 0;
+    }
 
     const leaderboard = this.getLeaderboard();
     const teamScores = this.settings.gameMode === 'teams' ? this.getTeamLeaderboard() : undefined;
@@ -1098,15 +1789,12 @@ export class Room {
   }
 
   /**
-   * جلب لوحة صدارة الفرق
+   * جلب لوحة صدارة الفرق (حتى ٨ فرق بأسمائها وألوانها وسعتها المخصصة)
    */
   public getTeamLeaderboard(): TeamScoreEntry[] {
-    const teams = [
-      { id: 'red', name: 'الفريق الأحمر', color: '#ef4444' },
-      { id: 'blue', name: 'الفريق الأزرق', color: '#3b82f6' },
-    ];
+    const activeTeams = this.getActiveTeams();
 
-    const teamScores = teams.map((t) => {
+    const teamScores = activeTeams.map((t) => {
       const teamPlayers = this.getPlayerList().filter((p) => p.teamId === t.id);
       const score = teamPlayers.reduce((sum, p) => sum + p.score, 0);
       return {
@@ -1115,6 +1803,7 @@ export class Room {
         teamColor: t.color,
         score,
         playerCount: teamPlayers.length,
+        maxPlayers: t.maxPlayers,
         rank: 1,
       };
     });
@@ -1136,6 +1825,7 @@ export class Room {
       score: p.score,
       rank: index + 1,
       teamId: p.teamId,
+      cheatCount: p.cheatCount,
     }));
   }
 
@@ -1158,6 +1848,8 @@ export class Room {
       roundDuration: this.settings.answerDuration,
       maxPlayers: this.settings.maxPlayers,
       gameMode: this.settings.gameMode,
+      teamCount: this.settings.teamCount,
+      teams: this.getActiveTeams(),
       teamScores: this.settings.gameMode === 'teams' ? this.getTeamLeaderboard() : undefined,
     };
   }
@@ -1172,7 +1864,6 @@ export class Room {
     this.timerInterval = setInterval(() => {
       this.timeRemaining -= 1;
 
-      // إرسال تحديث الثواني في كل ثانية ليظهر العد التنازلي الحقيقي
       this.broadcast({
         type: 'TIMER_TICK',
         payload: {

@@ -3,10 +3,13 @@ import confetti from 'canvas-confetti';
 import { useGame } from '../../context/GameContext';
 import { GameTopHeader } from '../common/GameTopHeader';
 import { ConsolePet } from '../common/ConsolePet';
+import { DEFAULT_TEAMS } from '../../types';
 
 export const GameOverScreen: React.FC = () => {
-  const { leaderboard, leaveRoom, rematch, totalRounds, player, room } = useGame();
+  const { leaderboard, teamScores, leaveRoom, rematch, totalRounds, player, room } = useGame();
   const isHost = player?.id === room?.hostId;
+  const isTeamsMode = room?.gameMode === 'teams' && teamScores && teamScores.length > 0;
+  const activeTeams = room?.teams && room.teams.length > 0 ? room.teams : DEFAULT_TEAMS.slice(0, room?.teamCount || 2);
 
   useEffect(() => {
     const duration = 3 * 1000;
@@ -38,6 +41,7 @@ export const GameOverScreen: React.FC = () => {
   const firstPlace = leaderboard[0];
   const secondPlace = leaderboard[1];
   const thirdPlace = leaderboard[2];
+  const winningTeam = isTeamsMode ? teamScores[0] : null;
 
   return (
     <div className="flex flex-col min-h-full w-full max-w-lg mx-auto px-2.5 sm:px-4 py-[5px] select-none gap-y-[5px] relative">
@@ -53,12 +57,49 @@ export const GameOverScreen: React.FC = () => {
           <span className="material-symbols-outlined text-[22px] sm:text-[26px]">emoji_events</span>
         </div>
         <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-          تتويج بطل ESC!
+          {isTeamsMode && winningTeam ? `تتويج ${winningTeam.teamName}!` : 'تتويج بطل ESC!'}
         </h1>
         <p className="text-[11px] sm:text-xs text-on-surface-variant mt-0.5 max-w-xs sm:max-w-md mx-auto">
           تهانينا للأذكى والأكثر براعة في الخداع والتخمين 🎭
         </p>
       </div>
+
+      {/* لوحة ترتيب الفرق النهائية (في طور الفرق) */}
+      {isTeamsMode && (
+        <div className="dark-monochrome-card rounded-xl p-2.5 sm:p-3.5 border border-white/10 my-[5px] max-w-lg mx-auto w-full">
+          <h3 className="text-xs sm:text-sm font-bold text-white mb-2 flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[16px] text-amber-400">groups</span>
+            <span>الترتيب النهائي للفرق:</span>
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+            {teamScores.map((team, idx) => {
+              const color =
+                team.teamColor ||
+                activeTeams.find((t) => t.id === team.teamId)?.color ||
+                '#f43f5e';
+              return (
+                <div
+                  key={team.teamId}
+                  className="flex items-center justify-between p-2 rounded-lg bg-surface-container-low border text-xs"
+                  style={{ borderColor: idx === 0 ? color : `${color}55` }}
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="font-black text-white">
+                      {idx === 0 ? '👑' : `#${idx + 1}`}
+                    </span>
+                    <span
+                      className="w-2.5 h-2.5 rounded-full shrink-0"
+                      style={{ backgroundColor: color }}
+                    />
+                    <span className="font-bold text-white truncate">{team.teamName}</span>
+                  </div>
+                  <span className="font-black text-amber-400 shrink-0">{team.score} نقطة</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* المنصة الثلاثية مع شخصيات كلك */}
       <div className="flex items-end justify-center gap-2 sm:gap-3 max-w-sm sm:max-w-md mx-auto w-full my-[5px] px-2 shrink-0">
@@ -117,22 +158,45 @@ export const GameOverScreen: React.FC = () => {
       {/* لوحة الترتيب الكاملة */}
       <div className="dark-monochrome-card rounded-xl p-2.5 sm:p-3.5 border border-white/10 my-[5px] max-w-lg mx-auto w-full">
         <h3 className="text-xs sm:text-sm font-bold text-white mb-1.5 sm:mb-2">الترتيب النهائي لجميع اللاعبين:</h3>
-        <div className="space-y-1">
-          {leaderboard.map((entry, idx) => (
-            <div
-              key={entry.id}
-              className="flex items-center justify-between p-1.5 sm:p-2 rounded-lg bg-surface-container-low text-[10px] sm:text-xs"
-            >
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-outline w-4 text-center">#{idx + 1}</span>
-                <div className="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center overflow-hidden shrink-0 border border-outline-variant/40">
-                  <ConsolePet avatar={entry.avatar} size={22} />
+        <div className="space-y-1 max-h-60 overflow-y-auto pr-0.5">
+          {leaderboard.map((entry, idx) => {
+            const entryTeam = activeTeams.find((t) => t.id === entry.teamId);
+            return (
+              <div
+                key={entry.id}
+                className="flex items-center justify-between p-1.5 sm:p-2 rounded-lg bg-surface-container-low text-[10px] sm:text-xs"
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="font-bold text-outline w-4 text-center">#{idx + 1}</span>
+                  <div className="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center overflow-hidden shrink-0 border border-outline-variant/40">
+                    <ConsolePet avatar={entry.avatar} size={22} />
+                  </div>
+                  <span className="font-bold text-white truncate">{entry.nickname}</span>
+                  {room?.gameMode === 'teams' && entryTeam && (
+                    <span
+                      className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold text-white bg-surface-container border border-outline-variant/30"
+                      style={{ borderColor: entryTeam.color }}
+                    >
+                      <span
+                        className="w-1.5 h-1.5 rounded-full"
+                        style={{ backgroundColor: entryTeam.color }}
+                      />
+                      <span>{entryTeam.name}</span>
+                    </span>
+                  )}
+                  {(entry.cheatCount ?? 0) > 0 && (
+                    <span
+                      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-rose-500/20 border border-rose-500/40 text-[9px] font-bold text-rose-300 shrink-0"
+                      title="تم رصد محاولة غش أو مغادرة المتصفح أثناء الأسئلة"
+                    >
+                      <span>🚨 غش ×{entry.cheatCount}</span>
+                    </span>
+                  )}
                 </div>
-                <span className="font-bold text-white">{entry.nickname}</span>
+                <span className="font-bold text-white shrink-0">{entry.score} نقطة</span>
               </div>
-              <span className="font-bold text-white">{entry.score} نقطة</span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

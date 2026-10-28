@@ -1,3 +1,4 @@
+import os from 'os';
 import { Request, Response, Router } from 'express';
 import { topicService } from '../services/topicService';
 import { roomManager } from '../services/roomManager';
@@ -5,14 +6,59 @@ import { roomManager } from '../services/roomManager';
 export const apiRouter = Router();
 
 /**
+ * استخراج عنوان الشبكة المحلية (LAN IPv4) لتمكين مشاركة الرابط عبر الأجهزة المختلفة (الهواتف والحواسيب)
+ */
+function getLocalNetworkIps(): { lanIp: string | null; allIps: string[] } {
+  const nets = os.networkInterfaces();
+  const candidates: string[] = [];
+
+  for (const name of Object.keys(nets)) {
+    const netList = nets[name];
+    if (!netList) continue;
+    // تجاهل الشبكات الافتراضية مثل WSL / Docker / VMware إن وجدت بدائل حقيقية
+    const isVirtual = /vethernet|wsl|docker|vbox|vmware|hyper-v|loopback/i.test(name);
+    for (const net of netList) {
+      if (net.family === 'IPv4' && !net.internal) {
+        if (isVirtual) {
+          candidates.push(net.address);
+        } else {
+          candidates.unshift(net.address);
+        }
+      }
+    }
+  }
+
+  return {
+    lanIp: candidates[0] || null,
+    allIps: candidates,
+  };
+}
+
+/**
  * GET /api/health
  * فحص صحة وتشغيل السيرفر
  */
 apiRouter.get('/health', (_req: Request, res: Response) => {
+  const { lanIp, allIps } = getLocalNetworkIps();
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
     service: 'Deception Puzzle Game Backend',
+    lanIp,
+    allIps,
+  });
+});
+
+/**
+ * GET /api/network-info
+ * جلب معلومات عنوان الشبكة المحلية لمشاركة الروابط ورموز QR بين الأجهزة والمنصات المختلفة
+ */
+apiRouter.get('/network-info', (_req: Request, res: Response) => {
+  const { lanIp, allIps } = getLocalNetworkIps();
+  res.json({
+    success: true,
+    lanIp,
+    allIps,
   });
 });
 
@@ -56,6 +102,8 @@ apiRouter.post('/rooms', (req: Request, res: Response) => {
       answerDuration,
       maxPlayers,
       gameMode,
+      teamCount,
+      teams,
     } = req.body || {};
 
     if (!hostNickname || typeof hostNickname !== 'string') {
@@ -63,7 +111,12 @@ apiRouter.post('/rooms', (req: Request, res: Response) => {
       return;
     }
 
-    if (allowedTopicIds && !topicService.validateTopicIds(allowedTopicIds)) {
+    const validTopicIds =
+      Array.isArray(allowedTopicIds) && allowedTopicIds.length > 0
+        ? allowedTopicIds
+        : undefined;
+
+    if (validTopicIds && !topicService.validateTopicIds(validTopicIds)) {
       res.status(400).json({
         success: false,
         error: 'بعض أو كل معرفات المواضيع المختارة غير صالحة',
@@ -76,12 +129,14 @@ apiRouter.post('/rooms', (req: Request, res: Response) => {
       ...(answerDuration ? { answerDuration: Number(answerDuration) } : {}),
       ...(maxPlayers ? { maxPlayers: Number(maxPlayers) } : {}),
       ...(gameMode ? { gameMode } : {}),
+      ...(teamCount ? { teamCount: Number(teamCount) } : {}),
+      ...(Array.isArray(teams) ? { teams } : {}),
     };
 
     const { room, host, sessionToken } = roomManager.createRoom(
       hostNickname,
       hostAvatar || '👑',
-      allowedTopicIds,
+      validTopicIds,
       initialSettings
     );
 

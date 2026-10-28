@@ -1,5 +1,5 @@
 import { WebSocket } from 'ws';
-import { PlayerProfile, PlayerAnswerState, PlayerVote } from '../types/game';
+import { PlayerProfile, PlayerAnswerState, PlayerVote, CheatType } from '../types/game';
 import { ServerMessage } from '../types/messages';
 
 export class Player {
@@ -15,6 +15,10 @@ export class Player {
   public currentVote: PlayerVote | null;
   public lastSeenAt: number;
   public teamId: string | null;
+  public isBot: boolean;
+  public cheatCount: number;
+  public lastCheatType: CheatType | null;
+  public lastCheatAt: number;
 
   constructor(params: {
     id: string;
@@ -24,6 +28,7 @@ export class Player {
     isHost?: boolean;
     socket?: WebSocket;
     teamId?: string | null;
+    isBot?: boolean;
   }) {
     this.id = params.id;
     this.nickname = params.nickname;
@@ -36,6 +41,10 @@ export class Player {
     this.lastSeenAt = Date.now();
     this.currentVote = null;
     this.teamId = params.teamId ?? null;
+    this.isBot = params.isBot ?? false;
+    this.cheatCount = 0;
+    this.lastCheatType = null;
+    this.lastCheatAt = 0;
 
     this.answerState = {
       initialAnswer: '',
@@ -74,6 +83,9 @@ export class Player {
       isConnected: this.isConnected,
       score: this.score,
       teamId: this.teamId,
+      isBot: this.isBot,
+      cheatCount: this.cheatCount,
+      lastCheatType: this.lastCheatType,
     };
   }
 

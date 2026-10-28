@@ -34,7 +34,9 @@ export const LobbyScreen: React.FC = () => {
   // إعدادات إنشاء الغرفة السريعة
   const [totalRounds, setTotalRounds] = useState<number>(10);
   const [answerDuration, setAnswerDuration] = useState<number>(45);
-  const [maxPlayers, setMaxPlayers] = useState<number>(8);
+  const [maxPlayers, setMaxPlayers] = useState<number>(16);
+  const [gameMode, setGameMode] = useState<'individual' | 'teams'>('individual');
+  const [teamCount, setTeamCount] = useState<number>(4);
   const [isCreating, setIsCreating] = useState<boolean>(false);
 
   // قراءة كود الغرفة الممرر عبر الرابط تلقائياً
@@ -129,12 +131,13 @@ export const LobbyScreen: React.FC = () => {
     const success = await createRoom(
       nickname,
       avatar,
-      topics.map((t) => t.id),
+      topics.length > 0 ? topics.map((t) => t.id) : undefined,
       {
         totalRounds,
         answerDuration,
         maxPlayers,
-        gameMode: 'individual',
+        gameMode,
+        teamCount,
       }
     );
 
@@ -509,7 +512,7 @@ export const LobbyScreen: React.FC = () => {
               <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-outline-variant/40">
                 <div>
                   <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">استضافة غرفة جديدة</h2>
-                  <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5">كن المضيف وتحكم في مجريات الجلسة</p>
+                  <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5">كن المضيف وتحكم في مجريات الجلسة (حتى 40 لاعب و8 فرق)</p>
                 </div>
                 <button
                   type="button"
@@ -552,6 +555,63 @@ export const LobbyScreen: React.FC = () => {
                     />
                   </div>
                 </div>
+
+                {/* نظام اللعب (فردي / فرق) */}
+                <div>
+                  <label className="text-xs font-semibold text-white block mb-1.5">نظام اللعب:</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setGameMode('individual')}
+                      className={`py-2 px-3 rounded-lg text-xs font-bold border transition-all flex items-center justify-center gap-1.5 ${
+                        gameMode === 'individual'
+                          ? 'bg-white text-surface-container-lowest border-white'
+                          : 'bg-surface-container-low text-on-surface-variant border-outline-variant/40 hover:text-white'
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-[16px]">person</span>
+                      <span>فردي</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setGameMode('teams')}
+                      className={`py-2 px-3 rounded-lg text-xs font-bold border transition-all flex items-center justify-center gap-1.5 ${
+                        gameMode === 'teams'
+                          ? 'bg-white text-surface-container-lowest border-white'
+                          : 'bg-surface-container-low text-on-surface-variant border-outline-variant/40 hover:text-white'
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-[16px]">groups</span>
+                      <span>فرق (2 - 8 فرق)</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* عدد الفرق عند اختيار نظام الفرق */}
+                {gameMode === 'teams' && (
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-semibold text-white">عدد الفرق:</label>
+                      <span className="text-xs font-bold text-white">{teamCount} فرق</span>
+                    </div>
+                    <div className="grid grid-cols-7 gap-1.5">
+                      {[2, 3, 4, 5, 6, 7, 8].map((cnt) => (
+                        <button
+                          key={cnt}
+                          type="button"
+                          onClick={() => setTeamCount(cnt)}
+                          className={`py-1.5 rounded-lg text-xs font-bold transition-all ${
+                            teamCount === cnt
+                              ? 'bg-white text-surface-container-lowest'
+                              : 'bg-surface-container-low text-on-surface-variant hover:text-white border border-outline-variant/40'
+                          }`}
+                        >
+                          {cnt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* عدد الجولات */}
                 <div>
@@ -601,16 +661,32 @@ export const LobbyScreen: React.FC = () => {
                   </div>
                 </div>
 
-                {/* سعة اللاعبين */}
+                {/* سعة اللاعبين (حتى 40 لاعب) */}
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <label className="text-xs font-semibold text-white">سعة اللاعبين:</label>
+                    <label className="text-xs font-semibold text-white">سعة اللاعبين (الحد الأقصى 40):</label>
                     <span className="text-xs font-bold text-white">{maxPlayers} لاعبين</span>
+                  </div>
+                  <div className="grid grid-cols-5 gap-1.5 mb-2">
+                    {[8, 16, 24, 32, 40].map((cap) => (
+                      <button
+                        key={cap}
+                        type="button"
+                        onClick={() => setMaxPlayers(cap)}
+                        className={`py-1 rounded-md text-xs font-bold transition-all ${
+                          maxPlayers === cap
+                            ? 'bg-white text-surface-container-lowest'
+                            : 'bg-surface-container-low text-on-surface-variant hover:text-white border border-outline-variant/40'
+                        }`}
+                      >
+                        {cap}
+                      </button>
+                    ))}
                   </div>
                   <input
                     type="range"
-                    min={3}
-                    max={12}
+                    min={2}
+                    max={40}
                     value={maxPlayers}
                     onChange={(e) => setMaxPlayers(parseInt(e.target.value, 10))}
                     className="w-full"

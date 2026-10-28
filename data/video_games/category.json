@@ -1,0 +1,9 @@
+{
+  "id": "video_games",
+  "title": "العاب فيديو",
+  "icon": "Gamepad2",
+  "badge": "ألعاب",
+  "color": "#ef4444",
+  "order": 6
+}
+

@@ -3,13 +3,16 @@ import confetti from 'canvas-confetti';
 import { useGame } from '../../context/GameContext';
 import { GameTopHeader } from '../common/GameTopHeader';
 import { ConsolePet } from '../common/ConsolePet';
+import { DEFAULT_TEAMS } from '../../types';
 
 export const RoundResultsScreen: React.FC = () => {
   const {
     roundResult,
     leaderboard,
+    teamScores,
     isLastRound,
     player,
+    room,
     nextRound,
     currentRound,
     totalRounds,
@@ -20,7 +23,8 @@ export const RoundResultsScreen: React.FC = () => {
   } = useGame();
 
   const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false);
-  const isHost = player?.isHost;
+  const isHost = player?.isHost || player?.id === room?.hostId;
+  const activeTeams = room?.teams && room.teams.length > 0 ? room.teams : DEFAULT_TEAMS.slice(0, room?.teamCount || 2);
 
   useEffect(() => {
     confetti({
@@ -51,6 +55,11 @@ export const RoundResultsScreen: React.FC = () => {
   const unpickedLies = bluffOptions.filter(
     (opt) => !opt.votes || opt.votes.length === 0
   );
+
+  const displayedTeamScores =
+    roundResult.teamScores && roundResult.teamScores.length > 0
+      ? roundResult.teamScores
+      : teamScores;
 
   const handleNextRound = () => {
     audio.playClick();
@@ -179,13 +188,25 @@ export const RoundResultsScreen: React.FC = () => {
                   key={opt.id}
                   className="bg-surface-container-low border border-outline-variant/50 rounded-xl p-3.5 flex items-center justify-between gap-3 shadow-xs"
                 >
-                  {/* Right Side: The Trap Text & Author */}
+                  {/* Right Side: The Trap Text & Author / Team */}
                   <div className="flex flex-col gap-1 min-w-0">
                     <span className="text-sm font-bold text-white truncate">
                       {opt.text}
                     </span>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {opt.teamName && (
+                        <span
+                          className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold text-white bg-surface-container border border-outline-variant/40"
+                          style={{ borderColor: opt.teamColor || undefined }}
+                        >
+                          <span
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: opt.teamColor || '#ffffff' }}
+                          />
+                          <span>{opt.teamName}</span>
+                        </span>
+                      )}
                       <span className="text-[11px] text-on-surface-variant flex items-center gap-1">
                         <span>صاحب الخدعة:</span>
                         <strong className="text-white font-bold">{authorNames}</strong>
@@ -232,9 +253,18 @@ export const RoundResultsScreen: React.FC = () => {
                   return (
                     <span
                       key={lie.id}
-                      className="px-2 py-0.5 rounded-md bg-surface-container-high/60 border border-outline-variant/30 text-on-surface-variant"
+                      className="px-2 py-0.5 rounded-md bg-surface-container-high/60 border border-outline-variant/30 text-on-surface-variant inline-flex items-center gap-1"
                     >
-                      {lie.text} <span className="opacity-60">({author})</span>
+                      {lie.teamName && (
+                        <span
+                          className="w-1.5 h-1.5 rounded-full"
+                          style={{ backgroundColor: lie.teamColor || '#ffffff' }}
+                        />
+                      )}
+                      <span>{lie.text}</span>
+                      <span className="opacity-60">
+                        ({lie.teamName ? `${lie.teamName} - ${author}` : author})
+                      </span>
                     </span>
                   );
                 })}
@@ -245,34 +275,68 @@ export const RoundResultsScreen: React.FC = () => {
 
         {/* SECTION B: Compact Inline Scoreboard (Directly Below Answers) */}
         <section className="flex flex-col gap-2.5 pt-2 border-t border-outline-variant/30">
+          {/* Team Scores Grid (if mode is teams) */}
+          {displayedTeamScores && displayedTeamScores.length > 0 && (
+            <div className="flex flex-col gap-2 mb-2">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[16px] text-amber-400">groups</span>
+                  <span>ترتيب الفرق ({displayedTeamScores.length})</span>
+                </h2>
+                <span className="text-[10px] text-on-surface-variant font-medium">
+                  مجموع نقاط كل فريق
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {displayedTeamScores.map((team, idx) => {
+                  const teamColor =
+                    team.teamColor ||
+                    activeTeams.find((t) => t.id === team.teamId)?.color ||
+                    '#f43f5e';
+                  return (
+                    <div
+                      key={team.teamId}
+                      className="p-2.5 rounded-lg border bg-surface-container-low flex items-center justify-between gap-2"
+                      style={{
+                        borderColor: idx === 0 ? teamColor : `${teamColor}66`,
+                      }}
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-xs font-black text-white shrink-0">
+                          {idx === 0 ? '👑' : `#${idx + 1}`}
+                        </span>
+                        <span
+                          className="w-2.5 h-2.5 rounded-full shrink-0"
+                          style={{ backgroundColor: teamColor }}
+                        />
+                        <span className="text-xs font-bold text-white truncate">
+                          {team.teamName}
+                        </span>
+                        {typeof team.playerCount === 'number' && (
+                          <span className="text-[10px] text-on-surface-variant">
+                            ({team.playerCount})
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-xs font-black text-amber-400 shrink-0">
+                        {team.score} نقطة
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           <div className="flex items-center justify-between">
             <h2 className="text-xs font-bold text-white flex items-center gap-1.5">
               <span className="material-symbols-outlined text-[16px] text-amber-400">leaderboard</span>
-              <span>ترتيب النقاط</span>
+              <span>ترتيب اللاعبين</span>
             </h2>
             <span className="text-[10px] text-on-surface-variant font-medium">
               بعد الجولة {currentRound}
             </span>
           </div>
-
-          {/* Team Scores Strip (if mode is teams) */}
-          {roundResult.teamScores && roundResult.teamScores.length > 0 && (
-            <div className="grid grid-cols-2 gap-2">
-              {roundResult.teamScores.map((team) => (
-                <div
-                  key={team.teamId}
-                  className={`p-2 rounded-lg border flex items-center justify-between ${
-                    team.teamId === 'red'
-                      ? 'bg-rose-950/20 border-rose-500/40 text-rose-300'
-                      : 'bg-blue-950/20 border-blue-500/40 text-blue-300'
-                  }`}
-                >
-                  <span className="text-xs font-bold">{team.teamName}</span>
-                  <span className="text-xs font-black">{team.score} نقطة</span>
-                </div>
-              ))}
-            </div>
-          )}
 
           {/* Compact Leaderboard Rows */}
           <div className="flex flex-col gap-1.5">
@@ -280,6 +344,7 @@ export const RoundResultsScreen: React.FC = () => {
               const detail = roundResult.scoreBreakdown?.find((b) => b.playerId === entry.id);
               const isMe = entry.id === player?.id;
               const roundEarned = detail?.roundPoints ?? 0;
+              const entryTeam = activeTeams.find((t) => t.id === entry.teamId);
 
               return (
                 <div
@@ -303,9 +368,29 @@ export const RoundResultsScreen: React.FC = () => {
                     <span className="text-xs font-bold text-white truncate max-w-[120px]">
                       {entry.nickname}
                     </span>
+                    {room?.gameMode === 'teams' && entryTeam && (
+                      <span
+                        className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold text-white bg-surface-container border border-outline-variant/30"
+                        style={{ borderColor: entryTeam.color }}
+                      >
+                        <span
+                          className="w-1.5 h-1.5 rounded-full"
+                          style={{ backgroundColor: entryTeam.color }}
+                        />
+                        <span>{entryTeam.name}</span>
+                      </span>
+                    )}
                     {isMe && (
                       <span className="text-[9px] font-bold text-on-surface-variant">
                         (أنت)
+                      </span>
+                    )}
+                    {(entry.cheatCount ?? detail?.cheatCount ?? 0) > 0 && (
+                      <span
+                        className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-rose-500/20 border border-rose-500/40 text-[9px] font-bold text-rose-300 shrink-0"
+                        title="تم رصد محاولة غش أو مغادرة المتصفح أثناء الأسئلة"
+                      >
+                        <span>🚨 غش ×{entry.cheatCount ?? detail?.cheatCount}</span>
                       </span>
                     )}
                   </div>

@@ -208,4 +208,44 @@ describe('Room State Machine & Deception Game Loop', () => {
 
     room.clearTimer();
   });
+
+  it('supports adding and playing with a virtual test bot', () => {
+    const host = new Player({
+      id: 'player-solo',
+      nickname: 'اللاعب المنفرد',
+      avatar: '👑',
+      sessionToken: 'token-solo',
+      isHost: true,
+    });
+
+    const room = new Room('SOLO', host, ['الفيزياء']);
+    expect(room.players.size).toBe(1);
+
+    // محاولة بدء اللعبة بلاعب واحد فقط -> ترفض
+    const startAlone = room.startGame();
+    expect(startAlone.success).toBe(false);
+
+    // إضافة روبوت تجريبي
+    const botResult = room.addBot();
+    expect(botResult.success).toBe(true);
+    expect(botResult.bot).toBeDefined();
+    expect(botResult.bot?.isBot).toBe(true);
+    expect(room.players.size).toBe(2);
+
+    // إزالة الروبوت
+    const removeResult = room.removeBot();
+    expect(removeResult.success).toBe(true);
+    expect(room.players.size).toBe(1);
+
+    // إعادة إضافة الروبوت وبدء اللعبة بنجاح
+    const reAddBot = room.addBot();
+    expect(reAddBot.success).toBe(true);
+    expect(room.players.size).toBe(2);
+
+    const startWithBot = room.startGame();
+    expect(startWithBot.success).toBe(true);
+    expect(room.phase).toBe('TOPIC_SELECTION');
+
+    room.clearTimer();
+  });
 });
