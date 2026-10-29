@@ -20,7 +20,7 @@ import { Puzzle } from '../types/topics';
 import { ServerMessage } from '../types/messages';
 import { topicService } from '../services/topicService';
 import { checkAnswerMatch, areAnswersDuplicate, getDisplayCorrectAnswer } from '../utils/textNormalizer';
-import { generateId } from '../utils/codeGenerator';
+import { generateId, generateSessionToken } from '../utils/codeGenerator';
 import { config } from '../config';
 
 export class Room {
