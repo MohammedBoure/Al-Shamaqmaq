@@ -8,14 +8,13 @@
     "client"
   ],
   "scripts": {
-    "dev": "concurrently -k -p \"[{name}]\" -n \"backend,client\" -c \"cyan.bold,magenta.bold\" \"npm run server:dev\" \"npm run client:dev\"",
+    "dev": "node -e \"const {spawn}=require('child_process');const s=spawn('npm',['run','server:dev'],{stdio:'inherit',shell:true});const c=spawn('npm',['run','client:dev'],{stdio:'inherit',shell:true});process.on('SIGINT',()=>{s.kill();c.kill();process.exit();});\"",
     "server:dev": "tsx watch src/index.ts",
     "client:dev": "npm --prefix client run dev",
     "client:build": "npm --prefix client run build",
     "build": "tsc && npm run client:build",
     "build:all": "npm run build",
     "start": "node dist/index.js",
-    "postinstall": "npm --prefix client install",
     "test": "vitest run"
   },
   "keywords": [
@@ -40,7 +39,6 @@
     "@types/express": "^4.17.21",
     "@types/node": "^22.10.2",
     "@types/ws": "^8.5.13",
-    "concurrently": "^10.0.6",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vitest": "^5.0.5"

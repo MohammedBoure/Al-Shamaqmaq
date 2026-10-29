@@ -32,8 +32,7 @@ export const WaitingRoomScreen: React.FC = () => {
   const [copiedCode, setCopiedCode] = useState<boolean>(false);
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
   const [copiedInvite, setCopiedInvite] = useState<boolean>(false);
-  const [isQRModalOpen, setIsQRModalOpen] = useState<boolean>(false);
-  const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
   const [isCharacterModalOpen, setIsCharacterModalOpen] = useState<boolean>(false);
   const [editingTeamId, setEditingTeamId] = useState<string | null>(null);
   const [editingTeamName, setEditingTeamName] = useState<string>('');
@@ -113,6 +112,18 @@ export const WaitingRoomScreen: React.FC = () => {
   const players = room?.players || [];
   const isHost = player?.isHost;
   const canStart = players.length >= 2;
+
+  // ترتيب اللاعبين بشكل منظم: المضيف أولاً، ثم اللاعب الحالي، ثم اللاعبين المتصلين، ثم البوتات
+  const orderedPlayers = useMemo(() => {
+    return [...players].sort((a, b) => {
+      if (a.isHost && !b.isHost) return -1;
+      if (!a.isHost && b.isHost) return 1;
+      if (a.id === player?.id && b.id !== player?.id) return -1;
+      if (a.id !== player?.id && b.id === player?.id) return 1;
+      if (Boolean(a.isBot) !== Boolean(b.isBot)) return a.isBot ? 1 : -1;
+      return 0;
+    });
+  }, [players, player?.id]);
 
   const activeTeams: TeamConfig[] = useMemo(() => {
     if (room?.teams && room.teams.length > 0) {
@@ -281,10 +292,10 @@ export const WaitingRoomScreen: React.FC = () => {
     await handleCopyLink();
   };
 
-  const handleOpenShareModal = () => {
+  const handleToggleShareDrawer = () => {
     audio.playClick();
     haptic.triggerHaptic('light');
-    setIsShareModalOpen(true);
+    setIsShareOpen((prev) => !prev);
   };
 
   const handleUpdateRounds = (rounds: number) => {
@@ -390,68 +401,173 @@ export const WaitingRoomScreen: React.FC = () => {
 
       {/* Main Content */}
       <main className="flex-1 w-full max-w-2xl mx-auto px-4 py-4 pb-28 flex flex-col gap-4">
-        {/* 1. Slim Room Code Bar */}
-        <section className="bg-surface-container-low border border-outline-variant/50 rounded-xl p-3 flex items-center justify-between gap-3 shadow-xs">
-          <div className="flex items-center gap-2.5">
-            <span className="text-xs text-on-surface-variant font-semibold">الغرفة</span>
-            <span className="text-2xl font-mono font-black text-white tracking-widest">{roomCode}</span>
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            <button
-              type="button"
-              onClick={handleCopyCode}
-              className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-white transition-all active:scale-95 flex items-center justify-center"
-              title="نسخ الرمز"
-            >
-              <span className="material-symbols-outlined text-[18px]">
-                {copiedCode ? 'check' : 'content_copy'}
-              </span>
-            </button>
-
-            {isTtsSupported && (
+        {/* 1. Compact Room Code Bar + Slide-Down Share Panel */}
+        <section className="bg-surface-container-low border border-outline-variant/50 rounded-xl overflow-hidden shadow-xs transition-all">
+          <div className="p-3 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <span className="text-xs text-on-surface-variant font-semibold">رمز الغرفة</span>
               <button
                 type="button"
-                onClick={() => (isSpeaking ? stopDictation() : dictateCode(roomCode))}
-                className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-white transition-all active:scale-95 flex items-center justify-center"
-                title="إملاء الرمز صوتياً"
+                onClick={handleCopyCode}
+                className="text-2xl font-mono font-black text-white tracking-widest hover:text-neutral-200 transition-colors cursor-pointer flex items-center gap-1.5"
+                title="اضغط لنسخ الرمز"
               >
-                <span className="material-symbols-outlined text-[18px]">
-                  {isSpeaking ? 'volume_off' : 'record_voice_over'}
-                </span>
+                <span>{roomCode}</span>
+                {copiedCode && (
+                  <span className="text-[10px] font-sans font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                    تم النسخ ✓
+                  </span>
+                )}
               </button>
-            )}
+            </div>
 
             <button
               type="button"
-              onClick={() => setIsQRModalOpen(true)}
-              className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-white transition-all active:scale-95 flex items-center justify-center"
-              title="رمز QR"
+              onClick={handleToggleShareDrawer}
+              className={`px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm active:scale-95 transition-all cursor-pointer ${
+                isShareOpen
+                  ? 'bg-surface-container-highest text-white border border-white/40'
+                  : 'bg-white hover:bg-neutral-200 text-surface-container-lowest'
+              }`}
+              title="مشاركة الغرفة وعرض رمز QR"
             >
-              <span className="material-symbols-outlined text-[18px]">qr_code</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleCopyLink}
-              className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-white transition-all active:scale-95 flex items-center justify-center cursor-pointer"
-              title="نسخ رابط الغرفة"
-            >
-              <span className="material-symbols-outlined text-[18px]">
-                {copiedLink ? 'done_all' : 'link'}
+              <span className="material-symbols-outlined text-[16px]">
+                {isShareOpen ? 'expand_less' : 'share'}
               </span>
-            </button>
-
-<button
-              type="button"
-              onClick={handleOpenShareModal}
-              className="px-3 py-1.5 rounded-lg bg-white hover:bg-neutral-200 text-surface-container-lowest text-xs font-bold flex items-center gap-1 shadow-sm active:scale-95 transition-all cursor-pointer"
-              title="مشاركة الغرفة عبر كافة المنصات"
-            >
-              <span className="material-symbols-outlined text-[16px]">share</span>
-              <span>{copiedLink ? 'تم النسخ' : 'مشاركة'}</span>
+              <span>مشاركة</span>
             </button>
           </div>
+
+          {/* Slide-Down Share Panel: QR Code in the Middle + All Share Options Underneath */}
+          {isShareOpen && (
+            <div className="px-4 pb-4 pt-3 border-t border-outline-variant/30 bg-surface-container-lowest/50 flex flex-col items-center gap-3.5 animate-fadeIn">
+              {/* Centered QR Code */}
+              <div className="flex flex-col items-center text-center gap-1.5">
+                <div className="bg-white p-2.5 rounded-xl shadow-md border border-white/80">
+                  <QRCodeView value={joinUrl} size={148} />
+                </div>
+                <span className="text-sm font-mono font-black text-white tracking-widest mt-0.5">
+                  {roomCode}
+                </span>
+                <span className="text-[11px] text-on-surface-variant">
+                  امسح رمز QR بكاميرا الهاتف للانضمام مباشرة
+                </span>
+              </div>
+
+              {/* Direct Link Input & LAN IP Selector */}
+              <div className="w-full bg-surface-container p-2 rounded-lg border border-outline-variant/40 flex flex-col gap-1.5">
+                {availableIps.length > 1 && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] text-on-surface-variant font-semibold">
+                      عنوان الشبكة المحلية:
+                    </span>
+                    <select
+                      value={lanIp || ''}
+                      onChange={(e) => setLanIp(e.target.value)}
+                      className="bg-surface-container-low text-white text-[10px] rounded px-1.5 py-0.5 border border-outline-variant/40 font-mono"
+                    >
+                      {availableIps.map((ip) => (
+                        <option key={ip} value={ip}>
+                          {ip}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                <div className="flex items-center gap-1.5">
+                  <input
+                    type="text"
+                    readOnly
+                    dir="ltr"
+                    value={joinUrl}
+                    onClick={(e) => (e.target as HTMLInputElement).select()}
+                    className="flex-1 bg-surface-container-lowest border border-outline-variant/40 rounded-md px-2.5 py-1.5 text-[11px] font-mono text-white focus:outline-none select-all"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleCopyLink}
+                    className="px-3 py-1.5 rounded-md bg-white hover:bg-neutral-200 text-surface-container-lowest text-xs font-bold shrink-0 flex items-center gap-1 active:scale-95 transition-all cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[15px]">
+                      {copiedLink ? 'check' : 'link'}
+                    </span>
+                    <span>{copiedLink ? 'تم النسخ ✓' : 'نسخ الرابط'}</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Action Buttons Grid Underneath the QR Code */}
+              <div className="w-full grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  onClick={handleCopyCode}
+                  className="py-2 px-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[16px]">
+                    {copiedCode ? 'check' : 'content_copy'}
+                  </span>
+                  <span>{copiedCode ? 'تم نسخ الرمز ✓' : 'نسخ الرمز'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleCopyInviteMessage}
+                  className="py-2 px-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[16px]">
+                    {copiedInvite ? 'check' : 'assignment'}
+                  </span>
+                  <span>{copiedInvite ? 'تم نسخ الدعوة ✓' : 'نسخ الدعوة'}</span>
+                </button>
+
+                {isTtsSupported && (
+                  <button
+                    type="button"
+                    onClick={() => (isSpeaking ? stopDictation() : dictateCode(roomCode))}
+                    className="py-2 px-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">
+                      {isSpeaking ? 'volume_off' : 'record_voice_over'}
+                    </span>
+                    <span>{isSpeaking ? 'إيقاف النطق' : 'نطق الرمز صوتياً'}</span>
+                  </button>
+                )}
+
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent(shareMessageText)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => audio.playClick()}
+                  className="py-2 px-2.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95"
+                >
+                  <span className="material-symbols-outlined text-[16px]">chat</span>
+                  <span>واتساب</span>
+                </a>
+
+                <a
+                  href={`https://t.me/share/url?url=${encodeURIComponent(joinUrl)}&text=${encodeURIComponent(
+                    `انضموا إليّ في لعبة ESC! رمز الغرفة: ${roomCode}`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => audio.playClick()}
+                  className="py-2 px-2.5 rounded-lg bg-sky-600/20 hover:bg-sky-600/30 border border-sky-500/40 text-sky-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95"
+                >
+                  <span className="material-symbols-outlined text-[16px]">send</span>
+                  <span>تيليجرام</span>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={handleNativeShare}
+                  className="py-2 px-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[16px]">ios_share</span>
+                  <span>تطبيقات الجهاز...</span>
+                </button>
+              </div>
+            </div>
+          )}
         </section>
 
         {/* 2. Combined Game Rules Settings (Individual vs Teams, Max Players up to 40, Team Count up to 8) */}
@@ -647,25 +763,9 @@ export const WaitingRoomScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* تلميح مساعدة عند وجود لاعب واحد فقط */}
-            {players.length < 2 && (
-              <div className="mb-1 p-2.5 rounded-lg bg-surface-container/70 border border-outline-variant/30 text-xs text-on-surface-variant flex items-center justify-between gap-2">
-                <span>💡 يمكنك مشاركة رمز الغرفة، أو الضغط على <b>+ بوت تجريبي</b> لتجربة اللعبة فوراً بمفردك!</span>
-                {isHost && (
-                  <button
-                    type="button"
-                    onClick={addBot}
-                    className="bg-white hover:bg-neutral-200 text-surface-container-lowest text-xs font-bold px-2.5 py-1 rounded-md shrink-0 active:scale-95 transition-all cursor-pointer"
-                  >
-                    إضافة بوت 🤖
-                  </button>
-                )}
-              </div>
-            )}
-
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {activeTeams.map((team) => {
-                const teamPlayers = players.filter((p) => p.teamId === team.id);
+                const teamPlayers = orderedPlayers.filter((p) => p.teamId === team.id);
                 const isMyTeam = player?.teamId === team.id;
                 const isFull = teamPlayers.length >= team.maxPlayers;
                 const teamTotalScore = teamPlayers.reduce((sum, p) => sum + (p.score || 0), 0);
@@ -780,57 +880,72 @@ export const WaitingRoomScreen: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Team Players List */}
-                    <div className="flex flex-wrap gap-1.5 min-h-[42px] items-center">
+                    {/* Team Players Ordered List */}
+                    <div className="flex flex-col gap-1.5 min-h-[48px] justify-center">
                       {teamPlayers.length > 0 ? (
-                        teamPlayers.map((p) => {
+                        teamPlayers.map((p, idx) => {
                           const isMe = p.id === player?.id;
                           return (
                             <div
                               key={p.id}
-                              className={`flex items-center gap-1.5 py-1 px-2 rounded-lg border text-xs ${
+                              className={`flex items-center justify-between gap-2 py-1.5 px-2.5 rounded-lg border text-xs transition-all ${
                                 isMe
-                                  ? 'bg-surface-container-lowest border-white/60 text-white font-bold'
+                                  ? 'bg-surface-container-lowest border-white/60 text-white font-bold shadow-xs'
                                   : 'bg-surface-container-low border-outline-variant/40 text-white'
                               }`}
                             >
-                              <div
-                                onClick={() => isMe && setIsCharacterModalOpen(true)}
-                                className="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center overflow-hidden shrink-0"
-                              >
-                                <ConsolePet avatar={p.avatar} size={22} />
-                              </div>
-                              <span className="truncate max-w-[85px]">{p.nickname}</span>
-                              {p.isHost && (
-                                <span className="material-symbols-outlined text-[12px] text-amber-400">
-                                  crown
+                              <div className="flex items-center gap-2 min-w-0">
+                                <span className="text-[10px] font-mono font-bold text-on-surface-variant w-4 text-center shrink-0">
+                                  #{idx + 1}
                                 </span>
-                              )}
-                              {p.isBot && (
-                                <span className="text-[9px] px-1 py-0.2 rounded bg-cyan-950/60 text-cyan-300 font-bold border border-cyan-500/30">
-                                  بوت
-                                </span>
-                              )}
-                              {isMe && (
-                                <span className="text-[9px] text-on-surface-variant">(أنت)</span>
-                              )}
-                              {isHost && !p.isHost && !isMe && (
-                                <button
-                                  type="button"
-                                  onClick={() => (p.isBot ? removeBot(p.id) : kickPlayer(p.id))}
-                                  className="text-rose-400 hover:text-rose-300 flex items-center justify-center cursor-pointer"
-                                  title={p.isBot ? 'إزالة الروبوت' : `طرد ${p.nickname}`}
+                                <div
+                                  onClick={() => isMe && setIsCharacterModalOpen(true)}
+                                  className={`w-7 h-7 rounded-md bg-surface-container flex items-center justify-center overflow-hidden shrink-0 ${
+                                    isMe ? 'cursor-pointer hover:scale-105 transition-transform' : ''
+                                  }`}
                                 >
-                                  <span className="material-symbols-outlined text-[13px]">close</span>
-                                </button>
-                              )}
+                                  <ConsolePet avatar={p.avatar} size={24} />
+                                </div>
+                                <span className="truncate max-w-[110px]">{p.nickname}</span>
+                              </div>
+
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                {p.isHost && (
+                                  <span
+                                    className="material-symbols-outlined text-[13px] text-amber-400"
+                                    title="مضيف الغرفة"
+                                  >
+                                    crown
+                                  </span>
+                                )}
+                                {p.isBot && (
+                                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950/60 text-cyan-300 font-bold border border-cyan-500/30">
+                                    بوت
+                                  </span>
+                                )}
+                                {isMe && (
+                                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/10 text-white font-bold">
+                                    أنت
+                                  </span>
+                                )}
+                                {isHost && !p.isHost && !isMe && (
+                                  <button
+                                    type="button"
+                                    onClick={() => (p.isBot ? removeBot(p.id) : kickPlayer(p.id))}
+                                    className="w-5 h-5 rounded text-rose-400 hover:bg-rose-950/50 hover:text-rose-300 flex items-center justify-center cursor-pointer"
+                                    title={p.isBot ? 'إزالة الروبوت' : `طرد ${p.nickname}`}
+                                  >
+                                    <span className="material-symbols-outlined text-[13px]">close</span>
+                                  </button>
+                                )}
+                              </div>
                             </div>
                           );
                         })
                       ) : (
-                        <span className="text-[11px] text-on-surface-variant italic">
+                        <div className="py-2.5 text-center rounded-lg border border-dashed border-outline-variant/30 text-[11px] text-on-surface-variant">
                           لا يوجد لاعبون في هذا الفريق بعد
-                        </span>
+                        </div>
                       )}
                     </div>
 
@@ -914,99 +1029,85 @@ export const WaitingRoomScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* تلميح مساعدة عند وجود لاعب واحد فقط */}
-            {players.length < 2 && (
-              <div className="mb-1 p-2.5 rounded-lg bg-surface-container/70 border border-outline-variant/30 text-xs text-on-surface-variant flex items-center justify-between gap-2">
-                <span>💡 يمكنك مشاركة رمز الغرفة، أو الضغط على <b>+ بوت تجريبي</b> لتجربة اللعبة فوراً بمفردك!</span>
-                {isHost && (
-                  <button
-                    type="button"
-                    onClick={addBot}
-                    className="bg-white hover:bg-neutral-200 text-surface-container-lowest text-xs font-bold px-2.5 py-1 rounded-md shrink-0 active:scale-95 transition-all cursor-pointer"
-                  >
-                    إضافة بوت 🤖
-                  </button>
-                )}
-              </div>
-            )}
-
-            <div className="flex flex-wrap gap-2.5">
-              {players.map((p) => {
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {orderedPlayers.map((p, idx) => {
                 const isMe = p.id === player?.id;
                 return (
                   <div
                     key={p.id}
-                    className={`flex items-center gap-2.5 py-1.5 px-3 rounded-lg border transition-all ${
+                    className={`flex items-center justify-between gap-2.5 py-2 px-3 rounded-xl border transition-all ${
                       isMe
                         ? 'bg-surface-container-high border-white/60 shadow-xs ring-1 ring-white/20'
                         : 'bg-surface-container border-outline-variant/40'
                     }`}
                   >
-                    <div
-                      onClick={() => isMe && setIsCharacterModalOpen(true)}
-                      className={`w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center overflow-hidden shrink-0 ${
-                        isMe ? 'cursor-pointer hover:scale-105 transition-transform' : ''
-                      }`}
-                    >
-                      <ConsolePet avatar={p.avatar} size={30} />
-                    </div>
-
-                    <div className="flex flex-col min-w-0">
-                      <div className="flex items-center gap-1">
-                        <span className="text-xs font-bold text-white truncate max-w-[90px] sm:max-w-[120px]">
-                          {p.nickname}
-                        </span>
-                        {p.isHost && (
-                          <span className="material-symbols-outlined text-[13px] text-amber-400" title="المضيف">
-                            crown
-                          </span>
-                        )}
-                        {p.isBot && (
-                          <span className="text-[10px] px-1 py-0.2 rounded bg-cyan-950/60 text-cyan-300 font-bold border border-cyan-500/30">
-                            بوت
-                          </span>
-                        )}
-                        {isMe && (
-                          <span className="text-[9px] font-bold text-on-surface-variant">
-                            (أنت)
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-[10px] text-emerald-400 flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                        {p.isBot ? 'روبوت آلي' : 'متصل'}
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="w-5 h-5 rounded-md bg-surface-container-lowest border border-outline-variant/40 text-[10px] font-mono font-bold text-on-surface-variant flex items-center justify-center shrink-0">
+                        {idx + 1}
                       </span>
+
+                      <div
+                        onClick={() => isMe && setIsCharacterModalOpen(true)}
+                        className={`w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center overflow-hidden shrink-0 ${
+                          isMe ? 'cursor-pointer hover:scale-105 transition-transform' : ''
+                        }`}
+                      >
+                        <ConsolePet avatar={p.avatar} size={30} />
+                      </div>
+
+                      <div className="flex flex-col min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs font-bold text-white truncate max-w-[115px] sm:max-w-[140px]">
+                            {p.nickname}
+                          </span>
+                          {p.isHost && (
+                            <span
+                              className="inline-flex items-center gap-0.5 text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/40"
+                              title="مضيف الغرفة"
+                            >
+                              <span className="material-symbols-outlined text-[11px]">crown</span>
+                              <span>مضيف</span>
+                            </span>
+                          )}
+                          {p.isBot && (
+                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950/60 text-cyan-300 font-bold border border-cyan-500/30">
+                              بوت
+                            </span>
+                          )}
+                          {isMe && (
+                            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/10 text-white">
+                              أنت
+                            </span>
+                          )}
+                        </div>
+                        <span className="text-[10px] text-emerald-400 flex items-center gap-1 mt-0.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                          {p.isBot ? 'روبوت آلي جاهز' : 'متصل وجاهز'}
+                        </span>
+                      </div>
                     </div>
 
                     {isHost && !p.isHost && !isMe && (
                       <button
                         type="button"
                         onClick={() => (p.isBot ? removeBot(p.id) : kickPlayer(p.id))}
-                        className="w-6 h-6 rounded-md text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 flex items-center justify-center transition-colors mr-1 cursor-pointer"
+                        className="w-7 h-7 rounded-lg text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 flex items-center justify-center transition-colors shrink-0 cursor-pointer"
                         title={p.isBot ? 'إزالة الروبوت' : `طرد ${p.nickname}`}
                       >
-                        <span className="material-symbols-outlined text-[14px]">close</span>
+                        <span className="material-symbols-outlined text-[15px]">close</span>
                       </button>
                     )}
                   </div>
                 );
               })}
-
-              {Array.from({ length: Math.min(emptySeatsCount, 6) }).map((_, idx) => (
-                <div
-                  key={`empty-${idx}`}
-                  className="w-9 h-9 rounded-lg border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant/60"
-                  title="مقعد شاغر"
-                >
-                  <span className="material-symbols-outlined text-[16px]">add</span>
-                </div>
-              ))}
-              {emptySeatsCount > 6 && (
-                <div className="h-9 px-2.5 rounded-lg border border-dashed border-outline-variant/40 flex items-center justify-center text-[10px] text-on-surface-variant">
-                  +{emptySeatsCount - 6}
-                </div>
-              )}
             </div>
+
+            {emptySeatsCount > 0 && (
+              <div className="mt-2.5 pt-2 border-t border-outline-variant/25 flex items-center justify-between text-[11px] text-on-surface-variant">
+                <span>المقاعد المتبقية في الغرفة:</span>
+                <span className="font-mono font-bold text-white">{emptySeatsCount} مقعد متاح</span>
+              </div>
+            )}
           </section>
         )}
 
@@ -1234,192 +1335,6 @@ export const WaitingRoomScreen: React.FC = () => {
           )}
         </div>
       </footer>
-
-      {/* Cross-Platform Share Modal */}
-      {isShareModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-black/75 backdrop-blur-sm"
-            onClick={() => setIsShareModalOpen(false)}
-          />
-          <div className="relative w-full max-w-md z-20 bg-surface-container-low rounded-xl p-5 border border-outline-variant/50 text-right animate-fadeIn shadow-2xl space-y-4">
-            <div className="flex items-center justify-between pb-2.5 border-b border-outline-variant/30">
-              <div>
-                <h3 className="text-sm sm:text-base font-extrabold text-white flex items-center gap-1.5">
-                  <span className="material-symbols-outlined text-[18px]">share</span>
-                  <span>مشاركة الغرفة عبر المنصات</span>
-                </h3>
-                <p className="text-[11px] text-on-surface-variant mt-0.5">
-                  شارك الرابط أو الرمز مع أصدقائك على أي هاتف أو متصفح
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsShareModalOpen(false)}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-lg">close</span>
-              </button>
-            </div>
-
-            {/* Room Code & Direct Link Copy Box */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between bg-surface-container p-2.5 rounded-lg border border-outline-variant/40">
-                <div>
-                  <span className="text-[10px] text-on-surface-variant block">رمز الغرفة السريع</span>
-                  <span className="text-lg font-mono font-black text-white tracking-widest">{roomCode}</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleCopyCode}
-                  className="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-white text-xs font-bold border border-outline-variant/50 flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
-                >
-                  <span className="material-symbols-outlined text-[15px]">
-                    {copiedCode ? 'check' : 'content_copy'}
-                  </span>
-                  <span>{copiedCode ? 'تم نسخ الرمز ✓' : 'نسخ الرمز'}</span>
-                </button>
-              </div>
-
-              <div className="bg-surface-container p-2.5 rounded-lg border border-outline-variant/40 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-on-surface-variant font-semibold">
-                    رابط الدخول المباشر (يعمل على الجوال والكمبيوتر):
-                  </span>
-                  {availableIps.length > 1 && (
-                    <select
-                      value={lanIp || ''}
-                      onChange={(e) => setLanIp(e.target.value)}
-                      className="bg-surface-container-low text-white text-[10px] rounded px-1.5 py-0.5 border border-outline-variant/40 font-mono"
-                      title="تغيير عنوان الشبكة"
-                    >
-                      {availableIps.map((ip) => (
-                        <option key={ip} value={ip}>
-                          {ip}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <input
-                    type="text"
-                    readOnly
-                    dir="ltr"
-                    value={joinUrl}
-                    onClick={(e) => (e.target as HTMLInputElement).select()}
-                    className="flex-1 bg-surface-container-lowest border border-outline-variant/40 rounded-md px-2.5 py-1.5 text-xs font-mono text-white focus:outline-none select-all"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleCopyLink}
-                    className="px-3 py-1.5 rounded-md bg-white hover:bg-neutral-200 text-surface-container-lowest text-xs font-bold shrink-0 flex items-center gap-1 active:scale-95 transition-all cursor-pointer"
-                  >
-                    <span className="material-symbols-outlined text-[15px]">
-                      {copiedLink ? 'check' : 'link'}
-                    </span>
-                    <span>{copiedLink ? 'تم النسخ ✓' : 'نسخ الرابط'}</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Cross-Platform Social & Native Share Grid */}
-            <div className="grid grid-cols-2 gap-2">
-              <a
-                href={`https://wa.me/?text=${encodeURIComponent(shareMessageText)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => audio.playClick()}
-                className="py-2.5 px-3 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-95"
-              >
-                <span className="material-symbols-outlined text-[17px]">chat</span>
-                <span>مشاركة عبر واتساب</span>
-              </a>
-
-              <a
-                href={`https://t.me/share/url?url=${encodeURIComponent(joinUrl)}&text=${encodeURIComponent(
-                  `انضموا إليّ في لعبة ESC! رمز الغرفة: ${roomCode}`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => audio.playClick()}
-                className="py-2.5 px-3 rounded-lg bg-sky-600/20 hover:bg-sky-600/30 border border-sky-500/40 text-sky-300 text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-95"
-              >
-                <span className="material-symbols-outlined text-[17px]">send</span>
-                <span>مشاركة عبر تيليجرام</span>
-              </a>
-
-              <button
-                type="button"
-                onClick={handleCopyInviteMessage}
-                className="py-2.5 px-3 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-[17px]">
-                  {copiedInvite ? 'check' : 'assignment'}
-                </span>
-                <span>{copiedInvite ? 'تم نسخ الدعوة ✓' : 'نسخ رسالة الدعوة'}</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={handleNativeShare}
-                className="py-2.5 px-3 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/50 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-[17px]">ios_share</span>
-                <span>تطبيقات الجهاز...</span>
-              </button>
-            </div>
-
-            {/* Inline QR Code inside Share Modal */}
-            <div className="pt-2 border-t border-outline-variant/30 flex items-center justify-between gap-3">
-              <div className="text-right">
-                <span className="text-xs font-bold text-white block">أو امسح رمز QR بالكاميرا</span>
-                <span className="text-[11px] text-on-surface-variant">
-                  افتح كاميرا الهاتف ووجهها نحو الرمز للدخول مباشرة
-                </span>
-              </div>
-              <div className="bg-white p-2 rounded-lg shrink-0">
-                <QRCodeView value={joinUrl} size={96} />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* QR Code Modal */}
-      {isQRModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-black/75 backdrop-blur-sm"
-            onClick={() => setIsQRModalOpen(false)}
-          />
-          <div className="relative w-full max-w-sm z-20 bg-surface-container-low rounded-xl p-5 border border-outline-variant/50 text-center animate-fadeIn shadow-2xl">
-            <div className="flex items-center justify-between pb-2 border-b border-outline-variant/30 mb-3">
-              <h3 className="text-sm font-bold text-white">رمز QR للغرفة</h3>
-              <button
-                type="button"
-                onClick={() => setIsQRModalOpen(false)}
-                className="w-7 h-7 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-surface-container"
-              >
-                <span className="material-symbols-outlined text-lg">close</span>
-              </button>
-            </div>
-
-            <div className="flex justify-center my-3 bg-white p-3 rounded-lg max-w-fit mx-auto">
-              <QRCodeView value={joinUrl} size={180} />
-            </div>
-
-            <div className="text-xl font-mono font-black text-white tracking-widest my-2">
-              {roomCode}
-            </div>
-
-            <p className="text-xs text-on-surface-variant">
-              امسح الرمز بكاميرا الهاتف للانضمام مباشرة
-            </p>
-          </div>
-        </div>
-      )}
 
       {/* Character Customization Modal */}
       {isCharacterModalOpen && (
