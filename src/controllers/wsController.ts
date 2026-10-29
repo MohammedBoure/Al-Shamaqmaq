@@ -74,6 +74,10 @@ export class WebSocketController {
         this.handleUpdateProfile(ws, meta, message.payload);
         break;
 
+      case 'JOIN_TEAM':
+        this.handleJoinTeam(ws, meta, message.payload);
+        break;
+
       case 'UPDATE_SETTINGS':
         this.handleUpdateSettings(ws, meta, message.payload);
         break;
@@ -94,8 +98,16 @@ export class WebSocketController {
         this.handleSubmitBluff(ws, meta, message.payload);
         break;
 
+      case 'SUBMIT_TEAM_VOTE':
+        this.handleSubmitTeamVote(ws, meta, message.payload);
+        break;
+
       case 'SUBMIT_VOTE':
         this.handleSubmitVote(ws, meta, message.payload);
+        break;
+
+      case 'REPORT_CHEAT':
+        this.handleReportCheat(ws, meta, message.payload);
         break;
 
       case 'NEXT_ROUND':
@@ -153,11 +165,9 @@ export class WebSocketController {
         if (room) {
           const player = room.getPlayer(session.playerId);
           if (player) {
-            // إعادة ربط المقبس باللاعب
             player.attachSocket(ws);
             this.socketMeta.set(ws, { roomCode, playerId: player.id, sessionToken });
 
-            // إرسال حالة الغرفة الكاملة للاعب العائد
             this.send(ws, {
               type: 'ROOM_JOINED',
               payload: {
@@ -168,10 +178,8 @@ export class WebSocketController {
               },
             });
 
-            // إرسال سياق المرحلة الحالية للاعب العائد
             this.syncPlayerOnReconnect(player, room);
 
-            // إشعار باقي لاعبي الغرفة بعودة اللاعب
             room.broadcastExcept(player.id, {
               type: 'PLAYER_UPDATED',
               payload: { player: player.toProfile() },
@@ -193,7 +201,6 @@ export class WebSocketController {
     player.attachSocket(ws);
     this.socketMeta.set(ws, { roomCode: room.code, playerId: player.id, sessionToken: newSessionToken });
 
-    // إرسال تأكيد الانضمام للعميل
     this.send(ws, {
       type: 'ROOM_JOINED',
       payload: {
@@ -204,11 +211,17 @@ export class WebSocketController {
       },
     });
 
-    // إشعار باقي اللاعبين في الغرفة باللاعب الجديد
     room.broadcastExcept(player.id, {
       type: 'PLAYER_JOINED',
       payload: { player: player.toProfile() },
     });
+
+    if (room.settings.gameMode === 'teams') {
+      room.broadcast({
+        type: 'ROOM_UPDATED',
+        payload: { room: room.getPublicState() },
+      });
+    }
   }
 
   /**
@@ -228,6 +241,8 @@ export class WebSocketController {
           pickerNickname: currentPicker ? currentPicker.nickname : 'اللاعب',
           allowedTopics,
           timeRemaining: room.timeRemaining,
+          players: room.getPlayerList().map((p) => p.toProfile()),
+          teamScores: room.settings.gameMode === 'teams' ? room.getTeamLeaderboard() : undefined,
         },
       });
     } else if (room.phase === 'ANSWERING' && room.currentPuzzle && room.currentTopicId) {
@@ -248,7 +263,16 @@ export class WebSocketController {
         },
       });
 
-      // إذا كان قد أجاب مسبقاً
+      if (room.settings.gameMode === 'teams' && player.teamId) {
+        const teamState = room.teamRoundStates.get(player.teamId);
+        if (teamState) {
+          player.send({
+            type: 'TEAM_ROUND_STATE_UPDATED',
+            payload: { teamState },
+          });
+        }
+      }
+
       if (player.answerState.hasSubmittedInitial) {
         if (player.answerState.isCorrect && !player.answerState.hasSubmittedBluff) {
           player.send({
@@ -273,11 +297,23 @@ export class WebSocketController {
         }
       }
     } else if (room.phase === 'VOTING' && room.currentPuzzle) {
-      const publicOptions = room.roundOptions.map((opt) => ({
-        id: opt.id,
-        text: opt.text,
-        isSelfSubmission: opt.authorPlayerIds.includes(player.id),
-      }));
+      const playerTeamState =
+        room.settings.gameMode === 'teams' && player.teamId
+          ? room.teamRoundStates.get(player.teamId)
+          : undefined;
+
+      const publicOptions = room.roundOptions.map((opt) => {
+        const isOwnTeamOption =
+          room.settings.gameMode === 'teams' &&
+          Boolean(player.teamId && opt.teamId && player.teamId === opt.teamId);
+        return {
+          id: opt.id,
+          text: opt.text,
+          isSelfSubmission: opt.authorPlayerIds.includes(player.id) || isOwnTeamOption,
+          teamId: opt.teamId,
+          isTeamCorrectHint: Boolean(playerTeamState?.hasCorrectAnswer && opt.isCorrect),
+        };
+      });
 
       player.send({
         type: 'VOTING_STARTED',
@@ -293,6 +329,7 @@ export class WebSocketController {
         payload: {
           result: room.lastRoundResult,
           leaderboard: room.getLeaderboard(),
+          teamScores: room.settings.gameMode === 'teams' ? room.getTeamLeaderboard() : undefined,
           isLastRound: room.currentRound >= room.settings.totalRounds,
           timeRemaining: room.timeRemaining,
         },
@@ -301,13 +338,21 @@ export class WebSocketController {
   }
 
   /**
-   * معالجة تحديث الملف الشخصي للاعب (الاسم / الأفاتار)
+   * معالجة تحديث الملف الشخصي للاعب (الاسم / الأفاتار / الفريق)
    */
   private handleUpdateProfile(ws: WebSocket, meta: SocketMetadata, payload: any): void {
     const { room, player } = this.getRoomAndPlayer(meta);
     if (!room || !player) {
       this.sendError(ws, 'NOT_IN_ROOM', 'أنت لست منضماً لأي غرفة');
       return;
+    }
+
+    if (payload?.teamId && typeof payload.teamId === 'string') {
+      const joinRes = room.joinTeam(player.id, payload.teamId);
+      if (!joinRes.success) {
+        this.sendError(ws, 'TEAM_FULL', joinRes.error || 'تعذر الانضمام للفريق');
+        return;
+      }
     }
 
     const updated = room.updatePlayerProfile(
@@ -321,11 +366,48 @@ export class WebSocketController {
         type: 'PLAYER_UPDATED',
         payload: { player: updated.toProfile() },
       });
+      if (payload?.teamId !== undefined) {
+        room.broadcast({
+          type: 'ROOM_UPDATED',
+          payload: { room: room.getPublicState() },
+        });
+      }
     }
   }
 
   /**
-   * معالجة تعديل إعدادات الغرفة (المواضيع المسموحة، عدد الجولات، الأوقات)
+   * معالجة انضمام اللاعب لفريق محدد
+   */
+  private handleJoinTeam(ws: WebSocket, meta: SocketMetadata, payload: any): void {
+    const { room, player } = this.getRoomAndPlayer(meta);
+    if (!room || !player) {
+      this.sendError(ws, 'NOT_IN_ROOM', 'أنت لست منضماً لأي غرفة');
+      return;
+    }
+
+    if (!payload || !payload.teamId) {
+      this.sendError(ws, 'BAD_REQUEST', 'معرف الفريق مطلوب');
+      return;
+    }
+
+    const res = room.joinTeam(player.id, String(payload.teamId));
+    if (!res.success || !res.player) {
+      this.sendError(ws, 'JOIN_TEAM_FAILED', res.error || 'تعذر الانضمام للفريق');
+      return;
+    }
+
+    room.broadcast({
+      type: 'PLAYER_UPDATED',
+      payload: { player: res.player.toProfile() },
+    });
+    room.broadcast({
+      type: 'ROOM_UPDATED',
+      payload: { room: room.getPublicState() },
+    });
+  }
+
+  /**
+   * معالجة تعديل إعدادات الغرفة (المواضيع المسموحة، عدد الجولات، الأوقات، الفرق)
    */
   private handleUpdateSettings(ws: WebSocket, meta: SocketMetadata, payload: any): void {
     const { room, player } = this.getRoomAndPlayer(meta);
@@ -435,6 +517,27 @@ export class WebSocketController {
   }
 
   /**
+   * معالجة تصويت أعضاء الفريق على إجابة الفريق التي ستُعرض للفرق الأخرى
+   */
+  private handleSubmitTeamVote(ws: WebSocket, meta: SocketMetadata, payload: any): void {
+    const { room, player } = this.getRoomAndPlayer(meta);
+    if (!room || !player) {
+      this.sendError(ws, 'NOT_IN_ROOM', 'أنت لست منضماً لأي غرفة');
+      return;
+    }
+
+    if (!payload || !payload.candidateId) {
+      this.sendError(ws, 'BAD_REQUEST', 'معرف الإجابة المرشحة مطلوب');
+      return;
+    }
+
+    const result = room.submitTeamVote(player.id, String(payload.candidateId));
+    if (!result.success) {
+      this.sendError(ws, 'TEAM_VOTE_FAILED', result.error || 'تعذر تسجيل تصويت الفريق');
+    }
+  }
+
+  /**
    * معالجة إرسال التصويت
    */
   private handleSubmitVote(ws: WebSocket, meta: SocketMetadata, payload: any): void {
@@ -453,6 +556,20 @@ export class WebSocketController {
     if (!result.success) {
       this.sendError(ws, 'VOTE_FAILED', result.error || 'تعذر تسجيل التصويت');
     }
+  }
+
+  /**
+   * معالجة الإبلاغ التلقائي عن محاولة غش (مغادرة التبويب أو تصوير الشاشة أو النسخ/اللصق)
+   */
+  private handleReportCheat(_ws: WebSocket, meta: SocketMetadata, payload: any): void {
+    const { room, player } = this.getRoomAndPlayer(meta);
+    if (!room || !player || !payload?.cheatType) return;
+
+    const validTypes = ['TAB_SWITCH', 'WINDOW_BLUR', 'SCREENSHOT', 'COPY_PASTE'];
+    const cheatType = String(payload.cheatType);
+    if (!validTypes.includes(cheatType)) return;
+
+    room.reportCheat(player.id, cheatType as any);
   }
 
   /**

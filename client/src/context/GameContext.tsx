@@ -9,6 +9,11 @@ import {
   LeaderboardEntry,
   RoomPublicState,
   CategoryGroup,
+  TeamConfig,
+  TeamRoundState,
+  TeamScoreEntry,
+  CheatType,
+  CheatAlert,
 } from '../types';
 import { useWebSocket, WsStatus } from '../hooks/useWebSocket';
 import { useAudio } from '../hooks/useAudio';
@@ -36,7 +41,7 @@ interface GameContextType {
   pickerNickname: string | null;
   allowedTopics: TopicSummary[];
 
-  // مرحلة الإجابة والخداع
+  // مرحلة الإجابة والخداع والفرق
   currentPuzzle: PublicPuzzle | null;
   currentTopicTitle: string | null;
   currentRound: number;
@@ -45,6 +50,8 @@ interface GameContextType {
   requiresBluff: boolean;
   hasSubmittedInitial: boolean;
   hasSubmittedBluff: boolean;
+  teamRoundState: TeamRoundState | null;
+  teamScores: TeamScoreEntry[];
 
   // مرحلة التصويت
   votingOptions: PublicVotingOption[];
@@ -57,6 +64,7 @@ interface GameContextType {
   leaderboard: LeaderboardEntry[];
   winner: LeaderboardEntry | null;
   isLastRound: boolean;
+  cheatAlerts: CheatAlert[];
 
   // الصوت والاهتزاز
   audio: ReturnType<typeof useAudio>;
@@ -72,22 +80,34 @@ interface GameContextType {
       answerDuration?: number;
       maxPlayers?: number;
       gameMode?: 'individual' | 'teams';
+      teamCount?: number;
+      teams?: TeamConfig[];
     }
   ) => Promise<boolean>;
   joinRoom: (roomCode: string, nickname: string, avatar: string) => void;
   updateProfile: (nickname?: string, avatar?: string, teamId?: string | null) => void;
+  joinTeam: (teamId: string) => void;
   updateSettings: (settings: {
     allowedTopicIds?: string[];
     totalRounds?: number;
     answerDuration?: number;
     maxPlayers?: number;
     gameMode?: 'individual' | 'teams';
+    teamCount?: number;
+    teams?: TeamConfig[];
+    teamIdToUpdate?: {
+      id: string;
+      name?: string;
+      maxPlayers?: number;
+    };
   }) => void;
   startGame: () => void;
   selectTopic: (topicId: string) => void;
   submitAnswer: (answer: string) => void;
   submitBluff: (bluff: string) => void;
+  submitTeamVote: (candidateId: string) => void;
   submitVote: (optionId: string) => void;
+  reportCheat: (cheatType: CheatType) => void;
   nextRound: () => void;
   leaveRoom: () => void;
   kickPlayer: (targetPlayerId: string) => void;
@@ -117,13 +137,14 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [cheatAlerts, setCheatAlerts] = useState<CheatAlert[]>([]);
 
   // مرحلة اختيار الموضوع
   const [currentPickerId, setCurrentPickerId] = useState<string | null>(null);
   const [pickerNickname, setPickerNickname] = useState<string | null>(null);
   const [allowedTopics, setAllowedTopics] = useState<TopicSummary[]>([]);
 
-  // مرحلة الإجابة
+  // مرحلة الإجابة والفرق
   const [currentPuzzle, setCurrentPuzzle] = useState<PublicPuzzle | null>(null);
   const [currentTopicTitle, setCurrentTopicTitle] = useState<string | null>(null);
   const [currentRound, setCurrentRound] = useState<number>(0);
@@ -132,6 +153,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [requiresBluff, setRequiresBluff] = useState<boolean>(false);
   const [hasSubmittedInitial, setHasSubmittedInitial] = useState<boolean>(false);
   const [hasSubmittedBluff, setHasSubmittedBluff] = useState<boolean>(false);
+  const [teamRoundState, setTeamRoundState] = useState<TeamRoundState | null>(null);
+  const [teamScores, setTeamScores] = useState<TeamScoreEntry[]>([]);
 
   // مرحلة التصويت
   const [votingOptions, setVotingOptions] = useState<PublicVotingOption[]>([]);
@@ -172,6 +195,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setTimeRemaining(payload.room.timeRemaining);
         setCurrentRound(payload.room.currentRound);
         setTotalRounds(payload.room.totalRounds);
+        if (payload.room.teamScores) setTeamScores(payload.room.teamScores);
         if (payload.topics) setTopics(payload.topics);
 
         localStorage.setItem('deception_session_token', payload.sessionToken);
@@ -184,6 +208,16 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setRoom(payload.room);
         setPhase(payload.room.phase);
         setTimeRemaining(payload.room.timeRemaining);
+        if (payload.room.teamScores) {
+          setTeamScores(payload.room.teamScores);
+        } else if (payload.room.gameMode === 'individual') {
+          setTeamScores([]);
+        }
+        setPlayer((prev) => {
+          if (!prev) return null;
+          const updatedSelf = payload.room.players?.find((p: PlayerProfile) => p.id === prev.id);
+          return updatedSelf || prev;
+        });
         break;
       }
 
@@ -201,9 +235,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
             players: prev.players.map((p) => (p.id === payload.player.id ? payload.player : p)),
           };
         });
-        if (player && player.id === payload.player.id) {
-          setPlayer(payload.player);
-        }
+        setPlayer((prev) => (prev && prev.id === payload.player.id ? payload.player : prev));
         break;
       }
 
@@ -224,10 +256,10 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setPickerNickname(payload.pickerNickname);
         setAllowedTopics(payload.allowedTopics);
         setTimeRemaining(payload.timeRemaining);
+        if (payload.teamScores) setTeamScores(payload.teamScores);
 
-        // مزامنة قائمة اللاعبين ونقاطهم للجولة الجديدة إن وجدت
         if (payload.players && Array.isArray(payload.players)) {
-          setRoom((prev) => prev ? { ...prev, players: payload.players } : null);
+          setRoom((prev) => prev ? { ...prev, players: payload.players, teamScores: payload.teamScores ?? prev.teamScores } : null);
         }
 
         // تصفير حالات الجولة
@@ -235,6 +267,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setRequiresBluff(false);
         setHasSubmittedInitial(false);
         setHasSubmittedBluff(false);
+        setTeamRoundState(null);
         setHasVoted(false);
         setVotedOptionId(null);
         setRoundResult(null);
@@ -256,9 +289,23 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setRequiresBluff(false);
         setHasSubmittedInitial(false);
         setHasSubmittedBluff(false);
+        setTeamRoundState(null);
 
         audio.playClick();
         haptic.triggerHaptic('medium');
+        break;
+      }
+
+      case 'TEAM_ROUND_STATE_UPDATED': {
+        if (payload.teamState) {
+          setTeamRoundState((prev) => {
+            if (!prev?.hasCorrectAnswer && payload.teamState.hasCorrectAnswer) {
+              audio.playCorrect();
+              haptic.triggerHaptic('success');
+            }
+            return payload.teamState;
+          });
+        }
         break;
       }
 
@@ -267,7 +314,10 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setHasSubmittedInitial(true);
 
         if (payload.isCorrect) {
-          setRequiresBluff(true);
+          setRequiresBluff(payload.requiresBluff);
+          if (!payload.requiresBluff) {
+            setHasSubmittedBluff(true);
+          }
           audio.playCorrect();
           haptic.triggerHaptic('success');
         } else {
@@ -299,20 +349,37 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         break;
       }
 
+      case 'TEAM_VOTES_UPDATED': {
+        if (payload.teamVotes) {
+          setVotingOptions((prev) =>
+            prev.map((opt) => ({
+              ...opt,
+              teamVoters: payload.teamVotes[opt.id] || [],
+            }))
+          );
+        }
+        break;
+      }
+
       case 'ROUND_RESULTS_ANNOUNCED': {
         setPhase('ROUND_RESULTS');
         setRoundResult(payload.result);
         setLeaderboard(payload.leaderboard);
         setIsLastRound(payload.isLastRound);
         setTimeRemaining(payload.timeRemaining);
+        if (payload.teamScores) {
+          setTeamScores(payload.teamScores);
+        } else if (payload.result?.teamScores) {
+          setTeamScores(payload.result.teamScores);
+        }
 
-        // مزامنة نقاط اللاعبين داخل الغرفة لمطابقة شريط النقاط فورياً
         if (payload.leaderboard && Array.isArray(payload.leaderboard)) {
           const scoreMap = new Map<string, number>(payload.leaderboard.map((l: any) => [l.id, l.score]));
           setRoom((prev) => {
             if (!prev) return null;
             return {
               ...prev,
+              teamScores: payload.teamScores ?? payload.result?.teamScores ?? prev.teamScores,
               players: prev.players.map((p) => ({
                 ...p,
                 score: scoreMap.has(p.id) ? (scoreMap.get(p.id) ?? p.score) : p.score,
@@ -325,7 +392,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
           });
         }
 
-        // تشغيل صوت النصر والتصفيق
         audio.playVictoryFanfare();
         haptic.triggerHaptic('success');
         break;
@@ -335,6 +401,20 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setPhase('GAME_OVER');
         setLeaderboard(payload.leaderboard);
         setWinner(payload.winner);
+        setCheatAlerts([]);
+        setRoom((prev) =>
+          prev
+            ? {
+                ...prev,
+                teamScores: payload.teamScores ?? prev.teamScores,
+                players: prev.players.map((p) => ({ ...p, cheatCount: 0, lastCheatType: null })),
+              }
+            : null
+        );
+        setPlayer((prev) => (prev ? { ...prev, cheatCount: 0, lastCheatType: null } : null));
+        if (payload.teamScores) {
+          setTeamScores(payload.teamScores);
+        }
 
         audio.playVictoryFanfare();
         haptic.triggerHaptic('success');
@@ -371,9 +451,20 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setRequiresBluff(false);
         setHasSubmittedInitial(false);
         setHasSubmittedBluff(false);
+        setTeamRoundState(null);
         setHasVoted(false);
         setVotedOptionId(null);
         setRoundResult(null);
+        setCheatAlerts([]);
+        setRoom((prev) =>
+          prev
+            ? {
+                ...prev,
+                players: prev.players.map((p) => ({ ...p, cheatCount: 0, lastCheatType: null })),
+              }
+            : null
+        );
+        setPlayer((prev) => (prev ? { ...prev, cheatCount: 0, lastCheatType: null } : null));
         break;
       }
 
@@ -384,11 +475,31 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setRequiresBluff(false);
         setHasSubmittedInitial(false);
         setHasSubmittedBluff(false);
+        setTeamRoundState(null);
         setHasVoted(false);
         setVotedOptionId(null);
         setRoundResult(null);
         setLeaderboard([]);
         setWinner(null);
+        setCheatAlerts([]);
+        break;
+      }
+
+      case 'CHEAT_DETECTED': {
+        haptic.triggerHaptic('warning');
+        audio.playTimerTick(true);
+        const alertItem: CheatAlert = {
+          id: `${payload.playerId}-${Date.now()}`,
+          playerId: payload.playerId,
+          nickname: payload.nickname,
+          avatar: payload.avatar,
+          cheatType: payload.cheatType,
+          cheatCount: payload.cheatCount,
+          message: payload.message,
+          timestamp: Date.now(),
+        };
+        setCheatAlerts((prev) => [alertItem, ...prev.slice(0, 7)]);
+        triggerToast(payload.message, true);
         break;
       }
 
@@ -405,7 +516,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       case 'ERROR': {
         if (payload.code === 'JOIN_FAILED' || payload.code === 'NOT_IN_ROOM' || payload.code === 'ROOM_NOT_FOUND') {
-          // إذا فشلت محاولة إعادة الاتصال لأن الغرفة انتهت، نمسح بيانات الجلسة القديمة فوراً
           localStorage.removeItem('deception_session_token');
           localStorage.removeItem('deception_room_code');
           setSessionToken(null);
@@ -421,12 +531,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       default:
         break;
     }
-  }, [audio, haptic, player, triggerToast]);
+  }, [audio, haptic, triggerToast]);
 
   const { status: wsStatus, send } = useWebSocket({
     onMessage: handleServerMessage,
     onOpen: () => {
-      // عند فتح الاتصال، إذا كان لدينا كود غرفة و sessionToken مخزن، نحاول إعادة الاتصال فوراً
       const storedToken = localStorage.getItem('deception_session_token');
       const storedRoom = localStorage.getItem('deception_room_code');
       if (storedToken && storedRoom) {
@@ -438,7 +547,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     },
   });
 
-  // جلب ملخص المواضيع والفئات المتاحة عند التحميل الأولي عبر REST API
   useEffect(() => {
     fetch('/api/topics')
       .then((res) => res.json())
@@ -459,7 +567,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       .catch((err) => console.error('Failed to load initial category groups:', err));
   }, []);
 
-  // دالة إنشاء غرفة جديدة عبر REST API ثم الربط بالـ WebSocket
   const createRoom = useCallback(
     async (
       hostNickname: string,
@@ -470,6 +577,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         answerDuration?: number;
         maxPlayers?: number;
         gameMode?: 'individual' | 'teams';
+        teamCount?: number;
+        teams?: TeamConfig[];
       }
     ) => {
       try {
@@ -497,12 +606,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setRoomCode(data.roomCode);
         setPlayer(data.player);
         setRoom(data.room);
+        if (data.room?.teamScores) setTeamScores(data.room.teamScores);
         setPhase('LOBBY');
 
         localStorage.setItem('deception_session_token', data.sessionToken);
         localStorage.setItem('deception_room_code', data.roomCode);
 
-        // ربط المقبس بالـ sessionToken
         send({
           type: 'JOIN_ROOM',
           payload: { roomCode: data.roomCode, sessionToken: data.sessionToken },
@@ -517,7 +626,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [audio, haptic, send, triggerToast]
   );
 
-  // دالة الانضمام لغرفة
   const joinRoom = useCallback((code: string, nickname: string, avatar: string) => {
     audio.playClick();
     haptic.triggerHaptic('light');
@@ -531,7 +639,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, [audio, haptic, send]);
 
-  // دالة تعديل الملف الشخصي
   const updateProfile = useCallback(
     (nickname?: string, avatar?: string, teamId?: string | null) => {
       audio.playClick();
@@ -543,7 +650,18 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [audio, send]
   );
 
-  // دالة تعديل إعدادات الغرفة
+  const joinTeam = useCallback(
+    (teamId: string) => {
+      audio.playClick();
+      haptic.triggerHaptic('light');
+      send({
+        type: 'JOIN_TEAM',
+        payload: { teamId },
+      });
+    },
+    [audio, haptic, send]
+  );
+
   const updateSettings = useCallback(
     (settings: {
       allowedTopicIds?: string[];
@@ -551,6 +669,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       answerDuration?: number;
       maxPlayers?: number;
       gameMode?: 'individual' | 'teams';
+      teamCount?: number;
+      teams?: TeamConfig[];
+      teamIdToUpdate?: {
+        id: string;
+        name?: string;
+        maxPlayers?: number;
+      };
     }) => {
       audio.playClick();
       send({
@@ -561,14 +686,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [audio, send]
   );
 
-  // بدء اللعبة
   const startGame = useCallback(() => {
     audio.playClick();
     haptic.triggerHaptic('heavy');
     send({ type: 'START_GAME' });
   }, [audio, haptic, send]);
 
-  // اختيار موضوع الجولة
   const selectTopic = useCallback((topicId: string) => {
     audio.playClick();
     haptic.triggerHaptic('medium');
@@ -578,7 +701,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, [audio, haptic, send]);
 
-  // إرسال الإجابة
   const submitAnswer = useCallback((answer: string) => {
     audio.playClick();
     haptic.triggerHaptic('medium');
@@ -588,7 +710,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, [audio, haptic, send]);
 
-  // إرسال الإجابة المزيفة
   const submitBluff = useCallback((bluff: string) => {
     audio.playClick();
     haptic.triggerHaptic('heavy');
@@ -599,7 +720,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setHasSubmittedBluff(true);
   }, [audio, haptic, send]);
 
-  // إرسال التصويت
+  const submitTeamVote = useCallback((candidateId: string) => {
+    audio.playClick();
+    haptic.triggerHaptic('light');
+    send({
+      type: 'SUBMIT_TEAM_VOTE',
+      payload: { candidateId },
+    });
+  }, [audio, haptic, send]);
+
   const submitVote = useCallback((optionId: string) => {
     audio.playVote();
     haptic.triggerHaptic('heavy');
@@ -611,13 +740,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, [audio, haptic, send]);
 
-  // الانتقال للجولة التالية
   const nextRound = useCallback(() => {
     audio.playClick();
     send({ type: 'NEXT_ROUND', payload: {} });
   }, [audio, send]);
 
-  // مغادرة الغرفة
   const leaveRoom = useCallback(() => {
     audio.playClick();
     send({ type: 'LEAVE_ROOM', payload: {} });
@@ -630,7 +757,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setPhase('LOBBY');
   }, [audio, send]);
 
-  // طرد لاعب بواسطة المضيف
   const kickPlayer = useCallback(
     (targetPlayerId: string) => {
       audio.playClick();
@@ -643,28 +769,24 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [audio, haptic, send]
   );
 
-  // إنهاء المباراة الحالية والعودة لغرفة الانتظار
   const abortGame = useCallback(() => {
     audio.playClick();
     haptic.triggerHaptic('heavy');
     send({ type: 'ABORT_GAME', payload: {} });
   }, [audio, haptic, send]);
 
-  // إعادة التحدي وبدء مباراة جديدة
   const rematch = useCallback(() => {
     audio.playClick();
     haptic.triggerHaptic('success');
     send({ type: 'REMATCH', payload: {} });
   }, [audio, haptic, send]);
 
-  // إضافة روبوت تجريبي للمساعدة في تجربة اللعبة
   const addBot = useCallback(() => {
     audio.playClick();
     haptic.triggerHaptic('medium');
     send({ type: 'ADD_BOT', payload: {} });
   }, [audio, haptic, send]);
 
-  // إزالة روبوت تجريبي
   const removeBot = useCallback(
     (botId?: string) => {
       audio.playClick();
@@ -674,11 +796,16 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [audio, haptic, send]
   );
 
-  // تبديل اختيار موضوع مسموح به
+  const reportCheat = useCallback(
+    (cheatType: CheatType) => {
+      send({ type: 'REPORT_CHEAT', payload: { cheatType } });
+    },
+    [send]
+  );
+
   const toggleAllowedTopic = useCallback(
     (topicId: string) => {
       audio.playClick();
-      // إذا كانت المصفوفة معرفة (حتى وإن كانت فارغة []) نعتمد عليها
       const current = Array.isArray(room?.allowedTopicIds)
         ? room.allowedTopicIds
         : topics.map((t) => t.id);
@@ -697,7 +824,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [audio, room?.allowedTopicIds, topics, updateSettings, haptic]
   );
 
-  // تعيين قائمة المعرفات المسموحة دفعة واحدة
   const setAllowedTopicIdsList = useCallback(
     (topicIds: string[]) => {
       audio.playClick();
@@ -733,6 +859,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         requiresBluff,
         hasSubmittedInitial,
         hasSubmittedBluff,
+        teamRoundState,
+        teamScores,
         votingOptions,
         votingPrompt,
         hasVoted,
@@ -741,17 +869,21 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         leaderboard,
         winner,
         isLastRound,
+        cheatAlerts,
         audio,
         haptic,
         createRoom,
         joinRoom,
         updateProfile,
+        joinTeam,
         updateSettings,
         startGame,
         selectTopic,
         submitAnswer,
         submitBluff,
+        submitTeamVote,
         submitVote,
+        reportCheat,
         nextRound,
         leaveRoom,
         kickPlayer,

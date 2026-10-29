@@ -1,4 +1,14 @@
-import { GamePhase, PlayerProfile, PublicVotingOption, RoundResult, LeaderboardEntry, RoomPublicState } from './game';
+import {
+  GamePhase,
+  PlayerProfile,
+  PublicVotingOption,
+  RoundResult,
+  LeaderboardEntry,
+  RoomPublicState,
+  TeamConfig,
+  TeamRoundState,
+  CheatType,
+} from './game';
 import { PublicPuzzle, TopicSummary } from './topics';
 
 // Client to Server Actions
@@ -9,12 +19,15 @@ export type ClientMessageType =
   | 'ABORT_GAME'
   | 'REMATCH'
   | 'UPDATE_PROFILE'
+  | 'JOIN_TEAM'
   | 'UPDATE_SETTINGS'
   | 'START_GAME'
   | 'SELECT_TOPIC'
   | 'SUBMIT_ANSWER'
   | 'SUBMIT_BLUFF'
+  | 'SUBMIT_TEAM_VOTE'
   | 'SUBMIT_VOTE'
+  | 'REPORT_CHEAT'
   | 'NEXT_ROUND'
   | 'ADD_BOT'
   | 'REMOVE_BOT'
@@ -37,6 +50,10 @@ export interface UpdateProfilePayload {
   teamId?: string | null;
 }
 
+export interface JoinTeamPayload {
+  teamId: string;
+}
+
 export interface UpdateSettingsPayload {
   allowedTopicIds?: string[];
   totalRounds?: number;
@@ -47,6 +64,13 @@ export interface UpdateSettingsPayload {
   revealDuration?: number;
   maxPlayers?: number;
   gameMode?: 'individual' | 'teams';
+  teamCount?: number;
+  teams?: TeamConfig[];
+  teamIdToUpdate?: {
+    id: string;
+    name?: string;
+    maxPlayers?: number;
+  };
 }
 
 export interface SelectTopicPayload {
@@ -61,8 +85,16 @@ export interface SubmitBluffPayload {
   bluff: string;
 }
 
+export interface SubmitTeamVotePayload {
+  candidateId: string;
+}
+
 export interface SubmitVotePayload {
   optionId: string;
+}
+
+export interface ReportCheatPayload {
+  cheatType: CheatType;
 }
 
 export interface ClientMessage<T = unknown> {
@@ -88,10 +120,13 @@ export type ServerMessageType =
   | 'ANSWER_FEEDBACK'
   | 'ANSWER_PROGRESS'
   | 'BLUFF_REQUESTED'
+  | 'TEAM_ROUND_STATE_UPDATED'
   | 'VOTING_STARTED'
   | 'VOTE_PROGRESS'
+  | 'TEAM_VOTES_UPDATED'
   | 'ROUND_RESULTS_ANNOUNCED'
   | 'GAME_OVER_ANNOUNCED'
+  | 'CHEAT_DETECTED'
   | 'TIMER_TICK'
   | 'ERROR'
   | 'PONG';
@@ -136,6 +171,10 @@ export interface BluffRequestedPayload {
   instruction: string;
 }
 
+export interface TeamRoundStateUpdatedPayload {
+  teamState: TeamRoundState;
+}
+
 export interface ProgressPayload {
   submittedCount: number;
   totalPlayers: number;
@@ -158,6 +197,15 @@ export interface RoundResultsPayload {
 export interface GameOverPayload {
   leaderboard: LeaderboardEntry[];
   winner: LeaderboardEntry;
+}
+
+export interface CheatDetectedPayload {
+  playerId: string;
+  nickname: string;
+  avatar: string;
+  cheatType: CheatType;
+  cheatCount: number;
+  message: string;
 }
 
 export interface ErrorPayload {
